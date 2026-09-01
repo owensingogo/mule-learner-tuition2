@@ -37,6 +37,7 @@ border:1px solid rgba(255,255,255,.3);
 padding:8px 11px;
 border-radius:7px;
 font-size:12px;
+cursor:pointer;
 }
 
 .welcome{
@@ -201,15 +202,11 @@ Logout
 
 <h2>Welcome, Learner 👋</h2>
 
-<p>
-Your learning journey starts here.
-</p>
+<p>Your learning journey starts here.</p>
 
 </div>
 
 <div class="container">
-
-<!-- SUBSCRIPTION STATUS -->
 
 <div class="status">
 
@@ -229,118 +226,57 @@ Your free 6-hour learning trial is available.
 
 </div>
 
-
-<!-- MAIN FEATURES -->
-
 <div class="grid">
 
 <a href="subjects.html" class="card">
-
 <div class="icon">📚</div>
-
 <h3>My Subjects</h3>
-
-<p>
-View and choose your subjects.
-</p>
-
+<p>View and choose your subjects.</p>
 </a>
-
 
 <a href="classes.html" class="card">
-
 <div class="icon">🏫</div>
-
 <h3>My Classes</h3>
-
-<p>
-View your enrolled classes.
-</p>
-
+<p>View your enrolled classes.</p>
 </a>
-
 
 <a href="live-class.html" class="card live">
-
 <div class="icon">🔴</div>
-
 <h3>Join Live Class</h3>
-
-<p>
-Check for live lessons and join your teacher.
-</p>
-
+<p>Check for live lessons and join your teacher.</p>
 </a>
-
 
 <a href="materials.html" class="card">
-
 <div class="icon">📖</div>
-
 <h3>Learning Materials</h3>
-
-<p>
-Access notes and study resources.
-</p>
-
+<p>Access notes and study resources.</p>
 </a>
-
 
 <a href="payments.html" class="card">
-
 <div class="icon">💰</div>
-
 <h3>Payments</h3>
-
-<p>
-View plans and make a payment.
-</p>
-
+<p>View plans and make a payment.</p>
 </a>
-
 
 <a href="payment-status.html" class="card">
-
 <div class="icon">🧾</div>
-
 <h3>Payment Status</h3>
-
-<p>
-Check your payment approval.
-</p>
-
+<p>Check your payment approval.</p>
 </a>
-
 
 <a href="support.html" class="card">
-
 <div class="icon">📞</div>
-
 <h3>Customer Support</h3>
-
-<p>
-Get help with your account or payment.
-</p>
-
+<p>Get help with your account or payment.</p>
 </a>
 
-
 <a href="profile.html" class="card">
-
 <div class="icon">👤</div>
-
 <h3>My Profile</h3>
-
-<p>
-View and manage your account.
-</p>
-
+<p>View and manage your account.</p>
 </a>
 
 </div>
-
-
-<!-- SUPPORT -->
 
 <div class="support">
 
@@ -354,22 +290,17 @@ contact us on WhatsApp.
 <a
 href="https://wa.me/260978362800"
 class="whatsapp">
-
 💬 WhatsApp Support
-
 </a>
 
 </div>
 
 <footer>
-
 Mule Learner Tuition<br>
 Learn • Practice • Succeed
-
 </footer>
 
 </div>
-
 
 <script>
 
@@ -380,12 +311,18 @@ confirm("Are you sure you want to logout?");
 
 if(confirmLogout){
 
+localStorage.removeItem("muleCurrentUser");
+
 window.location.href="../login.html";
 
 }
 
 }
 
+</script>
+
 <script src="../js/app.js"></script>
-<script src="../js/learner.js"></script></body>
-                        </html>
+<script src="../js/learner.js"></script>
+
+</body>
+                     </html>
