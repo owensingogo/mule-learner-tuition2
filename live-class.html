@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f">
-
-<title>Live Learning | Mule Learner Tuition</title>
-
-<style>
+<meta name="theme-color" content="#173b8f"><title>Live Class | Mule Learner Tuition</title><style>
 *{
 box-sizing:border-box;
 margin:0;
@@ -47,138 +42,173 @@ margin:auto;
 padding:20px 16px;
 }
 
+.heading{
+margin-bottom:18px;
+}
+
 .heading h1{
-font-size:24px;
+font-size:23px;
 color:#173b8f;
 margin-bottom:5px;
 }
 
 .heading p{
-font-size:13px;
+font-size:12px;
 color:#667085;
-margin-bottom:20px;
+line-height:1.5;
 }
 
-.live-card{
+.live-status{
 background:white;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 5px 20px rgba(20,50,100,.08);
-margin-bottom:15px;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:14px;
 }
 
-.video{
-height:210px;
-background:#111827;
+.status-top{
 display:flex;
 align-items:center;
-justify-content:center;
+gap:10px;
+}
+
+.dot{
+width:12px;
+height:12px;
+border-radius:50%;
+background:#98a2b3;
+}
+
+.dot.active{
+background:#e11d48;
+}
+
+.status-title{
+font-size:14px;
+font-weight:800;
+}
+
+.status-text{
+font-size:11px;
+color:#667085;
+margin-top:4px;
+}
+
+.class-card{
+background:white;
+padding:18px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.class-icon{
+font-size:32px;
+margin-bottom:10px;
+}
+
+.class-card h2{
+font-size:17px;
+margin-bottom:5px;
+}
+
+.class-card p{
+font-size:11px;
+color:#667085;
+line-height:1.5;
+}
+
+.details{
+margin-top:14px;
+border-top:1px solid #edf0f5;
+padding-top:10px;
+}
+
+.detail{
+display:flex;
+justify-content:space-between;
+padding:7px 0;
+font-size:11px;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:bold;
+}
+
+.buttons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+margin-top:15px;
+}
+
+button{
+border:0;
+border-radius:8px;
+padding:12px;
+font-size:11px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.start{
+background:#e11d48;
+color:white;
+}
+
+.end{
+background:#eef3ff;
+color:#173b8f;
+}
+
+.end:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.meeting{
+display:none;
+margin-top:15px;
+background:#101828;
+border-radius:12px;
+padding:30px 15px;
 color:white;
 text-align:center;
 }
 
-.video-icon{
-font-size:48px;
-margin-bottom:8px;
+.meeting-icon{
+font-size:40px;
+margin-bottom:10px;
 }
 
-.video p{
-font-size:13px;
-color:#cbd5e1;
+.meeting h2{
+font-size:17px;
+margin-bottom:7px;
 }
 
-.live-content{
-padding:18px;
+.meeting p{
+font-size:11px;
+color:#d0d5dd;
+line-height:1.5;
 }
 
-.live-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-}
-
-.live-title h2{
-font-size:18px;
-}
-
-.live-badge{
-background:#fee2e2;
-color:#b42318;
-padding:6px 9px;
-border-radius:20px;
-font-size:10px;
-font-weight:bold;
-}
-
-.details{
-margin-top:12px;
-font-size:13px;
-color:#596579;
-line-height:1.8;
-}
-
-.join{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:13px;
-border-radius:9px;
-font-size:14px;
-font-weight:bold;
-margin-top:16px;
-cursor:pointer;
-}
-
-.join:active{
-transform:scale(.98);
-}
-
-.schedule{
+.join-link{
+display:inline-block;
+margin-top:15px;
 background:white;
-padding:18px;
-border-radius:14px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:13px;
-}
-
-.schedule h3{
-font-size:16px;
-margin-bottom:12px;
-}
-
-.lesson{
-border-top:1px solid #edf0f5;
-padding:13px 0;
-display:flex;
-justify-content:space-between;
-gap:10px;
-}
-
-.lesson:first-of-type{
-border-top:0;
-}
-
-.lesson strong{
-font-size:13px;
-}
-
-.lesson p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.time{
+color:#173b8f;
+padding:10px 15px;
+border-radius:8px;
+text-decoration:none;
 font-size:11px;
 font-weight:bold;
-color:#173b8f;
-white-space:nowrap;
 }
 
-.info{
-margin-top:18px;
+.notice{
+margin-top:16px;
 background:#eef3ff;
 padding:15px;
 border-radius:11px;
@@ -187,30 +217,14 @@ color:#475467;
 line-height:1.6;
 }
 
-.support{
-margin-top:18px;
-background:#173b8f;
-color:white;
-padding:20px;
-border-radius:13px;
-text-align:center;
-}
-
-.support p{
-font-size:12px;
-opacity:.9;
-margin:7px 0 13px;
-}
-
-.whatsapp{
-display:inline-block;
-background:#25d366;
-color:white;
-text-decoration:none;
-padding:11px 16px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
+.warning{
+margin-top:12px;
+background:#fff4db;
+color:#7a4f00;
+padding:14px;
+border-radius:11px;
+font-size:11px;
+line-height:1.6;
 }
 
 footer{
@@ -219,217 +233,160 @@ font-size:11px;
 color:#667085;
 margin-top:25px;
 }
-</style>
-</head>
 
-<body>
+@media(max-width:420px){
 
-<header>
+.buttons{
+grid-template-columns:1fr;
+}
 
-<div class="logo">
+}
+</style></head><body><header><div class="logo">
 Mule Learner Tuition
-</div>
-
-<a href="dashboard.html" class="back">
+</div><a href="dashboard.html" class="back">
 ← Dashboard
-</a>
+</a></header><div class="container"><div class="heading"><h1>
+Live Class 🔴
+</h1><p>
+Start and manage your scheduled online learning session.
+</p></div><!-- STATUS --><div class="live-status"><div class="status-top"><div class="dot" id="statusDot"></div><div><div class="status-title" id="statusTitle">
+Class Not Started
+</div><div class="status-text" id="statusText">
+Start the scheduled lesson when you are ready.
+</div></div></div></div><!-- CLASS --><div class="class-card"><div class="class-icon">
+📐
+</div><h2>
+Grade 10 Mathematics
+</h2><p>
+Mathematics • Live Learning Session
+</p><div class="details"><div class="detail"><span class="label">
+Teacher
+</span><span class="value">
+Teacher Name
+</span></div><div class="detail"><span class="label">
+Scheduled Time
+</span><span class="value">
+Not scheduled
+</span></div><div class="detail"><span class="label">
+Learners
+</span><span class="value">
+0
+</span></div></div><div class="buttons"><button
+class="start"
+id="startBtn"
+onclick="startClass()">
 
-</header>
+🔴 Start Live Class
 
-<div class="container">
+</button><button
+class="end"
+id="endBtn"
+onclick="endClass()"
+disabled>
 
-<div class="heading">
+⏹ End Class
 
-<h1>Live Learning 🔴</h1>
+</button></div><div class="meeting" id="meeting"><div class="meeting-icon">
+🎥
+</div><h2>
+Live Class is Active
+</h2><p>
+Your live teaching session is now open.
+Eligible learners will be able to join when
+the live-class system is connected.
+</p><a href="#" class="join-link"
+onclick="teacherMeeting();return false;">
 
-<p>
-Join your scheduled live lessons and learn directly
-with your teacher.
-</p>
+Open Teaching Room
 
-</div>
+</a></div></div><div class="notice"><strong>
+🎓 Live Teaching
+</strong><br><br>
 
+Use live classes to teach learners in real time.
+The final meeting room will be connected to the
+platform's approved live-learning service.
 
-<!-- LIVE CLASS -->
+</div><div class="warning"><strong>
+⚠️ Important</strong><br><br>Only start a live class for a scheduled class that
+you are authorized to teach. Learner access is
+controlled by the platform and CEO approval system.
 
-<div class="live-card">
+</div><footer>Mule Learner Tuition<br>
 
-<div class="video">
+Teacher Centre • Learn • Practice • Succeed
 
-<div>
+</footer></div><script>
 
-<div class="video-icon">🎥</div>
+let live=false;
 
-<p>
-Live classroom will appear here
-</p>
+function startClass(){
 
-</div>
+live=true;
 
-</div>
+document.getElementById("statusDot")
+.classList.add("active");
 
-<div class="live-content">
+document.getElementById("statusTitle")
+.textContent="Live Class Started";
 
-<div class="live-title">
+document.getElementById("statusText")
+.textContent="Your teaching session is currently active.";
 
-<h2>Mathematics</h2>
+document.getElementById("startBtn")
+.disabled=true;
 
-<span class="live-badge">
-LIVE NOW
-</span>
+document.getElementById("endBtn")
+.disabled=false;
 
-</div>
+document.getElementById("meeting")
+.style.display="block";
 
-<div class="details">
+}
 
-<strong>👨‍🏫 Teacher:</strong>
-Assigned Teacher
 
-<br>
+function endClass(){
 
-<strong>📚 Class:</strong>
-Mathematics
+if(!live) return;
 
-<br>
+const confirmEnd =
+confirm("Are you sure you want to end this live class?");
 
-<strong>⏰ Lesson:</strong>
-17:00 – 18:00
+if(!confirmEnd) return;
 
-</div>
+live=false;
 
-<button class="join" onclick="joinClass()">
-🔴 Join Live Class
-</button>
+document.getElementById("statusDot")
+.classList.remove("active");
 
-</div>
+document.getElementById("statusTitle")
+.textContent="Class Ended";
 
-</div>
+document.getElementById("statusText")
+.textContent="This live teaching session has ended.";
 
+document.getElementById("startBtn")
+.disabled=true;
 
-<!-- UPCOMING CLASSES -->
+document.getElementById("endBtn")
+.disabled=true;
 
-<div class="schedule">
+document.getElementById("meeting")
+.style.display="none";
 
-<h3>Upcoming Lessons 📅</h3>
+}
 
-<div class="lesson">
 
-<div>
-
-<strong>ICT / Computer Studies</strong>
-
-<p>With your assigned teacher</p>
-
-</div>
-
-<div class="time">
-Tomorrow<br>
-16:00
-</div>
-
-</div>
-
-
-<div class="lesson">
-
-<div>
-
-<strong>English</strong>
-
-<p>Live learning session</p>
-
-</div>
-
-<div class="time">
-Friday<br>
-17:00
-</div>
-
-</div>
-
-
-<div class="lesson">
-
-<div>
-
-<strong>Science</strong>
-
-<p>Live learning session</p>
-
-</div>
-
-<div class="time">
-Saturday<br>
-10:00
-</div>
-
-</div>
-
-</div>
-
-
-<!-- INFORMATION -->
-
-<div class="info">
-
-<strong>💡 Before joining a live class</strong>
-
-<br><br>
-
-Make sure you have a stable internet connection,
-enough data and your device microphone/camera
-permissions are ready when required.
-
-Only learners with valid learning access can join
-paid live classes.
-
-</div>
-
-
-<!-- SUPPORT -->
-
-<div class="support">
-
-<h3>Having trouble joining?</h3>
-
-<p>
-If you have paid and cannot access your live class,
-contact Mule Learner Tuition support.
-</p>
-
-<a
-href="https://wa.me/260978362800"
-class="whatsapp">
-
-💬 WhatsApp Support
-
-</a>
-
-</div>
-
-
-<footer>
-
-Mule Learner Tuition<br>
-Learn • Practice • Succeed
-
-</footer>
-
-</div>
-
-
-<script>
-
-function joinClass(){
+function teacherMeeting(){
 
 alert(
-"The live classroom will open here once the live learning system is connected."
+"The teaching room will open when the live-learning service is connected to Mule Learner Tuition."
 );
 
 }
 
-<script src="../js/app.js"></script>
-<script src="../js/learner.js"></script>
-<script src="../js/live-class.js"></script>
+  <script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
+  
 </body>
 </html>

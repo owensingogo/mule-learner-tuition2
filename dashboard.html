@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f">
-<title>Learner Dashboard | Mule Learner Tuition</title>
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+<meta name="theme-color" content="#173b8f"><title>Teacher Dashboard | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
 body{
 font-family:Arial,sans-serif;
 background:#f4f7fc;
 color:#172033;
-padding-bottom:25px;
+padding-bottom:30px;
 }
 
 header{
@@ -26,352 +26,294 @@ justify-content:space-between;
 }
 
 .logo{
-font-weight:800;
 font-size:18px;
+font-weight:800;
 }
 
 .logout{
-background:rgba(255,255,255,.14);
-color:white;
 border:1px solid rgba(255,255,255,.3);
+background:rgba(255,255,255,.12);
+color:white;
 padding:8px 11px;
 border-radius:7px;
 font-size:12px;
 }
 
-.welcome{
+.hero{
 background:#173b8f;
 color:white;
-padding:10px 18px 25px;
+padding:12px 18px 25px;
 }
 
-.welcome h2{
+.hero h1{
 font-size:23px;
-margin-bottom:4px;
+margin-bottom:5px;
 }
 
-.welcome p{
-font-size:13px;
+.hero p{
+font-size:12px;
 opacity:.9;
+line-height:1.5;
 }
 
 .container{
-max-width:800px;
+max-width:900px;
 margin:auto;
 padding:18px;
 }
 
-.status{
+.welcome{
 background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
 margin-bottom:18px;
 }
 
-.status-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.status h3{
+.welcome h2{
 font-size:16px;
+margin-bottom:5px;
 }
 
-.badge{
-background:#fff4db;
-color:#9a6700;
-padding:6px 9px;
-border-radius:20px;
-font-size:11px;
-font-weight:bold;
-}
-
-.status p{
+.welcome p{
 font-size:12px;
 color:#667085;
-margin-top:8px;
+line-height:1.5;
 }
 
-.grid{
+.section-title{
+font-size:16px;
+margin:4px 0 12px;
+}
+
+.stats{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:12px;
+gap:10px;
+margin-bottom:22px;
+}
+
+.stat{
+background:white;
+padding:16px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.stat-icon{
+font-size:23px;
+}
+
+.stat h3{
+font-size:20px;
+margin-top:7px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:11px;
 }
 
 .card{
 background:white;
-padding:18px 14px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
+padding:17px 13px;
+border-radius:12px;
 text-decoration:none;
 color:#172033;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
 }
 
-.icon{
+.card-icon{
 font-size:27px;
 margin-bottom:8px;
 }
 
 .card h3{
-font-size:15px;
+font-size:14px;
 margin-bottom:4px;
 }
 
 .card p{
-font-size:12px;
+font-size:11px;
 color:#667085;
+line-height:1.4;
 }
 
 .live{
-grid-column:1/-1;
-background:#fff;
-border:1px solid #ffd4d4;
+margin-top:20px;
+background:#fff1f2;
+border:1px solid #fecdd3;
+padding:15px;
+border-radius:12px;
 }
 
-.live h3{
+.live h2{
+font-size:15px;
 color:#b42318;
+margin-bottom:5px;
 }
 
-.support{
-margin-top:18px;
-background:#173b8f;
-color:white;
-border-radius:13px;
-padding:20px;
-text-align:center;
+.live p{
+font-size:11px;
+color:#667085;
+line-height:1.5;
 }
 
-.support h3{
-font-size:18px;
-}
-
-.support p{
-font-size:12px;
-opacity:.9;
-margin:7px 0 14px;
-}
-
-.whatsapp{
+.live-btn{
 display:inline-block;
-background:#25d366;
+margin-top:10px;
+background:#b42318;
 color:white;
-text-decoration:none;
-padding:11px 16px;
+padding:10px 14px;
 border-radius:8px;
-font-size:13px;
+text-decoration:none;
+font-size:11px;
 font-weight:bold;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
 }
 
 footer{
 text-align:center;
-color:#667085;
 font-size:11px;
+color:#667085;
 margin-top:25px;
 }
 
 @media(min-width:650px){
-.grid{
-grid-template-columns:repeat(3,1fr);
+
+.stats{
+grid-template-columns:repeat(4,1fr);
 }
 
-.live{
-grid-column:auto;
+.menu{
+grid-template-columns:repeat(4,1fr);
 }
+
 }
-</style>
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
+</style></head><body><header><div class="logo">
 Mule Learner Tuition
-</div>
-
-<button class="logout" onclick="logout()">
+</div><button class="logout" onclick="logout()">
 Logout
-</button>
+</button></header><div class="hero"><h1>
+Teacher Dashboard 👨‍🏫
+</h1><p>
+Teach, manage your classes, support learners and conduct live lessons.
+</p></div><div class="container"><!-- WELCOME --><div class="welcome"><h2>
+Welcome, Teacher
+</h2><p>
+Your teaching centre gives you everything you need to
+manage your subjects, learners, classes, materials and
+live learning sessions.
+</p></div><!-- OVERVIEW --><h2 class="section-title">
+Teaching Overview
+</h2><div class="stats"><div class="stat"><div class="stat-icon">
+📚
+</div><h3>
+0
+</h3><p>
+My Subjects
+</p></div><div class="stat"><div class="stat-icon">
+🏫
+</div><h3>
+0
+</h3><p>
+My Classes
+</p></div><div class="stat"><div class="stat-icon">
+👥
+</div><h3>
+0
+</h3><p>
+My Learners
+</p></div><div class="stat"><div class="stat-icon">
+🔴
+</div><h3>
+0
+</h3><p>
+Live Classes
+</p></div></div><!-- QUICK ACCESS --><h2 class="section-title">
+Teaching Centre
+</h2><div class="menu"><a href="subjects.html" class="card"><div class="card-icon">
+📚
+</div><h3>
+My Subjects
+</h3><p>
+View the subjects assigned to you.
+</p></a><a href="classes.html" class="card"><div class="card-icon">
+🏫
+</div><h3>
+My Classes
+</h3><p>
+View and manage your assigned classes.
+</p></a><a href="learners.html" class="card"><div class="card-icon">
+👥
+</div><h3>
+My Learners
+</h3><p>
+View learners in your classes.
+</p></a><a href="schedule-class.html" class="card"><div class="card-icon">
+📅
+</div><h3>
+Schedule Class
+</h3><p>
+Schedule a lesson for your learners.
+</p></a><a href="live-class.html" class="card"><div class="card-icon">
+🔴
+</div><h3>
+Live Class
+</h3><p>
+Start or manage your live learning session.
+</p></a><a href="materials.html" class="card"><div class="card-icon">
+📖
+</div><h3>
+Learning Materials
+</h3><p>
+Prepare notes and resources for learners.
+</p></a><a href="profile.html" class="card"><div class="card-icon">
+👤
+</div><h3>
+My Profile
+</h3><p>
+View and update your teacher profile.
+</p></a></div><!-- LIVE CLASS --><div class="live"><h2>
+🔴 Live Learning
+</h2><p>
+When a live class is scheduled, learners with the
+required access can join the lesson from their
+Learner Dashboard.
+</p><a href="live-class.html" class="live-btn">
+Open Live Class
+</a></div><!-- NOTICE --><div class="notice"><strong>
+🔐 Teacher Permissions
+</strong><br><br>
+
+Teachers can manage their assigned teaching activities,
+but cannot approve learner payments, hire teachers,
+suspend teachers or change CEO settings.
+
+Teacher access and assigned classes will be controlled
+by the authorized CEO.
+
+</div><footer>Mule Learner Tuition<br>
+
+Teacher Centre • Learn • Practice • Succeed
 
-</header>
-
-<div class="welcome">
-
-<h2>Welcome, Learner 👋</h2>
-
-<p>
-Your learning journey starts here.
-</p>
-
-</div>
-
-<div class="container">
-
-<!-- SUBSCRIPTION STATUS -->
-
-<div class="status">
-
-<div class="status-top">
-
-<h3>Learning Access</h3>
-
-<span class="badge" id="status">
-TRIAL
-</span>
-
-</div>
-
-<p id="statusText">
-Your free 6-hour learning trial is available.
-</p>
-
-</div>
-
-
-<!-- MAIN FEATURES -->
-
-<div class="grid">
-
-<a href="subjects.html" class="card">
-
-<div class="icon">📚</div>
-
-<h3>My Subjects</h3>
-
-<p>
-View and choose your subjects.
-</p>
-
-</a>
-
-
-<a href="classes.html" class="card">
-
-<div class="icon">🏫</div>
-
-<h3>My Classes</h3>
-
-<p>
-View your enrolled classes.
-</p>
-
-</a>
-
-
-<a href="live-class.html" class="card live">
-
-<div class="icon">🔴</div>
-
-<h3>Join Live Class</h3>
-
-<p>
-Check for live lessons and join your teacher.
-</p>
-
-</a>
-
-
-<a href="materials.html" class="card">
-
-<div class="icon">📖</div>
-
-<h3>Learning Materials</h3>
-
-<p>
-Access notes and study resources.
-</p>
-
-</a>
-
-
-<a href="payments.html" class="card">
-
-<div class="icon">💰</div>
-
-<h3>Payments</h3>
-
-<p>
-View plans and make a payment.
-</p>
-
-</a>
-
-
-<a href="payment-status.html" class="card">
-
-<div class="icon">🧾</div>
-
-<h3>Payment Status</h3>
-
-<p>
-Check your payment approval.
-</p>
-
-</a>
-
-
-<a href="support.html" class="card">
-
-<div class="icon">📞</div>
-
-<h3>Customer Support</h3>
-
-<p>
-Get help with your account or payment.
-</p>
-
-</a>
-
-
-<a href="profile.html" class="card">
-
-<div class="icon">👤</div>
-
-<h3>My Profile</h3>
-
-<p>
-View and manage your account.
-</p>
-
-</a>
-
-</div>
-
-
-<!-- SUPPORT -->
-
-<div class="support">
-
-<h3>Need Help?</h3>
-
-<p>
-If you have paid and your account has not been activated,
-contact us on WhatsApp.
-</p>
-
-<a
-href="https://wa.me/260978362800"
-class="whatsapp">
-
-💬 WhatsApp Support
-
-</a>
-
-</div>
-
-<footer>
-
-Mule Learner Tuition<br>
-Learn • Practice • Succeed
-
-</footer>
-
-</div>
-
-
-<script>
+</footer></div><script>
 
 function logout(){
 
@@ -386,6 +328,7 @@ window.location.href="../login.html";
 
 }
 
-<script src="../js/app.js"></script>
-<script src="../js/learner.js"></script></body>
+  <script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
+</body>
 </html>

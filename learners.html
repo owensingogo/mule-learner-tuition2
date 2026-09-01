@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Learners | Mule Learner Tuition</title><style>
+<meta name="theme-color" content="#173b8f"><title>My Learners | Mule Learner Tuition</title><style>
 *{
 box-sizing:border-box;
 margin:0;
@@ -58,17 +58,6 @@ color:#667085;
 line-height:1.5;
 }
 
-.search{
-width:100%;
-padding:13px;
-border:1px solid #d8deea;
-border-radius:9px;
-font-size:13px;
-outline:none;
-margin-bottom:15px;
-background:white;
-}
-
 .stats{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -98,71 +87,85 @@ color:#667085;
 margin-top:3px;
 }
 
+.search{
+background:white;
+padding:13px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+margin-bottom:14px;
+}
+
+.search input{
+width:100%;
+padding:11px;
+border:1px solid #d0d5dd;
+border-radius:8px;
+outline:none;
+font-size:12px;
+}
+
+.search input:focus{
+border-color:#173b8f;
+}
+
 .learner{
 background:white;
-padding:17px;
+padding:16px;
 border-radius:13px;
 box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
+margin-bottom:11px;
 }
 
 .top{
 display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:10px;
+align-items:center;
+gap:11px;
 }
 
 .avatar{
-width:42px;
-height:42px;
+width:45px;
+height:45px;
 border-radius:50%;
 background:#eef3ff;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:21px;
+font-size:20px;
 flex-shrink:0;
 }
 
-.identity{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
 .name{
-font-size:15px;
+font-size:14px;
 font-weight:800;
 }
 
-.phone{
+.class-name{
 font-size:11px;
 color:#667085;
-margin-top:3px;
+margin-top:4px;
 }
 
-.badge{
+.status{
+margin-left:auto;
+background:#ecfdf3;
+color:#027a48;
 padding:6px 9px;
 border-radius:20px;
 font-size:9px;
 font-weight:bold;
-background:#ecfdf3;
-color:#027a48;
 }
 
 .details{
-margin-top:14px;
 border-top:1px solid #edf0f5;
-padding-top:10px;
+margin-top:13px;
+padding-top:11px;
 }
 
-.row{
+.detail{
 display:flex;
 justify-content:space-between;
-gap:10px;
-padding:7px 0;
-font-size:12px;
+font-size:11px;
+padding:5px 0;
 }
 
 .label{
@@ -170,34 +173,21 @@ color:#667085;
 }
 
 .value{
-font-weight:700;
-text-align:right;
+font-weight:bold;
 }
 
-.actions{
-display:flex;
-gap:8px;
-margin-top:13px;
-}
-
-button{
-flex:1;
+.message{
+display:block;
+width:100%;
+margin-top:10px;
+padding:9px;
 border:0;
-padding:10px;
 border-radius:8px;
+background:#eef3ff;
+color:#173b8f;
 font-size:11px;
 font-weight:bold;
 cursor:pointer;
-}
-
-.view{
-background:#eef3ff;
-color:#173b8f;
-}
-
-.suspend{
-background:#fee4e2;
-color:#b42318;
 }
 
 .notice{
@@ -230,107 +220,102 @@ margin-top:25px;
 @media(min-width:650px){
 
 .stats{
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(3,1fr);
 }
 
 }
 </style></head><body><header><div class="logo">
 Mule Learner Tuition
 </div><a href="dashboard.html" class="back">
-← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>Learner Management 👥</h1><p>
-View and manage learner accounts and learning access.
-</p></div><!-- SEARCH --><input
+← Dashboard
+</a></header><div class="container"><div class="heading"><h1>
+My Learners 👥
+</h1><p>
+View learners enrolled in the classes assigned to you.
+</p></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
+👥
+</div><h3>
+0
+</h3><p>
+Total Learners
+</p></div><div class="stat"><div class="stat-icon">
+🟢
+</div><h3>
+0
+</h3><p>
+Active Learners
+</p></div><div class="stat"><div class="stat-icon">
+🏫
+</div><h3>
+0
+</h3><p>
+My Classes
+</p></div></div><!-- SEARCH --><div class="search"><input
 type="search"
 id="search"
-class="search"
-placeholder="Search learner by name or phone..."
-oninput="searchLearners()"
+placeholder="Search learner by name..."
+oninput="searchLearners()">
 
-«»
-
-<!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-👥
-</div><h3 id="total">
-0
-</h3><p>Total Learners</p></div><div class="stat"><div class="stat-icon">
-🟢
-</div><h3 id="active">
-0
-</h3><p>Active</p></div><div class="stat"><div class="stat-icon">
-⏸️
-</div><h3 id="suspended">
-0
-</h3><p>Suspended</p></div><div class="stat"><div class="stat-icon">
-🎓
-</div><h3 id="learning">
-0
-</h3><p>Learning</p></div></div><!-- LEARNERS --><div id="learnerList"><!-- DEMO ACCOUNT --><div class="learner" data-search="learner"><div class="top"><div class="identity"><div class="avatar">
+</div><!-- LEARNER LIST --><div id="learnerList"><!-- SAMPLE LEARNER --><div class="learner"><div class="top"><div class="avatar">
 👤
 </div><div><div class="name">
-Learner
-</div><div class="phone">
-Phone: Not Available
-</div></div></div><span class="badge">
+Learner Name
+</div><div class="class-name">
+Grade 10 Mathematics
+</div></div><div class="status">
 ACTIVE
-</span></div><div class="details"><div class="row"><span class="label">
-Account Type
+</div></div><div class="details"><div class="detail"><span class="label">
+Subject
 </span><span class="value">
-Learner
-</span></div><div class="row"><span class="label">
-Learning Access
+Mathematics
+</span></div><div class="detail"><span class="label">
+Access
 </span><span class="value">
-Not Activated
-</span></div><div class="row"><span class="label">
-Payment Status
+Approved
+</span></div><div class="detail"><span class="label">
+Learning Status
 </span><span class="value">
-Pending
-</span></div></div><div class="actions"><button class="view" onclick="viewLearner()">
-👁 View
-</button><button class="suspend" onclick="suspendLearner(this)">
-⏸ Suspend
-</button></div></div></div><div id="empty" class="empty">No learner found.
+Active
+</span></div></div><button class="message" onclick="messageLearner()">
+💬 Contact Learner
+</button></div></div><div class="empty" id="empty">No learners found.
 
-</div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Learner Control</strong>
+</div><!-- NOTICE --><div class="notice"><strong>
+🔐 Teacher Privacy
+</strong><br><br>
 
-<br><br>
+Teachers can only view learners assigned to their
+classes. Learner personal information and payment
+details are controlled by the platform and CEO.
 
-The CEO can manage learner accounts and control
-their access to the Mule Learner Tuition platform.
-
-Learners should only receive paid learning access
-after their payment has been verified and approved.
-
-Suspending a learner should only be done when
-necessary and for a valid administrative reason.
+Teachers cannot approve payments, change learner
+accounts or access learners from other classes.
 
 </div><footer>Mule Learner Tuition<br>
-CEO Administration • Learn • Practice • Succeed
+
+Teacher Centre • Learn • Practice • Succeed
 
 </footer></div><script>
 
 function searchLearners(){
 
-const input=
-document.getElementById("search").value
-.toLowerCase()
-.trim();
+const search =
+document.getElementById("search").value.toLowerCase();
 
-const learners=
+const learners =
 document.querySelectorAll(".learner");
 
-let found=0;
+let found = false;
 
 learners.forEach(function(learner){
 
-const text=
-learner.getAttribute("data-search")
-.toLowerCase();
+const name =
+learner.querySelector(".name").textContent.toLowerCase();
 
-if(text.includes(input)){
+if(name.includes(search)){
 
 learner.style.display="block";
-found++;
+found=true;
 
 }else{
 
@@ -340,66 +325,22 @@ learner.style.display="none";
 
 });
 
-document.getElementById("empty").style.display=
-found===0 ? "block" : "none";
+document.getElementById("empty").style.display =
+found ? "none" : "block";
 
 }
 
 
-function viewLearner(){
+function messageLearner(){
 
 alert(
-"Learner details will appear here when the learner database is connected."
+"Messaging will be available when the Mule Learner Tuition communication system is connected."
 );
 
 }
 
-
-function suspendLearner(button){
-
-const learner=
-button.closest(".learner");
-
-const badge=
-learner.querySelector(".badge");
-
-if(badge.textContent==="ACTIVE"){
-
-const confirmSuspend=
-confirm("Suspend this learner's account?");
-
-if(confirmSuspend){
-
-badge.textContent="SUSPENDED";
-badge.style.background="#fee4e2";
-badge.style.color="#b42318";
-
-button.textContent="▶ Reactivate";
-
-}
-
-}else{
-
-const confirmReactivate=
-confirm("Reactivate this learner's account?");
-
-if(confirmReactivate){
-
-badge.textContent="ACTIVE";
-badge.style.background="#ecfdf3";
-badge.style.color="#027a48";
-
-button.textContent="⏸ Suspend";
-
-}
-
-}
-
-}
-
-</script>
-
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
+  <script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
+  
 </body>
 </html>
