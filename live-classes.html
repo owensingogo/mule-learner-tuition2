@@ -1,0 +1,641 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Live Classes | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.create{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:18px;
+}
+
+.create h2{
+font-size:15px;
+margin-bottom:12px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+border:1px solid #d8deea;
+border-radius:8px;
+font-size:12px;
+outline:none;
+margin-bottom:9px;
+background:white;
+}
+
+.create-btn{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:12px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:18px;
+}
+
+.stat{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.stat-icon{
+font-size:22px;
+}
+
+.stat h3{
+font-size:19px;
+margin-top:6px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.live-card{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:12px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+}
+
+.identity{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.icon{
+width:44px;
+height:44px;
+border-radius:10px;
+background:#fff0f0;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+}
+
+.name{
+font-size:15px;
+font-weight:800;
+}
+
+.info{
+font-size:11px;
+color:#667085;
+margin-top:4px;
+}
+
+.badge{
+padding:6px 9px;
+border-radius:20px;
+font-size:9px;
+font-weight:bold;
+background:#ecfdf3;
+color:#027a48;
+white-space:nowrap;
+}
+
+.details{
+margin-top:14px;
+border-top:1px solid #edf0f5;
+padding-top:10px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:6px 0;
+font-size:12px;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:700;
+text-align:right;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:13px;
+}
+
+button{
+flex:1;
+border:0;
+padding:10px;
+border-radius:8px;
+font-size:11px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.open{
+background:#173b8f;
+color:white;
+}
+
+.stop{
+background:#fee4e2;
+color:#b42318;
+}
+
+.empty{
+display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← CEO Dashboard
+</a></header><div class="container"><div class="heading"><h1>Live Classes 🔴</h1><p>
+Schedule and control live learning sessions for approved learners.
+</p></div><!-- CREATE LIVE CLASS --><div class="create"><h2>
+Schedule Live Class
+</h2><input
+type="text"
+id="className"
+placeholder="Class name e.g. Grade 7 Mathematics"
+maxlength="60"
+
+«»
+
+<input
+type="text"
+id="subject"
+placeholder="Subject e.g. Mathematics"
+maxlength="40"
+
+«»
+
+<input
+type="text"
+id="teacher"
+placeholder="Teacher name"
+maxlength="50"
+
+«»
+
+<input
+type="date"
+id="date"
+
+«»
+
+<input
+type="time"
+id="time"
+
+«»
+
+<input
+type="url"
+id="link"
+placeholder="Live class link e.g. Zoom or Google Meet"
+
+«»
+
+<button
+class="create-btn"
+onclick="scheduleClass()">
+
++ Schedule Live Class
+
+</button></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
+🔴
+</div><h3 id="liveCount">
+0
+</h3><p>Live Now</p></div><div class="stat"><div class="stat-icon">
+📅
+</div><h3 id="scheduledCount">
+0
+</h3><p>Scheduled</p></div><div class="stat"><div class="stat-icon">
+👨‍🏫
+</div><h3 id="teacherCount">
+0
+</h3><p>Teachers</p></div></div><!-- LIVE CLASS LIST --><div id="classList"></div><div id="empty" class="empty">No live classes scheduled yet.
+
+</div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Live Learning Control</strong>
+
+<br><br>
+
+The CEO controls live learning sessions on Mule Learner
+Tuition.
+
+Only approved teachers should conduct live classes.
+
+Learners should only be allowed to join sessions that
+are available to their account.
+
+<br><br>
+
+<strong>Important:</strong> The live meeting link entered
+here is only a placeholder until the live-class system
+is connected to the platform.
+
+</div><footer>Mule Learner Tuition<br>
+CEO Administration • Learn • Practice • Succeed
+
+</footer></div><script>
+
+let classes=[];
+
+
+function scheduleClass(){
+
+const name=
+document.getElementById("className").value.trim();
+
+const subject=
+document.getElementById("subject").value.trim();
+
+const teacher=
+document.getElementById("teacher").value.trim();
+
+const date=
+document.getElementById("date").value;
+
+const time=
+document.getElementById("time").value;
+
+const link=
+document.getElementById("link").value.trim();
+
+
+if(name===""){
+alert("Please enter the class name.");
+return;
+}
+
+if(subject===""){
+alert("Please enter the subject.");
+return;
+}
+
+if(teacher===""){
+alert("Please enter the teacher name.");
+return;
+}
+
+if(date===""){
+alert("Please select the class date.");
+return;
+}
+
+if(time===""){
+alert("Please select the class time.");
+return;
+}
+
+
+classes.push({
+name:name,
+subject:subject,
+teacher:teacher,
+date:date,
+time:time,
+link:link,
+status:"SCHEDULED"
+});
+
+
+document.getElementById("className").value="";
+document.getElementById("subject").value="";
+document.getElementById("teacher").value="";
+document.getElementById("date").value="";
+document.getElementById("time").value="";
+document.getElementById("link").value="";
+
+
+renderClasses();
+
+}
+
+
+function renderClasses(){
+
+const list=
+document.getElementById("classList");
+
+list.innerHTML="";
+
+
+document.getElementById("scheduledCount")
+.textContent=classes.length;
+
+
+const teachers=
+new Set(
+classes.map(item=>item.teacher)
+);
+
+document.getElementById("teacherCount")
+.textContent=teachers.size;
+
+
+document.getElementById("liveCount")
+.textContent=
+classes.filter(item=>item.status==="LIVE").length;
+
+
+if(classes.length===0){
+
+document.getElementById("empty")
+.style.display="block";
+
+return;
+
+}
+
+
+document.getElementById("empty")
+.style.display="none";
+
+
+classes.forEach(function(item,index){
+
+const card=
+document.createElement("div");
+
+card.className="live-card";
+
+
+const badgeClass=
+item.status==="LIVE"
+? "LIVE"
+: "SCHEDULED";
+
+
+card.innerHTML=`
+
+<div class="top">
+
+<div class="identity">
+
+<div class="icon">
+🔴
+</div>
+
+<div>
+
+<div class="name">
+${escapeHTML(item.name)}
+</div>
+
+<div class="info">
+${escapeHTML(item.subject)} • ${escapeHTML(item.teacher)}
+</div>
+
+</div>
+
+</div>
+
+<span class="badge">
+${badgeClass}
+</span>
+
+</div>
+
+
+<div class="details">
+
+<div class="row">
+
+<span class="label">
+Date
+</span>
+
+<span class="value">
+${escapeHTML(item.date)}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Time
+</span>
+
+<span class="value">
+${escapeHTML(item.time)}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Meeting Link
+</span>
+
+<span class="value">
+${item.link ? "Available" : "Not Added"}
+</span>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="open"
+onclick="toggleLive(${index})">
+
+${item.status==="LIVE"
+? "⏹ End Class"
+: "🔴 Start Class"}
+
+</button>
+
+
+<button
+class="stop"
+onclick="removeClass(${index})">
+
+Remove
+
+</button>
+
+</div>
+
+`;
+
+
+list.appendChild(card);
+
+});
+
+}
+
+
+function toggleLive(index){
+
+if(classes[index].status==="LIVE"){
+
+classes[index].status="SCHEDULED";
+
+}else{
+
+classes[index].status="LIVE";
+
+}
+
+renderClasses();
+
+}
+
+
+function removeClass(index){
+
+if(!confirm("Remove this live class?")){
+return;
+}
+
+classes.splice(index,1);
+
+renderClasses();
+
+}
+
+
+function escapeHTML(text){
+
+const div=
+document.createElement("div");
+
+div.textContent=text;
+
+return div.innerHTML;
+
+}
+
+
+renderClasses();
+
+</script>
+  
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
+  
+</body>
+</html>

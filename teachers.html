@@ -1,0 +1,426 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Teachers | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.search{
+width:100%;
+padding:13px;
+border:1px solid #d8deea;
+border-radius:9px;
+font-size:13px;
+outline:none;
+margin-bottom:15px;
+background:white;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:18px;
+}
+
+.stat{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.stat-icon{
+font-size:22px;
+}
+
+.stat h3{
+font-size:19px;
+margin-top:6px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.teacher{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:12px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+}
+
+.identity{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.avatar{
+width:44px;
+height:44px;
+border-radius:50%;
+background:#eef3ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+flex-shrink:0;
+}
+
+.name{
+font-size:15px;
+font-weight:800;
+}
+
+.phone{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.badge{
+padding:6px 9px;
+border-radius:20px;
+font-size:9px;
+font-weight:bold;
+background:#ecfdf3;
+color:#027a48;
+white-space:nowrap;
+}
+
+.details{
+margin-top:14px;
+border-top:1px solid #edf0f5;
+padding-top:10px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:7px 0;
+font-size:12px;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:700;
+text-align:right;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:13px;
+}
+
+button{
+flex:1;
+border:0;
+padding:10px;
+border-radius:8px;
+font-size:11px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.view{
+background:#eef3ff;
+color:#173b8f;
+}
+
+.suspend{
+background:#fee4e2;
+color:#b42318;
+}
+
+.empty{
+display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(4,1fr);
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← CEO Dashboard
+</a></header><div class="container"><div class="heading"><h1>Teacher Management 👨‍🏫</h1><p>
+Manage approved teachers, their status and teaching assignments.
+</p></div><!-- SEARCH --><input
+type="search"
+id="search"
+class="search"
+placeholder="Search teacher by name or phone..."
+oninput="searchTeachers()"
+
+«»
+
+<!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
+👨‍🏫
+</div><h3 id="total">
+0
+</h3><p>Total Teachers</p></div><div class="stat"><div class="stat-icon">
+🟢
+</div><h3 id="active">
+0
+</h3><p>Active</p></div><div class="stat"><div class="stat-icon">
+⏸️
+</div><h3 id="suspended">
+0
+</h3><p>Suspended</p></div><div class="stat"><div class="stat-icon">
+📚
+</div><h3 id="assigned">
+0</h3><p>Assigned</p></div></div><!-- TEACHER LIST --><div id="teacherList"><div
+class="teacher"
+data-search="teacher"><div class="top"><div class="identity"><div class="avatar">
+👨‍🏫
+</div><div><div class="name">
+Teacher
+</div><div class="phone">
+Phone: Not Available
+</div></div></div><span class="badge">
+ACTIVE
+</span></div><div class="details"><div class="row"><span class="label">
+Subjects
+</span><span class="value">
+Not Assigned
+</span></div><div class="row"><span class="label">
+Classes
+</span><span class="value">
+Not Assigned
+</span></div><div class="row"><span class="label">
+Account Status
+</span><span class="value">
+Approved
+</span></div></div><div class="actions"><button
+class="view"
+onclick="viewTeacher()">
+
+👁 View
+
+</button><button
+class="suspend"
+onclick="toggleTeacher(this)">
+
+⏸ Suspend
+
+</button></div></div></div><div id="empty" class="empty">No teacher found.
+
+</div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Teacher Control</strong>
+
+<br><br>
+
+Only the CEO can manage teacher accounts.
+
+Teacher accounts must be approved before teachers
+can access teaching features.
+
+The CEO can suspend a teacher when necessary.
+A suspended teacher should not be able to conduct
+classes or access restricted teaching functions.
+
+</div><footer>Mule Learner Tuition<br>
+CEO Administration • Learn • Practice • Succeed
+
+</footer></div><script>
+
+const teachers=
+document.querySelectorAll(".teacher");
+
+document.getElementById("total").textContent=
+teachers.length;
+
+document.getElementById("active").textContent=
+teachers.length;
+
+document.getElementById("assigned").textContent=
+0;
+
+
+function searchTeachers(){
+
+const input=
+document.getElementById("search")
+.value
+.toLowerCase()
+.trim();
+
+let found=0;
+
+teachers.forEach(function(teacher){
+
+const text=
+teacher.getAttribute("data-search")
+.toLowerCase();
+
+if(text.includes(input)){
+
+teacher.style.display="block";
+found++;
+
+}else{
+
+teacher.style.display="none";
+
+}
+
+});
+
+document.getElementById("empty").style.display=
+found===0 ? "block" : "none";
+
+}
+
+
+function viewTeacher(){
+
+alert(
+"Teacher details will appear here when the teacher database is connected."
+);
+
+}
+
+
+function toggleTeacher(button){
+
+const teacher=
+button.closest(".teacher");
+
+const badge=
+teacher.querySelector(".badge");
+
+if(badge.textContent==="ACTIVE"){
+
+const confirmSuspend=
+confirm("Suspend this teacher's account?");
+
+if(confirmSuspend){
+
+badge.textContent="SUSPENDED";
+badge.style.background="#fee4e2";
+badge.style.color="#b42318";
+
+button.textContent="▶ Reactivate";
+
+}
+
+}else{
+
+const confirmReactivate=
+confirm("Reactivate this teacher's account?");
+
+if(confirmReactivate){
+
+badge.textContent="ACTIVE";
+badge.style.background="#ecfdf3";
+badge.style.color="#027a48";
+
+button.textContent="⏸ Suspend";
+
+}
+
+}
+
+}
+
+</script>
+
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
+</body>
+</html>

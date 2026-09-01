@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Payment Management | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:20px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:20px;
+}
+
+.stat{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.stat-icon{
+font-size:22px;
+}
+
+.stat h3{
+font-size:19px;
+margin-top:6px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.payment{
+background:white;
+padding:18px;
+border-radius:14px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:13px;
+}
+
+.payment-top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+}
+
+.name{
+font-size:16px;
+font-weight:800;
+}
+
+.date{
+font-size:10px;
+color:#667085;
+margin-top:4px;
+}
+
+.badge{
+padding:6px 9px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold;
+background:#fff4db;
+color:#9a6700;
+white-space:nowrap;
+}
+
+.details{
+margin-top:14px;
+border-top:1px solid #edf0f5;
+padding-top:12px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:7px 0;
+font-size:12px;
+gap:10px;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:700;
+text-align:right;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:15px;
+}
+
+button{
+flex:1;
+border:0;
+padding:11px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.approve{
+background:#027a48;
+color:white;
+}
+
+.reject{
+background:#fee4e2;
+color:#b42318;
+}
+
+.empty{
+background:white;
+padding:30px 18px;
+border-radius:14px;
+text-align:center;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.empty-icon{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.empty h3{
+font-size:17px;
+margin-bottom:6px;
+}
+
+.empty p{
+font-size:12px;
+color:#667085;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(4,1fr);
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← CEO Dashboard
+</a></header><div class="container"><div class="heading"><h1>Payment Management 💰</h1><p>
+Review learner payments and control learning access.
+</p></div><!-- PAYMENT STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
+⏳
+</div><h3 id="pendingCount">0</h3><p>Pending</p></div><div class="stat"><div class="stat-icon">
+✅
+</div><h3 id="approvedCount">0</h3><p>Approved</p></div><div class="stat"><div class="stat-icon">
+❌
+</div><h3 id="rejectedCount">0</h3><p>Rejected</p></div><div class="stat"><div class="stat-icon">
+💰
+</div><h3>K0</h3><p>Total Received</p></div></div><!-- PAYMENT REQUEST --><div id="paymentList"><div class="payment" id="payment1"><div class="payment-top"><div><div class="name">
+Learner
+</div><div class="date">
+Payment request
+</div></div><span class="badge">
+PENDING
+</span></div><div class="details"><div class="row"><span class="label">
+Learning Plan
+</span><span class="value">
+Not Available
+</span></div><div class="row"><span class="label">
+Payment Method
+</span><span class="value">
+Not Available
+</span></div><div class="row"><span class="label">
+Amount
+</span><span class="value">
+Not Available
+</span></div></div><div class="actions"><button class="approve" onclick="approvePayment('payment1')">
+✓ Approve
+</button><button class="reject" onclick="rejectPayment('payment1')">
+✕ Reject
+</button></div></div></div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Payment Control</strong>
+
+<br><br>
+
+Only the CEO should approve or reject learner
+payments.
+
+When a payment is approved, the learner's learning
+access will be activated according to the selected
+plan.
+
+When a payment is rejected, the learner will remain
+without paid access.
+
+<br><br>
+
+<strong>Important:</strong> Always confirm that the
+payment has actually been received before approving
+a learner.
+
+</div><footer>Mule Learner Tuition<br>
+CEO Administration • Learn • Practice • Succeed
+
+</footer></div><script>
+
+let approved=0;
+let rejected=0;
+
+function approvePayment(id){
+
+const payment=document.getElementById(id);
+
+if(!payment){
+return;
+}
+
+const badge=payment.querySelector(".badge");
+
+badge.textContent="APPROVED";
+badge.style.background="#ecfdf3";
+badge.style.color="#027a48";
+
+payment.querySelector(".actions").innerHTML=
+"<button class='approve' disabled>✓ Payment Approved</button>";
+
+approved++;
+
+document.getElementById("approvedCount").textContent=approved;
+
+}
+
+
+function rejectPayment(id){
+
+const payment=document.getElementById(id);
+
+if(!payment){
+return;
+}
+
+const badge=payment.querySelector(".badge");
+
+badge.textContent="REJECTED";
+badge.style.background="#fee4e2";
+badge.style.color="#b42318";
+
+payment.querySelector(".actions").innerHTML=
+"<button class='reject' disabled>✕ Payment Rejected</button>";
+
+rejected++;
+
+document.getElementById("rejectedCount").textContent=rejected;
+
+}
+
+</script>
+  
+  <script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
+</body>
+</html>
