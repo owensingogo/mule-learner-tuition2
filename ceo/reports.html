@@ -1,0 +1,376 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Reports | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.filter{
+background:white;
+padding:15px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:16px;
+}
+
+.filter h2{
+font-size:14px;
+margin-bottom:10px;
+}
+
+select{
+width:100%;
+padding:11px;
+border:1px solid #d8deea;
+border-radius:8px;
+font-size:12px;
+background:white;
+outline:none;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:18px;
+}
+
+.stat{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.stat-icon{
+font-size:22px;
+}
+
+.stat h3{
+font-size:19px;
+margin-top:6px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.report-card{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:12px;
+}
+
+.report-card h2{
+font-size:15px;
+margin-bottom:13px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+padding:11px 0;
+border-bottom:1px solid #edf0f5;
+font-size:12px;
+}
+
+.row:last-child{
+border-bottom:0;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:800;
+}
+
+.progress{
+height:7px;
+background:#edf0f5;
+border-radius:10px;
+margin-top:7px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#173b8f;
+border-radius:10px;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(4,1fr);
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← CEO Dashboard
+</a></header><div class="container"><div class="heading"><h1>
+Platform Reports 📊
+</h1><p>
+Monitor learner activity, teachers, payments and live learning.
+</p></div><!-- FILTER --><div class="filter"><h2>
+Report Period
+</h2><select id="period" onchange="changePeriod()"><option value="today">
+Today
+</option><option value="week">
+This Week
+</option><option value="month">
+This Month
+</option><option value="all">
+All Time
+</option></select></div><!-- MAIN STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
+👥
+</div><h3 id="learners">
+0
+</h3><p>
+Learners
+</p></div><div class="stat"><div class="stat-icon">
+👨‍🏫
+</div><h3 id="teachers">
+0
+</h3><p>
+Teachers
+</p></div><div class="stat"><div class="stat-icon">
+💰
+</div><h3 id="payments">
+K0
+</h3><p>
+Approved Payments
+</p></div><div class="stat"><div class="stat-icon">
+🔴
+</div><h3 id="classes">
+0
+</h3><p>
+Live Classes
+</p></div></div><!-- PLATFORM ACTIVITY --><div class="report-card"><h2>
+Platform Activity
+</h2><div class="row"><span class="label">
+Learner Registrations
+</span><span class="value" id="registrations">
+0
+</span></div><div class="row"><span class="label">
+Approved Teachers
+</span><span class="value" id="approvedTeachers">
+0
+</span></div><div class="row"><span class="label">
+Pending Payments
+</span><span class="value" id="pendingPayments">
+0
+</span></div><div class="row"><span class="label">
+Approved Payments
+</span><span class="value" id="approvedCount">
+0
+</span></div></div><!-- PAYMENT PLANS --><div class="report-card"><h2>
+Payment Plan Activity
+</h2><div class="row"><div style="width:100%"><span class="label">
+K5 • 6 Hours
+</span><div class="progress"><div
+class="progress-bar"
+style="width:0%"
+id="sixHours">
+</div></div></div><span class="value">
+0
+</span></div><div class="row"><div style="width:100%"><span class="label">
+K10 • Daily
+</span><div class="progress"><div
+class="progress-bar"
+style="width:0%"
+id="daily">
+</div></div></div><span class="value">
+0
+</span></div><div class="row"><div style="width:100%"><span class="label">
+K45 • Weekly
+</span><div class="progress"><div
+class="progress-bar"
+style="width:0%"
+id="weekly">
+</div></div></div><span class="value">
+0
+</span></div><div class="row"><div style="width:100%"><span class="label">
+K180 • Monthly
+</span><div class="progress"><div
+class="progress-bar"
+style="width:0%"
+id="monthly">
+</div></div></div><span class="value">
+0
+</span></div></div><!-- SECURITY NOTICE --><div class="notice"><strong>
+🔐 CEO Reports
+</strong><br><br>
+
+These figures are currently demonstration values.
+
+When the Mule Learner Tuition database is connected,
+this page will automatically receive real information
+from learner registrations, teacher accounts, payment
+approvals, classes and live learning activity.
+
+<br><br>
+
+Only the authorized CEO should have access to financial
+and platform reports.
+
+</div><footer>Mule Learner Tuition<br>
+CEO Administration • Learn • Practice • Succeed
+
+</footer></div><script>
+
+function changePeriod(){
+
+const period=
+document.getElementById("period").value;
+
+if(period==="today"){
+
+showReport(0,0,0,0);
+
+}
+
+else if(period==="week"){
+
+showReport(0,0,0,0);
+
+}
+
+else if(period==="month"){
+
+showReport(0,0,0,0);
+
+}
+
+else{
+
+showReport(0,0,0,0);
+
+}
+
+}
+
+
+function showReport(
+learners,
+teachers,
+payments,
+classes
+){
+
+document.getElementById("learners")
+.textContent=learners;
+
+document.getElementById("teachers")
+.textContent=teachers;
+
+document.getElementById("payments")
+.textContent="K"+payments;
+
+document.getElementById("classes")
+.textContent=classes;
+
+document.getElementById("registrations")
+.textContent=learners;
+
+document.getElementById("approvedTeachers")
+.textContent=teachers;
+
+document.getElementById("pendingPayments")
+.textContent=0;
+
+document.getElementById("approvedCount")
+.textContent=0;
+
+}
+
+
+changePeriod();
+
+</script>
+
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
+  
+</body>
+</html>

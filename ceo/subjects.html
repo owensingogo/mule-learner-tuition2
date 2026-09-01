@@ -1,0 +1,427 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Subjects | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.add-box{
+background:white;
+padding:16px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:18px;
+}
+
+.add-box h2{
+font-size:15px;
+margin-bottom:11px;
+}
+
+input{
+width:100%;
+padding:12px;
+border:1px solid #d8deea;
+border-radius:8px;
+font-size:13px;
+outline:none;
+margin-bottom:9px;
+}
+
+.add-btn{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:12px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:18px;
+}
+
+.stat{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.stat-icon{
+font-size:22px;
+}
+
+.stat h3{
+font-size:19px;
+margin-top:6px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.subject{
+background:white;
+padding:16px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:11px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+
+.subject-left{
+display:flex;
+align-items:center;
+gap:11px;
+}
+
+.subject-icon{
+width:42px;
+height:42px;
+border-radius:10px;
+background:#eef3ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+}
+
+.subject-name{
+font-size:14px;
+font-weight:800;
+}
+
+.subject-status{
+font-size:10px;
+color:#027a48;
+margin-top:3px;
+}
+
+.delete{
+border:0;
+background:#fee4e2;
+color:#b42318;
+padding:8px 10px;
+border-radius:7px;
+font-size:10px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.empty{
+display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← CEO Dashboard
+</a></header><div class="container"><div class="heading"><h1>Subject Management 📚</h1><p>
+Create and manage the subjects available for learners and teachers.
+</p></div><!-- ADD SUBJECT --><div class="add-box"><h2>
+Add New Subject
+</h2><input
+type="text"
+id="subjectInput"
+placeholder="Enter subject name"
+maxlength="50"
+
+«»
+
+<button
+class="add-btn"
+onclick="addSubject()">
+
++ Add Subject
+
+</button></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
+📚
+</div><h3 id="totalSubjects">
+4
+</h3><p>Total Subjects</p></div><div class="stat"><div class="stat-icon">
+🟢
+</div><h3 id="activeSubjects">
+4
+</h3><p>Active Subjects</p></div></div><!-- SUBJECT LIST --><div id="subjectList"><div class="subject"><div class="subject-left"><div class="subject-icon">
+🔢
+</div><div><div class="subject-name">
+Mathematics
+</div><div class="subject-status">
+● Active
+</div></div></div><button
+class="delete"
+onclick="deleteSubject(this)">
+
+Remove
+
+</button></div><div class="subject"><div class="subject-left"><div class="subject-icon">
+📖
+</div><div><div class="subject-name">
+English
+</div><div class="subject-status">
+● Active
+</div></div></div><button
+class="delete"
+onclick="deleteSubject(this)">
+
+Remove
+
+</button></div><div class="subject"><div class="subject-left"><div class="subject-icon">
+💻
+</div><div><div class="subject-name">
+ICT / Computer Studies
+</div><div class="subject-status">
+● Active
+</div></div></div><button
+class="delete"
+onclick="deleteSubject(this)">
+
+Remove
+
+</button></div><div class="subject"><div class="subject-left"><div class="subject-icon">
+🔬
+</div><div><div class="subject-name">
+Science
+</div><div class="subject-status">
+● Active
+</div></div></div><button
+class="delete"
+onclick="deleteSubject(this)">
+
+Remove
+
+</button></div></div><div id="empty" class="empty">No subjects available.
+
+</div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Subject Control</strong>
+
+<br><br>
+
+The CEO controls which subjects are available on
+Mule Learner Tuition.
+
+Teachers can later be assigned to specific subjects,
+and learners will be able to choose from the subjects
+made available by the CEO.
+
+Subjects added here will eventually be stored in the
+platform database.
+
+</div><footer>Mule Learner Tuition<br>
+CEO Administration • Learn • Practice • Succeed
+
+</footer></div><script>
+
+function updateCounts(){
+
+const subjects=
+document.querySelectorAll(".subject");
+
+const count=subjects.length;
+
+document.getElementById("totalSubjects").textContent=
+count;
+
+document.getElementById("activeSubjects").textContent=
+count;
+
+document.getElementById("empty").style.display=
+count===0 ? "block" : "none";
+
+}
+
+
+function addSubject(){
+
+const input=
+document.getElementById("subjectInput");
+
+const name=
+input.value.trim();
+
+if(name===""){
+
+alert("Please enter a subject name.");
+
+return;
+
+}
+
+const subject=
+document.createElement("div");
+
+subject.className="subject";
+
+subject.innerHTML=`
+
+<div class="subject-left">
+
+<div class="subject-icon">
+📚
+</div>
+
+<div>
+
+<div class="subject-name">
+${escapeHTML(name)}
+</div>
+
+<div class="subject-status">
+● Active
+</div>
+
+</div>
+
+</div>
+
+<button class="delete"
+onclick="deleteSubject(this)">
+Remove
+</button>
+
+`;
+
+document
+.getElementById("subjectList")
+.appendChild(subject);
+
+input.value="";
+
+updateCounts();
+
+}
+
+
+function deleteSubject(button){
+
+const confirmRemove=
+confirm("Remove this subject?");
+
+if(!confirmRemove){
+return;
+}
+
+button
+.closest(".subject")
+.remove();
+
+updateCounts();
+
+}
+
+
+function escapeHTML(text){
+
+const div=
+document.createElement("div");
+
+div.textContent=text;
+
+return div.innerHTML;
+
+}
+
+
+updateCounts();
+
+</script>
+
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+
+<title>Classes | Mule Learner Tuition</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.create{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:18px;
+}
+
+.create h2{
+font-size:15px;
+margin-bottom:12px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+border:1px solid #d8deea;
+border-radius:8px;
+font-size:12px;
+outline:none;
+margin-bottom:9px;
+background:white;
+}
+
+.create-btn{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:12px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:18px;
+}
+
+.stat{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.stat-icon{
+font-size:22px;
+}
+
+.stat h3{
+font-size:19px;
+margin-top:6px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.class-card{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:12px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+}
+
+.class-name{
+font-size:15px;
+font-weight:800;
+}
+
+.subject{
+font-size:11px;
+color:#667085;
+margin-top:4px;
+}
+
+.badge{
+padding:6px 9px;
+border-radius:20px;
+font-size:9px;
+font-weight:bold;
+background:#ecfdf3;
+color:#027a48;
+white-space:nowrap;
+}
+
+.details{
+margin-top:13px;
+border-top:1px solid #edf0f5;
+padding-top:10px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:6px 0;
+font-size:12px;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:700;
+text-align:right;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:13px;
+}
+
+button{
+flex:1;
+border:0;
+padding:10px;
+border-radius:8px;
+font-size:11px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.view{
+background:#eef3ff;
+color:#173b8f;
+}
+
+.remove{
+background:#fee4e2;
+color:#b42318;
+}
+
+.empty{
+display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Mule Learner Tuition
+</div>
+
+<a href="dashboard.html" class="back">
+← CEO Dashboard
+</a>
+
+</header>
+
+<div class="container">
+
+<div class="heading">
+
+<h1>Class Management 🏫</h1>
+
+<p>
+Create classes and prepare them for teacher and learner access.
+</p>
+
+</div>
+
+<div class="create">
+
+<h2>Create New Class</h2>
+
+<input
+type="text"
+id="className"
+placeholder="Class name e.g. Grade 7 Mathematics"
+maxlength="60"
+>
+
+<input
+type="text"
+id="subject"
+placeholder="Subject e.g. Mathematics"
+maxlength="40"
+>
+
+<input
+type="text"
+id="teacher"
+placeholder="Assigned teacher"
+maxlength="50"
+>
+
+<select id="classType">
+
+<option value="">
+Select class type
+</option>
+
+<option>Regular Class</option>
+<option>Live Class</option>
+
+</select>
+
+<button
+class="create-btn"
+onclick="createClass()"
+>
++ Create Class
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-icon">🏫</div>
+
+<h3 id="total">0</h3>
+
+<p>Total Classes</p>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">🟢</div>
+
+<h3 id="active">0</h3>
+
+<p>Active Classes</p>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">👨‍🏫</div>
+
+<h3 id="assigned">0</h3>
+
+<p>Assigned Teachers</p>
+
+</div>
+
+</div>
+
+<div id="classList">
+
+<div class="class-card">
+
+<div class="top">
+
+<div>
+
+<div class="class-name">
+No classes created
+</div>
+
+<div class="subject">
+Create your first class above.
+</div>
+
+</div>
+
+<span class="badge">
+READY
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="empty" class="empty">
+No classes available.
+</div>
+
+<div class="notice">
+
+<strong>🔐 CEO Class Control</strong>
+
+<br><br>
+
+The CEO controls the classes available on Mule Learner
+Tuition.
+
+Teachers can be assigned to classes by the CEO.
+Learners will later be able to see and join classes
+that are available to their accounts.
+
+Live classes will use the class information created
+here when the live-learning system is connected.
+
+</div>
+
+<footer>
+
+Mule Learner Tuition
+<br>
+CEO Administration • Learn • Practice • Succeed
+
+</footer>
+
+</div>
+
+<script>
+
+function updateCounts(){
+
+const cards=
+document.querySelectorAll(
+"#classList .class-card"
+);
+
+let realClasses=0;
+let assigned=0;
+
+cards.forEach(function(card){
+
+if(card.dataset.real==="true"){
+
+realClasses++;
+
+const teacher=
+card.dataset.teacher || "";
+
+if(teacher.trim()!==""){
+assigned++;
+}
+
+}
+
+});
+
+document.getElementById("total").textContent=
+realClasses;
+
+document.getElementById("active").textContent=
+realClasses;
+
+document.getElementById("assigned").textContent=
+assigned;
+
+document.getElementById("empty").style.display=
+realClasses===0 ? "block" : "none";
+
+}
+
+function createClass(){
+
+const name=
+document.getElementById("className")
+.value.trim();
+
+const subject=
+document.getElementById("subject")
+.value.trim();
+
+const teacher=
+document.getElementById("teacher")
+.value.trim();
+
+const type=
+document.getElementById("classType")
+.value;
+
+if(name===""){
+
+alert("Please enter a class name.");
+return;
+
+}
+
+if(subject===""){
+
+alert("Please enter the subject.");
+return;
+
+}
+
+if(type===""){
+
+alert("Please select a class type.");
+return;
+
+}
+
+const list=
+document.getElementById("classList");
+
+const first=
+list.querySelector(".class-card");
+
+if(first && first.dataset.real!=="true"){
+
+first.remove();
+
+}
+
+const card=
+document.createElement("div");
+
+card.className="class-card";
+
+card.dataset.real="true";
+
+card.dataset.teacher=teacher;
+
+card.innerHTML=`
+
+<div class="top">
+
+<div>
+
+<div class="class-name">
+${escapeHTML(name)}
+</div>
+
+<div class="subject">
+${escapeHTML(subject)} • ${escapeHTML(type)}
+</div>
+
+</div>
+
+<span class="badge">
+ACTIVE
+</span>
+
+</div>
+
+<div class="details">
+
+<div class="row">
+
+<span class="label">
+Teacher
+</span>
+
+<span class="value">
+${teacher ? escapeHTML(teacher) : "Not Assigned"}
+</span>
+
+</div>
+
+<div class="row">
+
+<span class="label">
+Class Type
+</span>
+
+<span class="value">
+${escapeHTML(type)}
+</span>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+class="view"
+onclick="viewClass(this)"
+>
+👁 View
+</button>
+
+<button
+class="remove"
+onclick="removeClass(this)"
+>
+Remove
+</button>
+
+</div>
+
+`;
+
+list.appendChild(card);
+
+document.getElementById("className").value="";
+document.getElementById("subject").value="";
+document.getElementById("teacher").value="";
+document.getElementById("classType").value="";
+
+updateCounts();
+
+}
+
+function viewClass(button){
+
+const card=
+button.closest(".class-card");
+
+const name=
+card.querySelector(".class-name")
+.textContent;
+
+alert(
+"Class: " + name +
+"\n\nFull class management will be available when the database is connected."
+);
+
+}
+
+function removeClass(button){
+
+const confirmRemove=
+confirm("Remove this class?");
+
+if(!confirmRemove){
+return;
+}
+
+button
+.closest(".class-card")
+.remove();
+
+updateCounts();
+
+}
+
+function escapeHTML(text){
+
+const div=
+document.createElement("div");
+
+div.textContent=text;
+
+return div.innerHTML;
+
+}
+
+updateCounts();
+
+</script>
+
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
+
+</body>
+</html>
