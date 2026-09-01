@@ -1,0 +1,401 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Teacher Profile | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.profile-card{
+background:white;
+padding:20px;
+border-radius:14px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.profile-head{
+text-align:center;
+padding-bottom:18px;
+border-bottom:1px solid #edf0f5;
+}
+
+.avatar{
+width:72px;
+height:72px;
+margin:auto;
+border-radius:50%;
+background:#eef3ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:34px;
+}
+
+.profile-head h2{
+font-size:18px;
+margin-top:10px;
+}
+
+.status{
+display:inline-block;
+margin-top:7px;
+background:#ecfdf3;
+color:#027a48;
+padding:6px 10px;
+border-radius:20px;
+font-size:9px;
+font-weight:bold;
+}
+
+.info{
+padding-top:15px;
+}
+
+.info-row{
+display:flex;
+justify-content:space-between;
+gap:15px;
+padding:10px 0;
+border-bottom:1px solid #f2f4f7;
+font-size:12px;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:bold;
+text-align:right;
+}
+
+.edit-card{
+margin-top:15px;
+background:white;
+padding:18px;
+border-radius:14px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.edit-card h2{
+font-size:16px;
+margin-bottom:14px;
+}
+
+label{
+display:block;
+font-size:11px;
+font-weight:bold;
+color:#344054;
+margin-bottom:6px;
+}
+
+input{
+width:100%;
+padding:11px;
+border:1px solid #d0d5dd;
+border-radius:8px;
+font-size:12px;
+outline:none;
+margin-bottom:13px;
+}
+
+input:focus{
+border-color:#173b8f;
+}
+
+input[readonly]{
+background:#f8fafc;
+color:#667085;
+}
+
+.btn{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:12px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.success{
+display:none;
+margin-top:12px;
+background:#ecfdf3;
+color:#027a48;
+padding:12px;
+border-radius:9px;
+font-size:11px;
+}
+
+.notice{
+margin-top:16px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+.security{
+margin-top:12px;
+background:#fff4db;
+color:#7a4f00;
+padding:15px;
+border-radius:11px;
+font-size:11px;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← Dashboard
+</a></header><div class="container"><div class="heading"><h1>
+My Profile 👤
+</h1><p>
+View your teacher information and account details.
+</p></div><!-- PROFILE --><div class="profile-card"><div class="profile-head"><div class="avatar">
+👨‍🏫
+</div><h2 id="displayName">
+Teacher Name
+</h2><span class="status">
+ACTIVE TEACHER
+</span></div><div class="info"><div class="info-row"><span class="label">
+Full Name
+</span><span class="value" id="infoName">
+Teacher Name
+</span></div><div class="info-row"><span class="label">
+Email
+</span><span class="value" id="infoEmail">
+Not provided
+</span></div><div class="info-row"><span class="label">
+Phone
+</span><span class="value" id="infoPhone">
+Not provided
+</span></div><div class="info-row"><span class="label">
+Teacher Status
+</span><span class="value">
+Approved
+</span></div><div class="info-row"><span class="label">
+Assigned Subjects
+</span><span class="value">
+Managed by CEO
+</span></div></div></div><!-- EDIT --><div class="edit-card"><h2>
+Update Contact Information
+</h2><form id="profileForm"><label>
+Full Name
+</label><input
+type="text"
+id="name"
+placeholder="Enter your full name"
+required>
+
+<label>
+Email Address
+</label><input
+type="email"
+id="email"
+placeholder="Enter email address">
+
+<label>
+Phone Number
+</label><input
+type="tel"
+id="phone"
+placeholder="Enter phone number">
+
+<label>
+Teacher ID
+</label><input
+type="text"
+value="Assigned by CEO"
+readonly>
+
+<button
+type="submit"
+class="btn">
+
+💾 Save Changes
+
+</button></form><div class="success" id="success">✅ Your profile information has been updated on this device.
+
+</div></div><!-- NOTICE --><div class="notice"><strong>
+👨‍🏫 Teacher Account
+</strong><br><br>
+
+Your teacher account allows you to manage your assigned
+subjects, classes, learners, lessons, live classes and
+learning materials.
+
+Teacher permissions are controlled by the CEO.
+
+</div><div class="security"><strong>
+🔐 Account Security
+</strong><br><br>
+
+Do not share your teacher login details with anyone.
+The CEO can suspend or reactivate a teacher account
+when necessary.
+
+Payment approval, teacher hiring and other CEO controls
+are not available from this account.
+
+</div><footer>Mule Learner Tuition<br>
+
+Teacher Centre • Learn • Practice • Succeed
+
+</footer></div><script>
+
+const savedName =
+localStorage.getItem("teacherName");
+
+const savedEmail =
+localStorage.getItem("teacherEmail");
+
+const savedPhone =
+localStorage.getItem("teacherPhone");
+
+
+if(savedName){
+
+document.getElementById("displayName")
+.textContent=savedName;
+
+document.getElementById("infoName")
+.textContent=savedName;
+
+document.getElementById("name")
+.value=savedName;
+
+}
+
+
+if(savedEmail){
+
+document.getElementById("infoEmail")
+.textContent=savedEmail;
+
+document.getElementById("email")
+.value=savedEmail;
+
+}
+
+
+if(savedPhone){
+
+document.getElementById("infoPhone")
+.textContent=savedPhone;
+
+document.getElementById("phone")
+.value=savedPhone;
+
+}
+
+
+document.getElementById("profileForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const name =
+document.getElementById("name").value.trim();
+
+const email =
+document.getElementById("email").value.trim();
+
+const phone =
+document.getElementById("phone").value.trim();
+
+
+localStorage.setItem("teacherName",name);
+localStorage.setItem("teacherEmail",email);
+localStorage.setItem("teacherPhone",phone);
+
+
+document.getElementById("displayName")
+.textContent=name;
+
+document.getElementById("infoName")
+.textContent=name;
+
+document.getElementById("infoEmail")
+.textContent=
+email || "Not provided";
+
+document.getElementById("infoPhone")
+.textContent=
+phone || "Not provided";
+
+
+document.getElementById("success")
+.style.display="block";
+
+});
+
+  <script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
+</body>
+</html>

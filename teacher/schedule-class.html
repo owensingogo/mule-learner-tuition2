@@ -1,0 +1,274 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Schedule Class | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.card{
+background:white;
+padding:18px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+label{
+display:block;
+font-size:11px;
+font-weight:bold;
+margin-bottom:6px;
+color:#344054;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:11px;
+border:1px solid #d0d5dd;
+border-radius:8px;
+font-size:12px;
+outline:none;
+background:white;
+margin-bottom:14px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:#173b8f;
+}
+
+textarea{
+height:85px;
+resize:vertical;
+}
+
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.btn{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:12px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+margin-top:3px;
+}
+
+.btn:active{
+transform:scale(.98);
+}
+
+.notice{
+margin-top:16px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+.success{
+display:none;
+margin-top:15px;
+background:#ecfdf3;
+color:#027a48;
+padding:14px;
+border-radius:10px;
+font-size:12px;
+line-height:1.5;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(max-width:420px){
+
+.row{
+grid-template-columns:1fr;
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← Dashboard
+</a></header><div class="container"><div class="heading"><h1>
+Schedule a Class 📅
+</h1><p>
+Create a lesson schedule for a class assigned to you.
+</p></div><div class="card"><form id="scheduleForm"><label>
+Select Class
+</label><select id="className" required><option value="">
+Choose your class
+</option><option>
+Grade 10 Mathematics
+</option><option>
+Grade 9 Mathematics
+</option></select><label>
+Lesson Title
+</label><input
+type="text"
+id="title"
+placeholder="e.g. Introduction to Algebra"
+required>
+
+<div class="row"><div><label>
+Date
+</label><input
+type="date"
+id="date"
+required>
+
+</div><div><label>
+Start Time
+</label><input
+type="time"
+id="time"
+required>
+
+</div></div><label>
+Lesson Duration
+</label><select id="duration" required><option value="">
+Choose duration
+</option><option>
+30 minutes
+</option><option>
+45 minutes
+</option><option>
+1 hour
+</option><option>
+1 hour 30 minutes
+</option><option>
+2 hours
+</option></select><label>
+Lesson Type
+</label><select id="type" required><option value="">
+Choose lesson type
+</option><option>
+Live Class
+</option><option>
+Online Lesson
+</option><option>
+Revision Class
+</option></select><label>
+Lesson Description
+</label><textarea
+id="description"
+placeholder="Enter a short description or instructions for learners..."
+></textarea><button
+type="submit"
+class="btn">
+
+📅 Schedule Class
+
+</button></form><div class="success" id="success"><strong>✅ Class Scheduled</strong>
+
+<br>Your lesson has been scheduled successfully.
+The class information can be made available to
+eligible learners after the platform confirms it.
+
+</div></div><div class="notice"><strong>
+🔐 Teacher Permission
+</strong><br><br>
+
+Teachers can schedule lessons only for classes
+assigned to them by the CEO.
+
+The final live-class access and learner permissions
+are controlled by the Mule Learner Tuition platform.
+
+</div><footer>Mule Learner Tuition<br>
+
+Teacher Centre • Learn • Practice • Succeed
+
+</footer></div><script>
+
+document.getElementById("scheduleForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+document.getElementById("success").style.display="block";
+
+this.reset();
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+});
+
+  <script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
+<script src="../js/classes.js"></script>
+  
+</body>
+</html>

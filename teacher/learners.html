@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>My Learners | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:18px;
+}
+
+.stat{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.stat-icon{
+font-size:22px;
+}
+
+.stat h3{
+font-size:19px;
+margin-top:6px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.search{
+background:white;
+padding:13px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+margin-bottom:14px;
+}
+
+.search input{
+width:100%;
+padding:11px;
+border:1px solid #d0d5dd;
+border-radius:8px;
+outline:none;
+font-size:12px;
+}
+
+.search input:focus{
+border-color:#173b8f;
+}
+
+.learner{
+background:white;
+padding:16px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:11px;
+}
+
+.top{
+display:flex;
+align-items:center;
+gap:11px;
+}
+
+.avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#eef3ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+flex-shrink:0;
+}
+
+.name{
+font-size:14px;
+font-weight:800;
+}
+
+.class-name{
+font-size:11px;
+color:#667085;
+margin-top:4px;
+}
+
+.status{
+margin-left:auto;
+background:#ecfdf3;
+color:#027a48;
+padding:6px 9px;
+border-radius:20px;
+font-size:9px;
+font-weight:bold;
+}
+
+.details{
+border-top:1px solid #edf0f5;
+margin-top:13px;
+padding-top:11px;
+}
+
+.detail{
+display:flex;
+justify-content:space-between;
+font-size:11px;
+padding:5px 0;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:bold;
+}
+
+.message{
+display:block;
+width:100%;
+margin-top:10px;
+padding:9px;
+border:0;
+border-radius:8px;
+background:#eef3ff;
+color:#173b8f;
+font-size:11px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+.empty{
+display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← Dashboard
+</a></header><div class="container"><div class="heading"><h1>
+My Learners 👥
+</h1><p>
+View learners enrolled in the classes assigned to you.
+</p></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
+👥
+</div><h3>
+0
+</h3><p>
+Total Learners
+</p></div><div class="stat"><div class="stat-icon">
+🟢
+</div><h3>
+0
+</h3><p>
+Active Learners
+</p></div><div class="stat"><div class="stat-icon">
+🏫
+</div><h3>
+0
+</h3><p>
+My Classes
+</p></div></div><!-- SEARCH --><div class="search"><input
+type="search"
+id="search"
+placeholder="Search learner by name..."
+oninput="searchLearners()">
+
+</div><!-- LEARNER LIST --><div id="learnerList"><!-- SAMPLE LEARNER --><div class="learner"><div class="top"><div class="avatar">
+👤
+</div><div><div class="name">
+Learner Name
+</div><div class="class-name">
+Grade 10 Mathematics
+</div></div><div class="status">
+ACTIVE
+</div></div><div class="details"><div class="detail"><span class="label">
+Subject
+</span><span class="value">
+Mathematics
+</span></div><div class="detail"><span class="label">
+Access
+</span><span class="value">
+Approved
+</span></div><div class="detail"><span class="label">
+Learning Status
+</span><span class="value">
+Active
+</span></div></div><button class="message" onclick="messageLearner()">
+💬 Contact Learner
+</button></div></div><div class="empty" id="empty">No learners found.
+
+</div><!-- NOTICE --><div class="notice"><strong>
+🔐 Teacher Privacy
+</strong><br><br>
+
+Teachers can only view learners assigned to their
+classes. Learner personal information and payment
+details are controlled by the platform and CEO.
+
+Teachers cannot approve payments, change learner
+accounts or access learners from other classes.
+
+</div><footer>Mule Learner Tuition<br>
+
+Teacher Centre • Learn • Practice • Succeed
+
+</footer></div><script>
+
+function searchLearners(){
+
+const search =
+document.getElementById("search").value.toLowerCase();
+
+const learners =
+document.querySelectorAll(".learner");
+
+let found = false;
+
+learners.forEach(function(learner){
+
+const name =
+learner.querySelector(".name").textContent.toLowerCase();
+
+if(name.includes(search)){
+
+learner.style.display="block";
+found=true;
+
+}else{
+
+learner.style.display="none";
+
+}
+
+});
+
+document.getElementById("empty").style.display =
+found ? "none" : "block";
+
+}
+
+
+function messageLearner(){
+
+alert(
+"Messaging will be available when the Mule Learner Tuition communication system is connected."
+);
+
+}
+
+  <script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
+  
+</body>
+</html>

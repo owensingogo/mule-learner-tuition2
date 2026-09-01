@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>My Classes | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:18px;
+}
+
+.stat{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.stat-icon{
+font-size:22px;
+}
+
+.stat h3{
+font-size:19px;
+margin-top:6px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.class-card{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:12px;
+}
+
+.class-top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+}
+
+.class-info{
+display:flex;
+gap:10px;
+}
+
+.class-icon{
+width:45px;
+height:45px;
+border-radius:10px;
+background:#eef3ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+flex-shrink:0;
+}
+
+.class-name{
+font-size:15px;
+font-weight:800;
+}
+
+.subject{
+font-size:11px;
+color:#667085;
+margin-top:4px;
+}
+
+.badge{
+background:#ecfdf3;
+color:#027a48;
+padding:6px 9px;
+border-radius:20px;
+font-size:9px;
+font-weight:bold;
+white-space:nowrap;
+}
+
+.details{
+margin-top:13px;
+padding-top:12px;
+border-top:1px solid #edf0f5;
+}
+
+.detail{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+font-size:11px;
+}
+
+.label{
+color:#667085;
+}
+
+.value{
+font-weight:bold;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:13px;
+}
+
+.btn{
+flex:1;
+padding:10px;
+border:0;
+border-radius:8px;
+font-size:11px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.schedule{
+background:#eef3ff;
+color:#173b8f;
+}
+
+.live{
+background:#fff1f2;
+color:#b42318;
+}
+
+.empty{
+display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← Dashboard
+</a></header><div class="container"><div class="heading"><h1>
+My Classes 🏫
+</h1><p>
+View your assigned classes and manage your teaching schedule.
+</p></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
+🏫
+</div><h3>
+0
+</h3><p>
+Assigned Classes
+</p></div><div class="stat"><div class="stat-icon">
+👥
+</div><h3>
+0
+</h3><p>
+Total Learners
+</p></div><div class="stat"><div class="stat-icon">
+🔴
+</div><h3>
+0
+</h3><p>
+Live Classes
+</p></div></div><!-- CLASS LIST --><div id="classList"><!-- SAMPLE CLASS --><div class="class-card"><div class="class-top"><div class="class-info"><div class="class-icon">
+📐
+</div><div><div class="class-name">
+Grade 10 Mathematics
+</div><div class="subject">
+Mathematics
+</div></div></div><span class="badge">
+ASSIGNED
+</span></div><div class="details"><div class="detail"><span class="label">
+Learners
+</span><span class="value">
+0
+</span></div><div class="detail"><span class="label">
+Class Level
+</span><span class="value">
+Grade 10
+</span></div><div class="detail"><span class="label">
+Status
+</span><span class="value">
+Active
+</span></div></div><div class="actions"><button
+class="btn schedule"
+onclick="openSchedule()">
+
+📅 Schedule
+
+</button><button
+class="btn live"
+onclick="openLive()">
+
+🔴 Live Class
+
+</button></div></div></div><div class="empty" id="empty">No classes have been assigned to your teacher account yet.
+
+</div><div class="notice"><strong>
+👨‍🏫 Teacher Access
+</strong><br><br>
+
+Classes are assigned by the CEO. Teachers can manage
+their lessons and teaching activities inside classes
+assigned to them.
+
+Teachers cannot create unauthorized classes or assign
+themselves to classes.
+
+</div><footer>Mule Learner Tuition<br>
+
+Teacher Centre • Learn • Practice • Succeed
+
+</footer></div><script>
+
+function openSchedule(){
+
+window.location.href="schedule-class.html";
+
+}
+
+
+function openLive(){
+
+window.location.href="live-class.html";
+
+}
+
+  <script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
+  
+</body>
+</html>
