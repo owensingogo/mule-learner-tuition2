@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>CEO Dashboard | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.logout{
+border:1px solid rgba(255,255,255,.3);
+background:rgba(255,255,255,.12);
+color:white;
+padding:8px 11px;
+border-radius:7px;
+font-size:12px;
+}
+
+.hero{
+background:#173b8f;
+color:white;
+padding:10px 18px 25px;
+}
+
+.hero h1{
+font-size:23px;
+margin-bottom:5px;
+}
+
+.hero p{
+font-size:12px;
+opacity:.9;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:18px;
+}
+
+.section-title{
+font-size:16px;
+margin:4px 0 12px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:22px;
+}
+
+.stat{
+background:white;
+padding:16px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.stat-icon{
+font-size:23px;
+}
+
+.stat h3{
+font-size:20px;
+margin-top:7px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:11px;
+}
+
+.card{
+background:white;
+padding:17px 13px;
+border-radius:12px;
+text-decoration:none;
+color:#172033;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.card-icon{
+font-size:27px;
+margin-bottom:8px;
+}
+
+.card h3{
+font-size:14px;
+margin-bottom:4px;
+}
+
+.card p{
+font-size:11px;
+color:#667085;
+line-height:1.4;
+}
+
+.teach{
+grid-column:1 / -1;
+background:#173b8f;
+color:white;
+border:2px solid #173b8f;
+}
+
+.teach p{
+color:rgba(255,255,255,.85);
+}
+
+.teach .card-icon{
+font-size:30px;
+}
+
+.alert{
+margin-top:20px;
+background:#fff4db;
+color:#7a4f00;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+line-height:1.6;
+}
+
+.security{
+margin-top:15px;
+background:white;
+padding:16px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.stats{
+grid-template-columns:repeat(4,1fr);
+}
+
+.menu{
+grid-template-columns:repeat(3,1fr);
+}
+
+.teach{
+grid-column:auto;
+}
+
+}
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><button class="logout" onclick="logout()">
+Logout
+</button></header><div class="hero"><h1>
+CEO Control Centre 👑
+</h1><p>
+Manage the platform and step in as a teacher whenever necessary.
+</p></div><div class="container"><h2 class="section-title">
+Overview
+</h2><div class="stats"><div class="stat">
+<div class="stat-icon">👥</div>
+<h3>0</h3>
+<p>Total Learners</p>
+</div><div class="stat">
+<div class="stat-icon">👨‍🏫</div>
+<h3>0</h3>
+<p>Teachers</p>
+</div><div class="stat">
+<div class="stat-icon">💰</div>
+<h3>0</h3>
+<p>Pending Payments</p>
+</div><div class="stat">
+<div class="stat-icon">🔴</div>
+<h3>0</h3>
+<p>Live Classes</p>
+</div></div><h2 class="section-title">
+Teaching
+</h2><div class="menu"><a href="live-classes.html" class="card teach">
+<div class="card-icon">👑📚</div>
+<h3>Teach Learners</h3>
+<p>
+Enter teaching mode as CEO. Teach learners, start live classes,
+communicate with learners and take over a class when a teacher
+is unavailable.
+</p>
+</a></div><h2 class="section-title" style="margin-top:22px;">
+Management
+</h2><div class="menu"><a href="payments.html" class="card">
+<div class="card-icon">💰</div>
+<h3>Payments</h3>
+<p>Review, approve or reject learner payments.</p>
+</a><a href="payment-accounts.html" class="card">
+<div class="card-icon">💳</div>
+<h3>Payment Accounts</h3>
+<p>Manage Airtel Money, Zamtel Money and MTN MoMo accounts.</p>
+</a><a href="learners.html" class="card">
+<div class="card-icon">👥</div>
+<h3>Learners</h3>
+<p>View and manage registered learners.</p>
+</a><a href="teachers.html" class="card">
+<div class="card-icon">👨‍🏫</div>
+<h3>Teachers</h3>
+<p>Manage teachers and their accounts.</p>
+</a><a href="teacher-applications.html" class="card">
+<div class="card-icon">📋</div>
+<h3>Teacher Applications</h3>
+<p>Review applications and hire teachers.</p>
+</a><a href="subjects.html" class="card">
+<div class="card-icon">📚</div>
+<h3>Subjects</h3>
+<p>Add, edit and manage learning subjects.</p>
+</a><a href="classes.html" class="card">
+<div class="card-icon">🏫</div>
+<h3>Classes</h3>
+<p>Create classes and assign teachers.</p>
+</a><a href="live-classes.html" class="card">
+<div class="card-icon">🔴</div>
+<h3>Live Classes</h3>
+<p>Control scheduled live learning sessions.</p>
+</a><a href="materials.html" class="card">
+<div class="card-icon">📖</div>
+<h3>Learning Materials</h3>
+<p>Manage notes and study resources.</p>
+</a><a href="support.html" class="card">
+<div class="card-icon">💬</div>
+<h3>Customer Support</h3>
+<p>Manage learner questions and support requests.</p>
+</a><a href="reports.html" class="card">
+<div class="card-icon">📊</div>
+<h3>Reports</h3>
+<p>View platform activity and payment reports.</p>
+</a><a href="settings.html" class="card">
+<div class="card-icon">⚙️</div>
+<h3>Settings</h3>
+<p>Manage platform information and CEO controls.</p>
+</a></div><div class="alert"><strong>⚠️ Administration & Teaching Notice</strong>
+
+<br><br>
+
+The CEO has the highest level of access.
+
+The CEO may teach learners when necessary, especially when an
+approved teacher is unavailable, absent or unable to conduct a
+scheduled class.
+
+<br><br>
+
+Teacher hiring, payment approvals, suspensions and learner access
+remain under CEO control.
+
+</div><div class="security"><strong>🔐 CEO Security</strong>
+
+<br><br>
+
+The CEO account has higher permissions than teacher and learner
+accounts.
+
+<br><br>
+
+Teachers cannot approve their own applications, approve payments
+or manage other teachers.
+
+<br><br>
+
+Learners only have access to their own learning account.
+
+<br><br>
+
+The CEO can act as a backup teacher without needing teacher
+approval.
+
+</div><footer>Mule Learner Tuition
+<br>
+CEO Administration • Learn • Practice • Succeed
+
+</footer></div><script>
+
+function logout(){
+
+const confirmLogout =
+confirm("Are you sure you want to logout?");
+
+if(confirmLogout){
+
+localStorage.removeItem("muleCurrentUser");
+
+window.location.href="../login.html";
+
+}
+
+}
+
+</script><script src="../js/app.js"></script><script src="../js/ceo.js"></script></body>
+</html>
