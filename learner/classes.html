@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+
+<title>My Classes | Mule Learner Tuition</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:20px;
+}
+
+.heading h1{
+font-size:24px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:13px;
+color:#667085;
+}
+
+.class-card{
+background:white;
+padding:18px;
+border-radius:14px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:13px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+}
+
+.subject{
+font-size:18px;
+font-weight:800;
+color:#173b8f;
+}
+
+.status{
+font-size:10px;
+font-weight:bold;
+padding:6px 9px;
+border-radius:20px;
+background:#ecfdf3;
+color:#027a48;
+}
+
+.info{
+margin-top:13px;
+font-size:13px;
+color:#596579;
+line-height:1.7;
+}
+
+.info strong{
+color:#172033;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:15px;
+}
+
+button,
+.button{
+flex:1;
+border:0;
+padding:11px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+text-align:center;
+text-decoration:none;
+cursor:pointer;
+}
+
+.primary{
+background:#173b8f;
+color:white;
+}
+
+.secondary{
+background:#eef3ff;
+color:#173b8f;
+}
+
+.empty{
+background:white;
+padding:25px 18px;
+border-radius:14px;
+text-align:center;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.empty-icon{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.empty h3{
+font-size:17px;
+margin-bottom:7px;
+}
+
+.empty p{
+font-size:13px;
+color:#667085;
+}
+
+.note{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Mule Learner Tuition
+</div>
+
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
+
+</header>
+
+<div class="container">
+
+<div class="heading">
+
+<h1>My Classes 🏫</h1>
+
+<p>
+View your enrolled classes, teachers and schedules.
+</p>
+
+</div>
+
+<!-- SAMPLE CLASS -->
+
+<div class="class-card">
+
+<div class="top">
+
+<div class="subject">
+Mathematics
+</div>
+
+<div class="status">
+ACTIVE
+</div>
+
+</div>
+
+<div class="info">
+
+<strong>👨‍🏫 Teacher:</strong>
+Assigned Teacher
+
+<br>
+
+<strong>📅 Schedule:</strong>
+Monday & Wednesday
+
+<br>
+
+<strong>⏰ Time:</strong>
+17:00 – 18:00
+
+<br>
+
+<strong>📚 Class:</strong>
+Mathematics Class
+
+</div>
+
+<div class="actions">
+
+<a href="live-class.html" class="button primary">
+🔴 Live Class
+</a>
+
+<a href="materials.html" class="button secondary">
+📖 Materials
+</a>
+
+</div>
+
+</div>
+
+
+<!-- SECOND SAMPLE CLASS -->
+
+<div class="class-card">
+
+<div class="top">
+
+<div class="subject">
+ICT / Computer Studies
+</div>
+
+<div class="status">
+ACTIVE
+</div>
+
+</div>
+
+<div class="info">
+
+<strong>👨‍🏫 Teacher:</strong>
+Assigned Teacher
+
+<br>
+
+<strong>📅 Schedule:</strong>
+Tuesday & Thursday
+
+<br>
+
+<strong>⏰ Time:</strong>
+16:00 – 17:00
+
+<br>
+
+<strong>💻 Class:</strong>
+ICT Class
+
+</div>
+
+<div class="actions">
+
+<a href="live-class.html" class="button primary">
+🔴 Live Class
+</a>
+
+<a href="materials.html" class="button secondary">
+📖 Materials
+</a>
+
+</div>
+
+</div>
+
+
+<div class="note">
+
+<strong>💡 Important</strong>
+
+<br><br>
+
+Your classes will be assigned by Mule Learner Tuition.
+You must have valid learning access before joining paid
+classes and live lessons.
+
+</div>
+
+
+<footer>
+
+Mule Learner Tuition<br>
+Learn • Practice • Succeed
+
+</footer>
+
+</div>
+
+  <script src="../js/app.js"></script>
+<script src="../js/learner.js"></script>
+<script src="../js/classes.js"></script>
+</body>
+</html>

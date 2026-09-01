@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>My Subjects | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-weight:800;
+font-size:18px;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:20px;
+}
+
+.heading h1{
+font-size:24px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:13px;
+color:#667085;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.subject{
+background:white;
+padding:18px 14px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.icon{
+font-size:28px;
+margin-bottom:9px;
+}
+
+.subject h3{
+font-size:15px;
+margin-bottom:5px;
+}
+
+.subject p{
+font-size:12px;
+color:#667085;
+margin-bottom:13px;
+}
+
+.status{
+display:inline-block;
+background:#eef3ff;
+color:#173b8f;
+padding:5px 8px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold;
+}
+
+button{
+width:100%;
+margin-top:12px;
+border:0;
+background:#173b8f;
+color:white;
+padding:10px;
+border-radius:8px;
+font-weight:bold;
+font-size:12px;
+}
+
+.info{
+margin-top:20px;
+background:#fff;
+padding:16px;
+border-radius:12px;
+font-size:12px;
+color:#667085;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+.grid{
+grid-template-columns:repeat(3,1fr);
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Mule Learner Tuition
+</div>
+
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
+
+</header>
+
+<div class="container">
+
+<div class="heading">
+
+<h1>My Subjects 📚</h1>
+
+<p>
+Explore the subjects available at Mule Learner Tuition.
+</p>
+
+</div>
+
+<div class="grid">
+
+<div class="subject">
+
+<div class="icon">🔢</div>
+
+<h3>Mathematics</h3>
+
+<p>
+Build strong problem-solving and calculation skills.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('Mathematics')">
+Select Subject
+</button>
+
+</div>
+
+
+<div class="subject">
+
+<div class="icon">📖</div>
+
+<h3>English</h3>
+
+<p>
+Improve reading, writing, grammar and communication.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('English')">
+Select Subject
+</button>
+
+</div>
+
+
+<div class="subject">
+
+<div class="icon">🔬</div>
+
+<h3>Science</h3>
+
+<p>
+Understand the world through scientific learning.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('Science')">
+Select Subject
+</button>
+
+</div>
+
+
+<div class="subject">
+
+<div class="icon">💻</div>
+
+<h3>ICT / Computer Studies</h3>
+
+<p>
+Develop practical computer and technology skills.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('ICT / Computer Studies')">
+Select Subject
+</button>
+
+</div>
+
+
+<div class="subject">
+
+<div class="icon">🏛️</div>
+
+<h3>Civic Education</h3>
+
+<p>
+Learn about citizenship, society and responsibilities.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('Civic Education')">
+Select Subject
+</button>
+
+</div>
+
+
+<div class="subject">
+
+<div class="icon">🌍</div>
+
+<h3>Social Studies</h3>
+
+<p>
+Explore people, society, history and geography.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('Social Studies')">
+Select Subject
+</button>
+
+</div>
+
+
+<div class="subject">
+
+<div class="icon">🧬</div>
+
+<h3>Biology</h3>
+
+<p>
+Explore living organisms and biological systems.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('Biology')">
+Select Subject
+</button>
+
+</div>
+
+
+<div class="subject">
+
+<div class="icon">⚗️</div>
+
+<h3>Chemistry</h3>
+
+<p>
+Understand matter, reactions and chemical processes.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('Chemistry')">
+Select Subject
+</button>
+
+</div>
+
+
+<div class="subject">
+
+<div class="icon">⚡</div>
+
+<h3>Physics</h3>
+
+<p>
+Learn about energy, motion, forces and the universe.
+</p>
+
+<span class="status">AVAILABLE</span>
+
+<button onclick="selectSubject('Physics')">
+Select Subject
+</button>
+
+</div>
+
+</div>
+
+<div class="info">
+
+<strong>💡 How it works</strong>
+
+<br><br>
+
+Choose a subject, select your learning plan and complete
+the payment process. Your access will be activated after
+your payment has been verified by the Mule Learner Tuition CEO.
+
+</div>
+
+<footer>
+
+Mule Learner Tuition<br>
+Learn • Practice • Succeed
+
+</footer>
+
+</div>
+
+<script>
+
+function selectSubject(subject){
+
+alert(
+"You selected " + subject +
+".\n\nSubject enrolment and payment will be connected to your account in the next stage."
+);
+
+}
+
+<script src="../js/app.js"></script>
+<script src="../js/learner.js"></script>
+<script src="../js/subjects.js"></script>
+</body>
+</html>
