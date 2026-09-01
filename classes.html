@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
 
-<title>Classes | Mule Learner Tuition</title>
+<title>My Classes | Mule Learner Tuition</title>
 
 <style>
 *{
@@ -42,98 +42,32 @@ font-size:13px;
 }
 
 .container{
-max-width:900px;
+max-width:800px;
 margin:auto;
 padding:20px 16px;
 }
 
 .heading{
-margin-bottom:18px;
+margin-bottom:20px;
 }
 
 .heading h1{
-font-size:23px;
+font-size:24px;
 color:#173b8f;
 margin-bottom:5px;
 }
 
 .heading p{
-font-size:12px;
+font-size:13px;
 color:#667085;
-line-height:1.5;
-}
-
-.create{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:18px;
-}
-
-.create h2{
-font-size:15px;
-margin-bottom:12px;
-}
-
-input,select{
-width:100%;
-padding:12px;
-border:1px solid #d8deea;
-border-radius:8px;
-font-size:12px;
-outline:none;
-margin-bottom:9px;
-background:white;
-}
-
-.create-btn{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:12px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
-}
-
-.stat{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-}
-
-.stat-icon{
-font-size:22px;
-}
-
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
-
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
 }
 
 .class-card{
 background:white;
-padding:17px;
-border-radius:13px;
+padding:18px;
+border-radius:14px;
 box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
+margin-bottom:13px;
 }
 
 .top{
@@ -143,87 +77,85 @@ align-items:flex-start;
 gap:10px;
 }
 
-.class-name{
-font-size:15px;
-font-weight:800;
-}
-
 .subject{
-font-size:11px;
-color:#667085;
-margin-top:4px;
+font-size:18px;
+font-weight:800;
+color:#173b8f;
 }
 
-.badge{
+.status{
+font-size:10px;
+font-weight:bold;
 padding:6px 9px;
 border-radius:20px;
-font-size:9px;
-font-weight:bold;
 background:#ecfdf3;
 color:#027a48;
-white-space:nowrap;
 }
 
-.details{
+.info{
 margin-top:13px;
-border-top:1px solid #edf0f5;
-padding-top:10px;
+font-size:13px;
+color:#596579;
+line-height:1.7;
 }
 
-.row{
-display:flex;
-justify-content:space-between;
-gap:10px;
-padding:6px 0;
-font-size:12px;
-}
-
-.label{
-color:#667085;
-}
-
-.value{
-font-weight:700;
-text-align:right;
+.info strong{
+color:#172033;
 }
 
 .actions{
 display:flex;
 gap:8px;
-margin-top:13px;
+margin-top:15px;
 }
 
-button{
+button,
+.button{
 flex:1;
 border:0;
-padding:10px;
+padding:11px;
 border-radius:8px;
-font-size:11px;
+font-size:12px;
 font-weight:bold;
+text-align:center;
+text-decoration:none;
 cursor:pointer;
 }
 
-.view{
+.primary{
+background:#173b8f;
+color:white;
+}
+
+.secondary{
 background:#eef3ff;
 color:#173b8f;
 }
 
-.remove{
-background:#fee4e2;
-color:#b42318;
+.empty{
+background:white;
+padding:25px 18px;
+border-radius:14px;
+text-align:center;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
 }
 
-.empty{
-display:none;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
+.empty-icon{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.empty h3{
+font-size:17px;
+margin-bottom:7px;
+}
+
+.empty p{
+font-size:13px;
 color:#667085;
 }
 
-.notice{
+.note{
 margin-top:18px;
 background:#eef3ff;
 padding:15px;
@@ -239,14 +171,6 @@ font-size:11px;
 color:#667085;
 margin-top:25px;
 }
-
-@media(min-width:650px){
-
-.stats{
-grid-template-columns:repeat(3,1fr);
-}
-
-}
 </style>
 </head>
 
@@ -259,7 +183,7 @@ Mule Learner Tuition
 </div>
 
 <a href="dashboard.html" class="back">
-← CEO Dashboard
+← Dashboard
 </a>
 
 </header>
@@ -268,387 +192,144 @@ Mule Learner Tuition
 
 <div class="heading">
 
-<h1>Class Management 🏫</h1>
+<h1>My Classes 🏫</h1>
 
 <p>
-Create classes and prepare them for teacher and learner access.
+View your enrolled classes, teachers and schedules.
 </p>
 
 </div>
 
-<div class="create">
-
-<h2>Create New Class</h2>
-
-<input
-type="text"
-id="className"
-placeholder="Class name e.g. Grade 7 Mathematics"
-maxlength="60"
->
-
-<input
-type="text"
-id="subject"
-placeholder="Subject e.g. Mathematics"
-maxlength="40"
->
-
-<input
-type="text"
-id="teacher"
-placeholder="Assigned teacher"
-maxlength="50"
->
-
-<select id="classType">
-
-<option value="">
-Select class type
-</option>
-
-<option>Regular Class</option>
-<option>Live Class</option>
-
-</select>
-
-<button
-class="create-btn"
-onclick="createClass()"
->
-+ Create Class
-</button>
-
-</div>
-
-<div class="stats">
-
-<div class="stat">
-
-<div class="stat-icon">🏫</div>
-
-<h3 id="total">0</h3>
-
-<p>Total Classes</p>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">🟢</div>
-
-<h3 id="active">0</h3>
-
-<p>Active Classes</p>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">👨‍🏫</div>
-
-<h3 id="assigned">0</h3>
-
-<p>Assigned Teachers</p>
-
-</div>
-
-</div>
-
-<div id="classList">
+<!-- SAMPLE CLASS -->
 
 <div class="class-card">
 
 <div class="top">
 
-<div>
-
-<div class="class-name">
-No classes created
-</div>
-
 <div class="subject">
-Create your first class above.
+Mathematics
 </div>
 
-</div>
-
-<span class="badge">
-READY
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="empty" class="empty">
-No classes available.
-</div>
-
-<div class="notice">
-
-<strong>🔐 CEO Class Control</strong>
-
-<br><br>
-
-The CEO controls the classes available on Mule Learner
-Tuition.
-
-Teachers can be assigned to classes by the CEO.
-Learners will later be able to see and join classes
-that are available to their accounts.
-
-Live classes will use the class information created
-here when the live-learning system is connected.
-
-</div>
-
-<footer>
-
-Mule Learner Tuition
-<br>
-CEO Administration • Learn • Practice • Succeed
-
-</footer>
-
-</div>
-
-<script>
-
-function updateCounts(){
-
-const cards=
-document.querySelectorAll(
-"#classList .class-card"
-);
-
-let realClasses=0;
-let assigned=0;
-
-cards.forEach(function(card){
-
-if(card.dataset.real==="true"){
-
-realClasses++;
-
-const teacher=
-card.dataset.teacher || "";
-
-if(teacher.trim()!==""){
-assigned++;
-}
-
-}
-
-});
-
-document.getElementById("total").textContent=
-realClasses;
-
-document.getElementById("active").textContent=
-realClasses;
-
-document.getElementById("assigned").textContent=
-assigned;
-
-document.getElementById("empty").style.display=
-realClasses===0 ? "block" : "none";
-
-}
-
-function createClass(){
-
-const name=
-document.getElementById("className")
-.value.trim();
-
-const subject=
-document.getElementById("subject")
-.value.trim();
-
-const teacher=
-document.getElementById("teacher")
-.value.trim();
-
-const type=
-document.getElementById("classType")
-.value;
-
-if(name===""){
-
-alert("Please enter a class name.");
-return;
-
-}
-
-if(subject===""){
-
-alert("Please enter the subject.");
-return;
-
-}
-
-if(type===""){
-
-alert("Please select a class type.");
-return;
-
-}
-
-const list=
-document.getElementById("classList");
-
-const first=
-list.querySelector(".class-card");
-
-if(first && first.dataset.real!=="true"){
-
-first.remove();
-
-}
-
-const card=
-document.createElement("div");
-
-card.className="class-card";
-
-card.dataset.real="true";
-
-card.dataset.teacher=teacher;
-
-card.innerHTML=`
-
-<div class="top">
-
-<div>
-
-<div class="class-name">
-${escapeHTML(name)}
-</div>
-
-<div class="subject">
-${escapeHTML(subject)} • ${escapeHTML(type)}
-</div>
-
-</div>
-
-<span class="badge">
+<div class="status">
 ACTIVE
-</span>
+</div>
 
 </div>
 
-<div class="details">
+<div class="info">
 
-<div class="row">
+<strong>👨‍🏫 Teacher:</strong>
+Assigned Teacher
 
-<span class="label">
-Teacher
-</span>
+<br>
 
-<span class="value">
-${teacher ? escapeHTML(teacher) : "Not Assigned"}
-</span>
+<strong>📅 Schedule:</strong>
+Monday & Wednesday
 
-</div>
+<br>
 
-<div class="row">
+<strong>⏰ Time:</strong>
+17:00 – 18:00
 
-<span class="label">
-Class Type
-</span>
+<br>
 
-<span class="value">
-${escapeHTML(type)}
-</span>
-
-</div>
+<strong>📚 Class:</strong>
+Mathematics Class
 
 </div>
 
 <div class="actions">
 
-<button
-class="view"
-onclick="viewClass(this)"
->
-👁 View
-</button>
+<a href="live-class.html" class="button primary">
+🔴 Live Class
+</a>
 
-<button
-class="remove"
-onclick="removeClass(this)"
->
-Remove
-</button>
+<a href="materials.html" class="button secondary">
+📖 Materials
+</a>
 
 </div>
 
-`;
+</div>
 
-list.appendChild(card);
 
-document.getElementById("className").value="";
-document.getElementById("subject").value="";
-document.getElementById("teacher").value="";
-document.getElementById("classType").value="";
+<!-- SECOND SAMPLE CLASS -->
 
-updateCounts();
+<div class="class-card">
 
-}
+<div class="top">
 
-function viewClass(button){
+<div class="subject">
+ICT / Computer Studies
+</div>
 
-const card=
-button.closest(".class-card");
+<div class="status">
+ACTIVE
+</div>
 
-const name=
-card.querySelector(".class-name")
-.textContent;
+</div>
 
-alert(
-"Class: " + name +
-"\n\nFull class management will be available when the database is connected."
-);
+<div class="info">
 
-}
+<strong>👨‍🏫 Teacher:</strong>
+Assigned Teacher
 
-function removeClass(button){
+<br>
 
-const confirmRemove=
-confirm("Remove this class?");
+<strong>📅 Schedule:</strong>
+Tuesday & Thursday
 
-if(!confirmRemove){
-return;
-}
+<br>
 
-button
-.closest(".class-card")
-.remove();
+<strong>⏰ Time:</strong>
+16:00 – 17:00
 
-updateCounts();
+<br>
 
-}
+<strong>💻 Class:</strong>
+ICT Class
 
-function escapeHTML(text){
+</div>
 
-const div=
-document.createElement("div");
+<div class="actions">
 
-div.textContent=text;
+<a href="live-class.html" class="button primary">
+🔴 Live Class
+</a>
 
-return div.innerHTML;
+<a href="materials.html" class="button secondary">
+📖 Materials
+</a>
 
-}
+</div>
 
-updateCounts();
+</div>
 
-</script>
 
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
+<div class="note">
 
+<strong>💡 Important</strong>
+
+<br><br>
+
+Your classes will be assigned by Mule Learner Tuition.
+You must have valid learning access before joining paid
+classes and live lessons.
+
+</div>
+
+
+<footer>
+
+Mule Learner Tuition<br>
+Learn • Practice • Succeed
+
+</footer>
+
+</div>
+
+  <script src="../js/app.js"></script>
+<script src="../js/learner.js"></script>
+<script src="../js/classes.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Support | Mule Learner Tuition</title><style>
+<meta name="theme-color" content="#173b8f"><title>Customer Support | Mule Learner Tuition</title><style>
 *{
 box-sizing:border-box;
 margin:0;
@@ -37,180 +37,88 @@ font-size:13px;
 }
 
 .container{
-max-width:900px;
+max-width:650px;
 margin:auto;
 padding:20px 16px;
 }
 
-.heading{
-margin-bottom:18px;
-}
-
 .heading h1{
-font-size:23px;
+font-size:24px;
 color:#173b8f;
-margin-bottom:5px;
+margin-bottom:6px;
 }
 
 .heading p{
-font-size:12px;
+font-size:13px;
 color:#667085;
 line-height:1.5;
+margin-bottom:20px;
 }
 
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
-}
-
-.stat{
+.card{
 background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-}
-
-.stat-icon{
-font-size:22px;
-}
-
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
-
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.support-card{
-background:white;
-padding:17px;
-border-radius:13px;
+padding:20px;
+border-radius:14px;
 box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
+margin-bottom:14px;
 }
 
-.top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:10px;
+.card h2{
+font-size:18px;
+margin-bottom:8px;
 }
 
-.identity{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
-.avatar{
-width:44px;
-height:44px;
-border-radius:50%;
-background:#eef3ff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-flex-shrink:0;
-}
-
-.name{
-font-size:15px;
-font-weight:800;
-}
-
-.phone{
-font-size:11px;
+.card p{
+font-size:13px;
 color:#667085;
-margin-top:3px;
-}
-
-.badge{
-padding:6px 9px;
-border-radius:20px;
-font-size:9px;
-font-weight:bold;
-background:#fff4db;
-color:#9a6700;
-white-space:nowrap;
-}
-
-.message{
-margin-top:14px;
-border-top:1px solid #edf0f5;
-padding-top:12px;
-font-size:12px;
 line-height:1.6;
-color:#475467;
-}
-
-.meta{
-margin-top:10px;
-font-size:10px;
-color:#98a2b3;
-}
-
-.actions{
-display:flex;
-gap:8px;
-margin-top:13px;
-}
-
-button{
-flex:1;
-border:0;
-padding:10px;
-border-radius:8px;
-font-size:11px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.reply{
-background:#173b8f;
-color:white;
-}
-
-.resolve{
-background:#ecfdf3;
-color:#027a48;
-}
-
-.empty{
-display:none;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
-color:#667085;
 }
 
 .whatsapp{
-margin-top:18px;
-background:#ecfdf3;
-padding:16px;
-border-radius:11px;
-font-size:12px;
-color:#027a48;
-line-height:1.6;
+display:block;
+margin-top:15px;
+background:#25d366;
+color:white;
+text-decoration:none;
+padding:13px;
+border-radius:9px;
+text-align:center;
+font-size:13px;
+font-weight:bold;
 }
 
-.whatsapp button{
-margin-top:10px;
-background:#027a48;
-color:white;
-width:100%;
+.phone{
+display:block;
+margin-top:9px;
+background:#eef3ff;
+color:#173b8f;
+text-decoration:none;
+padding:13px;
+border-radius:9px;
+text-align:center;
+font-size:13px;
+font-weight:bold;
+}
+
+.issue{
+border-top:1px solid #edf0f5;
+padding:13px 0;
+}
+
+.issue:first-of-type{
+border-top:0;
+}
+
+.issue strong{
+font-size:13px;
+}
+
+.issue p{
+font-size:12px;
+margin-top:4px;
 }
 
 .notice{
-margin-top:15px;
 background:#eef3ff;
 padding:15px;
 border-radius:11px;
@@ -225,157 +133,75 @@ font-size:11px;
 color:#667085;
 margin-top:25px;
 }
-
-@media(min-width:650px){
-
-.stats{
-grid-template-columns:repeat(3,1fr);
-}
-
-}
 </style></head><body><header><div class="logo">
 Mule Learner Tuition
 </div><a href="dashboard.html" class="back">
-← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>Customer Support 💬</h1><p>
-Manage learner questions, payment problems and support requests.
-</p></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-💬
-</div><h3 id="total">
-1
-</h3><p>Total Requests</p></div><div class="stat"><div class="stat-icon">
-⏳
-</div><h3 id="pending">
-1
-</h3><p>Pending</p></div><div class="stat"><div class="stat-icon">
-✅
-</div><h3 id="resolved">
-0
-</h3><p>Resolved</p></div></div><!-- SUPPORT REQUEST --><div id="supportList"><div class="support-card"><div class="top"><div class="identity"><div class="avatar">
-👤
-</div><div><div class="name">
-Learner
-</div><div class="phone">
-Phone: Not Available
-</div></div></div><span class="badge">
-PENDING
-</span></div><div class="message"><strong>Support Request</strong>
+← Dashboard
+</a></header><div class="container"><div class="heading"><h1>Customer Support 📞</h1><p>
+We are here to help you with your learning account,
+payments and classes.
+</p></div><!-- CONTACT --><div class="card"><h2>💬 Contact Us</h2><p>
+If you need assistance, contact Mule Learner Tuition
+through WhatsApp. This is especially useful when
+support is offline on the application.
+</p><a
+href="https://wa.me/260978362800"
+class="whatsapp">
+
+💬 Chat on WhatsApp
+</a>
+
+<a
+href="tel:+260978362800"
+class="phone">
+
+📞 Call 0978362800
+</a>
+
+</div><!-- PAYMENT HELP --><div class="card"><h2>💰 Payment Assistance</h2><div class="issue"><strong>Payment made but access is not active?</strong>
+
+<p>
+Contact support and provide your registered learner
+name and the payment details so your payment can
+be checked.
+</p></div><div class="issue"><strong>Not sure how to pay?</strong>
+
+<p>
+Open the Payments page to see the available learning
+plans and payment accounts.
+</p></div></div><!-- LEARNING HELP --><div class="card"><h2>📚 Learning Assistance</h2><div class="issue"><strong>Cannot access your class?</strong>
+
+<p>
+Make sure your learning access has been approved.
+If the problem continues, contact support.
+</p></div><div class="issue"><strong>Cannot join a live class?</strong>
+
+<p>
+Check your internet connection and confirm that the
+lesson is currently scheduled. If you still cannot
+join, contact support.
+</p></div><div class="issue"><strong>Missing learning materials?</strong>
+
+<p>
+Materials depend on your enrolled subjects and classes.
+Contact support if you believe something is missing.
+</p></div></div><!-- IMPORTANT --><div class="notice"><strong>🕐 When support is offline</strong>
 
 <br><br>
 
-No support request has been received yet.
+If customer service is currently offline inside the
+application, please use WhatsApp:
 
-This is an example support ticket. Actual learner
-requests will appear here when the platform database
-is connected.
+<strong>0978362800</strong>
 
-</div><div class="meta">
-Category: General Support
-</div><div class="actions"><button
-class="reply"
-onclick="replySupport()">
-
-💬 Reply
-
-</button><button
-class="resolve"
-onclick="resolveSupport(this)">
-
-✓ Resolve
-
-</button></div></div></div><div id="empty" class="empty">No support requests available.
-
-</div><!-- WHATSAPP --><div class="whatsapp"><strong>📱 CEO WhatsApp Support</strong>
-
-<br><br>
-
-Learners who have paid but need urgent assistance
-can contact Mule Learner Tuition through WhatsApp.
-
-<br><br>
-
-<strong>0978 362 800</strong>
-
-<button onclick="openWhatsApp()">Open WhatsApp
-
-</button></div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Support Control</strong>
-
-<br><br>
-
-The CEO can monitor and respond to learner support
-requests.
-
-Payment-related problems should be checked against
-the payment records before learner access is approved.
-
-Learners should never be asked to pay an unofficial
-account.
+We will assist you as soon as possible.
 
 </div><footer>Mule Learner Tuition<br>
-CEO Administration • Learn • Practice • Succeed
+Learn • Practice • Succeed
 
-</footer></div><script>
+  <script src="../js/app.js"></script>
+<script src="../js/learner.js"></script>
+<script src="../js/support.js"></script>
 
-let resolved=0;
-
-
-function replySupport(){
-
-alert(
-"Reply messaging will be connected to the support system later."
-);
-
-}
-
-
-function resolveSupport(button){
-
-if(!confirm("Mark this support request as resolved?")){
-return;
-}
-
-const card=
-button.closest(".support-card");
-
-const badge=
-card.querySelector(".badge");
-
-badge.textContent="RESOLVED";
-badge.style.background="#ecfdf3";
-badge.style.color="#027a48";
-
-button.textContent="✓ Resolved";
-button.disabled=true;
-
-const reply=
-card.querySelector(".reply");
-
-reply.style.display="none";
-
-resolved++;
-
-document.getElementById("resolved")
-.textContent=resolved;
-
-document.getElementById("pending")
-.textContent="0";
-
-}
-
-
-function openWhatsApp(){
-
-window.open(
-"https://wa.me/260978362800",
-"_blank"
-);
-
-}
-
-</script>
-  
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
-  
-</body>
+</footer></div></body>
 </html>
