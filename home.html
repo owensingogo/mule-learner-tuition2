@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+
+<title>Home | Mule Learner Tuition</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f8ff;
+  color:#172033;
+  line-height:1.6;
+}
+
+header{
+  background:#173b8f;
+  color:#fff;
+  padding:15px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:19px;
+  font-weight:800;
+}
+
+.back{
+  color:#fff;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.hero{
+  background:linear-gradient(135deg,#173b8f,#245bc7);
+  color:white;
+  text-align:center;
+  padding:45px 20px;
+}
+
+.hero h1{
+  font-size:30px;
+  line-height:1.2;
+  margin-bottom:12px;
+}
+
+.hero p{
+  font-size:15px;
+  max-width:600px;
+  margin:auto;
+  opacity:.95;
+}
+
+section{
+  max-width:850px;
+  margin:auto;
+  padding:35px 20px;
+}
+
+.title{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.title h2{
+  color:#173b8f;
+  font-size:24px;
+}
+
+.title p{
+  color:#667085;
+  font-size:14px;
+}
+
+.box{
+  background:#fff;
+  padding:22px;
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(20,50,100,.07);
+}
+
+.box p{
+  color:#596579;
+  font-size:15px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.card{
+  background:#fff;
+  padding:18px 14px;
+  border-radius:12px;
+  box-shadow:0 4px 14px rgba(20,50,100,.07);
+}
+
+.card .icon{
+  font-size:25px;
+}
+
+.card h3{
+  font-size:16px;
+  margin:8px 0 4px;
+}
+
+.card p{
+  color:#667085;
+  font-size:13px;
+}
+
+.subjects{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  justify-content:center;
+}
+
+.subject{
+  background:#eaf0ff;
+  color:#173b8f;
+  padding:9px 13px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.plans{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.plan{
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  display:flex;
+  justify-content:space-between;
+  box-shadow:0 3px 12px rgba(20,50,100,.06);
+}
+
+.plan strong{
+  color:#173b8f;
+}
+
+.support{
+  background:#173b8f;
+  color:white;
+  text-align:center;
+  border-radius:15px;
+  padding:28px 20px;
+}
+
+.support p{
+  font-size:14px;
+  opacity:.92;
+}
+
+.whatsapp{
+  display:inline-block;
+  margin-top:18px;
+  padding:13px 20px;
+  background:#25d366;
+  color:white;
+  text-decoration:none;
+  border-radius:9px;
+  font-weight:700;
+}
+
+footer{
+  background:#101d3d;
+  color:#bfc8dc;
+  text-align:center;
+  padding:25px 15px;
+  font-size:13px;
+}
+
+footer strong{
+  color:white;
+}
+
+@media(min-width:650px){
+  .hero h1{
+    font-size:42px;
+  }
+
+  .grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Mule Learner Tuition</div>
+  <a href="index.html" class="back">← Back</a>
+</header>
+
+<div class="hero">
+
+  <h1>Welcome to Mule Learner Tuition</h1>
+
+  <p>
+    Learn with confidence. Practise with purpose.
+    Succeed through knowledge.
+  </p>
+
+</div>
+
+<section>
+
+  <div class="title">
+    <h2>Our Story</h2>
+  </div>
+
+  <div class="box">
+
+    <p>
+      Mule Learner Tuition was created to make quality learning
+      more accessible, convenient and affordable for learners.
+    </p>
+
+    <br>
+
+    <p>
+      We believe that every learner has the ability to improve
+      when given the right guidance, supportive teachers and
+      the opportunity to practise consistently.
+    </p>
+
+    <br>
+
+    <p>
+      Our platform brings learners and teachers together through
+      structured classes, learning materials and live lessons,
+      allowing learners to continue their education from wherever
+      they are.
+    </p>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="title">
+    <h2>Why Choose Us?</h2>
+    <p>Learning designed around the learner.</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="icon">👨‍🏫</div>
+      <h3>Dedicated Teachers</h3>
+      <p>
+        Learn from teachers committed to helping learners
+        understand and improve.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🔴</div>
+      <h3>Live Classes</h3>
+      <p>
+        Participate in live lessons and interact with your teacher.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">📚</div>
+      <h3>Learning Materials</h3>
+      <p>
+        Access notes and useful resources to support your studies.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">💰</div>
+      <h3>Affordable Plans</h3>
+      <p>
+        Flexible plans make quality learning more accessible.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="title">
+    <h2>Subjects</h2>
+    <p>Learn subjects that matter.</p>
+  </div>
+
+  <div class="subjects">
+
+    <span class="subject">Mathematics</span>
+    <span class="subject">English</span>
+    <span class="subject">Science</span>
+    <span class="subject">ICT / Computer Studies</span>
+    <span class="subject">Civic Education</span>
+    <span class="subject">Social Studies</span>
+    <span class="subject">Biology</span>
+    <span class="subject">Chemistry</span>
+    <span class="subject">Physics</span>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="title">
+    <h2>Learning Plans</h2>
+    <p>Choose what works for you.</p>
+  </div>
+
+  <div class="plans">
+
+    <div class="plan">
+      <span>🆓 Free Trial — 6 Hours</span>
+      <strong>FREE</strong>
+    </div>
+
+    <div class="plan">
+      <span>⏱️ 6 Hours</span>
+      <strong>K5</strong>
+    </div>
+
+    <div class="plan">
+      <span>📅 Daily — 1 Day</span>
+      <strong>K10</strong>
+    </div>
+
+    <div class="plan">
+      <span>📆 Weekly — 7 Days</span>
+      <strong>K45</strong>
+    </div>
+
+    <div class="plan">
+      <span>🗓️ Monthly — 30 Days</span>
+      <strong>K180</strong>
+    </div>
+
+  </div>
+
+</section>
+
+<section>
+
+  <div class="support">
+
+    <h2>Need Help?</h2>
+
+    <br>
+
+    <p>
+      Have you paid but your account has not been activated?
+      Are you having problems joining a class?
+      Our customer support is ready to help.
+    </p>
+
+    <a
+      href="https://wa.me/260978362800"
+      class="whatsapp">
+      💬 Contact Us on WhatsApp
+    </a>
+
+    <p style="margin-top:12px;">
+      WhatsApp: 0978362800
+    </p>
+
+    <p style="margin-top:8px;">
+      If we are offline on the app, please contact us on WhatsApp.
+    </p>
+
+  </div>
+
+</section>
+
+<footer>
+
+  <strong>Mule Learner Tuition</strong>
+
+  <br>
+
+  Learn • Practice • Succeed
+
+  <br><br>
+
+  © 2026 Mule Learner Tuition. All rights reserved.
+
+</footer>
+
+</body>
+</html>

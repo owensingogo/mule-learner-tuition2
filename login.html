@@ -1,0 +1,375 @@
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Login | Mule Learner Tuition</title><style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:430px;
+}
+
+.logo{
+text-align:center;
+margin-bottom:22px;
+}
+
+.logo h1{
+color:#173b8f;
+font-size:25px;
+}
+
+.logo p{
+color:#667085;
+font-size:13px;
+margin-top:4px;
+}
+
+.card{
+background:#fff;
+padding:25px 20px;
+border-radius:16px;
+box-shadow:0 8px 30px rgba(20,50,100,.10);
+}
+
+h2{
+font-size:22px;
+margin-bottom:6px;
+}
+
+.subtitle{
+color:#667085;
+font-size:13px;
+margin-bottom:20px;
+}
+
+.roles{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-bottom:20px;
+}
+
+.role{
+border:1px solid #d8deea;
+background:#fff;
+border-radius:10px;
+padding:12px 5px;
+text-align:center;
+cursor:pointer;
+font-size:12px;
+font-weight:700;
+color:#475467;
+}
+
+.role span{
+display:block;
+font-size:22px;
+margin-bottom:5px;
+}
+
+.role.active{
+background:#eaf0ff;
+border-color:#173b8f;
+color:#173b8f;
+}
+
+label{
+display:block;
+font-size:13px;
+font-weight:700;
+margin-bottom:7px;
+}
+
+input{
+width:100%;
+padding:13px;
+border:1px solid #d8deea;
+border-radius:9px;
+font-size:15px;
+outline:none;
+margin-bottom:16px;
+}
+
+input:focus{
+border-color:#173b8f;
+}
+
+.password-box{
+position:relative;
+}
+
+.password-box input{
+padding-right:65px;
+}
+
+.show{
+position:absolute;
+right:12px;
+top:13px;
+border:0;
+background:none;
+color:#173b8f;
+font-weight:700;
+cursor:pointer;
+}
+
+button.login{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:14px;
+border-radius:9px;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+}
+
+button.login:active{
+transform:scale(.98);
+}
+
+.links{
+text-align:center;
+margin-top:18px;
+font-size:13px;
+}
+
+.links a{
+color:#173b8f;
+font-weight:700;
+text-decoration:none;
+}
+
+.notice{
+margin-top:16px;
+padding:11px;
+background:#f5f7fa;
+border-radius:8px;
+font-size:12px;
+color:#667085;
+text-align:center;
+}
+
+.back{
+display:block;
+text-align:center;
+margin-top:18px;
+color:#667085;
+font-size:13px;
+text-decoration:none;
+}
+
+#error{
+display:none;
+background:#fff0f0;
+color:#b42318;
+padding:10px;
+border-radius:8px;
+font-size:12px;
+margin-bottom:15px;
+text-align:center;
+}
+
+</style></head><body><div class="container"><div class="logo"><h1>Mule Learner Tuition</h1><p>
+📚 Learn • Practice • Succeed
+</p></div><div class="card"><h2>
+Welcome Back
+</h2><p class="subtitle">
+Login to continue your learning journey.
+</p><div class="roles"><div
+class="role active"
+onclick="selectRole('learner',this)"><span>🎓</span>
+Learner
+
+</div><div
+class="role"
+onclick="selectRole('teacher',this)"><span>👨‍🏫</span>
+Teacher
+
+</div><div
+class="role"
+onclick="selectRole('ceo',this)"><span>👑</span>
+CEO
+
+</div></div><div id="error">
+Please enter your phone number and password.
+</div><form onsubmit="handleLogin(event)"><label>
+Phone Number
+</label><input
+type="tel"
+id="phone"
+placeholder="e.g. 0971234567"
+autocomplete="tel"
+required>
+
+<label>
+Password
+</label><div class="password-box"><input
+type="password"
+id="password"
+placeholder="Enter your password"
+autocomplete="current-password"
+required>
+
+<button
+type="button"
+class="show"
+onclick="togglePassword()">
+
+Show
+
+</button></div><button
+class="login"
+type="submit">
+
+Login
+
+</button></form><div class="links"><p>
+Don't have a learner account?
+<a href="register.html">
+Register
+</a>
+</p><br><p>
+Want to become a teacher?
+<a href="teacher-register.html">
+Apply as Teacher
+</a>
+</p></div><div class="notice">🔐 Your account information should always be kept private.
+
+</div><a
+href="index.html"
+class="back">
+
+← Back to Home
+
+</a></div></div><script>
+
+let selectedRole = "learner";
+
+function selectRole(role,element){
+
+selectedRole = role;
+
+document
+.querySelectorAll(".role")
+.forEach(function(item){
+
+item.classList.remove("active");
+
+});
+
+element.classList.add("active");
+
+}
+
+function togglePassword(){
+
+const password =
+document.getElementById("password");
+
+const button =
+document.querySelector(".show");
+
+if(password.type === "password"){
+
+password.type = "text";
+
+button.textContent = "Hide";
+
+}else{
+
+password.type = "password";
+
+button.textContent = "Show";
+
+}
+
+}
+
+function handleLogin(event){
+
+event.preventDefault();
+
+const phone =
+document.getElementById("phone").value.trim();
+
+const password =
+document.getElementById("password").value.trim();
+
+const error =
+document.getElementById("error");
+
+if(!phone || !password){
+
+error.textContent =
+"Please enter your phone number and password.";
+
+error.style.display = "block";
+
+return;
+
+}
+
+error.style.display = "none";
+
+/*
+Authentication is handled by auth.js.
+If auth.js provides login(), use it.
+*/
+
+if(typeof login === "function"){
+
+login(event,selectedRole);
+
+}else{
+
+/*
+Temporary navigation until the
+real authentication backend is connected.
+*/
+
+if(selectedRole === "learner"){
+
+window.location.href =
+"learner/dashboard.html";
+
+}
+
+else if(selectedRole === "teacher"){
+
+window.location.href =
+"teacher/dashboard.html";
+
+}
+
+else if(selectedRole === "ceo"){
+
+window.location.href =
+"ceo/dashboard.html";
+
+}
+
+}
+
+}
+
+</script><script src="js/auth.js"></script></body>
+</html>

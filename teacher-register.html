@@ -1,0 +1,506 @@
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f"><title>Teacher Application | Mule Learner Tuition</title><style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:470px;
+margin:auto;
+}
+
+.logo{
+text-align:center;
+margin:12px 0 20px;
+}
+
+.logo h1{
+color:#173b8f;
+font-size:24px;
+}
+
+.logo p{
+color:#667085;
+font-size:13px;
+margin-top:4px;
+}
+
+.card{
+background:white;
+padding:24px 20px;
+border-radius:16px;
+box-shadow:0 8px 30px rgba(20,50,100,.10);
+}
+
+h2{
+font-size:22px;
+margin-bottom:6px;
+}
+
+.intro{
+font-size:13px;
+color:#667085;
+margin-bottom:20px;
+}
+
+label{
+display:block;
+font-size:13px;
+font-weight:700;
+margin-bottom:7px;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:13px;
+border:1px solid #d8deea;
+border-radius:9px;
+font-size:15px;
+outline:none;
+margin-bottom:16px;
+font-family:Arial,sans-serif;
+background:white;
+}
+
+textarea{
+min-height:90px;
+resize:vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:#173b8f;
+}
+
+.optional{
+font-size:11px;
+font-weight:normal;
+color:#667085;
+}
+
+.password-box{
+position:relative;
+}
+
+.password-box input{
+padding-right:65px;
+}
+
+.show{
+position:absolute;
+right:12px;
+top:13px;
+border:0;
+background:none;
+color:#173b8f;
+font-weight:700;
+cursor:pointer;
+width:auto;
+padding:0;
+}
+
+.notice{
+background:#eef3ff;
+padding:12px;
+border-radius:9px;
+font-size:12px;
+color:#475467;
+line-height:1.5;
+margin-bottom:18px;
+}
+
+button.submit{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:14px;
+border-radius:9px;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+}
+
+button.submit:active{
+transform:scale(.98);
+}
+
+.error{
+display:none;
+background:#fff0f0;
+color:#b42318;
+padding:10px;
+border-radius:8px;
+font-size:12px;
+margin-bottom:15px;
+}
+
+.success{
+display:none;
+background:#ecfdf3;
+color:#027a48;
+padding:14px;
+border-radius:8px;
+font-size:13px;
+margin-bottom:15px;
+text-align:center;
+line-height:1.5;
+}
+
+.links{
+text-align:center;
+font-size:13px;
+margin-top:18px;
+}
+
+.links a{
+color:#173b8f;
+font-weight:700;
+text-decoration:none;
+}
+
+.back{
+display:block;
+text-align:center;
+margin:18px 0;
+color:#667085;
+font-size:13px;
+text-decoration:none;
+}
+
+</style></head><b><div class="container"><div class="logo"><h1>
+Mule Learner Tuition
+</h1><p>
+📚 Learn • Practice • Succeed
+</p></div><div class="card"><h2>
+Teacher Application
+</h2><p class="intro">
+Join our teaching team and help learners achieve their goals.
+</p><div id="error" class="error"></div><div id="success" class="success"></div><form onsubmit="submitApplication(event)"><label>
+Full Name
+</label><input
+type="text"
+id="name"
+placeholder="Enter your full name"
+autocomplete="name"
+required>
+
+<label>
+Phone Number
+</label><input
+type="tel"
+id="phone"
+placeholder="e.g. 0971234567"
+autocomplete="tel"
+required>
+
+<label>
+Email <span class="optional">(Optional)</span>
+</label><input
+type="email"
+id="email"
+placeholder="example@email.com"
+autocomplete="email">
+
+<label>
+Subject You Teach
+</label><select id="subject" required><option value="">
+Select subject
+</option><option value="Mathematics">
+Mathematics
+</option><option value="English">
+English
+</option><option value="Science">
+Science
+</option><option value="ICT / Computer Studies">
+ICT / Computer Studies
+</option><option value="Civic Education">
+Civic Education
+</option><option value="Social Studies">
+Social Studies
+</option><option value="Biology">
+Biology
+</option><option value="Chemistry">
+Chemistry
+</option><option value="Physics">
+Physics
+</option><option value="Other">
+Other
+</option></select><label>
+Highest Qualification
+</label><input
+type="text"
+id="qualification"
+placeholder="e.g. Diploma in Education"
+required>
+
+<label>
+Teaching Experience
+</label><textarea
+id="experience"
+placeholder="Briefly describe your teaching experience"
+required></textarea><label>
+Create Password
+</label><div class="password-box"><input
+type="password"
+id="password"
+placeholder="Create a password"
+autocomplete="new-password"
+required>
+
+<button
+type="button"
+class="show"
+onclick="togglePassword('password',this)">
+
+Show
+
+</button></div><label>
+Confirm Password
+</label><div class="password-box"><input
+type="password"
+id="confirm"
+placeholder="Confirm your password"
+autocomplete="new-password"
+required>
+
+<button
+type="button"
+class="show"
+onclick="togglePassword('confirm',this)">
+
+Show
+
+</button></div><div class="notice">👑 <strong>Important:</strong>
+Your application will be reviewed by the Mule Learner Tuition CEO.
+You cannot start teaching until your application has been approved.
+
+</div><button
+class="submit"
+type="submit">
+
+Submit Teacher Application
+
+</button></form><div class="links"><p>
+Already have an account?
+<a href="login.html">
+Login
+</a>
+</p><br><p>
+Are you a learner?
+<a href="register.html">
+Register as Learner
+</a>
+</p></div></div><a
+href="index.html"
+class="back">
+
+← Back to Home
+
+</a></div><script>
+
+function togglePassword(id,button){
+
+const input =
+document.getElementById(id);
+
+if(input.type === "password"){
+
+input.type = "text";
+button.textContent = "Hide";
+
+}else{
+
+input.type = "password";
+button.textContent = "Show";
+
+}
+
+}
+
+function submitApplication(event){
+
+event.preventDefault();
+
+const name =
+document.getElementById("name").value.trim();
+
+const phone =
+document.getElementById("phone").value.trim();
+
+const email =
+document.getElementById("email").value.trim();
+
+const subject =
+document.getElementById("subject").value;
+
+const qualification =
+document.getElementById("qualification").value.trim();
+
+const experience =
+document.getElementById("experience").value.trim();
+
+const password =
+document.getElementById("password").value;
+
+const confirm =
+document.getElementById("confirm").value;
+
+const error =
+document.getElementById("error");
+
+const success =
+document.getElementById("success");
+
+error.style.display = "none";
+success.style.display = "none";
+
+if(name.length < 2){
+
+error.textContent =
+"Please enter your full name.";
+
+error.style.display = "block";
+
+return;
+
+}
+
+if(phone.length < 10){
+
+error.textContent =
+"Please enter a valid phone number.";
+
+error.style.display = "block";
+
+return;
+
+}
+
+if(password.length < 6){
+
+error.textContent =
+"Password must be at least 6 characters.";
+
+error.style.display = "block";
+
+return;
+
+}
+
+if(password !== confirm){
+
+error.textContent =
+"Passwords do not match.";
+
+error.style.display = "block";
+
+return;
+
+}
+
+/* Get existing applications */
+
+let applications = [];
+
+try{
+
+applications =
+JSON.parse(
+localStorage.getItem("muleTeacherApplications")
+) || [];
+
+}catch(e){
+
+applications = [];
+
+}
+
+/* Prevent duplicate phone applications */
+
+const existing =
+applications.find(function(application){
+
+return application.phone === phone &&
+application.status === "pending";
+
+});
+
+if(existing){
+
+error.textContent =
+"You already have a pending teacher application.";
+
+error.style.display = "block";
+
+return;
+
+}
+
+/* Create application */
+
+const application = {
+
+id:
+"APP-" + Date.now(),
+
+name:name,
+
+phone:phone,
+
+email:email,
+
+subject:subject,
+
+qualification:qualification,
+
+experience:experience,
+
+password:password,
+
+status:"pending",
+
+createdAt:
+new Date().toISOString()
+
+};
+
+applications.push(application);
+
+localStorage.setItem(
+"muleTeacherApplications",
+JSON.stringify(applications)
+);
+
+/* Show success */
+
+success.innerHTML =
+"Application submitted successfully.<br><br>" +
+"Welcome, " + name + ".<br>" +
+"Your application is now <strong>PENDING CEO REVIEW</strong>.";
+
+success.style.display = "block";
+
+document.querySelector("form").reset();
+
+}
+
+  <script src="js/app.js"></script>
+<script src="js/auth.js"></script</body>
+</html>
