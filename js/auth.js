@@ -1,793 +1,450 @@
-/* =========================================
-   MULE LEARNER TUITION
-   FIREBASE AUTHENTICATION
-   Phone + Password + Role
-========================================= */
-
 "use strict";
 
-const USERS_KEY = "muleUsers";
+/* MULE LEARNER TUITION - FIREBASE AUTH */
+
 const CURRENT_USER_KEY = "muleCurrentUser";
+const DB = "https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-const FIREBASE_DATABASE_URL =
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+const CEO = {
+  id:"CEO-MULE-001",
+  name:"Owen Singogo",
+  phone:"0978362800",
+  password:"Muleya22",
+  role:"ceo",
+  status:"active",
+  createdAt:"2026-09-02T00:00:00.000Z"
+};
 
 
-/* =========================================
-   NORMALIZE PHONE
-========================================= */
+/* ---------- PHONE ---------- */
 
 function normalizePhone(phone){
-
-    phone = String(phone || "").trim();
-
-    phone = phone.replace(/\s+/g,"");
-
-    if(phone.startsWith("+260")){
-        phone = "0" + phone.substring(4);
-    }
-
-    if(phone.startsWith("260")){
-        phone = "0" + phone.substring(3);
-    }
-
-    return phone;
+  let p=String(phone||"").replace(/\s+/g,"").trim();
+  if(p.startsWith("+260")) p="0"+p.substring(4);
+  if(p.startsWith("260")) p="0"+p.substring(3);
+  return p;
 }
 
 
-/* =========================================
-   FIREBASE GET
-========================================= */
+/* ---------- FIREBASE ---------- */
 
 async function firebaseGet(path){
-
-    const response = await fetch(
-        FIREBASE_DATABASE_URL +
-        "/" +
-        path +
-        ".json"
-    );
-
-    if(!response.ok){
-
-        throw new Error(
-            "Firebase connection failed."
-        );
-
-    }
-
-    return await response.json();
+  const r=await fetch(DB+"/"+path+".json",{cache:"no-store"});
+  if(!r.ok) throw new Error("Firebase connection failed.");
+  return await r.json();
 }
-
-
-/* =========================================
-   FIREBASE SET
-========================================= */
 
 async function firebaseSet(path,data){
+  const r=await fetch(DB+"/"+path+".json",{
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  });
+  if(!r.ok) throw new Error("Firebase save failed.");
+  return await r.json();
+}
 
-    const response = await fetch(
-        FIREBASE_DATABASE_URL +
-        "/" +
-        path +
-        ".json",
-        {
-            method:"PUT",
-
-            headers:{
-                "Content-Type":
-                "application/json"
-            },
-
-            body:JSON.stringify(data)
-        }
-    );
-
-    if(!response.ok){
-
-        throw new Error(
-            "Could not save data to Firebase."
-        );
-
-    }
-
-    return await response.json();
+async function firebasePatch(path,data){
+  const r=await fetch(DB+"/"+path+".json",{
+    method:"PATCH",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  });
+  if(!r.ok) throw new Error("Firebase update failed.");
+  return await r.json();
 }
 
 
-/* =========================================
-   CONVERT FIREBASE USERS TO ARRAY
-========================================= */
+/* ---------- USERS ---------- */
 
-function firebaseUsersToArray(data){
+function usersArray(data){
+  if(!data) return [];
+  if(Array.isArray(data)) return data.filter(Boolean);
 
-    if(!data){
-        return [];
-    }
-
-    if(Array.isArray(data)){
-        return data.filter(Boolean);
-    }
-
-    return Object.keys(data)
-        .map(function(key){
-            return data[key];
-        })
-        .filter(Boolean);
+  return Object.keys(data).map(k=>{
+    if(data[k] && !data[k].id) data[k].id=k;
+    return data[k];
+  }).filter(Boolean);
 }
-
-
-/* =========================================
-   GET USERS
-   Firebase is now the main database.
-========================================= */
 
 async function getUsersFirebase(){
-
-    const data =
-        await firebaseGet("users");
-
-    return firebaseUsersToArray(data);
+  return usersArray(await firebaseGet("users"));
 }
 
 
-/* =========================================
-   LOCAL GET USERS
-   Kept for compatibility with old pages.
-========================================= */
+/* ---------- CEO ---------- */
 
-function getUsers(){
+async function ensureCEO(){
 
-    try{
+  let users=await getUsersFirebase();
 
-        return JSON.parse(
-            localStorage.getItem(
-                USERS_KEY
-            )
-        ) || [];
+  let ceo=users.find(u=>
+    String(u.role||"").toLowerCase()==="ceo" ||
+    normalizePhone(u.phone)===CEO.phone
+  );
 
-    }catch(error){
+  if(!ceo){
+    await firebaseSet("users/"+CEO.id,CEO);
+    return CEO;
+  }
 
-        return [];
-    }
+  if(
+    ceo.status!=="active" ||
+    !ceo.password ||
+    !ceo.role
+  ){
+    await firebasePatch("users/"+ceo.id,{
+      name:CEO.name,
+      phone:CEO.phone,
+      password:CEO.password,
+      role:"ceo",
+      status:"active"
+    });
+  }
+
+  return ceo;
 }
 
 
-/* =========================================
-   SAVE LOCAL USERS
-========================================= */
-
-function saveUsers(users){
-
-    localStorage.setItem(
-        USERS_KEY,
-        JSON.stringify(users)
-    );
-}
-
-
-/* =========================================
-   CREATE USER ID
-========================================= */
+/* ---------- CREATE ID ---------- */
 
 function createUserId(role){
-
-    const prefix =
-        role === "teacher"
-        ? "TCH"
-        :
-        role === "ceo"
-        ? "CEO"
-        :
-        "LRN";
-
-    return prefix +
-        "-" +
-        Date.now()
-        .toString(36)
-        .toUpperCase() +
-        "-" +
-        Math.random()
-        .toString(36)
-        .substring(2,6)
-        .toUpperCase();
+  const p=role==="teacher"?"TCH":role==="ceo"?"CEO":"LRN";
+  return p+"-"+Date.now().toString(36).toUpperCase()+"-"+
+    Math.random().toString(36).substring(2,7).toUpperCase();
 }
 
 
-/* =========================================
-   REGISTER USER
-========================================= */
+/* ---------- REGISTER ---------- */
 
-async function registerUser(userData){
+async function registerUser(data){
 
-    try{
+  try{
 
-        const users =
-            await getUsersFirebase();
+    const users=await getUsersFirebase();
 
-        const name =
-            String(
-                userData.name || ""
-            ).trim();
+    const name=String(data.name||"").trim();
+    const phone=normalizePhone(data.phone);
+    const password=String(data.password||"");
+    const role=String(data.role||"learner").toLowerCase();
 
-        const phone =
-            normalizePhone(
-                userData.phone
-            );
-
-        const password =
-            String(
-                userData.password || ""
-            );
-
-        const role =
-            String(
-                userData.role || "learner"
-            )
-            .trim()
-            .toLowerCase();
-
-
-        if(!name || !phone || !password){
-
-            return {
-
-                success:false,
-
-                message:
-                "Please complete all required fields."
-
-            };
-
-        }
-
-
-        const existingPhone =
-            users.find(function(user){
-
-                return (
-                    normalizePhone(
-                        user.phone
-                    ) === phone
-                );
-
-            });
-
-
-        if(existingPhone){
-
-            return {
-
-                success:false,
-
-                message:
-                "An account with this phone number already exists."
-
-            };
-
-        }
-
-
-        const newUser = {
-
-            id:createUserId(role),
-
-            name:name,
-
-            phone:phone,
-
-            password:password,
-
-            role:role,
-
-            status:
-                role === "teacher"
-                ? "pending"
-                : "active",
-
-            createdAt:
-                new Date().toISOString()
-
-        };
-
-
-        /*
-           SAVE TO FIREBASE
-        */
-
-        await firebaseSet(
-            "users/" + newUser.id,
-            newUser
-        );
-
-
-        /*
-           SAVE LOCAL COPY
-           For compatibility with old pages.
-        */
-
-        const localUsers =
-            getUsers();
-
-        localUsers.push(newUser);
-
-        saveUsers(localUsers);
-
-
-        return {
-
-            success:true,
-
-            message:
-                role === "teacher"
-                ?
-                "Teacher application submitted successfully."
-                :
-                "Account created successfully.",
-
-            user:newUser
-
-        };
-
-    }catch(error){
-
-        console.error(
-            "Registration error:",
-            error
-        );
-
-        return {
-
-            success:false,
-
-            message:
-            "Unable to connect to the platform database. Please check your internet connection and try again."
-
-        };
-
+    if(!name||!phone||!password){
+      return {success:false,message:"Please complete all required fields."};
     }
 
+    if(users.some(u=>normalizePhone(u.phone)===phone)){
+      return {success:false,message:"An account with this phone number already exists."};
+    }
+
+    const user={
+      id:createUserId(role),
+      name:name,
+      phone:phone,
+      password:password,
+      role:role,
+      status:role==="teacher"?"pending":"active",
+      createdAt:new Date().toISOString()
+    };
+
+    /* Keep extra teacher information */
+    ["email","subject","qualification","experience","applicationId"]
+    .forEach(k=>{
+      if(data[k]!==undefined) user[k]=data[k];
+    });
+
+    await firebaseSet("users/"+user.id,user);
+
+    return {
+      success:true,
+      message:role==="teacher"
+        ?"Teacher application submitted successfully. Please wait for CEO approval."
+        :"Account created successfully.",
+      user:user
+    };
+
+  }catch(e){
+
+    console.error(e);
+
+    return {
+      success:false,
+      message:"Unable to connect to the platform database. Please check your internet connection and try again."
+    };
+  }
 }
 
 
-/* =========================================
-   LOGIN USER
-   Firebase version
-========================================= */
+/* ---------- LOGIN ---------- */
 
-async function loginUser(
-    phone,
-    password,
-    selectedRole
-){
+async function loginUser(phone,password,selectedRole){
 
-    try{
+  try{
 
-        const users =
-            await getUsersFirebase();
+    await ensureCEO();
 
-        const cleanPhone =
-            normalizePhone(phone);
+    const users=await getUsersFirebase();
 
-        const cleanPassword =
-            String(password || "");
+    const p=normalizePhone(phone);
+    const pass=String(password||"");
+    const role=String(selectedRole||"").toLowerCase();
 
-        const cleanRole =
-            String(
-                selectedRole || ""
-            )
-            .trim()
-            .toLowerCase();
-
-
-        const user =
-            users.find(function(account){
-
-                return (
-
-                    normalizePhone(
-                        account.phone
-                    ) === cleanPhone
-
-                    &&
-
-                    String(
-                        account.password
-                    ) === cleanPassword
-
-                    &&
-
-                    String(
-                        account.role
-                    )
-                    .toLowerCase()
-                    === cleanRole
-
-                );
-
-            });
-
-
-        if(!user){
-
-            return {
-
-                success:false,
-
-                message:
-                "Incorrect phone number, password or account type."
-
-            };
-
-        }
-
-
-        /*
-           CHECK ACCOUNT STATUS
-        */
-
-        const status =
-            String(
-                user.status || "active"
-            )
-            .toLowerCase();
-
-
-        if(status === "suspended"){
-
-            return {
-
-                success:false,
-
-                message:
-                "Your account has been suspended. Please contact support."
-
-            };
-
-        }
-
-
-        /*
-           TEACHER MUST BE APPROVED
-        */
-
-        if(
-            user.role === "teacher" &&
-            (
-                status === "pending" ||
-                status === "rejected"
-            )
-        ){
-
-            if(status === "rejected"){
-
-                return {
-
-                    success:false,
-
-                    message:
-                    "Your teacher application was rejected. Please contact support."
-
-                };
-
-            }
-
-            return {
-
-                success:false,
-
-                message:
-                "Your teacher account is awaiting CEO approval."
-
-            };
-
-        }
-
-
-        /*
-           SAVE SESSION
-        */
-
-        localStorage.setItem(
-            CURRENT_USER_KEY,
-            JSON.stringify(user)
-        );
-
-
-        /*
-           ALSO KEEP A LOCAL USERS COPY
-        */
-
-        saveUsers(users);
-
-
-        return {
-
-            success:true,
-
-            message:
-            "Login successful.",
-
-            user:user
-
-        };
-
-    }catch(error){
-
-        console.error(
-            "Login error:",
-            error
-        );
-
-        return {
-
-            success:false,
-
-            message:
-            "Unable to connect to the platform database. Please check your internet connection and try again."
-
-        };
-
-    }
-
-}
-
-
-/* =========================================
-   LOGIN PAGE
-========================================= */
-
-async function login(
-    event,
-    selectedRole
-){
-
-    if(event){
-
-        event.preventDefault();
-
-    }
-
-
-    const phone =
-        document.getElementById(
-            "phone"
-        )?.value.trim();
-
-
-    const password =
-        document.getElementById(
-            "password"
-        )?.value;
-
-
-    const error =
-        document.getElementById(
-            "error"
-        );
-
-
-    if(!phone || !password){
-
-        if(error){
-
-            error.textContent =
-                "Please enter your phone number and password.";
-
-            error.style.display =
-                "block";
-
-        }
-
-        return false;
-
-    }
-
-
-    /*
-       Show loading
-    */
-
-    const loginButton =
-        document.querySelector(
-            "button.login"
-        );
-
-
-    if(loginButton){
-
-        loginButton.disabled = true;
-
-        loginButton.textContent =
-            "Logging in...";
-
-    }
-
-
-    const result =
-        await loginUser(
-
-            phone,
-
-            password,
-
-            selectedRole
-
-        );
-
-
-    if(!result.success){
-
-        if(error){
-
-            error.textContent =
-                result.message;
-
-            error.style.display =
-                "block";
-
-        }else{
-
-            alert(
-                result.message
-            );
-
-        }
-
-
-        if(loginButton){
-
-            loginButton.disabled =
-                false;
-
-            loginButton.textContent =
-                "Login";
-
-        }
-
-        return false;
-
-    }
-
-
-    if(error){
-
-        error.style.display =
-            "none";
-
-    }
-
-
-    redirectByRole(
-        result.user
+    const user=users.find(u=>
+      normalizePhone(u.phone)===p &&
+      String(u.password||"")===pass &&
+      String(u.role||"").toLowerCase()===role
     );
 
-    return true;
+    if(!user){
+      return {
+        success:false,
+        message:"Incorrect phone number, password or account type."
+      };
+    }
 
+    const status=String(user.status||"active").toLowerCase();
+
+    if(status==="suspended"){
+      return {
+        success:false,
+        message:"Your account has been suspended. Please contact support."
+      };
+    }
+
+    if(role==="teacher" && status==="pending"){
+      return {
+        success:false,
+        message:"Your teacher account is awaiting CEO approval."
+      };
+    }
+
+    if(role==="teacher" && status==="rejected"){
+      return {
+        success:false,
+        message:"Your teacher application was rejected. Please contact support."
+      };
+    }
+
+    /* Session only */
+    localStorage.setItem(CURRENT_USER_KEY,JSON.stringify({
+      id:user.id,
+      name:user.name,
+      phone:user.phone,
+      role:user.role,
+      status:user.status,
+      email:user.email||"",
+      subject:user.subject||"",
+      applicationId:user.applicationId||""
+    }));
+
+    return {
+      success:true,
+      message:"Login successful.",
+      user:user
+    };
+
+  }catch(e){
+
+    console.error(e);
+
+    return {
+      success:false,
+      message:"Unable to connect to the platform database. Please check your internet connection and try again."
+    };
+  }
 }
 
 
-/* =========================================
-   REDIRECT BY ROLE
-========================================= */
+/* ---------- LOGIN PAGE ---------- */
+
+async function login(event,selectedRole){
+
+  if(event) event.preventDefault();
+
+  const phone=document.getElementById("phone")?.value.trim();
+  const password=document.getElementById("password")?.value;
+  const error=document.getElementById("error");
+  const button=document.querySelector("button.login");
+
+  if(!phone||!password){
+    if(error){
+      error.textContent="Please enter your phone number and password.";
+      error.style.display="block";
+    }
+    return false;
+  }
+
+  if(button){
+    button.disabled=true;
+    button.textContent="Logging in...";
+  }
+
+  const result=await loginUser(phone,password,selectedRole);
+
+  if(!result.success){
+
+    if(error){
+      error.textContent=result.message;
+      error.style.display="block";
+    }else{
+      alert(result.message);
+    }
+
+    if(button){
+      button.disabled=false;
+      button.textContent="Login";
+    }
+
+    return false;
+  }
+
+  redirectByRole(result.user);
+  return true;
+}
+
+
+/* ---------- REDIRECT ---------- */
 
 function redirectByRole(user){
 
-    if(!user){
+  if(!user){
+    location.href="login.html";
+    return;
+  }
 
-        window.location.href =
-            "login.html";
+  const role=String(user.role||"").toLowerCase();
 
-        return;
-
-    }
-
-
-    const role =
-        String(
-            user.role || ""
-        ).toLowerCase();
-
-
-    if(role === "ceo"){
-
-        window.location.href =
-            "ceo/dashboard.html";
-
-        return;
-
-    }
-
-
-    if(role === "teacher"){
-
-        window.location.href =
-            "teacher/dashboard.html";
-
-        return;
-
-    }
-
-
-    window.location.href =
-        "learner/dashboard.html";
-
+  if(role==="ceo"){
+    location.href="ceo/dashboard.html";
+  }else if(role==="teacher"){
+    location.href="teacher/dashboard.html";
+  }else if(role==="learner"){
+    location.href="learner/dashboard.html";
+  }else{
+    location.href="login.html";
+  }
 }
 
 
-/* =========================================
-   GET CURRENT USER
-========================================= */
+/* ---------- SESSION ---------- */
 
 function getLoggedInUser(){
 
-    try{
-
-        return JSON.parse(
-
-            localStorage.getItem(
-                CURRENT_USER_KEY
-            )
-
-        );
-
-    }catch(error){
-
-        return null;
-
-    }
-
+  try{
+    return JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+  }catch(e){
+    return null;
+  }
 }
-
-
-/* =========================================
-   LOGOUT
-========================================= */
-
-function logoutUser(){
-
-    localStorage.removeItem(
-        CURRENT_USER_KEY
-    );
-
-    window.location.href =
-        "login.html";
-
-}
-
-
-/* =========================================
-   CHECK LOGIN
-========================================= */
 
 function isLoggedIn(){
-
-    return !!getLoggedInUser();
-
+  return !!getLoggedInUser();
 }
-
-
-/* =========================================
-   CHECK ROLE
-========================================= */
 
 function hasRole(role){
 
-    const user =
-        getLoggedInUser();
+  const user=getLoggedInUser();
+
+  return !!user &&
+    String(user.role||"").toLowerCase()===
+    String(role||"").toLowerCase();
+}
+
+
+/* ---------- LOGOUT ---------- */
+
+function logoutUser(){
+
+  localStorage.removeItem(CURRENT_USER_KEY);
+  location.href="../login.html";
+}
+
+
+/* ---------- PAGE PROTECTION ---------- */
+
+function protectPage(role){
+
+  const user=getLoggedInUser();
+
+  if(!user){
+    location.href="../login.html";
+    return false;
+  }
+
+  if(
+    role &&
+    String(user.role||"").toLowerCase()!==
+    String(role).toLowerCase()
+  ){
+    location.href="../login.html";
+    return false;
+  }
+
+  return true;
+}
+
+function protectLearnerPage(){
+  return protectPage("learner");
+}
+
+function protectTeacherPage(){
+  return protectPage("teacher");
+}
+
+function protectCEOPage(){
+  return protectPage("ceo");
+}
+
+
+/* ---------- REFRESH SESSION ---------- */
+
+async function refreshLoggedInUser(){
+
+  const session=getLoggedInUser();
+
+  if(!session) return null;
+
+  try{
+
+    const users=await getUsersFirebase();
+
+    const user=users.find(u=>u.id===session.id);
 
     if(!user){
-
-        return false;
-
+      localStorage.removeItem(CURRENT_USER_KEY);
+      return null;
     }
 
-    return (
-        String(user.role || "")
-        .toLowerCase()
-        ===
-        String(role || "")
-        .toLowerCase()
+    const status=String(user.status||"active").toLowerCase();
+
+    if(status==="suspended"||status==="rejected"){
+      localStorage.removeItem(CURRENT_USER_KEY);
+      return null;
+    }
+
+    localStorage.setItem(
+      CURRENT_USER_KEY,
+      JSON.stringify({
+        id:user.id,
+        name:user.name,
+        phone:user.phone,
+        role:user.role,
+        status:user.status,
+        email:user.email||"",
+        subject:user.subject||"",
+        applicationId:user.applicationId||""
+      })
     );
 
+    return user;
+
+  }catch(e){
+    return session;
+  }
 }
+
+
+/* ---------- START ---------- */
+
+ensureCEO().catch(e=>{
+  console.warn("Firebase initialization:",e.message);
+});
