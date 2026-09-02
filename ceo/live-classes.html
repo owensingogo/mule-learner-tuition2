@@ -1,0 +1,668 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>CEO Live Classes | Mule Learner Tuition</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:900px;margin:auto;padding:20px 16px}
+.heading{margin-bottom:18px}
+.heading h1{font-size:23px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:12px;color:#667085;line-height:1.5}
+.create,.class-card,.teaching-room{background:white;padding:17px;border-radius:13px;box-shadow:0 4px 15px rgba(20,50,100,.07);margin-bottom:15px}
+.create h2{font-size:15px;margin-bottom:12px}
+input{width:100%;padding:12px;border:1px solid #d8deea;border-radius:8px;font-size:12px;outline:none;margin-bottom:9px;background:white}
+.create-btn{width:100%;border:0;background:#173b8f;color:white;padding:12px;border-radius:8px;font-size:12px;font-weight:bold;cursor:pointer}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+.stat{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 15px rgba(20,50,100,.06)}
+.stat-icon{font-size:22px}
+.stat h3{font-size:19px;margin-top:6px}
+.stat p{font-size:11px;color:#667085;margin-top:3px}
+.class-card{padding:17px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.identity{display:flex;gap:10px;align-items:center}
+.icon{width:44px;height:44px;border-radius:10px;background:#fff0f0;display:flex;align-items:center;justify-content:center;font-size:22px}
+.name{font-size:15px;font-weight:800}
+.info{font-size:11px;color:#667085;margin-top:4px}
+.badge{padding:6px 9px;border-radius:20px;font-size:9px;font-weight:bold;background:#eef3ff;color:#173b8f;white-space:nowrap}
+.badge.live{background:#ecfdf3;color:#027a48}
+.details{margin-top:14px;border-top:1px solid #edf0f5;padding-top:10px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:12px}
+.label{color:#667085}
+.value{font-weight:700;text-align:right}
+.actions{display:flex;gap:8px;margin-top:13px}
+button{flex:1;border:0;padding:10px;border-radius:8px;font-size:11px;font-weight:bold;cursor:pointer}
+.open{background:#173b8f;color:white}
+.remove{background:#fee4e2;color:#b42318}
+.empty{display:none;background:white;padding:25px;border-radius:12px;text-align:center;font-size:12px;color:#667085}
+.teaching-room{display:none}
+.room-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.room-title h2{font-size:16px;color:#173b8f}
+.live-label{font-size:10px;font-weight:bold;background:#fee4e2;color:#b42318;padding:6px 9px;border-radius:20px}
+.video-box{background:#111827;height:230px;border-radius:12px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+video{width:100%;height:100%;object-fit:cover;display:none}
+.video-placeholder{color:white;text-align:center;font-size:13px;padding:20px}
+.video-placeholder small{display:block;margin-top:7px;opacity:.7;font-size:10px}
+.timer{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.65);color:white;padding:6px 9px;border-radius:7px;font-size:10px;font-weight:bold}
+.learners{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.65);color:white;padding:6px 9px;border-radius:7px;font-size:10px}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.control{background:#eef3ff;color:#173b8f}
+.control.active{background:#173b8f;color:white}
+.end{background:#b42318;color:white;width:100%;margin-top:10px}
+.chat{margin-top:14px;border-top:1px solid #edf0f5;padding-top:12px}
+.chat h3{font-size:13px;margin-bottom:8px}
+.messages{height:110px;background:#f7f8fb;border-radius:9px;padding:9px;overflow-y:auto;font-size:11px}
+.message{margin-bottom:7px}
+.message strong{color:#173b8f}
+.chat-row{display:flex;gap:7px;margin-top:8px}
+.chat-row input{margin:0;flex:1}
+.send{background:#173b8f;color:white;flex:0 0 65px}
+.notice{margin-top:18px;background:#eef3ff;padding:15px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
+@media(min-width:650px){
+.container{padding:25px}
+.video-box{height:400px}
+.controls{grid-template-columns:repeat(6,1fr)}
+}
+</style></head><body><header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header><div class="container"><div class="heading">
+<h1>CEO Live Classes 👑🔴</h1>
+<p>Schedule classes and teach learners directly when necessary.</p>
+</div><div class="create">
+<h2>Schedule Live Class</h2><input type="text" id="className" placeholder="Class name e.g. Grade 7 Mathematics" maxlength="60">
+<input type="text" id="subject" placeholder="Subject e.g. Mathematics" maxlength="40">
+<input type="text" id="teacher" placeholder="Teacher name or CEO" maxlength="50">
+<input type="date" id="date">
+<input type="time" id="time"><button class="create-btn" onclick="scheduleClass()">+ Schedule Live Class</button>
+
+</div><div class="stats">
+<div class="stat">
+<div class="stat-icon">🔴</div>
+<h3 id="liveCount">0</h3>
+<p>Live Now</p>
+</div><div class="stat">
+<div class="stat-icon">📅</div>
+<h3 id="scheduledCount">0</h3>
+<p>Scheduled</p>
+</div><div class="stat">
+<div class="stat-icon">👥</div>
+<h3 id="learnerCount">0</h3>
+<p>Learners</p>
+</div>
+</div><div id="classList"></div><div id="empty" class="empty">
+No live classes scheduled yet.
+</div><div id="teachingRoom" class="teaching-room"><div class="room-title">
+<h2 id="roomClassName">CEO Teaching Room</h2>
+<span class="live-label">🔴 CEO LIVE</span>
+</div><div class="video-box"><video id="ceoVideo" autoplay muted playsinline></video>
+
+<div id="videoPlaceholder" class="video-placeholder">
+👑 CEO Teaching Mode
+<small>Camera is currently off</small>
+</div><div class="timer" id="timer">00:00</div><div class="learners" id="roomLearners">
+👥 0 Learners
+</div></div><div class="controls"><button id="micBtn" class="control active" onclick="toggleMic()">
+🎤 Mic ON
+</button><button id="cameraBtn" class="control" onclick="toggleCamera()">
+📷 Camera OFF
+</button><button id="speakerBtn" class="control active" onclick="toggleSpeaker()">
+🔊 Speaker ON
+</button><button id="flashBtn" class="control" onclick="toggleFlash()">
+🔦 Flash
+</button><button class="control" onclick="toggleFullscreen()">
+⛶ Fullscreen
+</button><button class="control" onclick="addLearner()">
+👥 Test Learner
+</button></div><button class="end" onclick="endTeaching()">
+⛔ End CEO Class
+</button><div class="chat"><h3>💬 Live Chat</h3><div class="messages" id="messages">
+<div class="message">
+<strong>System:</strong> CEO teaching room ready.
+</div>
+</div><div class="chat-row"><input type="text" id="chatInput" placeholder="Type a message..." maxlength="120"><button class="send" onclick="sendMessage()">Send</button>
+
+</div>
+</div></div><div class="notice"><strong>👑 CEO Teaching Control</strong>
+
+<br><br>
+
+The CEO can conduct a live class when an approved teacher is unavailable or when the CEO needs to take over a class.
+
+<br><br>
+
+<strong>Available controls:</strong>
+Camera, microphone, speaker, flashlight, fullscreen, live chat, timer and learner count.
+
+<br><br>
+
+Camera and microphone require permission from the device/browser.
+
+</div><footer>
+Mule Learner Tuition<br>
+CEO Administration • Learn • Practice • Succeed
+</footer></div><script>
+
+let classes=[];
+let currentClass=null;
+
+let videoStream=null;
+let audioStream=null;
+
+let cameraOn=false;
+let micOn=true;
+let speakerOn=true;
+let flashOn=false;
+
+let timerSeconds=0;
+let timerInterval=null;
+let learnerCount=0;
+
+
+/* SCHEDULE */
+
+function scheduleClass(){
+
+const name=document.getElementById("className").value.trim();
+const subject=document.getElementById("subject").value.trim();
+const teacher=document.getElementById("teacher").value.trim();
+const date=document.getElementById("date").value;
+const time=document.getElementById("time").value;
+
+if(!name){alert("Please enter the class name.");return}
+if(!subject){alert("Please enter the subject.");return}
+if(!teacher){alert("Please enter the teacher name or CEO.");return}
+if(!date){alert("Please select the class date.");return}
+if(!time){alert("Please select the class time.");return}
+
+classes.push({
+name:name,
+subject:subject,
+teacher:teacher,
+date:date,
+time:time,
+status:"SCHEDULED"
+});
+
+document.getElementById("className").value="";
+document.getElementById("subject").value="";
+document.getElementById("teacher").value="";
+document.getElementById("date").value="";
+document.getElementById("time").value="";
+
+renderClasses();
+}
+
+
+/* DISPLAY */
+
+function renderClasses(){
+
+const list=document.getElementById("classList");
+
+list.innerHTML="";
+
+document.getElementById("scheduledCount").textContent=classes.length;
+
+document.getElementById("liveCount").textContent=
+classes.filter(item=>item.status==="LIVE").length;
+
+document.getElementById("learnerCount").textContent=learnerCount;
+
+if(classes.length===0){
+document.getElementById("empty").style.display="block";
+return;
+}
+
+document.getElementById("empty").style.display="none";
+
+classes.forEach(function(item,index){
+
+const card=document.createElement("div");
+
+card.className="class-card";
+
+card.innerHTML=`
+
+<div class="top">
+
+<div class="identity">
+
+<div class="icon">🔴</div>
+
+<div>
+
+<div class="name">${escapeHTML(item.name)}</div>
+
+<div class="info">
+${escapeHTML(item.subject)} • ${escapeHTML(item.teacher)}
+</div>
+
+</div>
+
+</div>
+
+<span class="badge ${item.status==="LIVE"?"live":""}">
+${item.status==="LIVE"?"LIVE":"SCHEDULED"}
+</span>
+
+</div>
+
+<div class="details">
+
+<div class="row">
+<span class="label">Date</span>
+<span class="value">${escapeHTML(item.date)}</span>
+</div>
+
+<div class="row">
+<span class="label">Time</span>
+<span class="value">${escapeHTML(item.time)}</span>
+</div>
+
+<div class="row">
+<span class="label">Teacher</span>
+<span class="value">${escapeHTML(item.teacher)}</span>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="open" onclick="startTeaching(${index})">
+${item.status==="LIVE"?"⏹ Open Class":"👑 Teach Class"}
+</button>
+
+<button class="remove" onclick="removeClass(${index})">
+Remove
+</button>
+
+</div>
+`;
+
+list.appendChild(card);
+
+});
+}
+
+
+/* START */
+
+function startTeaching(index){
+
+currentClass=classes[index];
+
+currentClass.status="LIVE";
+
+renderClasses();
+
+document.getElementById("teachingRoom").style.display="block";
+
+document.getElementById("roomClassName").textContent=
+currentClass.name;
+
+document.getElementById("teachingRoom").scrollIntoView({
+behavior:"smooth"
+});
+
+timerSeconds=0;
+
+clearInterval(timerInterval);
+
+timerInterval=setInterval(function(){
+
+timerSeconds++;
+
+const minutes=
+Math.floor(timerSeconds/60).toString().padStart(2,"0");
+
+const seconds=
+(timerSeconds%60).toString().padStart(2,"0");
+
+document.getElementById("timer").textContent=
+minutes+":"+seconds;
+
+},1000);
+
+learnerCount=0;
+
+document.getElementById("roomLearners").textContent="👥 0 Learners";
+
+addMessage("System","CEO has started the live class.");
+
+}
+
+
+/* CAMERA */
+
+async function toggleCamera(){
+
+if(cameraOn){
+
+if(videoStream){
+videoStream.getTracks().forEach(track=>track.stop());
+videoStream=null;
+}
+
+cameraOn=false;
+
+document.getElementById("ceoVideo").style.display="none";
+
+document.getElementById("videoPlaceholder").style.display="block";
+
+document.getElementById("cameraBtn").textContent="📷 Camera OFF";
+
+document.getElementById("cameraBtn").classList.remove("active");
+
+return;
+}
+
+try{
+
+videoStream=await navigator.mediaDevices.getUserMedia({
+video:{facingMode:"user"}
+});
+
+const video=document.getElementById("ceoVideo");
+
+video.srcObject=videoStream;
+
+video.style.display="block";
+
+document.getElementById("videoPlaceholder").style.display="none";
+
+cameraOn=true;
+
+document.getElementById("cameraBtn").textContent="📷 Camera ON";
+
+document.getElementById("cameraBtn").classList.add("active");
+
+}catch(error){
+
+console.error(error);
+
+alert("Camera permission was not granted or the camera is unavailable.");
+
+}
+
+}
+
+
+/* MICROPHONE */
+
+async function toggleMic(){
+
+if(!audioStream){
+
+try{
+
+audioStream=await navigator.mediaDevices.getUserMedia({
+audio:true
+});
+
+}catch(error){
+
+console.error(error);
+
+alert("Microphone permission was not granted.");
+
+return;
+}
+
+}
+
+const tracks=audioStream.getAudioTracks();
+
+if(tracks.length===0)return;
+
+micOn=!micOn;
+
+tracks.forEach(track=>{
+track.enabled=micOn;
+});
+
+document.getElementById("micBtn").textContent=
+micOn?"🎤 Mic ON":"🎤 Mic OFF";
+
+document.getElementById("micBtn").classList.toggle(
+"active",micOn
+);
+
+}
+
+
+/* SPEAKER */
+
+function toggleSpeaker(){
+
+speakerOn=!speakerOn;
+
+const video=document.getElementById("ceoVideo");
+
+video.muted=!speakerOn;
+
+document.getElementById("speakerBtn").textContent=
+speakerOn?"🔊 Speaker ON":"🔇 Speaker OFF";
+
+document.getElementById("speakerBtn").classList.toggle(
+"active",speakerOn
+);
+
+}
+
+
+/* FLASH */
+
+async function toggleFlash(){
+
+if(!videoStream||!cameraOn){
+
+alert("Turn on the camera first to use the flashlight.");
+
+return;
+}
+
+const track=videoStream.getVideoTracks()[0];
+
+const capabilities=
+track.getCapabilities?track.getCapabilities():null;
+
+if(!capabilities||!capabilities.torch){
+
+alert("Flashlight control is not supported by this device/browser.");
+
+return;
+}
+
+flashOn=!flashOn;
+
+try{
+
+await track.applyConstraints({
+advanced:[{torch:flashOn}]
+});
+
+document.getElementById("flashBtn").textContent=
+flashOn?"🔦 Flash ON":"🔦 Flash";
+
+document.getElementById("flashBtn").classList.toggle(
+"active",flashOn
+);
+
+}catch(error){
+
+alert("Unable to control the flashlight.");
+
+}
+
+}
+
+
+/* FULLSCREEN */
+
+function toggleFullscreen(){
+
+const room=document.getElementById("teachingRoom");
+
+if(!document.fullscreenElement){
+
+room.requestFullscreen().catch(()=>{
+alert("Fullscreen is not available.");
+});
+
+}else{
+
+document.exitFullscreen();
+
+}
+
+}
+
+
+/* TEST LEARNER */
+
+function addLearner(){
+
+learnerCount++;
+
+document.getElementById("roomLearners").textContent=
+"👥 "+learnerCount+" Learner"+(learnerCount===1?"":"s");
+
+document.getElementById("learnerCount").textContent=
+learnerCount;
+
+}
+
+
+/* CHAT */
+
+function sendMessage(){
+
+const input=document.getElementById("chatInput");
+
+const message=input.value.trim();
+
+if(!message)return;
+
+addMessage("CEO",message);
+
+input.value="";
+
+}
+
+function addMessage(sender,text){
+
+const box=document.getElementById("messages");
+
+const message=document.createElement("div");
+
+message.className="message";
+
+message.innerHTML=
+"<strong>"+escapeHTML(sender)+":</strong> "+
+escapeHTML(text);
+
+box.appendChild(message);
+
+box.scrollTop=box.scrollHeight;
+
+}
+
+
+/* END */
+
+function endTeaching(){
+
+if(!currentClass)return;
+
+if(!confirm("End the CEO live class?"))return;
+
+currentClass.status="SCHEDULED";
+
+if(videoStream){
+
+videoStream.getTracks().forEach(track=>track.stop());
+
+videoStream=null;
+
+}
+
+if(audioStream){
+
+audioStream.getTracks().forEach(track=>track.stop());
+
+audioStream=null;
+
+}
+
+cameraOn=false;
+micOn=false;
+flashOn=false;
+
+clearInterval(timerInterval);
+
+document.getElementById("teachingRoom").style.display="none";
+
+document.getElementById("ceoVideo").srcObject=null;
+
+document.getElementById("ceoVideo").style.display="none";
+
+document.getElementById("videoPlaceholder").style.display="block";
+
+document.getElementById("cameraBtn").textContent="📷 Camera OFF";
+document.getElementById("cameraBtn").classList.remove("active");
+
+document.getElementById("micBtn").textContent="🎤 Mic OFF";
+document.getElementById("micBtn").classList.remove("active");
+
+renderClasses();
+
+currentClass=null;
+
+}
+
+
+/* REMOVE */
+
+function removeClass(index){
+
+if(!confirm("Remove this live class?"))return;
+
+if(currentClass&&classes[index]===currentClass){
+
+alert("End the live class before removing it.");
+
+return;
+}
+
+classes.splice(index,1);
+
+renderClasses();
+
+}
+
+
+/* ESCAPE */
+
+function escapeHTML(text){
+
+const div=document.createElement("div");
+
+div.textContent=text;
+
+return div.innerHTML;
+
+}
+
+
+/* START */
+
+renderClasses();
+
+</script><script src="../js/app.js"></script><script src="../js/ceo.js"></script></body>
+</html>
