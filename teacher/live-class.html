@@ -5,31 +5,110 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
 <title>Teacher Live Class | Mule Learner Tuition</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
-header{background:#173b8f;color:#fff;padding:15px;text-align:center}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+color:#172033
+}
+header{
+background:#173b8f;
+color:white;
+padding:15px;
+text-align:center
+}
 header h2{margin:0;font-size:20px}
 main{max-width:700px;margin:auto;padding:14px}
-.card{background:#fff;padding:14px;margin-bottom:12px;border-radius:13px;box-shadow:0 3px 12px #0001}
-.info{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.box{background:#eef3ff;padding:10px;border-radius:9px;font-size:12px}
-.box b{display:block;margin-top:4px}
+.card{
+background:white;
+padding:14px;
+margin-bottom:12px;
+border-radius:13px;
+box-shadow:0 3px 12px #0001
+}
+.info{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px
+}
+.box{
+background:#eef3ff;
+padding:10px;
+border-radius:9px;
+font-size:12px
+}
+.box b{
+display:block;
+margin-top:4px
+}
 #status{color:#16803c}
-video{width:100%;background:#111;border-radius:11px;min-height:210px}
-button{border:0;border-radius:9px;padding:11px;margin:3px;font-weight:bold}
-.start{background:#16803c;color:#fff}
-.end{background:#c62828;color:#fff}
-.control,.send{background:#173b8f;color:#fff}
+video{
+width:100%;
+background:#111;
+border-radius:11px;
+min-height:210px
+}
+button{
+border:0;
+border-radius:9px;
+padding:11px;
+margin:3px;
+font-weight:bold
+}
+.start{background:#16803c;color:white}
+.end{background:#c62828;color:white}
+.control,.send{
+background:#173b8f;
+color:white
+}
 button:disabled{opacity:.5}
 .controls{text-align:center}
-#timer{text-align:center;font-size:24px;font-weight:bold;margin:9px}
-#chat{height:140px;overflow:auto;background:#f5f5f5;padding:9px;border-radius:9px}
-input{width:68%;padding:10px;border:1px solid #ccc;border-radius:8px}
-.learners{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.learnerVideo{position:relative}
-.learnerVideo span{position:absolute;bottom:5px;left:5px;background:#000b;color:#fff;padding:3px 6px;border-radius:4px;font-size:11px}
-.notice{background:#fff3cd;padding:9px;border-radius:8px;font-size:12px}
+#timer{
+text-align:center;
+font-size:24px;
+font-weight:bold;
+margin:9px
+}
+#chat{
+height:140px;
+overflow:auto;
+background:#f5f5f5;
+padding:9px;
+border-radius:9px
+}
+input{
+width:68%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:8px
+}
+.learners{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px
+}
+.learnerVideo{
+position:relative
+}
+.learnerVideo span{
+position:absolute;
+bottom:5px;
+left:5px;
+background:#000b;
+color:white;
+padding:3px 6px;
+border-radius:4px;
+font-size:11px
+}
+.notice{
+background:#fff3cd;
+padding:9px;
+border-radius:8px;
+font-size:12px
+}
 </style>
 </head>
 
@@ -44,340 +123,805 @@ input{width:68%;padding:10px;border:1px solid #ccc;border-radius:8px}
 
 <div class="card">
 <h3>📚 Grade 10 Mathematics</h3>
+
 <div class="info">
-<div class="box">Subject<b>Mathematics</b></div>
-<div class="box">Class<b>Grade 10</b></div>
-<div class="box">Teacher<b id="teacherName">Teacher</b></div>
-<div class="box">Status<b id="status">OFFLINE</b></div>
+
+<div class="box">
+Subject
+<b>Mathematics</b>
+</div>
+
+<div class="box">
+Class
+<b>Grade 10</b>
+</div>
+
+<div class="box">
+Teacher
+<b id="teacherName">Teacher</b>
+</div>
+
+<div class="box">
+Status
+<b id="status">OFFLINE</b>
+</div>
+
 </div>
 </div>
 
+
 <div class="card">
-<button class="start" id="startBtn" onclick="startClass()">▶️ Start Live Class</button>
-<button class="end" id="endBtn" onclick="endClass()" disabled>⏹️ End Class</button>
+
+<button class="start"
+id="startBtn"
+onclick="startClass()">
+▶️ Start Live Class
+</button>
+
+<button class="end"
+id="endBtn"
+onclick="endClass()"
+disabled>
+⏹️ End Class
+</button>
 
 <div id="timer">00:00:00</div>
 
-<video id="teacherVideo" autoplay muted playsinline></video>
+<video
+id="teacherVideo"
+autoplay
+muted
+playsinline>
+</video>
 
 <div class="controls">
-<button class="control" onclick="toggleMic()">🎤 Mic</button>
-<button class="control" onclick="toggleCamera()">📹 Camera</button>
-<button class="control" onclick="toggleSpeaker()">🔊 Speaker</button>
-<button class="control" onclick="flash()">🔦 Flash</button>
-<button class="control" onclick="fullscreen()">⛶ Fullscreen</button>
+
+<button class="control" onclick="toggleMic()">
+🎤 Mic
+</button>
+
+<button class="control" onclick="toggleCamera()">
+📹 Camera
+</button>
+
+<button class="control" onclick="toggleSpeaker()">
+🔊 Speaker
+</button>
+
+<button class="control" onclick="flash()">
+🔦 Flash
+</button>
+
+<button class="control" onclick="fullscreen()">
+⛶ Fullscreen
+</button>
+
 </div>
 
 <div class="notice" id="message">
 Internet connection is required for live teaching.
 </div>
+
 </div>
 
+
 <div class="card">
-<h3>👥 Learners (<span id="learnerCount">0</span>)</h3>
+
+<h3>
+👥 Learners
+(<span id="learnerCount">0</span>)
+</h3>
+
 <div id="learners" class="learners"></div>
+
 </div>
 
+
 <div class="card">
+
 <h3>💬 Live Chat</h3>
-<div id="chat"></div><br>
-<input id="chatInput" placeholder="Type a message">
-<button class="send" onclick="sendChat()">Send</button>
+
+<div id="chat"></div>
+
+<br>
+
+<input
+id="chatInput"
+placeholder="Type a message">
+
+<button class="send" onclick="sendChat()">
+Send
+</button>
+
 </div>
 
 </main>
 
+
+<!-- Firebase -->
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
+
+<!-- Main Mule Learner Tuition JavaScript -->
+
+<script src="../js/app.js"></script>
+
+<script src="../js/teacher.js"></script>
+
+
 <script>
-const config={
-apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
-authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
-databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
-projectId:"mule-learner-tuition-264fe",
-storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
-messagingSenderId:"656883565460",
-appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+"use strict";
+
+/* =========================
+FIREBASE
+========================= */
+
+const config = {
+
+apiKey:
+"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
 };
 
 firebase.initializeApp(config);
-const db=firebase.database();
-const CLASS_ID="grade10-mathematics";
 
-let user=JSON.parse(localStorage.getItem("muleCurrentUser")||"null");
-let stream=null;
-let peers={};
-let startTime=0;
-let timer=null;
-let micOn=true,cameraOn=true,speakerOn=true;
+const db = firebase.database();
 
-if(!user)location.href="../login.html";
 
-document.getElementById("teacherName").textContent=user?.name||"Teacher";
+/* =========================
+TEACHER SESSION
+========================= */
+
+const user = getCurrentUser();
+
+if (!user) {
+
+window.location.href = "../login.html";
+
+}
+
+if (user && user.role !== "teacher") {
+
+alert("You do not have permission to access this page.");
+
+window.location.href = "../login.html";
+
+}
+
+
+/* =========================
+CLASS SETTINGS
+========================= */
+
+const CLASS_ID = "grade10-mathematics";
+
+let stream = null;
+
+let peers = {};
+
+let startTime = 0;
+
+let timer = null;
+
+let micOn = true;
+
+let cameraOn = true;
+
+let speakerOn = true;
+
+
+/* =========================
+TEACHER NAME
+========================= */
+
+document.getElementById("teacherName").textContent =
+user ? (user.name || "Teacher") : "Teacher";
+
+
+/* =========================
+START CLASS
+========================= */
 
 async function startClass(){
+
 try{
-stream=await navigator.mediaDevices.getUserMedia({
-video:true,audio:true
+
+stream =
+await navigator.mediaDevices.getUserMedia({
+
+video:true,
+
+audio:true
+
 });
 
-document.getElementById("teacherVideo").srcObject=stream;
 
-await db.ref("liveClasses/"+CLASS_ID).set({
+document.getElementById("teacherVideo").srcObject =
+stream;
+
+
+await db.ref(
+"liveClasses/" + CLASS_ID
+).set({
+
 classId:CLASS_ID,
+
 subject:"Mathematics",
+
 grade:"Grade 10",
+
 title:"Grade 10 Mathematics",
-teacherId:user.id||"",
-teacherName:user.name||"Teacher",
+
+teacherId:user.id || "",
+
+teacherName:user.name || "Teacher",
+
 status:"live",
-startedAt:firebase.database.ServerValue.TIMESTAMP
+
+startedAt:
+firebase.database.ServerValue.TIMESTAMP
+
 });
 
-document.getElementById("status").textContent="🔴 LIVE";
-document.getElementById("startBtn").disabled=true;
-document.getElementById("endBtn").disabled=false;
-document.getElementById("message").textContent="🔴 You are now teaching live.";
 
-startTime=Date.now();
-timer=setInterval(updateTimer,1000);
+document.getElementById("status").textContent =
+"🔴 LIVE";
+
+document.getElementById("startBtn").disabled =
+true;
+
+document.getElementById("endBtn").disabled =
+false;
+
+document.getElementById("message").textContent =
+"🔴 You are now teaching live.";
+
+
+startTime = Date.now();
+
+timer = setInterval(updateTimer,1000);
 
 watchLearners();
 
-}catch(e){
-alert("Camera and microphone permission are required.");
-document.getElementById("message").textContent=
+}
+
+catch(error){
+
+console.error(error);
+
+alert(
+"Camera and microphone permission are required."
+);
+
+document.getElementById("message").textContent =
 "⚠️ Allow camera and microphone permission.";
+
 }
+
 }
+
+
+/* =========================
+TIMER
+========================= */
 
 function updateTimer(){
-let s=Math.floor((Date.now()-startTime)/1000);
-let h=Math.floor(s/3600);
-s%=3600;
-let m=Math.floor(s/60);
-s%=60;
 
-document.getElementById("timer").textContent=
-[h,m,s].map(x=>String(x).padStart(2,"0")).join(":");
+let seconds =
+Math.floor((Date.now()-startTime)/1000);
+
+let hours =
+Math.floor(seconds/3600);
+
+seconds %= 3600;
+
+let minutes =
+Math.floor(seconds/60);
+
+seconds %= 60;
+
+document.getElementById("timer").textContent =
+
+[hours,minutes,seconds]
+
+.map(function(x){
+
+return String(x).padStart(2,"0");
+
+})
+
+.join(":");
+
 }
+
+
+/* =========================
+WATCH LEARNERS
+========================= */
 
 function watchLearners(){
 
-db.ref("liveClasses/"+CLASS_ID+"/learners")
-.on("child_added",async snap=>{
+db.ref(
+"liveClasses/" +
+CLASS_ID +
+"/learners"
+)
 
-let id=snap.key;
-let data=snap.val()||{};
+.on("child_added", async function(snap){
 
-if(!data.offer||!stream)return;
+let id = snap.key;
 
-let pc=new RTCPeerConnection({
+let data = snap.val() || {};
+
+if(!data.offer || !stream) return;
+
+
+let pc =
+new RTCPeerConnection({
+
 iceServers:[
-{urls:"stun:stun.l.google.com:19302"},
-{urls:"stun:stun1.l.google.com:19302"}
+
+{
+urls:
+"stun:stun.l.google.com:19302"
+},
+
+{
+urls:
+"stun:stun1.l.google.com:19302"
+}
+
 ]
+
 });
 
-peers[id]=pc;
 
-stream.getTracks().forEach(track=>{
+peers[id] = pc;
+
+
+/* Send teacher camera + microphone */
+
+stream.getTracks().forEach(function(track){
+
 pc.addTrack(track,stream);
+
 });
 
-pc.onicecandidate=e=>{
+
+/* ICE */
+
+pc.onicecandidate = function(e){
+
 if(e.candidate){
-db.ref("liveClasses/"+CLASS_ID+
-"/learners/"+id+"/teacherCandidates")
-.push(e.candidate.toJSON());
-}
-};
 
-pc.ontrack=e=>{
+db.ref(
+"liveClasses/" +
+CLASS_ID +
+"/learners/" +
+id +
+"/teacherCandidates"
+)
 
-let box=document.getElementById("learner-"+id);
-
-if(!box){
-box=document.createElement("div");
-box.className="learnerVideo";
-box.id="learner-"+id;
-
-box.innerHTML=
-'<video autoplay playsinline></video><span>👤 Learner</span>';
-
-document.getElementById("learners").appendChild(box);
-}
-
-box.querySelector("video").srcObject=e.streams[0];
-
-document.getElementById("learnerCount").textContent=
-document.getElementById("learners").children.length;
-};
-
-await pc.setRemoteDescription(
-new RTCSessionDescription(data.offer)
+.push(
+e.candidate.toJSON()
 );
 
-let answer=await pc.createAnswer();
+}
+
+};
+
+
+/* Learner video */
+
+pc.ontrack = function(e){
+
+let box =
+document.getElementById("learner-"+id);
+
+
+if(!box){
+
+box =
+document.createElement("div");
+
+box.className =
+"learnerVideo";
+
+box.id =
+"learner-"+id;
+
+box.innerHTML =
+'<video autoplay playsinline></video>' +
+'<span>👤 Learner</span>';
+
+document
+.getElementById("learners")
+.appendChild(box);
+
+}
+
+
+box.querySelector("video").srcObject =
+e.streams[0];
+
+
+document.getElementById("learnerCount").textContent =
+document.getElementById("learners").children.length;
+
+};
+
+
+/* Receive learner offer */
+
+await pc.setRemoteDescription(
+
+new RTCSessionDescription(data.offer)
+
+);
+
+
+/* Create answer */
+
+let answer =
+await pc.createAnswer();
 
 await pc.setLocalDescription(answer);
 
-await db.ref("liveClasses/"+CLASS_ID+
-"/learners/"+id+"/answer").set({
+
+/* Send answer */
+
+await db.ref(
+"liveClasses/" +
+CLASS_ID +
+"/learners/" +
+id +
+"/answer"
+)
+
+.set({
+
 type:answer.type,
+
 sdp:answer.sdp
+
 });
 
-db.ref("liveClasses/"+CLASS_ID+
-"/learners/"+id+"/learnerCandidates")
-.on("child_added",s=>{
 
-let candidate=s.val();
+/* Receive learner ICE */
+
+db.ref(
+"liveClasses/" +
+CLASS_ID +
+"/learners/" +
+id +
+"/learnerCandidates"
+)
+
+.on("child_added",function(s){
+
+let candidate =
+s.val();
 
 if(candidate){
+
 pc.addIceCandidate(
+
 new RTCIceCandidate(candidate)
-).catch(()=>{});
+
+).catch(function(){});
+
 }
 
 });
 
 });
+
 }
+
+
+/* =========================
+END CLASS
+========================= */
 
 async function endClass(){
 
-if(!confirm("End this live class?"))return;
+if(!confirm("End this live class?")) return;
 
-Object.values(peers).forEach(pc=>pc.close());
-peers={};
+
+Object.values(peers).forEach(function(pc){
+
+pc.close();
+
+});
+
+peers = {};
+
 
 if(stream){
-stream.getTracks().forEach(track=>track.stop());
-stream=null;
+
+stream.getTracks().forEach(function(track){
+
+track.stop();
+
+});
+
+stream = null;
+
 }
+
 
 clearInterval(timer);
 
-await db.ref("liveClasses/"+CLASS_ID).update({
+
+await db.ref(
+"liveClasses/" + CLASS_ID
+)
+
+.update({
+
 status:"ended",
-endedAt:firebase.database.ServerValue.TIMESTAMP
+
+endedAt:
+firebase.database.ServerValue.TIMESTAMP
+
 });
 
-document.getElementById("status").textContent="OFFLINE";
-document.getElementById("startBtn").disabled=false;
-document.getElementById("endBtn").disabled=true;
-document.getElementById("teacherVideo").srcObject=null;
-document.getElementById("message").textContent="Live class ended.";
+
+document.getElementById("status").textContent =
+"OFFLINE";
+
+document.getElementById("startBtn").disabled =
+false;
+
+document.getElementById("endBtn").disabled =
+true;
+
+document.getElementById("teacherVideo").srcObject =
+null;
+
+document.getElementById("message").textContent =
+"Live class ended.";
+
 }
+
+
+/* =========================
+MIC
+========================= */
 
 function toggleMic(){
 
-if(!stream)return;
+if(!stream) return;
 
-micOn=!micOn;
+micOn = !micOn;
 
-stream.getAudioTracks().forEach(t=>{
-t.enabled=micOn;
+stream.getAudioTracks().forEach(function(track){
+
+track.enabled = micOn;
+
 });
+
 }
+
+
+/* =========================
+CAMERA
+========================= */
 
 function toggleCamera(){
 
-if(!stream)return;
+if(!stream) return;
 
-cameraOn=!cameraOn;
+cameraOn = !cameraOn;
 
-stream.getVideoTracks().forEach(t=>{
-t.enabled=cameraOn;
+stream.getVideoTracks().forEach(function(track){
+
+track.enabled = cameraOn;
+
 });
+
 }
+
+
+/* =========================
+SPEAKER
+========================= */
 
 function toggleSpeaker(){
 
-speakerOn=!speakerOn;
+speakerOn = !speakerOn;
 
-document.getElementById("teacherVideo").muted=!speakerOn;
+document.getElementById("teacherVideo").muted =
+!speakerOn;
+
 }
+
+
+/* =========================
+FLASH
+========================= */
 
 async function flash(){
 
 if(!stream){
+
 alert("Start the camera first.");
+
 return;
+
 }
 
 try{
 
-let track=stream.getVideoTracks()[0];
-let capabilities=track.getCapabilities();
+let track =
+stream.getVideoTracks()[0];
+
+let capabilities =
+track.getCapabilities();
 
 if(capabilities.torch){
+
 await track.applyConstraints({
-advanced:[{torch:true}]
+
+advanced:[
+{torch:true}
+]
+
 });
+
 }else{
-alert("Flashlight is not supported on this device.");
+
+alert(
+"Flashlight is not supported on this device."
+);
+
 }
 
-}catch(e){
-alert("Flashlight is not supported.");
+}catch(error){
+
+alert(
+"Flashlight is not supported."
+);
+
 }
+
 }
+
+
+/* =========================
+FULLSCREEN
+========================= */
 
 function fullscreen(){
 
-let video=document.getElementById("teacherVideo");
+let video =
+document.getElementById("teacherVideo");
 
 if(video.requestFullscreen){
+
 video.requestFullscreen();
+
 }
+
 }
+
+
+/* =========================
+CHAT
+========================= */
 
 function sendChat(){
 
-let input=document.getElementById("chatInput");
-let text=input.value.trim();
+let input =
+document.getElementById("chatInput");
 
-if(!text)return;
+let text =
+input.value.trim();
 
-db.ref("liveClasses/"+CLASS_ID+"/chat").push({
-name:user?.name||"Teacher",
+if(!text) return;
+
+
+db.ref(
+"liveClasses/" +
+CLASS_ID +
+"/chat"
+)
+
+.push({
+
+name:user.name || "Teacher",
+
 message:text,
-time:firebase.database.ServerValue.TIMESTAMP
+
+time:
+firebase.database.ServerValue.TIMESTAMP
+
 });
 
-input.value="";
+
+input.value = "";
+
 }
 
-db.ref("liveClasses/"+CLASS_ID+"/chat")
-.on("child_added",snap=>{
 
-let data=snap.val();
-let div=document.createElement("div");
+/* =========================
+CHAT LISTENER
+========================= */
 
-div.textContent=
-(data.name||"User")+": "+(data.message||"");
+db.ref(
+"liveClasses/" +
+CLASS_ID +
+"/chat"
+)
 
-document.getElementById("chat").appendChild(div);
+.on("child_added",function(snap){
 
-let chat=document.getElementById("chat");
-chat.scrollTop=chat.scrollHeight;
+let data =
+snap.val();
+
+let div =
+document.createElement("div");
+
+div.textContent =
+(data.name || "User") +
+": " +
+(data.message || "");
+
+
+document.getElementById("chat")
+.appendChild(div);
+
+
+let chat =
+document.getElementById("chat");
+
+chat.scrollTop =
+chat.scrollHeight;
+
 });
 
-window.addEventListener("beforeunload",e=>{
+
+/* =========================
+LEAVE WARNING
+========================= */
+
+window.addEventListener(
+"beforeunload",
+function(e){
 
 if(stream){
+
 e.preventDefault();
-e.returnValue="";
+
+e.returnValue = "";
+
 }
 
 });
-</script>
 
-<script src="../js/app.js"></script>
-<script src="../js/teacher.js"></script>
+</script>
 
 </body>
 </html>
