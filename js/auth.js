@@ -9,9 +9,11 @@
 const USERS_KEY = "muleUsers";
 const CURRENT_USER_KEY = "muleCurrentUser";
 
+
 /* ===== NORMALIZE PHONE ===== */
 
 function normalizePhone(phone) {
+
     phone = String(phone || "").trim();
 
     phone = phone.replace(/\s+/g, "");
@@ -27,26 +29,76 @@ function normalizePhone(phone) {
     return phone;
 }
 
+
 /* ===== GET USERS ===== */
 
 function getUsers() {
+
     try {
+
         return JSON.parse(
             localStorage.getItem(USERS_KEY)
         ) || [];
+
     } catch (error) {
+
         return [];
     }
 }
 
+
 /* ===== SAVE USERS ===== */
 
 function saveUsers(users) {
+
     localStorage.setItem(
         USERS_KEY,
         JSON.stringify(users)
     );
 }
+
+
+/* ===== DEFAULT CEO ACCOUNT ===== */
+
+(function createDefaultCEO() {
+
+    const users = getUsers();
+
+    const existingCEO = users.find(function(user) {
+
+        return (
+            normalizePhone(user.phone) === "0978362800" &&
+            String(user.role).toLowerCase() === "ceo"
+        );
+
+    });
+
+    if (!existingCEO) {
+
+        users.push({
+
+            id: "CEO-001",
+
+            name: "Owen Singogo",
+
+            phone: "0978362800",
+
+            password: "Muleya22",
+
+            role: "ceo",
+
+            status: "active",
+
+            createdAt:
+                new Date().toISOString()
+
+        });
+
+        saveUsers(users);
+    }
+
+})();
+
 
 /* ===== CREATE USER ID ===== */
 
@@ -66,6 +118,7 @@ function createUserId(role) {
             .toUpperCase();
 }
 
+
 /* ===== REGISTER USER ===== */
 
 function registerUser(userData) {
@@ -82,28 +135,48 @@ function registerUser(userData) {
         String(userData.password || "");
 
     const role =
-        userData.role || "learner";
+        String(userData.role || "learner")
+        .trim()
+        .toLowerCase();
+
 
     if (!name || !phone || !password) {
+
         return {
+
             success: false,
+
             message:
                 "Please complete all required fields."
+
         };
+
     }
+
 
     const existingPhone =
         users.find(function(user) {
-            return normalizePhone(user.phone) === phone;
+
+            return (
+                normalizePhone(user.phone) === phone
+            );
+
         });
 
+
     if (existingPhone) {
+
         return {
+
             success: false,
+
             message:
                 "An account with this phone number already exists."
+
         };
+
     }
+
 
     const newUser = {
 
@@ -124,13 +197,17 @@ function registerUser(userData) {
 
         createdAt:
             new Date().toISOString()
+
     };
+
 
     users.push(newUser);
 
     saveUsers(users);
 
+
     return {
+
         success: true,
 
         message:
@@ -139,8 +216,11 @@ function registerUser(userData) {
             : "Account created successfully.",
 
         user: newUser
+
     };
+
 }
+
 
 /* ===== LOGIN USER ===== */
 
@@ -159,96 +239,150 @@ function loginUser(phone, password, selectedRole) {
         .trim()
         .toLowerCase();
 
+
     const user =
         users.find(function(account) {
 
             return (
-                normalizePhone(account.phone) === cleanPhone &&
-                String(account.password) === cleanPassword &&
-                String(account.role).toLowerCase() === cleanRole
+
+                normalizePhone(account.phone)
+                === cleanPhone
+
+                &&
+
+                String(account.password)
+                === cleanPassword
+
+                &&
+
+                String(account.role)
+                .toLowerCase()
+                === cleanRole
+
             );
 
         });
 
+
     if (!user) {
 
         return {
+
             success: false,
+
             message:
                 "Incorrect phone number, password or account type."
+
         };
 
     }
+
 
     if (user.status === "suspended") {
 
         return {
+
             success: false,
+
             message:
                 "Your account has been suspended. Please contact support."
+
         };
 
     }
+
 
     if (user.status === "pending") {
 
         return {
+
             success: false,
+
             message:
                 "Your teacher account is awaiting CEO approval."
+
         };
 
     }
 
-    /* SAVE LOGIN SESSION */
+
+    /* ===== SAVE LOGIN SESSION ===== */
 
     localStorage.setItem(
+
         CURRENT_USER_KEY,
+
         JSON.stringify(user)
+
     );
 
+
     return {
+
         success: true,
+
         message: "Login successful.",
+
         user: user
+
     };
+
 }
+
 
 /* ===== LOGIN PAGE ===== */
 
 function login(event, selectedRole) {
 
     if (event) {
+
         event.preventDefault();
+
     }
 
+
     const phone =
-        document.getElementById("phone")?.value.trim();
+        document.getElementById("phone")
+        ?.value.trim();
+
 
     const password =
-        document.getElementById("password")?.value;
+        document.getElementById("password")
+        ?.value;
+
 
     const error =
         document.getElementById("error");
 
+
     if (!phone || !password) {
 
         if (error) {
+
             error.textContent =
                 "Please enter your phone number and password.";
 
-            error.style.display = "block";
+            error.style.display =
+                "block";
+
         }
 
         return false;
+
     }
+
 
     const result =
         loginUser(
+
             phone,
+
             password,
+
             selectedRole
+
         );
+
 
     if (!result.success) {
 
@@ -267,26 +401,38 @@ function login(event, selectedRole) {
         }
 
         return false;
+
     }
 
+
     if (error) {
-        error.style.display = "none";
+
+        error.style.display =
+            "none";
+
     }
+
 
     redirectByRole(result.user);
 
     return true;
+
 }
+
 
 /* ===== REDIRECT BY ROLE ===== */
 
 function redirectByRole(user) {
 
     if (!user) {
+
         window.location.href =
             "login.html";
+
         return;
+
     }
+
 
     if (user.role === "ceo") {
 
@@ -294,7 +440,9 @@ function redirectByRole(user) {
             "ceo/dashboard.html";
 
         return;
+
     }
+
 
     if (user.role === "teacher") {
 
@@ -302,11 +450,15 @@ function redirectByRole(user) {
             "teacher/dashboard.html";
 
         return;
+
     }
+
 
     window.location.href =
         "learner/dashboard.html";
+
 }
+
 
 /* ===== GET CURRENT USER ===== */
 
@@ -315,16 +467,21 @@ function getLoggedInUser() {
     try {
 
         return JSON.parse(
+
             localStorage.getItem(
                 CURRENT_USER_KEY
             )
+
         );
 
     } catch (error) {
 
         return null;
+
     }
+
 }
+
 
 /* ===== LOGOUT ===== */
 
@@ -336,4 +493,5 @@ function logoutUser() {
 
     window.location.href =
         "login.html";
+
 }
