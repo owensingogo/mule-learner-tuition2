@@ -9,70 +9,63 @@
 <title>Teacher Application | Mule Learner Tuition</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,sans-serif;
 background:#f4f7fc;
 color:#172033;
-padding:20px;
+padding:20px
 }
 
 .container{
 width:100%;
 max-width:470px;
-margin:auto;
+margin:auto
 }
 
 .logo{
 text-align:center;
-margin:12px 0 20px;
+margin:12px 0 20px
 }
 
 .logo h1{
 color:#173b8f;
-font-size:24px;
+font-size:24px
 }
 
 .logo p{
 color:#667085;
 font-size:13px;
-margin-top:4px;
+margin-top:4px
 }
 
 .card{
-background:white;
+background:#fff;
 padding:24px 20px;
 border-radius:16px;
-box-shadow:0 8px 30px rgba(20,50,100,.10);
+box-shadow:0 8px 30px rgba(20,50,100,.10)
 }
 
 h2{
 font-size:22px;
-margin-bottom:6px;
+margin-bottom:6px
 }
 
 .intro{
 font-size:13px;
 color:#667085;
-margin-bottom:20px;
+margin-bottom:20px
 }
 
 label{
 display:block;
 font-size:13px;
 font-weight:700;
-margin-bottom:7px;
+margin-bottom:7px
 }
 
-input,
-select,
-textarea{
+input,select,textarea{
 width:100%;
 padding:13px;
 border:1px solid #d8deea;
@@ -81,32 +74,30 @@ font-size:15px;
 outline:none;
 margin-bottom:16px;
 font-family:Arial,sans-serif;
-background:white;
+background:#fff
 }
 
 textarea{
 min-height:90px;
-resize:vertical;
+resize:vertical
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#173b8f;
+input:focus,select:focus,textarea:focus{
+border-color:#173b8f
 }
 
 .optional{
 font-size:11px;
 font-weight:normal;
-color:#667085;
+color:#667085
 }
 
 .password-box{
-position:relative;
+position:relative
 }
 
 .password-box input{
-padding-right:65px;
+padding-right:65px
 }
 
 .show{
@@ -119,7 +110,7 @@ color:#173b8f;
 font-weight:700;
 cursor:pointer;
 width:auto;
-padding:0;
+padding:0
 }
 
 .notice{
@@ -129,7 +120,7 @@ border-radius:9px;
 font-size:12px;
 color:#475467;
 line-height:1.5;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .approval{
@@ -140,7 +131,7 @@ border-radius:8px;
 font-size:12px;
 color:#5d4b00;
 line-height:1.5;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 button.submit{
@@ -152,11 +143,7 @@ padding:14px;
 border-radius:9px;
 font-size:15px;
 font-weight:700;
-cursor:pointer;
-}
-
-button.submit:active{
-transform:scale(.98);
+cursor:pointer
 }
 
 .error{
@@ -166,7 +153,7 @@ color:#b42318;
 padding:10px;
 border-radius:8px;
 font-size:12px;
-margin-bottom:15px;
+margin-bottom:15px
 }
 
 .success{
@@ -178,19 +165,19 @@ border-radius:8px;
 font-size:13px;
 margin-bottom:15px;
 text-align:center;
-line-height:1.5;
+line-height:1.5
 }
 
 .links{
 text-align:center;
 font-size:13px;
-margin-top:18px;
+margin-top:18px
 }
 
 .links a{
 color:#173b8f;
 font-weight:700;
-text-decoration:none;
+text-decoration:none
 }
 
 .back{
@@ -199,9 +186,8 @@ text-align:center;
 margin:18px 0;
 color:#667085;
 font-size:13px;
-text-decoration:none;
+text-decoration:none
 }
-
 </style>
 
 </head>
@@ -211,40 +197,24 @@ text-decoration:none;
 <div class="container">
 
 <div class="logo">
-
-<h1>
-Mule Learner Tuition
-</h1>
-
-<p>
-📚 Learn • Practice • Succeed
-</p>
-
+<h1>Mule Learner Tuition</h1>
+<p>📚 Learn • Practice • Succeed</p>
 </div>
-
 
 <div class="card">
 
-<h2>
-Teacher Application
-</h2>
+<h2>Teacher Application</h2>
 
 <p class="intro">
 Join our teaching team and help learners achieve their goals.
 </p>
 
-
 <div id="error" class="error"></div>
-
 <div id="success" class="success"></div>
-
 
 <form onsubmit="submitApplication(event)">
 
-
-<label>
-Full Name
-</label>
+<label>Full Name</label>
 
 <input
 type="text"
@@ -253,10 +223,7 @@ placeholder="Enter your full name"
 autocomplete="name"
 required>
 
-
-<label>
-Phone Number
-</label>
+<label>Phone Number</label>
 
 <input
 type="tel"
@@ -264,7 +231,6 @@ id="phone"
 placeholder="e.g. 0971234567"
 autocomplete="tel"
 required>
-
 
 <label>
 Email <span class="optional">(Optional)</span>
@@ -276,63 +242,25 @@ id="email"
 placeholder="example@email.com"
 autocomplete="email">
 
-
-<label>
-Subject You Teach
-</label>
+<label>Subject You Teach</label>
 
 <select id="subject" required>
 
-<option value="">
-Select subject
-</option>
-
-<option value="Mathematics">
-Mathematics
-</option>
-
-<option value="English">
-English
-</option>
-
-<option value="Science">
-Science
-</option>
-
-<option value="ICT / Computer Studies">
-ICT / Computer Studies
-</option>
-
-<option value="Civic Education">
-Civic Education
-</option>
-
-<option value="Social Studies">
-Social Studies
-</option>
-
-<option value="Biology">
-Biology
-</option>
-
-<option value="Chemistry">
-Chemistry
-</option>
-
-<option value="Physics">
-Physics
-</option>
-
-<option value="Other">
-Other
-</option>
+<option value="">Select subject</option>
+<option value="Mathematics">Mathematics</option>
+<option value="English">English</option>
+<option value="Science">Science</option>
+<option value="ICT / Computer Studies">ICT / Computer Studies</option>
+<option value="Civic Education">Civic Education</option>
+<option value="Social Studies">Social Studies</option>
+<option value="Biology">Biology</option>
+<option value="Chemistry">Chemistry</option>
+<option value="Physics">Physics</option>
+<option value="Other">Other</option>
 
 </select>
 
-
-<label>
-Highest Qualification
-</label>
+<label>Highest Qualification</label>
 
 <input
 type="text"
@@ -340,20 +268,14 @@ id="qualification"
 placeholder="e.g. Diploma in Education"
 required>
 
-
-<label>
-Teaching Experience
-</label>
+<label>Teaching Experience</label>
 
 <textarea
 id="experience"
 placeholder="Briefly describe your teaching experience"
 required></textarea>
 
-
-<label>
-Create Password
-</label>
+<label>Create Password</label>
 
 <div class="password-box">
 
@@ -368,17 +290,12 @@ required>
 type="button"
 class="show"
 onclick="togglePassword('password',this)">
-
 Show
-
 </button>
 
 </div>
 
-
-<label>
-Confirm Password
-</label>
+<label>Confirm Password</label>
 
 <div class="password-box">
 
@@ -393,13 +310,10 @@ required>
 type="button"
 class="show"
 onclick="togglePassword('confirm',this)">
-
 Show
-
 </button>
 
 </div>
-
 
 <div class="approval">
 
@@ -413,7 +327,6 @@ Your qualifications and application will first be reviewed by the Mule Learner T
 
 </div>
 
-
 <div class="notice">
 
 📋 <strong>Application Process</strong><br><br>
@@ -426,135 +339,167 @@ Your qualifications and application will first be reviewed by the Mule Learner T
 
 </div>
 
-
-<button
-class="submit"
-type="submit">
-
+<button class="submit" type="submit">
 Submit Teacher Application
-
 </button>
 
 </form>
-
 
 <div class="links">
 
 <p>
 Already have an account?
-<a href="login.html">
-Login
-</a>
+<a href="login.html">Login</a>
 </p>
 
 <br>
 
 <p>
 Are you a learner?
-<a href="register.html">
-Register as Learner
-</a>
+<a href="register.html">Register as Learner</a>
 </p>
 
 </div>
 
 </div>
 
-
-<a
-href="index.html"
-class="back">
-
+<a href="index.html" class="back">
 ← Back to Home
-
 </a>
 
 </div>
-
 
 <script>
 
 function togglePassword(id,button){
 
-const input =
-document.getElementById(id);
+const input=document.getElementById(id);
 
-if(input.type === "password"){
-
-input.type = "text";
-button.textContent = "Hide";
-
+if(input.type==="password"){
+input.type="text";
+button.textContent="Hide";
 }else{
+input.type="password";
+button.textContent="Show";
+}
 
-input.type = "password";
-button.textContent = "Show";
+}
+
+
+/* ===== NORMALIZE PHONE ===== */
+
+function normalizeTeacherPhone(phone){
+
+phone=String(phone||"").trim();
+
+phone=phone.replace(/\s+/g,"");
+
+if(phone.startsWith("+260")){
+phone="0"+phone.substring(4);
+}
+
+if(phone.startsWith("260")){
+phone="0"+phone.substring(3);
+}
+
+return phone;
+
+}
+
+
+/* ===== GET USERS ===== */
+
+function getUsers(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem("muleUsers")
+)||[];
+
+}catch(e){
+
+return [];
 
 }
 
 }
 
+
+/* ===== SAVE USERS ===== */
+
+function saveUsers(users){
+
+localStorage.setItem(
+"muleUsers",
+JSON.stringify(users)
+);
+
+}
+
+
+/* ===== SUBMIT APPLICATION ===== */
 
 function submitApplication(event){
 
 event.preventDefault();
 
-
-const name =
+const name=
 document.getElementById("name").value.trim();
 
-const phone =
-document.getElementById("phone").value.trim();
+const phone=
+normalizeTeacherPhone(
+document.getElementById("phone").value
+);
 
-const email =
+const email=
 document.getElementById("email").value.trim();
 
-const subject =
+const subject=
 document.getElementById("subject").value;
 
-const qualification =
+const qualification=
 document.getElementById("qualification").value.trim();
 
-const experience =
+const experience=
 document.getElementById("experience").value.trim();
 
-const password =
+const password=
 document.getElementById("password").value;
 
-const confirmPassword =
+const confirmPassword=
 document.getElementById("confirm").value;
 
-
-const error =
+const error=
 document.getElementById("error");
 
-const success =
+const success=
 document.getElementById("success");
 
+error.style.display="none";
+success.style.display="none";
 
-error.style.display = "none";
-success.style.display = "none";
 
+/* ===== VALIDATION ===== */
 
-/* VALIDATION */
+if(name.length<2){
 
-if(name.length < 2){
-
-error.textContent =
+error.textContent=
 "Please enter your full name.";
 
-error.style.display = "block";
+error.style.display="block";
 
 return;
 
 }
 
 
-if(phone.length < 10){
+if(!/^0[97][0-9]{8}$/.test(phone)){
 
-error.textContent =
-"Please enter a valid phone number.";
+error.textContent=
+"Please enter a valid Zambian phone number.";
 
-error.style.display = "block";
+error.style.display="block";
 
 return;
 
@@ -563,164 +508,180 @@ return;
 
 if(!subject){
 
-error.textContent =
+error.textContent=
 "Please select the subject you teach.";
 
-error.style.display = "block";
+error.style.display="block";
 
 return;
 
 }
 
 
-if(qualification.length < 2){
+if(qualification.length<2){
 
-error.textContent =
+error.textContent=
 "Please enter your highest qualification.";
 
-error.style.display = "block";
+error.style.display="block";
 
 return;
 
 }
 
 
-if(experience.length < 2){
+if(experience.length<2){
 
-error.textContent =
+error.textContent=
 "Please describe your teaching experience.";
 
-error.style.display = "block";
+error.style.display="block";
 
 return;
 
 }
 
 
-if(password.length < 6){
+if(password.length<6){
 
-error.textContent =
+error.textContent=
 "Password must be at least 6 characters.";
 
-error.style.display = "block";
+error.style.display="block";
 
 return;
 
 }
 
 
-if(password !== confirmPassword){
+if(password!==confirmPassword){
 
-error.textContent =
+error.textContent=
 "Passwords do not match.";
 
-error.style.display = "block";
+error.style.display="block";
 
 return;
 
 }
 
 
-/* GET APPLICATIONS */
+/* ===== CHECK USERS ===== */
 
-let applications = [];
+const users=getUsers();
 
-try{
+const existingUser=
+users.find(function(user){
 
-applications =
-JSON.parse(
-localStorage.getItem("muleTeacherApplications")
-) || [];
-
-}catch(e){
-
-applications = [];
-
-}
-
-
-/* CHECK EXISTING APPLICATION */
-
-const existing =
-applications.find(function(application){
-
-return application.phone === phone &&
-(
-application.status === "pending" ||
-application.status === "approved"
-);
+return normalizeTeacherPhone(user.phone)===phone;
 
 });
 
 
-if(existing){
+if(existingUser){
 
-if(existing.status === "pending"){
+error.textContent=
+"This phone number already has an account.";
 
-error.textContent =
-"You already have a pending teacher application. Please wait for CEO review.";
-
-}else{
-
-error.textContent =
-"You already have an approved teacher account. Please use the login page.";
-
-}
-
-error.style.display = "block";
+error.style.display="block";
 
 return;
 
 }
 
 
-/* CREATE APPLICATION */
+/* ===== CREATE TEACHER ACCOUNT ===== */
 
-const application = {
+const teacher={
 
 id:
-"APP-" + Date.now(),
+"TCH-"+Date.now().toString(36).toUpperCase(),
 
-name:
-name,
+name:name,
 
-phone:
-phone,
+phone:phone,
 
-email:
-email,
+email:email,
 
-subject:
-subject,
+subject:subject,
 
-qualification:
-qualification,
+qualification:qualification,
 
-experience:
-experience,
+experience:experience,
 
-password:
-password,
+password:password,
 
-status:
-"pending",
+role:"teacher",
+
+status:"pending",
 
 createdAt:
-new Date().toISOString(),
-
-reviewedAt:
-null,
-
-reviewedBy:
-null,
-
-rejectionReason:
-""
+new Date().toISOString()
 
 };
 
 
-/* SAVE */
+/* ===== SAVE TO USERS ===== */
+
+users.push(teacher);
+
+saveUsers(users);
+
+
+/* ===== GET APPLICATIONS ===== */
+
+let applications=[];
+
+try{
+
+applications=
+JSON.parse(
+localStorage.getItem("muleTeacherApplications")
+)||[];
+
+}catch(e){
+
+applications=[];
+
+}
+
+
+/* ===== CREATE APPLICATION ===== */
+
+const application={
+
+id:
+"APP-"+Date.now(),
+
+name:name,
+
+phone:phone,
+
+email:email,
+
+subject:subject,
+
+qualification:qualification,
+
+experience:experience,
+
+password:password,
+
+status:"pending",
+
+createdAt:
+new Date().toISOString(),
+
+reviewedAt:null,
+
+reviewedBy:null,
+
+rejectionReason:""
+
+};
+
+
+/* ===== SAVE APPLICATION ===== */
 
 applications.push(application);
 
@@ -730,46 +691,39 @@ JSON.stringify(applications)
 );
 
 
-/* SUCCESS MESSAGE */
+/* ===== SUCCESS ===== */
 
-success.innerHTML =
+success.innerHTML=
 
-"🎉 <strong>Application Submitted Successfully!</strong><br><br>" +
+"🎉 <strong>Application Submitted Successfully!</strong><br><br>"+
 
-"Welcome, " + escapeHTML(name) + ".<br><br>" +
+"Welcome, "+escapeHTML(name)+".<br><br>"+
 
-"Your application is now " +
-
-"<strong>PENDING CEO REVIEW</strong>.<br><br>" +
+"Your application is now <strong>PENDING CEO REVIEW</strong>.<br><br>"+
 
 "You cannot start teaching until the CEO approves your application.";
 
-success.style.display = "block";
+success.style.display="block";
 
-
-/* RESET FORM */
 
 document.querySelector("form").reset();
 
 }
 
 
-/* PROTECT DISPLAY TEXT */
+/* ===== ESCAPE HTML ===== */
 
 function escapeHTML(text){
 
-const div =
-document.createElement("div");
+const div=document.createElement("div");
 
-div.textContent =
-text;
+div.textContent=text;
 
 return div.innerHTML;
 
 }
 
 </script>
-
 
 <script src="js/app.js"></script>
 <script src="js/auth.js"></script>
