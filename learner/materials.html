@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f">
-
-<title>Learning Materials | Mule Learner Tuition</title>
-
-<style>
+<meta name="theme-color" content="#173b8f"><title>Learning Materials | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
@@ -141,213 +136,87 @@ font-size:11px;
 color:#667085;
 margin-top:25px;
 }
-</style>
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
+</style></head><body><header><div class="logo">
 Mule Learner Tuition
-</div>
-
-<a href="dashboard.html" class="back">
+</div><a href="dashboard.html" class="back">
 ← Dashboard
-</a>
-
-</header>
-
-<div class="container">
-
-<div class="heading">
-
-<h1>Learning Materials 📖</h1>
-
-<p>
+</a></header><div class="container"><div class="heading"><h1>Learning Materials 📖</h1><p>
 Access notes and study resources for your classes.
-</p>
-
-</div>
-
-
-<div class="material">
-
-<div class="material-top">
-
-<div class="icon">📐</div>
-
-<div>
-
-<h3>Mathematics Notes</h3>
-
-<p>Algebra & Basic Calculations</p>
-
-</div>
-
-</div>
-
-<span class="tag">
+</p></div><div class="material"><div class="material-top"><div class="icon">📐</div><div><h3>Mathematics Notes</h3><p>Algebra & Basic Calculations</p></div></div><span class="tag">
 MATHEMATICS
-</span>
-
-<div class="actions">
-
-<button class="btn view"
+</span><div class="actions"><button
+class="btn view"
 onclick="viewMaterial('Mathematics Notes')">
-👁️ View
-</button>
 
-<button class="btn download"
+👁️ View
+
+</button><button
+class="btn download"
 onclick="downloadMaterial('Mathematics Notes')">
+
 ⬇️ Download
-</button>
 
-</div>
-
-</div>
-
-
-<div class="material">
-
-<div class="material-top">
-
-<div class="icon">💻</div>
-
-<div>
-
-<h3>ICT Notes</h3>
-
-<p>Introduction to Computer Studies</p>
-
-</div>
-
-</div>
-
-<span class="tag">
+</button></div></div><div class="material"><div class="material-top"><div class="icon">💻</div><div><h3>ICT Notes</h3><p>Introduction to Computer Studies</p></div></div><span class="tag">
 ICT
-</span>
-
-<div class="actions">
-
-<button class="btn view"
+</span><div class="actions"><button
+class="btn view"
 onclick="viewMaterial('ICT Notes')">
-👁️ View
-</button>
 
-<button class="btn download"
+👁️ View
+
+</button><button
+class="btn download"
 onclick="downloadMaterial('ICT Notes')">
+
 ⬇️ Download
-</button>
 
-</div>
-
-</div>
-
-
-<div class="material">
-
-<div class="material-top">
-
-<div class="icon">📖</div>
-
-<div>
-
-<h3>English Notes</h3>
-
-<p>Grammar & Communication Skills</p>
-
-</div>
-
-</div>
-
-<span class="tag">
+</button></div></div><div class="material"><div class="material-top"><div class="icon">📖</div><div><h3>English Notes</h3><p>Grammar & Communication Skills</p></div></div><span class="tag">
 ENGLISH
-</span>
-
-<div class="actions">
-
-<button class="btn view"
+</span><div class="actions"><button
+class="btn view"
 onclick="viewMaterial('English Notes')">
-👁️ View
-</button>
 
-<button class="btn download"
+👁️ View
+
+</button><button
+class="btn download"
 onclick="downloadMaterial('English Notes')">
+
 ⬇️ Download
-</button>
 
-</div>
-
-</div>
-
-
-<div class="material">
-
-<div class="material-top">
-
-<div class="icon">🔬</div>
-
-<div>
-
-<h3>Science Notes</h3>
-
-<p>General Science Study Material</p>
-
-</div>
-
-</div>
-
-<span class="tag">
+</button></div></div><div class="material"><div class="material-top"><div class="icon">🔬</div><div><h3>Science Notes</h3><p>General Science Study Material</p></div></div><span class="tag">
 SCIENCE
-</span>
-
-<div class="actions">
-
-<button class="btn view"
+</span><div class="actions"><button
+class="btn view"
 onclick="viewMaterial('Science Notes')">
+
 👁️ View
-</button>
 
-<button class="btn download"
+</button><button
+class="btn download"
 onclick="downloadMaterial('Science Notes')">
+
 ⬇️ Download
-</button>
 
-</div>
-
-</div>
-
-
-<div class="info">
-
-<strong>💡 Important</strong>
+</button></div></div><div class="info"><strong>💡 Important</strong>
 
 <br><br>
 
-Learning materials will be provided and managed by
-Mule Learner Tuition teachers. Materials available to
-you will depend on the subjects and classes you are
-enrolled in.
+Learning materials are provided and managed by
+Mule Learner Tuition teachers.
 
-</div>
+Your access remains available while your approved
+learning plan is active.
 
+You will not be asked to pay again while your current
+approved plan has not expired.
 
-<footer>
-
-Mule Learner Tuition<br>
+</div><footer>Mule Learner Tuition<br>
 Learn • Practice • Succeed
 
-</footer>
+</footer></div><!-- FIREBASE ACCESS CHECK --><script type="module">
 
-</div>
-
-
-<!-- FIREBASE ACCESS PROTECTION -->
-
-<script type="module">
-
-import { initializeApp }
+import {initializeApp}
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -358,9 +227,10 @@ get
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-const firebaseConfig = {
+const firebaseConfig={
 
-apiKey: "AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+apiKey:
+"AIzaSyCRyW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -383,14 +253,50 @@ appId:
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app=
+initializeApp(firebaseConfig);
 
-const db = getDatabase(app);
+const db=
+getDatabase(app);
 
+
+/* =========================
+   NORMALIZE PHONE
+========================= */
+
+function normalizePhone(phone){
+
+phone=
+String(phone||"")
+.trim()
+.replace(/\s+/g,"");
+
+if(phone.startsWith("+260")){
+
+phone=
+"0"+phone.substring(4);
+
+}
+
+if(phone.startsWith("260")){
+
+phone=
+"0"+phone.substring(3);
+
+}
+
+return phone;
+
+}
+
+
+/* =========================
+   CHECK LEARNING ACCESS
+========================= */
 
 async function checkLearningAccess(){
 
-const userData =
+const userData=
 localStorage.getItem("muleCurrentUser");
 
 
@@ -398,7 +304,8 @@ if(!userData){
 
 alert("Please login first.");
 
-window.location.href="../login.html";
+window.location.href=
+"../login.html";
 
 return;
 
@@ -407,101 +314,189 @@ return;
 
 let learner;
 
-
 try{
 
-learner = JSON.parse(userData);
+learner=
+JSON.parse(userData);
 
 }catch(error){
 
-localStorage.removeItem("muleCurrentUser");
+localStorage.removeItem(
+"muleCurrentUser"
+);
 
-window.location.href="../login.html";
+alert(
+"Your login session is invalid."
+);
+
+window.location.href=
+"../login.html";
+
+return;
+
+}
+
+
+if(!learner){
+
+alert("Please login first.");
+
+window.location.href=
+"../login.html";
 
 return;
 
 }
 
 
-if(!learner || !learner.id){
+const learnerId=
+String(learner.id||"");
 
-alert("Your learner account could not be found.");
-
-window.location.href="../login.html";
-
-return;
-
-}
+const learnerPhone=
+normalizePhone(
+learner.phone||""
+);
 
 
 try{
 
-const paymentsRef =
-ref(db,"payments");
-
-const snapshot =
-await get(paymentsRef);
-
-
-let hasAccess = false;
+const snapshot=
+await get(
+ref(db,"payments")
+);
 
 
-if(snapshot.exists()){
+if(!snapshot.exists()){
 
-const payments = snapshot.val();
+showPaymentRequired();
+
+return;
+
+}
 
 
-Object.keys(payments).forEach(function(key){
+const payments=
+snapshot.val();
 
-const payment = payments[key];
+let hasAccess=false;
+
+
+Object.keys(payments)
+.forEach(function(key){
+
+const payment=
+payments[key];
+
+if(!payment)return;
+
+
+const paymentLearnerId=
+String(
+payment.learnerId||""
+);
+
+
+const paymentPhone=
+normalizePhone(
+payment.learnerPhone||
+payment.phone||
+""
+);
+
+
+const matchesLearner=
+
+(
+learnerId &&
+paymentLearnerId &&
+paymentLearnerId===
+learnerId
+)
+||
+(
+learnerPhone &&
+paymentPhone &&
+paymentPhone===
+learnerPhone
+);
+
+
+const approved=
+String(
+payment.status||""
+)
+.toLowerCase()
+==="approved";
+
+
+const expiresAt=
+Number(
+payment.expiresAt||0
+);
+
+
+const active=
+expiresAt>
+Date.now();
 
 
 if(
-payment &&
-payment.learnerId === learner.id &&
-payment.status === "approved" &&
-payment.expiresAt &&
-Number(payment.expiresAt) > Date.now()
+matchesLearner &&
+approved &&
+active
 ){
 
-hasAccess = true;
+hasAccess=true;
 
 }
 
 });
 
-}
-
 
 if(!hasAccess){
 
-alert(
-"🔒 Learning access is locked.\n\n" +
-"Your free trial or paid learning plan has expired " +
-"or has not yet been approved.\n\n" +
-"Please choose a learning plan to continue."
-);
-
-window.location.href="payments.html";
+showPaymentRequired();
 
 return;
 
 }
 
 
+/* ACCESS APPROVED */
+
+console.log(
+"Learning materials access approved."
+);
+
+
 }catch(error){
 
 console.error(
-"Firebase access check error:",
+"Firebase access error:",
 error
 );
 
 alert(
-"Unable to verify your learning access right now. " +
-"Please try again."
+"Unable to verify your learning access right now. Please check your internet connection and try again."
 );
 
-window.location.href="dashboard.html";
+}
+
+
+/* =========================
+   PAYMENT REQUIRED
+========================= */
+
+function showPaymentRequired(){
+
+alert(
+"🔒 Learning access is locked.\n\n"+
+"No active approved learning plan was found for this account.\n\n"+
+"If you have already paid, please make sure the CEO has approved the payment."
+);
+
+window.location.href=
+"payments.html";
 
 }
 
@@ -510,15 +505,12 @@ window.location.href="dashboard.html";
 
 checkLearningAccess();
 
-</script>
-
-
-<script>
+</script><script>
 
 function viewMaterial(name){
 
 alert(
-name +
+name+
 "\n\nThe material viewer will be connected when teachers begin uploading learning materials."
 );
 
@@ -528,17 +520,11 @@ name +
 function downloadMaterial(name){
 
 alert(
-name +
+name+
 "\n\nDownload will be available when the material storage system is connected."
 );
 
 }
 
-</script>
-
-
-<script src="../js/app.js"></script>
-<script src="../js/learner.js"></script>
-
-</body>
+</script><script src="../js/app.js"></script><script src="../js/learner.js"></script></body>
 </html>
