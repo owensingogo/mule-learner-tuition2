@@ -152,6 +152,16 @@ color:#9a6700;
 white-space:nowrap;
 }
 
+.approvedBadge{
+background:#ecfdf3;
+color:#027a48;
+}
+
+.rejectedBadge{
+background:#fee4e2;
+color:#b42318;
+}
+
 .details{
 margin-top:14px;
 border-top:1px solid #edf0f5;
@@ -181,10 +191,12 @@ word-break:break-word;
 display:flex;
 gap:8px;
 margin-top:13px;
+flex-wrap:wrap;
 }
 
 button{
 flex:1;
+min-width:100px;
 border:0;
 padding:10px;
 border-radius:8px;
@@ -200,6 +212,11 @@ color:#173b8f;
 
 .approve{
 background:#027a48;
+color:white;
+}
+
+.activate{
+background:#173b8f;
 color:white;
 }
 
@@ -250,7 +267,7 @@ grid-template-columns:repeat(4,1fr);
 <a href="dashboard.html" class="back">← CEO Dashboard</a>
 </header><div class="container"><div class="heading">
 <h1>Teacher Applications 📋</h1>
-<p>Review teacher applications and decide who can join the teaching team.</p>
+<p>Review applications, approve teachers and activate teacher accounts.</p>
 </div><input
 type="search"
 id="search"
@@ -278,33 +295,223 @@ oninput="searchApplications()"
 <p>Rejected</p>
 </div></div><div id="applicationList"></div><div id="empty" class="empty">
 No teacher applications found.
-</div><div class="notice">
-<strong>🔐 CEO Hiring Control</strong><br><br>
+</div><div class="notice"><strong>🔐 CEO Hiring Control</strong><br><br>
 
-Only the CEO should approve teacher applications.
-
-<br><br>
-
-Once approved, a teacher can access teaching duties,
-subjects, learners, scheduled classes and live classes.
+Only the CEO can approve and activate teachers.
 
 <br><br>
 
-Rejected or pending teachers must not be allowed to teach.
+After activation, the teacher can log in and access
+the Teacher Dashboard, subjects, learners, scheduled classes,
+materials and live classes.
 
 <br><br>
 
-Teacher hiring, suspension and removal remain under CEO control.
+Pending, rejected or suspended teachers cannot teach.
 
 </div><footer>
 Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
 </footer></div><script>
 
+"use strict";
+
 let applications=[];
 
 
-/* LOAD APPLICATIONS */
+/* =========================
+   NORMALIZE PHONE
+========================= */
+
+function normalizePhone(phone){
+
+phone=String(phone||"").trim();
+
+phone=phone.replace(/\s+/g,"");
+
+if(phone.startsWith("+260")){
+phone="0"+phone.substring(4);
+}
+
+if(phone.startsWith("260")){
+phone="0"+phone.substring(3);
+}
+
+return phone;
+
+}
+
+
+/* =========================
+   GET USERS
+========================= */
+
+function getUsers(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem("muleUsers")
+)||[];
+
+}catch(error){
+
+return [];
+
+}
+
+}
+
+
+/* =========================
+   SAVE USERS
+========================= */
+
+function saveUsers(users){
+
+localStorage.setItem(
+"muleUsers",
+JSON.stringify(users)
+);
+
+}
+
+
+/* =========================
+   CREATE / ACTIVATE TEACHER
+========================= */
+
+function activateTeacher(app){
+
+const users=getUsers();
+
+const phone=normalizePhone(app.phone);
+
+if(!phone){
+
+alert("Teacher phone number is missing.");
+
+return false;
+
+}
+
+let teacher=
+users.find(function(user){
+
+return normalizePhone(user.phone)===phone;
+
+});
+
+
+/* EXISTING ACCOUNT */
+
+if(teacher){
+
+teacher.name=
+app.name || teacher.name;
+
+teacher.phone=phone;
+
+teacher.email=
+app.email || teacher.email || "";
+
+teacher.subject=
+app.subject || teacher.subject || "";
+
+teacher.qualification=
+app.qualification || teacher.qualification || "";
+
+teacher.experience=
+app.experience || teacher.experience || "";
+
+teacher.role="teacher";
+
+teacher.status="active";
+
+if(app.password){
+
+teacher.password=app.password;
+
+}
+
+teacher.approvedAt=
+new Date().toISOString();
+
+teacher.approvedBy="CEO";
+
+saveUsers(users);
+
+return true;
+
+}
+
+
+/* OLD APPLICATION WITHOUT ACCOUNT */
+
+if(!app.password){
+
+alert(
+"This old application has no saved password. "+
+"The teacher must register again to create a login password."
+);
+
+return false;
+
+}
+
+const newTeacher={
+
+id:
+app.id ||
+"TCH-"+Date.now(),
+
+name:
+app.name || "Teacher",
+
+phone:phone,
+
+email:
+app.email || "",
+
+subject:
+app.subject || "",
+
+qualification:
+app.qualification || "",
+
+experience:
+app.experience || "",
+
+password:
+app.password,
+
+role:"teacher",
+
+status:"active",
+
+createdAt:
+app.createdAt ||
+new Date().toISOString(),
+
+approvedAt:
+new Date().toISOString(),
+
+approvedBy:"CEO"
+
+};
+
+users.push(newTeacher);
+
+saveUsers(users);
+
+return true;
+
+}
+
+
+/* =========================
+   LOAD APPLICATIONS
+========================= */
 
 function loadApplications(){
 
@@ -331,7 +538,9 @@ renderApplications();
 }
 
 
-/* SAVE APPLICATIONS */
+/* =========================
+   SAVE APPLICATIONS
+========================= */
 
 function saveApplications(){
 
@@ -343,7 +552,30 @@ JSON.stringify(applications)
 }
 
 
-/* RENDER APPLICATIONS */
+/* =========================
+   CHECK ACCOUNT STATUS
+========================= */
+
+function getTeacherAccount(app){
+
+const users=getUsers();
+
+const phone=normalizePhone(app.phone);
+
+return users.find(function(user){
+
+return normalizePhone(user.phone)===phone
+&&
+String(user.role).toLowerCase()==="teacher";
+
+});
+
+}
+
+
+/* =========================
+   RENDER APPLICATIONS
+========================= */
 
 function renderApplications(){
 
@@ -359,17 +591,18 @@ let rejected=0;
 
 applications.forEach(function(app){
 
-if(app.status==="pending"){
-pending++;
-}
+if(app.status==="pending") pending++;
 
-if(app.status==="approved"){
-approved++;
-}
+if(app.status==="approved") approved++;
 
-if(app.status==="rejected"){
-rejected++;
-}
+if(app.status==="rejected") rejected++;
+
+const teacherAccount=
+getTeacherAccount(app);
+
+const accountActive=
+teacherAccount &&
+teacherAccount.status==="active";
 
 const card=
 document.createElement("div");
@@ -378,13 +611,10 @@ card.className="application";
 
 card.dataset.search=
 (
-(app.name || "")+" "+
-(app.phone || "")+" "+
-(app.subject || "")
+(app.name||"")+" "+
+(app.phone||"")+" "+
+(app.subject||"")
 ).toLowerCase();
-
-let statusText=
-(app.status || "pending").toUpperCase();
 
 let badgeClass="";
 
@@ -396,12 +626,88 @@ if(app.status==="rejected"){
 badgeClass="rejectedBadge";
 }
 
+let statusText=
+(app.status||"pending").toUpperCase();
+
 let created=
 app.createdAt
 ?
 new Date(app.createdAt).toLocaleDateString()
 :
 "Not available";
+
+let accountText=
+accountActive
+?
+"Active"
+:
+(app.status==="approved"
+?
+"Not Activated"
+:
+"Not Active");
+
+let actionHTML="";
+
+if(app.status==="pending"){
+
+actionHTML=`
+
+<button
+class="approve"
+onclick="approveApplication('${app.id}')">
+✓ Approve & Activate
+</button>
+
+<button
+class="reject"
+onclick="rejectApplication('${app.id}')">
+✕ Reject
+</button>
+
+`;
+
+}else if(app.status==="approved"){
+
+if(accountActive){
+
+actionHTML=`
+
+<button
+class="activate"
+disabled>
+✓ Teacher Account Active
+</button>
+
+`;
+
+}else{
+
+actionHTML=`
+
+<button
+class="activate"
+onclick="activateApprovedTeacher('${app.id}')">
+🔄 Activate Teacher Account
+</button>
+
+`;
+
+}
+
+}else if(app.status==="rejected"){
+
+actionHTML=`
+
+<button
+class="reject"
+disabled>
+✕ Application Rejected
+</button>
+
+`;
+
+}
 
 card.innerHTML=`
 
@@ -416,11 +722,11 @@ card.innerHTML=`
 <div>
 
 <div class="name">
-${escapeHTML(app.name || "Teacher Applicant")}
+${escapeHTML(app.name||"Teacher Applicant")}
 </div>
 
 <div class="phone">
-Phone: ${escapeHTML(app.phone || "Not Available")}
+Phone: ${escapeHTML(app.phone||"Not Available")}
 </div>
 
 </div>
@@ -438,28 +744,28 @@ ${statusText}
 <div class="row">
 <span class="label">Email</span>
 <span class="value">
-${escapeHTML(app.email || "Not Provided")}
+${escapeHTML(app.email||"Not Provided")}
 </span>
 </div>
 
 <div class="row">
 <span class="label">Qualification</span>
 <span class="value">
-${escapeHTML(app.qualification || "Not Provided")}
+${escapeHTML(app.qualification||"Not Provided")}
 </span>
 </div>
 
 <div class="row">
 <span class="label">Experience</span>
 <span class="value">
-${escapeHTML(app.experience || "Not Provided")}
+${escapeHTML(app.experience||"Not Provided")}
 </span>
 </div>
 
 <div class="row">
 <span class="label">Subject</span>
 <span class="value">
-${escapeHTML(app.subject || "Not Assigned")}
+${escapeHTML(app.subject||"Not Assigned")}
 </span>
 </div>
 
@@ -477,6 +783,13 @@ ${getStatusText(app.status)}
 </span>
 </div>
 
+<div class="row">
+<span class="label">Teacher Account</span>
+<span class="value">
+${accountText}
+</span>
+</div>
+
 </div>
 
 <div class="actions">
@@ -487,19 +800,7 @@ onclick="viewApplication('${app.id}')">
 👁 View
 </button>
 
-<button
-class="approve"
-onclick="approveApplication('${app.id}')"
-${app.status!=="pending" ? "disabled" : ""}>
-✓ Approve
-</button>
-
-<button
-class="reject"
-onclick="rejectApplication('${app.id}')"
-${app.status!=="pending" ? "disabled" : ""}>
-✕ Reject
-</button>
+${actionHTML}
 
 </div>
 
@@ -515,12 +816,14 @@ document.getElementById("approved").textContent=approved;
 document.getElementById("rejected").textContent=rejected;
 
 document.getElementById("empty").style.display=
-total===0 ? "block" : "none";
+total===0?"block":"none";
 
 }
 
 
-/* APPROVE */
+/* =========================
+   APPROVE AND ACTIVATE
+========================= */
 
 function approveApplication(id){
 
@@ -530,24 +833,42 @@ app=>app.id===id
 );
 
 if(index===-1){
+
 alert("Application not found.");
+
 return;
+
 }
 
 const app=applications[index];
 
 if(app.status!=="pending"){
+
 alert("This application has already been reviewed.");
+
 return;
+
 }
 
 const confirmHire=
 confirm(
-"Approve and hire "+(app.name || "this teacher")+"?"
+"Approve and activate "+ 
+(app.name||"this teacher")+"?"
 );
 
 if(!confirmHire){
+
 return;
+
+}
+
+const activated=
+activateTeacher(app);
+
+if(!activated){
+
+return;
+
 }
 
 app.status="approved";
@@ -559,20 +880,100 @@ app.reviewedBy="CEO";
 
 app.rejectionReason="";
 
+app.teacherAccountStatus="active";
+
 saveApplications();
 
 renderApplications();
 
 alert(
-"✅ Teacher approved successfully.\n\n"+
-(app.name || "The teacher")+
-" can now be activated as an approved teacher."
+"🎉 Teacher approved successfully!\n\n"+
+(app.name||"The teacher")+
+" is now an ACTIVE teacher at Mule Learner Tuition.\n\n"+
+"They can now log in to the Teacher Dashboard."
 );
 
 }
 
 
-/* REJECT */
+/* =========================
+   ACTIVATE ALREADY APPROVED
+========================= */
+
+function activateApprovedTeacher(id){
+
+const index=
+applications.findIndex(
+app=>app.id===id
+);
+
+if(index===-1){
+
+alert("Application not found.");
+
+return;
+
+}
+
+const app=applications[index];
+
+if(app.status!=="approved"){
+
+alert(
+"Only an approved teacher can be activated here."
+);
+
+return;
+
+}
+
+const confirmActivate=
+confirm(
+"Activate the teacher account for "+
+(app.name||"this teacher")+"?"
+);
+
+if(!confirmActivate){
+
+return;
+
+}
+
+const activated=
+activateTeacher(app);
+
+if(!activated){
+
+return;
+
+}
+
+app.teacherAccountStatus="active";
+
+app.reviewedAt=
+app.reviewedAt ||
+new Date().toISOString();
+
+app.reviewedBy=
+app.reviewedBy ||
+"CEO";
+
+saveApplications();
+
+renderApplications();
+
+alert(
+"✅ Teacher account activated!\n\n"+
+(app.name||"The teacher")+
+" can now log in using the phone number and password used during registration."
+);
+
+}
+
+
+/* =========================
+   REJECT
+========================= */
 
 function rejectApplication(id){
 
@@ -582,15 +983,21 @@ app=>app.id===id
 );
 
 if(index===-1){
+
 alert("Application not found.");
+
 return;
+
 }
 
 const app=applications[index];
 
 if(app.status!=="pending"){
+
 alert("This application has already been reviewed.");
+
 return;
+
 }
 
 const reason=
@@ -599,21 +1006,29 @@ prompt(
 );
 
 if(reason===null){
+
 return;
+
 }
 
 if(reason.trim()===""){
+
 alert("Please enter a rejection reason.");
+
 return;
+
 }
 
 const confirmReject=
 confirm(
-"Reject "+(app.name || "this teacher")+"?"
+"Reject "+
+(app.name||"this teacher")+"?"
 );
 
 if(!confirmReject){
+
 return;
+
 }
 
 app.status="rejected";
@@ -626,19 +1041,49 @@ app.reviewedBy="CEO";
 app.rejectionReason=
 reason.trim();
 
+app.teacherAccountStatus="rejected";
+
+
+/* UPDATE EXISTING ACCOUNT */
+
+const users=getUsers();
+
+const phone=
+normalizePhone(app.phone);
+
+const teacher=
+users.find(function(user){
+
+return normalizePhone(user.phone)===phone;
+
+});
+
+if(teacher){
+
+teacher.status="rejected";
+
+teacher.role="teacher";
+
+saveUsers(users);
+
+}
+
 saveApplications();
 
 renderApplications();
 
 alert(
 "❌ Application rejected.\n\n"+
-"Reason: "+reason.trim()
+"Reason: "+
+reason.trim()
 );
 
 }
 
 
-/* VIEW */
+/* =========================
+   VIEW APPLICATION
+========================= */
 
 function viewApplication(id){
 
@@ -648,30 +1093,55 @@ item=>item.id===id
 );
 
 if(!app){
+
 alert("Application not found.");
+
 return;
+
 }
 
 alert(
+
 "TEACHER APPLICATION\n\n"+
-"Name: "+(app.name || "Not provided")+"\n"+
-"Phone: "+(app.phone || "Not provided")+"\n"+
-"Email: "+(app.email || "Not provided")+"\n"+
-"Subject: "+(app.subject || "Not provided")+"\n"+
-"Qualification: "+(app.qualification || "Not provided")+"\n"+
-"Experience: "+(app.experience || "Not provided")+"\n"+
-"Status: "+getStatusText(app.status)+
-(app.rejectionReason
+
+"Name: "+
+(app.name||"Not provided")+"\n"+
+
+"Phone: "+
+(app.phone||"Not provided")+"\n"+
+
+"Email: "+
+(app.email||"Not provided")+"\n"+
+
+"Subject: "+
+(app.subject||"Not provided")+"\n"+
+
+"Qualification: "+
+(app.qualification||"Not provided")+"\n"+
+
+"Experience: "+
+(app.experience||"Not provided")+"\n"+
+
+"Status: "+
+getStatusText(app.status)+
+
+(
+app.rejectionReason
 ?
-"\nRejection Reason: "+app.rejectionReason
+"\nRejection Reason: "+
+app.rejectionReason
 :
-"")
+""
+)
+
 );
 
 }
 
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
 
 function searchApplications(){
 
@@ -689,11 +1159,12 @@ let found=0;
 cards.forEach(function(card){
 
 const text=
-card.dataset.search || "";
+card.dataset.search||"";
 
 if(text.includes(input)){
 
 card.style.display="block";
+
 found++;
 
 }else{
@@ -705,17 +1176,19 @@ card.style.display="none";
 });
 
 document.getElementById("empty").style.display=
-found===0 ? "block" : "none";
+found===0?"block":"none";
 
 }
 
 
-/* STATUS */
+/* =========================
+   STATUS
+========================= */
 
 function getStatusText(status){
 
 if(status==="approved"){
-return "Approved — Teacher can be activated";
+return "Approved — Teacher Active";
 }
 
 if(status==="rejected"){
@@ -727,21 +1200,30 @@ return "Pending CEO Review";
 }
 
 
-/* SECURITY FOR DISPLAY */
+/* =========================
+   SECURITY
+========================= */
 
 function escapeHTML(value){
 
 return String(value)
+
 .replace(/&/g,"&amp;")
+
 .replace(/</g,"&lt;")
+
 .replace(/>/g,"&gt;")
+
 .replace(/"/g,"&quot;")
+
 .replace(/'/g,"&#039;");
 
 }
 
 
-/* START */
+/* =========================
+   START
+========================= */
 
 loadApplications();
 
