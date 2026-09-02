@@ -2,1022 +2,639 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
 
 <title>Payment Status | Mule Learner Tuition</title>
 
 <style>
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+    box-sizing:border-box;
 }
 
 body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f7fb;
+    color:#222;
 }
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
+.header{
+    background:#173b8f;
+    color:white;
+    padding:18px 15px;
+    text-align:center;
 }
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
-
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
+.header h2{
+    margin:0;
+    font-size:21px;
 }
 
 .container{
-max-width:600px;
-margin:auto;
-padding:20px 16px;
+    max-width:500px;
+    margin:20px auto;
+    padding:0 14px;
 }
 
-.heading{
-margin-bottom:20px;
+.card{
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.heading h1{
-font-size:24px;
-color:#173b8f;
-margin-bottom:5px;
+.status{
+    text-align:center;
+    padding:20px 10px;
+    border-radius:12px;
+    margin-bottom:15px;
 }
 
-.heading p{
-font-size:13px;
-color:#667085;
+.status h3{
+    margin:8px 0;
+    font-size:20px;
 }
 
-.status-card{
-background:white;
-padding:22px;
-border-radius:15px;
-box-shadow:0 5px 20px rgba(20,50,100,.08);
-text-align:center;
-}
-
-.status-icon{
-font-size:48px;
-margin-bottom:10px;
-}
-
-.status-card h2{
-font-size:21px;
-margin-bottom:7px;
-}
-
-.status-card p{
-font-size:13px;
-color:#667085;
-line-height:1.6;
-}
-
-.details{
-margin-top:20px;
-border-top:1px solid #edf0f5;
-padding-top:18px;
-text-align:left;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-gap:15px;
-padding:10px 0;
-font-size:13px;
-border-bottom:1px solid #f0f2f5;
-}
-
-.row:last-child{
-border-bottom:0;
-}
-
-.label{
-color:#667085;
-}
-
-.value{
-font-weight:700;
-text-align:right;
-}
-
-.badge{
-display:inline-block;
-margin-top:18px;
-padding:7px 12px;
-border-radius:20px;
-font-size:11px;
-font-weight:bold;
+.status p{
+    margin:6px 0;
+    line-height:1.5;
 }
 
 .green{
-color:#027a48;
-background:#ecfdf3;
+    background:#e8f7ed;
+    color:#137333;
 }
 
 .yellow{
-color:#9a6700;
-background:#fff4db;
+    background:#fff8df;
+    color:#8a6500;
 }
 
 .red{
-color:#b42318;
-background:#fff1f2;
+    background:#fdeaea;
+    color:#b42318;
 }
 
 .gray{
-color:#475467;
-background:#eef3f7;
+    background:#eef1f5;
+    color:#555;
 }
 
 .info{
-margin-top:18px;
-background:#eef3ff;
-padding:16px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
+    margin-top:15px;
 }
 
-.support{
-margin-top:18px;
-background:#173b8f;
-color:white;
-padding:20px;
-border-radius:13px;
-text-align:center;
+.row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:11px 0;
+    border-bottom:1px solid #eee;
 }
 
-.support p{
-font-size:12px;
-opacity:.9;
-margin:7px 0 13px;
+.row:last-child{
+    border-bottom:none;
 }
 
-.whatsapp{
-display:inline-block;
-background:#25d366;
-color:white;
-text-decoration:none;
-padding:11px 16px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
+.label{
+    color:#777;
 }
 
-.dashboard{
-display:block;
-margin-top:18px;
-background:white;
-color:#173b8f;
-border:1px solid #d8deea;
-padding:12px;
-border-radius:9px;
-text-align:center;
-text-decoration:none;
-font-size:13px;
-font-weight:bold;
+.value{
+    font-weight:bold;
+    text-align:right;
 }
 
-.loading{
-padding:25px;
-text-align:center;
-color:#667085;
-font-size:13px;
+button{
+    width:100%;
+    border:none;
+    background:#173b8f;
+    color:white;
+    padding:13px;
+    border-radius:10px;
+    font-size:16px;
+    margin-top:15px;
 }
 
-.error{
-color:#b42318;
-background:#fff1f2;
-padding:15px;
-border-radius:10px;
-font-size:12px;
-line-height:1.5;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
+.back{
+    background:#555;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-
-<div class="logo">
-Mule Learner Tuition
+<div class="header">
+    <h2>💳 Payment Status</h2>
 </div>
-
-<a href="dashboard.html" class="back">
-← Dashboard
-</a>
-
-</header>
 
 <div class="container">
 
-<div class="heading">
+    <div class="card">
 
-<h1>
-Payment Status 🧾
-</h1>
+        <div id="statusBox" class="status gray">
+            <div style="font-size:32px;">⏳</div>
+            <h3>Checking Status...</h3>
+            <p>Please wait.</p>
+        </div>
 
-<p>
-Check the status of your learning access.
-</p>
+        <div id="paymentInfo" class="info"></div>
 
-</div>
+        <button onclick="loadPaymentStatus()">🔄 Refresh Status</button>
 
-<div id="statusArea">
+        <button class="back" onclick="location.href='dashboard.html'">
+            ← Back to Dashboard
+        </button>
 
-<div class="status-card loading">
-Checking your payment status...
-</div>
-
-</div>
-
-<div class="info">
-
-<strong>💡 Payment Information</strong>
-
-<br><br>
-
-🟡 <strong>Pending:</strong>
-Your payment is waiting for CEO verification.
-
-<br><br>
-
-🟢 <strong>Approved:</strong>
-Your learning access is active.
-
-<br><br>
-
-🔴 <strong>Rejected:</strong>
-The CEO did not approve the payment. Check the reason shown above.
-
-<br><br>
-
-🆓 <strong>Free Trial:</strong>
-Your 6-hour FREE trial activates automatically and does not require CEO approval.
-
-<br><br>
-
-⏱️ When your learning period expires, access will automatically lock.
+    </div>
 
 </div>
-
-<div class="support">
-
-<h3>
-Need Help?
-</h3>
-
-<p>
-If you have already paid and your payment has not been approved,
-contact customer support.
-</p>
-
-<a
-href="https://wa.me/260978362800"
-class="whatsapp">
-
-💬 WhatsApp Support
-
-</a>
-
-</div>
-
-<a href="dashboard.html" class="dashboard">
-← Return to Learner Dashboard
-</a>
-
-<footer>
-
-Mule Learner Tuition
-<br>
-Learn • Practice • Succeed
-
-</footer>
-
-</div>
-
-
-<!-- FIREBASE -->
 
 <script type="module">
 
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
-getDatabase,
-ref,
-get,
-query,
-orderByChild,
-equalTo
-}
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+    getDatabase,
+    ref,
+    get
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-const firebaseConfig={
-
-apiKey:
-"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
-
-authDomain:
-"mule-learner-tuition-264fe.firebaseapp.com",
-
-databaseURL:
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
-
-projectId:
-"mule-learner-tuition-264fe",
-
-storageBucket:
-"mule-learner-tuition-264fe.firebasestorage.app",
-
-messagingSenderId:
-"656883565460",
-
-appId:
-"1:656883565460:web:3aaa6a5b638a34a6d28581"
-
+const firebaseConfig = {
+    apiKey: "AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+    authDomain: "mule-learner-tuition-264fe.firebaseapp.com",
+    databaseURL: "https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+    projectId: "mule-learner-tuition-264fe",
+    storageBucket: "mule-learner-tuition-264fe.firebasestorage.app",
+    messagingSenderId: "656883565460",
+    appId: "1:656883565460:web:3aaa6a5b638a34a6d28581"
 };
 
 
-const app=initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-const db=getDatabase(app);
-
-
-/* ===== GET LEARNER ===== */
 
 function getLearner(){
 
-try{
+    try{
 
-const user=
-JSON.parse(
-localStorage.getItem("muleCurrentUser")
-);
+        const current = localStorage.getItem("muleCurrentUser");
 
-if(!user) return null;
+        if(!current) return null;
 
-return user;
+        return JSON.parse(current);
 
-}catch(error){
+    }catch(error){
 
-return null;
+        console.error(error);
+        return null;
 
-}
+    }
 
 }
 
-
-/* ===== CONVERT DATE ===== */
 
 function getTime(value){
 
-if(!value) return 0;
+    if(value === null || value === undefined || value === "")
+        return 0;
 
-if(typeof value==="number"){
-return value;
-}
+    if(typeof value === "number")
+        return value;
 
-if(!isNaN(Number(value))){
-return Number(value);
-}
+    if(!isNaN(Number(value)) && String(value).trim() !== "")
+        return Number(value);
 
-const date=new Date(value);
+    const date = new Date(value);
 
-if(isNaN(date.getTime())){
-return 0;
-}
+    if(isNaN(date.getTime()))
+        return 0;
 
-return date.getTime();
+    return date.getTime();
 
 }
 
-
-/* ===== FORMAT DATE ===== */
 
 function formatDate(value){
 
-const time=getTime(value);
+    const time = getTime(value);
 
-if(!time){
-return "Not available";
-}
+    if(!time)
+        return "Not available";
 
-return new Date(time).toLocaleString(
-"en-ZM",
-{
-day:"2-digit",
-month:"short",
-year:"numeric",
-hour:"2-digit",
-minute:"2-digit"
-}
-);
+    return new Date(time).toLocaleString();
 
 }
 
 
-/* ===== FORMAT REMAINING ===== */
+function remainingTime(value){
 
-function remainingTime(expiry){
+    const expiry = getTime(value);
 
-const difference=
-getTime(expiry)-Date.now();
+    if(!expiry)
+        return "";
 
-if(difference<=0){
-return "Expired";
-}
+    let difference = expiry - Date.now();
 
-const hours=
-Math.floor(difference/(1000*60*60));
+    if(difference <= 0)
+        return "Expired";
 
-const minutes=
-Math.floor(
-(difference%(1000*60*60))/
-(1000*60)
-);
+    const hours = Math.floor(difference / (1000 * 60 * 60));
 
-if(hours>0){
-return hours+"h "+minutes+"m remaining";
-}
+    const minutes = Math.floor(
+        (difference % (1000 * 60 * 60)) /
+        (1000 * 60)
+    );
 
-return minutes+"m remaining";
+    if(hours > 0)
+        return hours + " hour(s) " + minutes + " minute(s) remaining";
+
+    return minutes + " minute(s) remaining";
 
 }
 
 
-/* ===== LOAD STATUS ===== */
+function showStatus(type, icon, title, message){
+
+    const box = document.getElementById("statusBox");
+
+    box.className = "status " + type;
+
+    box.innerHTML = `
+        <div style="font-size:32px;">${icon}</div>
+        <h3>${title}</h3>
+        <p>${message}</p>
+    `;
+
+}
+
+
+function showInfo(payment){
+
+    const info = document.getElementById("paymentInfo");
+
+    if(!payment){
+
+        info.innerHTML = "";
+        return;
+
+    }
+
+    info.innerHTML = `
+
+        <div class="row">
+            <span class="label">Plan</span>
+            <span class="value">
+                ${payment.plan || "Not specified"}
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Amount</span>
+            <span class="value">
+                K${payment.amount ?? 0}
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Payment Method</span>
+            <span class="value">
+                ${payment.method || "Not specified"}
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Submitted</span>
+            <span class="value">
+                ${formatDate(payment.submittedAt)}
+            </span>
+        </div>
+
+        ${
+            payment.approvedAt
+            ?
+            `
+            <div class="row">
+                <span class="label">Approved</span>
+                <span class="value">
+                    ${formatDate(payment.approvedAt)}
+                </span>
+            </div>
+            `
+            :
+            ""
+        }
+
+        ${
+            payment.expiresAt
+            ?
+            `
+            <div class="row">
+                <span class="label">Access</span>
+                <span class="value">
+                    ${remainingTime(payment.expiresAt)}
+                </span>
+            </div>
+            `
+            :
+            ""
+        }
+
+        ${
+            payment.rejectionReason
+            ?
+            `
+            <div class="row">
+                <span class="label">Reason</span>
+                <span class="value">
+                    ${payment.rejectionReason}
+                </span>
+            </div>
+            `
+            :
+            ""
+        }
+
+    `;
+
+}
+
 
 async function loadPaymentStatus(){
 
-const area=
-document.getElementById("statusArea");
+    const learner = getLearner();
 
-const learner=getLearner();
+    if(!learner){
+
+        showStatus(
+            "red",
+            "🔐",
+            "Not Logged In",
+            "Please login again."
+        );
+
+        return;
+
+    }
 
 
-if(!learner){
+    showStatus(
+        "gray",
+        "⏳",
+        "Checking Status...",
+        "Connecting to payment records."
+    );
 
-area.innerHTML=
-'<div class="status-card">'+
-'<div class="status-icon">🔒</div>'+
-'<h2>Login Required</h2>'+
-'<p>Please log in as a learner to view your payment status.</p>'+
-'</div>';
 
-return;
+    try{
+
+        /*
+         * Read the complete payments node.
+         * This avoids query problems and works with
+         * both old and new payment records.
+         */
+
+        const snapshot = await get(ref(db, "payments"));
+
+
+        if(!snapshot.exists()){
+
+            showStatus(
+                "gray",
+                "💳",
+                "No Payment Found",
+                "You have not submitted a payment yet."
+            );
+
+            document.getElementById("paymentInfo").innerHTML = "";
+
+            return;
+
+        }
+
+
+        const data = snapshot.val();
+
+        let payments = [];
+
+
+        Object.keys(data).forEach(key => {
+
+            const payment = data[key];
+
+            if(!payment || typeof payment !== "object")
+                return;
+
+
+            /*
+             * Match using learner ID.
+             */
+
+            const idMatch =
+                payment.learnerId &&
+                learner.id &&
+                String(payment.learnerId) === String(learner.id);
+
+
+            /*
+             * Match using learner phone.
+             */
+
+            const phoneMatch =
+                payment.learnerPhone &&
+                learner.phone &&
+                String(payment.learnerPhone) === String(learner.phone);
+
+
+            if(idMatch || phoneMatch){
+
+                payments.push({
+                    ...payment,
+                    _key:key
+                });
+
+            }
+
+        });
+
+
+        if(payments.length === 0){
+
+            showStatus(
+                "gray",
+                "💳",
+                "No Payment Found",
+                "No payment record was found for your account."
+            );
+
+            document.getElementById("paymentInfo").innerHTML = "";
+
+            return;
+
+        }
+
+
+        /*
+         * Sort newest first.
+         */
+
+        payments.sort((a,b) => {
+
+            return getTime(b.submittedAt) -
+                   getTime(a.submittedAt);
+
+        });
+
+
+        /*
+         * First look for an active approved payment.
+         */
+
+        const active = payments.find(payment => {
+
+            return payment.status === "approved" &&
+                   getTime(payment.expiresAt) > Date.now();
+
+        });
+
+
+        if(active){
+
+            if(active.isFreeTrial){
+
+                showStatus(
+                    "green",
+                    "🆓",
+                    "Free Trial Active",
+                    "Your 6-hour free trial is active."
+                );
+
+            }else{
+
+                showStatus(
+                    "green",
+                    "🟢",
+                    "Payment Approved",
+                    "Your learning access is active."
+                );
+
+            }
+
+            showInfo(active);
+
+            return;
+
+        }
+
+
+        /*
+         * Check pending payments.
+         */
+
+        const pending = payments.find(payment =>
+            payment.status === "pending"
+        );
+
+
+        if(pending){
+
+            showStatus(
+                "yellow",
+                "🟡",
+                "Payment Pending",
+                "Your payment is waiting for CEO approval."
+            );
+
+            showInfo(pending);
+
+            return;
+
+        }
+
+
+        /*
+         * Check rejected payments.
+         */
+
+        const rejected = payments.find(payment =>
+            payment.status === "rejected"
+        );
+
+
+        if(rejected){
+
+            showStatus(
+                "red",
+                "🔴",
+                "Payment Rejected",
+                rejected.rejectionReason ||
+                "Your payment was rejected."
+            );
+
+            showInfo(rejected);
+
+            return;
+
+        }
+
+
+        /*
+         * If there was an approved payment but it expired.
+         */
+
+        const expired = payments.find(payment =>
+            payment.status === "approved"
+        );
+
+
+        if(expired){
+
+            showStatus(
+                "red",
+                "⏱️",
+                "Learning Access Expired",
+                "Your previous learning access has expired."
+            );
+
+            showInfo(expired);
+
+            return;
+
+        }
+
+
+        showStatus(
+            "gray",
+            "💳",
+            "No Active Plan",
+            "You currently have no active learning plan."
+        );
+
+        showInfo(payments[0]);
+
+
+    }catch(error){
+
+        console.error("Payment status error:", error);
+
+        showStatus(
+            "red",
+            "⚠️",
+            "Unable to Check Status",
+            "Please check your internet connection and try again."
+        );
+
+    }
 
 }
 
 
-try{
-
-
-const paymentsRef=
-ref(db,"payments");
-
-
-const learnerQuery=
-query(
-paymentsRef,
-orderByChild("learnerId"),
-equalTo(learner.id)
-);
-
-
-const snapshot=
-await get(learnerQuery);
-
-
-let payments=[];
-
-
-if(snapshot.exists()){
-
-snapshot.forEach(function(child){
-
-const payment=child.val();
-
-if(payment){
-payments.push({
-key:child.key,
-...payment
-});
-}
-
-});
-
-}
-
-
-/*
-Also check phone number.
-This helps older payment records.
-*/
-
-if(payments.length===0 && learner.phone){
-
-const phoneQuery=
-query(
-paymentsRef,
-orderByChild("learnerPhone"),
-equalTo(learner.phone)
-);
-
-const phoneSnapshot=
-await get(phoneQuery);
-
-if(phoneSnapshot.exists()){
-
-phoneSnapshot.forEach(function(child){
-
-const payment=child.val();
-
-if(payment){
-
-payments.push({
-key:child.key,
-...payment
-});
-
-}
-
-});
-
-}
-
-}
-
-
-/* NO PAYMENT */
-
-if(payments.length===0){
-
-area.innerHTML=
-
-'<div class="status-card">'+
-
-'<div class="status-icon">🧾</div>'+
-
-'<h2>No Payment Found</h2>'+
-
-'<p>'+
-'You have not submitted a learning payment yet.'
-+'</p>'+
-
-'<span class="badge gray">'+
-'NO PAYMENT'
-+'</span>'+
-
-'</div>';
-
-return;
-
-}
-
-
-/* SORT NEWEST FIRST */
-
-payments.sort(function(a,b){
-
-const dateA=
-getTime(a.submittedAt||a.createdAt);
-
-const dateB=
-getTime(b.submittedAt||b.createdAt);
-
-return dateB-dateA;
-
-});
-
-
-/* FIND ACTIVE APPROVED PAYMENT */
-
-let activePayment=null;
-
-for(const payment of payments){
-
-const expiry=
-getTime(payment.expiresAt);
-
-if(
-payment.status==="approved" &&
-expiry>Date.now()
-){
-
-if(
-!activePayment ||
-expiry>
-getTime(activePayment.expiresAt)
-){
-
-activePayment=payment;
-
-}
-
-}
-
-}
-
-
-/* ACTIVE PAYMENT */
-
-if(activePayment){
-
-const isFree=
-activePayment.isFreeTrial===true ||
-activePayment.plan==="Free Trial - 6 Hours";
-
-const icon=
-isFree ? "🆓" : "🟢";
-
-const title=
-isFree
-?
-"FREE Trial Active"
-:
-"Payment Approved";
-
-const badge=
-isFree
-?
-"FREE TRIAL ACTIVE"
-:
-"APPROVED — LEARNING ACTIVE";
-
-const badgeClass="green";
-
-const method=
-activePayment.method||
-activePayment.network||
-"Not available";
-
-area.innerHTML=
-
-'<div class="status-card">'+
-
-'<div class="status-icon">'+
-icon+
-'</div>'+
-
-'<h2 class="'+badgeClass+'">'+
-title+
-'</h2>'+
-
-'<p>'+
-(
-isFree
-?
-"Your 6-hour FREE learning trial is currently active."
-:
-"Your payment has been approved and your learning access is active."
-)+
-'</p>'+
-
-'<span class="badge '+badgeClass+'">'+
-badge+
-'</span>'+
-
-'<div class="details">'+
-
-'<div class="row">'+
-'<span class="label">Learning Plan</span>'+
-'<span class="value">'+
-(activePayment.plan||"Not available")+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Payment Method</span>'+
-'<span class="value">'+
-method+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Started</span>'+
-'<span class="value">'+
-formatDate(activePayment.startAt||activePayment.approvedAt)+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Expires</span>'+
-'<span class="value">'+
-formatDate(activePayment.expiresAt)+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Time Remaining</span>'+
-'<span class="value" id="remaining">'+
-remainingTime(activePayment.expiresAt)+
-'</span>'+
-'</div>'+
-
-'</div>'+
-
-'</div>';
-
-
-/* LIVE COUNTDOWN */
-
-setInterval(function(){
-
-const element=
-document.getElementById("remaining");
-
-if(!element) return;
-
-element.textContent=
-remainingTime(activePayment.expiresAt);
-
-if(getTime(activePayment.expiresAt)<=Date.now()){
-
-loadPaymentStatus();
-
-}
-
-},60000);
-
-
-return;
-
-}
-
-
-/* FIND PENDING PAYMENT */
-
-const pendingPayment=
-payments.find(function(payment){
-
-return payment.status==="pending";
-
-});
-
-
-if(pendingPayment){
-
-const method=
-pendingPayment.method||
-pendingPayment.network||
-"Not available";
-
-area.innerHTML=
-
-'<div class="status-card">'+
-
-'<div class="status-icon">🟡</div>'+
-
-'<h2 class="pending">Payment Pending</h2>'+
-
-'<p>'+
-"Your payment has been submitted and is waiting for CEO verification."
-+'</p>'+
-
-'<span class="badge yellow">'+
-'PENDING CEO VERIFICATION'+
-'</span>'+
-
-'<div class="details">'+
-
-'<div class="row">'+
-'<span class="label">Learning Plan</span>'+
-'<span class="value">'+
-(pendingPayment.plan||"Not available")+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Amount</span>'+
-'<span class="value">K'+
-(pendingPayment.amount||0)+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Payment Method</span>'+
-'<span class="value">'+
-method+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Submitted</span>'+
-'<span class="value">'+
-formatDate(
-pendingPayment.submittedAt||
-pendingPayment.createdAt
-)+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Learning Access</span>'+
-'<span class="value">Waiting for Approval</span>'+
-'</div>'+
-
-'</div>'+
-
-'</div>';
-
-return;
-
-}
-
-
-/* FIND REJECTED PAYMENT */
-
-const rejectedPayment=
-payments.find(function(payment){
-
-return payment.status==="rejected";
-
-});
-
-
-if(rejectedPayment){
-
-const reason=
-rejectedPayment.rejectionReason||
-"No reason was provided.";
-
-area.innerHTML=
-
-'<div class="status-card">'+
-
-'<div class="status-icon">🔴</div>'+
-
-'<h2 class="red">Payment Rejected</h2>'+
-
-'<p>'+
-"Your payment was not approved by the CEO."
-+'</p>'+
-
-'<span class="badge red">'+
-'PAYMENT REJECTED'+
-'</span>'+
-
-'<div class="details">'+
-
-'<div class="row">'+
-'<span class="label">Learning Plan</span>'+
-'<span class="value">'+
-(rejectedPayment.plan||"Not available")+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Amount</span>'+
-'<span class="value">K'+
-(rejectedPayment.amount||0)+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Reason</span>'+
-'<span class="value">'+
-reason+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Submitted</span>'+
-'<span class="value">'+
-formatDate(
-rejectedPayment.submittedAt||
-rejectedPayment.createdAt
-)+
-'</span>'+
-'</div>'+
-
-'</div>'+
-
-'</div>';
-
-return;
-
-}
-
-
-/* EXPIRED */
-
-const approvedPayment=
-payments.find(function(payment){
-
-return payment.status==="approved";
-
-});
-
-
-if(approvedPayment){
-
-area.innerHTML=
-
-'<div class="status-card">'+
-
-'<div class="status-icon">⏱️</div>'+
-
-'<h2>Learning Access Expired</h2>'+
-
-'<p>'+
-"Your previous learning plan has expired. Choose a new plan to continue learning."
-+'</p>'+
-
-'<span class="badge gray">EXPIRED</span>'+
-
-'<div class="details">'+
-
-'<div class="row">'+
-'<span class="label">Learning Plan</span>'+
-'<span class="value">'+
-(approvedPayment.plan||"Not available")+
-'</span>'+
-'</div>'+
-
-'<div class="row">'+
-'<span class="label">Expired</span>'+
-'<span class="value">'+
-formatDate(approvedPayment.expiresAt)+
-'</span>'+
-'</div>'+
-
-'</div>'+
-
-'</div>';
-
-return;
-
-}
-
-
-/* FALLBACK */
-
-area.innerHTML=
-
-'<div class="status-card">'+
-
-'<div class="status-icon">🧾</div>'+
-
-'<h2>No Active Payment</h2>'+
-
-'<p>'+
-"Choose a learning plan to continue."
-+'</p>'+
-
-'<span class="badge gray">NO ACTIVE PLAN</span>'+
-
-'</div>';
-
-
-}catch(error){
-
-console.error(error);
-
-area.innerHTML=
-
-'<div class="status-card">'+
-
-'<div class="status-icon">⚠️</div>'+
-
-'<h2 class="red">Unable to Check Status</h2>'+
-
-'<p>'+
-"Please check your internet connection and try again."
-+'</p>'+
-
-'</div>';
-
-}
-
-}
-
+window.loadPaymentStatus = loadPaymentStatus;
 
 loadPaymentStatus();
 
