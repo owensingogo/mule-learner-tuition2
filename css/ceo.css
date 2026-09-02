@@ -1,0 +1,452 @@
+/* =========================================
+MULE LEARNER TUITION
+CEO Control Centre
+========================================= */
+
+.ceo-page{
+min-height:100vh;
+background:#f4f7fc;
+color:#172033;
+}
+
+/* ===== CEO HEADER ===== */
+
+.ceo-header{
+background:#173b8f;
+color:#fff;
+padding:15px 16px;
+}
+
+.ceo-header-inner{
+max-width:1100px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+
+.ceo-logo{
+font-size:17px;
+font-weight:800;
+}
+
+.ceo-header-actions{
+display:flex;
+align-items:center;
+gap:7px;
+}
+
+.ceo-header-btn{
+border:1px solid rgba(255,255,255,.3);
+background:rgba(255,255,255,.1);
+color:#fff;
+padding:8px 10px;
+border-radius:7px;
+font-size:10px;
+}
+
+/* ===== HERO ===== */
+
+.ceo-hero{
+background:#173b8f;
+color:#fff;
+padding:10px 16px 25px;
+}
+
+.ceo-hero-inner{
+max-width:1100px;
+margin:auto;
+}
+
+.ceo-hero h1{
+font-size:23px;
+margin-bottom:5px;
+}
+
+.ceo-hero p{
+font-size:11px;
+opacity:.9;
+line-height:1.5;
+}
+
+/* ===== MAIN ===== */
+
+.ceo-main{
+max-width:1100px;
+margin:auto;
+padding:18px 16px 35px;
+}
+
+.ceo-section-title{
+font-size:16px;
+margin:4px 0 12px;
+}
+
+/* ===== OVERVIEW ===== */
+
+.ceo-stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:22px;
+}
+
+.ceo-stat{
+background:#fff;
+padding:15px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.ceo-stat-icon{
+font-size:23px;
+}
+
+.ceo-stat h3{
+font-size:20px;
+margin-top:6px;
+}
+
+.ceo-stat p{
+color:#667085;
+font-size:10px;
+margin-top:3px;
+}
+
+/* ===== MANAGEMENT MENU ===== */
+
+.ceo-menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.ceo-card{
+background:#fff;
+padding:16px 13px;
+border-radius:12px;
+color:#172033;
+text-decoration:none;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+transition:.2s ease;
+}
+
+.ceo-card:active{
+transform:scale(.98);
+}
+
+.ceo-card-icon{
+font-size:26px;
+margin-bottom:7px;
+}
+
+.ceo-card h3{
+font-size:13px;
+margin-bottom:4px;
+}
+
+.ceo-card p{
+color:#667085;
+font-size:10px;
+line-height:1.4;
+}
+
+/* ===== CONTENT CARD ===== */
+
+.ceo-content-card{
+background:#fff;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:13px;
+}
+
+.ceo-content-card h2{
+font-size:16px;
+margin-bottom:6px;
+}
+
+.ceo-content-card p{
+color:#667085;
+font-size:11px;
+line-height:1.5;
+}
+
+/* ===== TABLE / RECORDS ===== */
+
+.ceo-record{
+background:#fff;
+padding:14px;
+border-radius:11px;
+margin-bottom:9px;
+box-shadow:0 3px 12px rgba(20,50,100,.05);
+}
+
+.ceo-record-top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+
+.ceo-record h3{
+font-size:13px;
+}
+
+.ceo-record p{
+color:#667085;
+font-size:10px;
+margin-top:3px;
+}
+
+/* ===== ACTION BUTTONS ===== */
+
+.ceo-actions{
+display:flex;
+gap:7px;
+margin-top:11px;
+}
+
+.ceo-action{
+flex:1;
+border:0;
+padding:9px;
+border-radius:7px;
+font-size:10px;
+font-weight:700;
+}
+
+.ceo-approve{
+background:#ecfdf3;
+color:#027a48;
+}
+
+.ceo-reject{
+background:#fff1f2;
+color:#b42318;
+}
+
+.ceo-edit{
+background:#eef3ff;
+color:#173b8f;
+}
+
+/* ===== PAYMENT ===== */
+
+.ceo-payment{
+background:#fff;
+padding:16px;
+border-radius:12px;
+margin-bottom:10px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.ceo-payment h3{
+font-size:14px;
+margin-bottom:4px;
+}
+
+.ceo-payment p{
+color:#667085;
+font-size:10px;
+line-height:1.5;
+}
+
+.ceo-payment-amount{
+font-size:20px;
+font-weight:800;
+color:#173b8f;
+margin:8px 0;
+}
+
+/* ===== PAYMENT ACCOUNTS ===== */
+
+.payment-account{
+background:#fff;
+padding:16px;
+border-radius:12px;
+margin-bottom:10px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.payment-account-icon{
+font-size:28px;
+margin-bottom:7px;
+}
+
+.payment-account h3{
+font-size:14px;
+}
+
+.payment-account p{
+color:#667085;
+font-size:10px;
+margin-top:4px;
+}
+
+/* ===== LIVE CLASSES ===== */
+
+.ceo-live{
+background:#fff;
+padding:16px;
+border-radius:12px;
+margin-bottom:10px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.ceo-live-status{
+display:inline-flex;
+align-items:center;
+gap:5px;
+background:#fff1f2;
+color:#b42318;
+padding:5px 8px;
+border-radius:20px;
+font-size:9px;
+font-weight:700;
+}
+
+.ceo-live-dot{
+width:7px;
+height:7px;
+border-radius:50%;
+background:#e11d48;
+}
+
+/* ===== MATERIALS ===== */
+
+.ceo-material{
+background:#fff;
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.ceo-material h3{
+font-size:13px;
+margin-bottom:4px;
+}
+
+.ceo-material p{
+color:#667085;
+font-size:10px;
+line-height:1.5;
+}
+
+/* ===== SUPPORT ===== */
+
+.ceo-support{
+background:#fff;
+padding:16px;
+border-radius:12px;
+margin-bottom:10px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.ceo-support h3{
+font-size:14px;
+margin-bottom:4px;
+}
+
+.ceo-support p{
+color:#667085;
+font-size:10px;
+line-height:1.5;
+}
+
+/* ===== REPORTS ===== */
+
+.report-card{
+background:#fff;
+padding:17px;
+border-radius:12px;
+margin-bottom:10px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.report-number{
+font-size:22px;
+font-weight:800;
+color:#173b8f;
+}
+
+.report-label{
+color:#667085;
+font-size:10px;
+margin-top:3px;
+}
+
+/* ===== SETTINGS ===== */
+
+.ceo-setting{
+background:#fff;
+padding:15px;
+border-radius:11px;
+margin-bottom:9px;
+box-shadow:0 3px 12px rgba(20,50,100,.05);
+}
+
+.ceo-setting-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+}
+
+.ceo-setting h3{
+font-size:13px;
+}
+
+.ceo-setting p{
+color:#667085;
+font-size:10px;
+margin-top:3px;
+}
+
+/* ===== ADMIN NOTICE ===== */
+
+.ceo-alert{
+margin-top:20px;
+background:#fff4db;
+color:#7a4f00;
+padding:15px;
+border-radius:11px;
+font-size:11px;
+line-height:1.6;
+}
+
+.ceo-security{
+margin-top:14px;
+background:#fff;
+padding:16px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+color:#475467;
+font-size:11px;
+line-height:1.6;
+}
+
+/* ===== FOOTER ===== */
+
+.ceo-footer{
+text-align:center;
+color:#667085;
+font-size:10px;
+padding:25px 15px;
+}
+
+/* ===== DESKTOP ===== */
+
+@media(min-width:650px){
+
+.ceo-stats{
+    grid-template-columns:repeat(4,1fr);
+}
+
+.ceo-menu{
+    grid-template-columns:repeat(3,1fr);
+}
+
+}
