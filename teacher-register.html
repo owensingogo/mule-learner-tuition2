@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f">
-
-<title>Teacher Application | Mule Learner Tuition</title>
-
-<style>
+<meta name="theme-color" content="#173b8f"><title>Teacher Application | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
@@ -146,6 +139,11 @@ font-weight:700;
 cursor:pointer
 }
 
+button.submit:disabled{
+opacity:.6;
+cursor:not-allowed
+}
+
 .error{
 display:none;
 background:#fff0f0;
@@ -188,33 +186,13 @@ color:#667085;
 font-size:13px;
 text-decoration:none
 }
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="logo">
+</style></head><body><div class="container"><div class="logo">
 <h1>Mule Learner Tuition</h1>
 <p>📚 Learn • Practice • Succeed</p>
-</div>
-
-<div class="card">
-
-<h2>Teacher Application</h2>
-
-<p class="intro">
+</div><div class="card"><h2>Teacher Application</h2><p class="intro">
 Join our teaching team and help learners achieve their goals.
-</p>
-
-<div id="error" class="error"></div>
-<div id="success" class="success"></div>
-
-<form onsubmit="submitApplication(event)">
-
-<label>Full Name</label>
+</p><div id="error" class="error"></div>
+<div id="success" class="success"></div><form id="applicationForm" onsubmit="submitApplication(event)"><label>Full Name</label>
 
 <input
 type="text"
@@ -234,9 +212,7 @@ required>
 
 <label>
 Email <span class="optional">(Optional)</span>
-</label>
-
-<input
+</label><input
 type="email"
 id="email"
 placeholder="example@email.com"
@@ -244,9 +220,7 @@ autocomplete="email">
 
 <label>Subject You Teach</label>
 
-<select id="subject" required>
-
-<option value="">Select subject</option>
+<select id="subject" required><option value="">Select subject</option>
 <option value="Mathematics">Mathematics</option>
 <option value="English">English</option>
 <option value="Science">Science</option>
@@ -256,11 +230,7 @@ autocomplete="email">
 <option value="Biology">Biology</option>
 <option value="Chemistry">Chemistry</option>
 <option value="Physics">Physics</option>
-<option value="Other">Other</option>
-
-</select>
-
-<label>Highest Qualification</label>
+<option value="Other">Other</option></select><label>Highest Qualification</label>
 
 <input
 type="text"
@@ -273,13 +243,9 @@ required>
 <textarea
 id="experience"
 placeholder="Briefly describe your teaching experience"
-required></textarea>
+required></textarea><label>Create Password</label>
 
-<label>Create Password</label>
-
-<div class="password-box">
-
-<input
+<div class="password-box"><input
 type="password"
 id="password"
 placeholder="Create a password"
@@ -293,13 +259,9 @@ onclick="togglePassword('password',this)">
 Show
 </button>
 
-</div>
+</div><label>Confirm Password</label>
 
-<label>Confirm Password</label>
-
-<div class="password-box">
-
-<input
+<div class="password-box"><input
 type="password"
 id="confirm"
 placeholder="Confirm your password"
@@ -313,11 +275,7 @@ onclick="togglePassword('confirm',this)">
 Show
 </button>
 
-</div>
-
-<div class="approval">
-
-👑 <strong>CEO Approval Required</strong><br><br>
+</div><div class="approval">👑 <strong>CEO Approval Required</strong><br><br>
 
 Submitting this application does not make you a teacher immediately.
 
@@ -325,11 +283,7 @@ Your qualifications and application will first be reviewed by the Mule Learner T
 
 <strong>You cannot start teaching or start a live class until your application has been approved.</strong>
 
-</div>
-
-<div class="notice">
-
-📋 <strong>Application Process</strong><br><br>
+</div><div class="notice">📋 <strong>Application Process</strong><br><br>
 
 1️⃣ Submit your application<br>
 2️⃣ CEO reviews your qualifications<br>
@@ -337,56 +291,107 @@ Your qualifications and application will first be reviewed by the Mule Learner T
 4️⃣ If approved, your account becomes an <strong>Approved Teacher</strong><br>
 5️⃣ You can then access teaching features
 
-</div>
-
-<button class="submit" type="submit">
+</div><button
+id="submitBtn"
+class="submit"
+type="submit">
 Submit Teacher Application
 </button>
 
-</form>
-
-<div class="links">
-
-<p>
+</form><div class="links"><p>
 Already have an account?
 <a href="login.html">Login</a>
-</p>
-
-<br>
-
-<p>
+</p><br><p>
 Are you a learner?
 <a href="register.html">Register as Learner</a>
-</p>
-
-</div>
-
-</div>
-
-<a href="index.html" class="back">
+</p></div></div><a href="index.html" class="back">
 ← Back to Home
-</a>
+</a></div><script type="module">
 
-</div>
+import {
+getDatabase,
+ref,
+get,
+set,
+push
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-<script>
+import {
+initializeApp,
+getApps
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-function togglePassword(id,button){
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+};
+
+
+/* =========================
+   FIREBASE INITIALIZE
+========================= */
+
+const app =
+getApps().length
+?
+getApps()[0]
+:
+initializeApp(firebaseConfig);
+
+const db=getDatabase(app);
+
+
+/* =========================
+   PASSWORD TOGGLE
+========================= */
+
+window.togglePassword=function(id,button){
 
 const input=document.getElementById(id);
 
 if(input.type==="password"){
+
 input.type="text";
 button.textContent="Hide";
+
 }else{
+
 input.type="password";
 button.textContent="Show";
-}
 
 }
 
+};
 
-/* ===== NORMALIZE PHONE ===== */
+
+/* =========================
+   NORMALIZE PHONE
+========================= */
 
 function normalizeTeacherPhone(phone){
 
@@ -395,11 +400,15 @@ phone=String(phone||"").trim();
 phone=phone.replace(/\s+/g,"");
 
 if(phone.startsWith("+260")){
+
 phone="0"+phone.substring(4);
+
 }
 
 if(phone.startsWith("260")){
+
 phone="0"+phone.substring(3);
+
 }
 
 return phone;
@@ -407,40 +416,11 @@ return phone;
 }
 
 
-/* ===== GET USERS ===== */
+/* =========================
+   SUBMIT APPLICATION
+========================= */
 
-function getUsers(){
-
-try{
-
-return JSON.parse(
-localStorage.getItem("muleUsers")
-)||[];
-
-}catch(e){
-
-return [];
-
-}
-
-}
-
-
-/* ===== SAVE USERS ===== */
-
-function saveUsers(users){
-
-localStorage.setItem(
-"muleUsers",
-JSON.stringify(users)
-);
-
-}
-
-
-/* ===== SUBMIT APPLICATION ===== */
-
-function submitApplication(event){
+window.submitApplication=async function(event){
 
 event.preventDefault();
 
@@ -476,11 +456,16 @@ document.getElementById("error");
 const success=
 document.getElementById("success");
 
+const submitBtn=
+document.getElementById("submitBtn");
+
 error.style.display="none";
 success.style.display="none";
 
 
-/* ===== VALIDATION ===== */
+/* =========================
+   VALIDATION
+========================= */
 
 if(name.length<2){
 
@@ -566,36 +551,154 @@ return;
 }
 
 
-/* ===== CHECK USERS ===== */
+/* =========================
+   DISABLE BUTTON
+========================= */
 
-const users=getUsers();
+submitBtn.disabled=true;
+submitBtn.textContent="Submitting...";
 
-const existingUser=
-users.find(function(user){
 
-return normalizeTeacherPhone(user.phone)===phone;
+try{
+
+
+/* =========================
+   CHECK FIREBASE USERS
+========================= */
+
+const usersSnap=
+await get(ref(db,"users"));
+
+const usersData=
+usersSnap.exists()
+?
+usersSnap.val()
+:
+{};
+
+let phoneExists=false;
+
+Object.values(usersData).forEach(function(user){
+
+if(
+user &&
+normalizeTeacherPhone(user.phone)===phone
+){
+
+phoneExists=true;
+
+}
 
 });
 
 
-if(existingUser){
+if(phoneExists){
 
-error.textContent=
-"This phone number already has an account.";
-
-error.style.display="block";
-
-return;
+throw new Error(
+"This phone number already has an account."
+);
 
 }
 
 
-/* ===== CREATE TEACHER ACCOUNT ===== */
+/* =========================
+   CHECK FIREBASE APPLICATIONS
+========================= */
+
+const appsSnap=
+await get(ref(db,"teacherApplications"));
+
+const appsData=
+appsSnap.exists()
+?
+appsSnap.val()
+:
+{};
+
+let existingApplication=null;
+
+Object.values(appsData).forEach(function(app){
+
+if(
+app &&
+normalizeTeacherPhone(app.phone)===phone &&
+app.status==="pending"
+){
+
+existingApplication=app;
+
+}
+
+});
+
+
+if(existingApplication){
+
+throw new Error(
+"You already have a pending teacher application."
+);
+
+}
+
+
+/* =========================
+   CREATE IDS
+========================= */
+
+const applicationId=
+"APP-"+Date.now();
+
+const teacherId=
+"TCH-"+Date.now().toString(36).toUpperCase();
+
+
+/* =========================
+   CREATE APPLICATION
+========================= */
+
+const application={
+
+id:applicationId,
+
+name:name,
+
+phone:phone,
+
+email:email,
+
+subject:subject,
+
+qualification:qualification,
+
+experience:experience,
+
+password:password,
+
+status:"pending",
+
+teacherId:teacherId,
+
+createdAt:
+new Date().toISOString(),
+
+reviewedAt:null,
+
+reviewedBy:null,
+
+rejectionReason:"",
+
+teacherAccountStatus:"pending"
+
+};
+
+
+/* =========================
+   CREATE TEACHER ACCOUNT
+========================= */
 
 const teacher={
 
-id:
-"TCH-"+Date.now().toString(36).toUpperCase(),
+id:teacherId,
 
 name:name,
 
@@ -615,83 +718,73 @@ role:"teacher",
 
 status:"pending",
 
+applicationId:applicationId,
+
 createdAt:
 new Date().toISOString()
 
 };
 
 
-/* ===== SAVE TO USERS ===== */
+/* =========================
+   SAVE TO FIREBASE
+========================= */
 
-users.push(teacher);
+await set(
+ref(db,"teacherApplications/"+applicationId),
+application
+);
 
-saveUsers(users);
+await set(
+ref(db,"users/"+teacherId),
+teacher
+);
 
 
-/* ===== GET APPLICATIONS ===== */
-
-let applications=[];
+/* =========================
+   ALSO KEEP LOCAL COPY
+   FOR COMPATIBILITY
+========================= */
 
 try{
 
-applications=
+const localUsers=
+JSON.parse(
+localStorage.getItem("muleUsers")
+)||[];
+
+localUsers.push(teacher);
+
+localStorage.setItem(
+"muleUsers",
+JSON.stringify(localUsers)
+);
+
+const localApps=
 JSON.parse(
 localStorage.getItem("muleTeacherApplications")
 )||[];
 
+localApps.push(application);
+
+localStorage.setItem(
+"muleTeacherApplications",
+JSON.stringify(localApps)
+);
+
 }catch(e){
 
-applications=[];
+console.log(
+"Local compatibility copy failed:",
+e
+);
 
 }
 
 
-/* ===== CREATE APPLICATION ===== */
-
-const application={
-
-id:
-"APP-"+Date.now(),
-
-name:name,
-
-phone:phone,
-
-email:email,
-
-subject:subject,
-
-qualification:qualification,
-
-experience:experience,
-
-password:password,
-
-status:"pending",
-
-createdAt:
-new Date().toISOString(),
-
-reviewedAt:null,
-
-reviewedBy:null,
-
-rejectionReason:""
-
-};
-
-
-/* ===== SAVE APPLICATION ===== */
-
-applications.push(application);
-
-localStorage.setItem(
-"muleTeacherApplications",
-JSON.stringify(applications)
-);
-
-
-/* ===== SUCCESS ===== */
+/* =========================
+   SUCCESS
+========================= */
 
 success.innerHTML=
 
@@ -701,21 +794,50 @@ success.innerHTML=
 
 "Your application is now <strong>PENDING CEO REVIEW</strong>.<br><br>"+
 
+"The CEO can now see your application from any device.<br><br>"+
+
 "You cannot start teaching until the CEO approves your application.";
 
 success.style.display="block";
 
+document.getElementById("applicationForm").reset();
 
-document.querySelector("form").reset();
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+
+}catch(err){
+
+console.error(err);
+
+error.textContent=
+err.message ||
+"Unable to submit application. Please check your internet connection and try again.";
+
+error.style.display="block";
+
+}finally{
+
+submitBtn.disabled=false;
+
+submitBtn.textContent=
+"Submit Teacher Application";
 
 }
 
+};
 
-/* ===== ESCAPE HTML ===== */
+
+/* =========================
+   ESCAPE HTML
+========================= */
 
 function escapeHTML(text){
 
-const div=document.createElement("div");
+const div=
+document.createElement("div");
 
 div.textContent=text;
 
@@ -723,10 +845,5 @@ return div.innerHTML;
 
 }
 
-</script>
-
-<script src="js/app.js"></script>
-<script src="js/auth.js"></script>
-
-</body>
+</script><script src="js/app.js"></script><script src="js/auth.js"></script></body>
 </html>
