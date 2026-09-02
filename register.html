@@ -1,71 +1,70 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Learner Registration | Mule Learner Tuition</title><style>
+<meta name="theme-color" content="#173b8f">
+<title>Learner Registration | Mule Learner Tuition</title>
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,sans-serif;
 background:#f4f7fc;
 color:#172033;
 min-height:100vh;
-padding:20px;
+padding:20px
 }
 
 .container{
 width:100%;
 max-width:450px;
-margin:auto;
+margin:auto
 }
 
 .logo{
 text-align:center;
-margin:15px 0 20px;
+margin:15px 0 20px
 }
 
 .logo h1{
 color:#173b8f;
-font-size:25px;
+font-size:25px
 }
 
 .logo p{
 color:#667085;
 font-size:13px;
-margin-top:4px;
+margin-top:4px
 }
 
 .card{
 background:#fff;
 padding:24px 20px;
 border-radius:16px;
-box-shadow:0 8px 30px rgba(20,50,100,.10);
+box-shadow:0 8px 30px rgba(20,50,100,.10)
 }
 
 h2{
 font-size:22px;
-margin-bottom:6px;
+margin-bottom:6px
 }
 
 .intro{
 color:#667085;
 font-size:13px;
-margin-bottom:20px;
+margin-bottom:20px
 }
 
 label{
 display:block;
 font-size:13px;
 font-weight:700;
-margin-bottom:7px;
+margin-bottom:7px
 }
 
-input,
-select{
+input,select{
 width:100%;
 padding:13px;
 border:1px solid #d8deea;
@@ -73,20 +72,19 @@ border-radius:9px;
 font-size:15px;
 outline:none;
 margin-bottom:16px;
-background:white;
+background:white
 }
 
-input:focus,
-select:focus{
-border-color:#173b8f;
+input:focus,select:focus{
+border-color:#173b8f
 }
 
 .password-box{
-position:relative;
+position:relative
 }
 
 .password-box input{
-padding-right:65px;
+padding-right:65px
 }
 
 .show{
@@ -97,7 +95,7 @@ border:0;
 background:none;
 color:#173b8f;
 font-weight:700;
-cursor:pointer;
+cursor:pointer
 }
 
 button.register{
@@ -109,11 +107,7 @@ padding:14px;
 border-radius:9px;
 font-size:15px;
 font-weight:700;
-cursor:pointer;
-}
-
-button.register:active{
-transform:scale(.98);
+cursor:pointer
 }
 
 .notice{
@@ -123,7 +117,7 @@ background:#eef3ff;
 color:#475467;
 border-radius:9px;
 font-size:12px;
-line-height:1.5;
+line-height:1.5
 }
 
 .error{
@@ -133,7 +127,7 @@ color:#b42318;
 padding:10px;
 border-radius:8px;
 font-size:12px;
-margin-bottom:15px;
+margin-bottom:15px
 }
 
 .success{
@@ -144,19 +138,19 @@ padding:12px;
 border-radius:8px;
 font-size:13px;
 margin-bottom:15px;
-text-align:center;
+text-align:center
 }
 
 .links{
 text-align:center;
 margin-top:18px;
-font-size:13px;
+font-size:13px
 }
 
 .links a{
 color:#173b8f;
 font-weight:700;
-text-decoration:none;
+text-decoration:none
 }
 
 .back{
@@ -165,58 +159,66 @@ text-align:center;
 margin:18px 0;
 color:#667085;
 font-size:13px;
-text-decoration:none;
+text-decoration:none
 }
+</style>
+</head>
 
-</style></head><body><div class="container"><div class="logo"><h1>
-Mule Learner Tuition
-</h1><p>
-📚 Learn • Practice • Succeed
-</p></div><div class="card"><h2>
-Create Learner Account
-</h2><p class="intro">
+<body>
+
+<div class="container">
+
+<div class="logo">
+<h1>Mule Learner Tuition</h1>
+<p>📚 Learn • Practice • Succeed</p>
+</div>
+
+<div class="card">
+
+<h2>Create Learner Account</h2>
+
+<p class="intro">
 Join Mule Learner Tuition and start your learning journey.
-</p><div id="error" class="error"></div><div id="success" class="success">
-Account created successfully!
-</div><form onsubmit="registerLearner(event)"><label>
-Full Name
-</label><input
+</p>
+
+<div id="error" class="error"></div>
+<div id="success" class="success"></div>
+
+<form onsubmit="registerLearner(event)">
+
+<label>Full Name</label>
+<input
 type="text"
 id="name"
 placeholder="Enter your full name"
 autocomplete="name"
 required>
 
-<label>
-Phone Number
-</label><input
+<label>Phone Number</label>
+<input
 type="tel"
 id="phone"
 placeholder="e.g. 0971234567"
 autocomplete="tel"
 required>
 
-<label>
-Class / Level
-</label><select id="level" required><option value="">
-Select your class
-</option><option value="Grade 7">
-Grade 7
-</option><option value="Grade 8">
-Grade 8
-</option><option value="Grade 9">
-Grade 9
-</option><option value="Grade 10">
-Grade 10
-</option><option value="Grade 11">
-Grade 11
-</option><option value="Grade 12">
-Grade 12
-</option><option value="Other">
-Other
-</option></select><label>
-Password
-</label><div class="password-box"><input
+<label>Class / Level</label>
+
+<select id="level" required>
+<option value="">Select your class</option>
+<option value="Grade 7">Grade 7</option>
+<option value="Grade 8">Grade 8</option>
+<option value="Grade 9">Grade 9</option>
+<option value="Grade 10">Grade 10</option>
+<option value="Grade 11">Grade 11</option>
+<option value="Grade 12">Grade 12</option>
+<option value="Other">Other</option>
+</select>
+
+<label>Password</label>
+
+<div class="password-box">
+<input
 type="password"
 id="password"
 placeholder="Create a password"
@@ -227,12 +229,14 @@ required>
 type="button"
 class="show"
 onclick="togglePassword('password',this)">
-
 Show
+</button>
+</div>
 
-</button></div><label>
-Confirm Password
-</label><div class="password-box"><input
+<label>Confirm Password</label>
+
+<div class="password-box">
+<input
 type="password"
 id="confirm"
 placeholder="Confirm your password"
@@ -243,181 +247,209 @@ required>
 type="button"
 class="show"
 onclick="togglePassword('confirm',this)">
-
 Show
+</button>
+</div>
 
-</button></div><div class="notice">🔐 Your phone number will be used to identify your learner account.
+<div class="notice">
+🔐 Your phone number identifies your learner account.
 Email is not required.
+</div>
 
-</div><button
-class="register"
-type="submit">
-
+<button class="register" type="submit">
 Create Learner Account
+</button>
 
-</button></form><div class="links"><p>
+</form>
+
+<div class="links">
+
+<p>
 Already have an account?
-<a href="login.html">
-Login
-</a>
-</p><br><p>
+<a href="login.html">Login</a>
+</p>
+
+<br>
+
+<p>
 Are you a teacher?
-<a href="teacher-register.html">
-Apply as Teacher
-</a>
-</p></div></div><a
-href="index.html"
-class="back">
+<a href="teacher-register.html">Apply as Teacher</a>
+</p>
 
+</div>
+
+</div>
+
+<a href="index.html" class="back">
 ← Back to Home
+</a>
 
-</a></div><script>
+</div>
+
+<script>
 
 function togglePassword(id,button){
 
-const input =
-document.getElementById(id);
+const input=document.getElementById(id);
 
-if(input.type === "password"){
-
-input.type = "text";
-button.textContent = "Hide";
-
+if(input.type==="password"){
+input.type="text";
+button.textContent="Hide";
 }else{
-
-input.type = "password";
-button.textContent = "Show";
-
+input.type="password";
+button.textContent="Show";
 }
 
 }
+
+
+/* ===== NORMALIZE ZAMBIAN PHONE ===== */
+
+function normalizePhone(phone){
+
+phone=String(phone||"").trim();
+
+phone=phone.replace(/\s+/g,"");
+
+if(phone.startsWith("+260")){
+phone="0"+phone.substring(4);
+}
+
+if(phone.startsWith("260")){
+phone="0"+phone.substring(3);
+}
+
+return phone;
+}
+
+
+/* ===== REGISTER LEARNER ===== */
 
 function registerLearner(event){
 
 event.preventDefault();
 
-const name =
+const name=
 document.getElementById("name").value.trim();
 
-const phone =
-document.getElementById("phone").value.trim();
+const phone=
+normalizePhone(
+document.getElementById("phone").value
+);
 
-const level =
+const level=
 document.getElementById("level").value;
 
-const password =
+const password=
 document.getElementById("password").value;
 
-const confirm =
+const confirmPassword=
 document.getElementById("confirm").value;
 
-const error =
+const error=
 document.getElementById("error");
 
-const success =
+const success=
 document.getElementById("success");
 
-error.style.display = "none";
-success.style.display = "none";
+error.style.display="none";
+success.style.display="none";
 
-if(name.length < 2){
 
-error.textContent =
+if(name.length<2){
+
+error.textContent=
 "Please enter your full name.";
 
-error.style.display = "block";
-
+error.style.display="block";
 return;
-
 }
 
-if(phone.length < 10){
 
-error.textContent =
-"Please enter a valid phone number.";
+if(!/^0[97][0-9]{8}$/.test(phone)){
 
-error.style.display = "block";
+error.textContent=
+"Please enter a valid Zambian phone number.";
 
+error.style.display="block";
 return;
-
 }
+
 
 if(!level){
 
-error.textContent =
+error.textContent=
 "Please select your class or level.";
 
-error.style.display = "block";
-
+error.style.display="block";
 return;
-
 }
 
-if(password.length < 6){
 
-error.textContent =
+if(password.length<6){
+
+error.textContent=
 "Password must be at least 6 characters.";
 
-error.style.display = "block";
-
+error.style.display="block";
 return;
-
 }
 
-if(password !== confirm){
 
-error.textContent =
+if(password!==confirmPassword){
+
+error.textContent=
 "Passwords do not match.";
 
-error.style.display = "block";
-
+error.style.display="block";
 return;
-
 }
 
-/* Get existing learners */
 
-let learners = [];
+/* ===== GET EXISTING USERS ===== */
+
+let users=[];
 
 try{
 
-learners =
+users=
 JSON.parse(
-localStorage.getItem("muleLearners")
-) || [];
+localStorage.getItem("muleUsers")
+)||[];
 
-}catch(error){
+}catch(e){
 
-learners = [];
-
+users=[];
 }
 
-/* Check whether phone already exists */
 
-const existing =
-learners.find(function(learner){
+/* ===== CHECK PHONE ===== */
 
-return learner.phone === phone;
+const existing=
+users.find(function(user){
+
+return normalizePhone(user.phone)===phone;
 
 });
 
+
 if(existing){
 
-error.textContent =
+error.textContent=
 "An account with this phone number already exists.";
 
-error.style.display = "block";
+error.style.display="block";
 
 return;
-
 }
 
-/* Create learner */
 
-const learner = {
+/* ===== CREATE LEARNER ===== */
+
+const learner={
 
 id:
-"LRN-" + Date.now(),
+"LRN-"+Date.now().toString(36).toUpperCase(),
 
 name:name,
 
@@ -427,12 +459,41 @@ level:level,
 
 password:password,
 
+role:"learner",
+
 status:"active",
 
 createdAt:
 new Date().toISOString()
 
 };
+
+
+/* ===== SAVE TO SAME STORAGE USED BY LOGIN ===== */
+
+users.push(learner);
+
+localStorage.setItem(
+"muleUsers",
+JSON.stringify(users)
+);
+
+
+/* ===== SAVE LEARNER COPY ===== */
+
+let learners=[];
+
+try{
+
+learners=
+JSON.parse(
+localStorage.getItem("muleLearners")
+)||[];
+
+}catch(e){
+
+learners=[];
+}
 
 learners.push(learner);
 
@@ -441,24 +502,27 @@ localStorage.setItem(
 JSON.stringify(learners)
 );
 
-/* Success message */
 
-success.textContent =
-"Welcome, " + name +
-"! Your learner account has been created.";
+/* ===== SUCCESS ===== */
 
-success.style.display = "block";
+success.textContent=
+"Welcome, "+name+
+"! Your learner account has been created successfully.";
 
-/* Go to login */
+success.style.display="block";
+
+
+/* ===== GO TO LOGIN ===== */
 
 setTimeout(function(){
 
-window.location.href =
-"login.html";
+window.location.href="login.html";
 
-},1500);
+},1200);
 
 }
 
-</script><script src="js/auth.js"></script></body>
+</script>
+
+</body>
 </html>
