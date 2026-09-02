@@ -1,8 +1,13 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Payment Management | Mule Learner Tuition</title><style>
+<meta name="theme-color" content="#173b8f">
+
+<title>Payment Management | Mule Learner Tuition</title>
+
+<style>
 *{
 box-sizing:border-box;
 margin:0;
@@ -107,6 +112,12 @@ font-size:16px;
 font-weight:800;
 }
 
+.phone{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
 .date{
 font-size:10px;
 color:#667085;
@@ -144,6 +155,7 @@ color:#667085;
 .value{
 font-weight:700;
 text-align:right;
+word-break:break-word;
 }
 
 .actions{
@@ -213,61 +225,89 @@ margin-top:25px;
 }
 
 @media(min-width:650px){
-
 .stats{
 grid-template-columns:repeat(4,1fr);
 }
-
 }
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">Mule Learner Tuition</div>
+
+<a href="dashboard.html" class="back">
 ← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>Payment Management 💰</h1><p>
+</a>
+</header>
+
+<div class="container">
+
+<div class="heading">
+<h1>Payment Management 💰</h1>
+<p>
 Review learner payments and control learning access.
-</p></div><!-- PAYMENT STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-⏳
-</div><h3 id="pendingCount">0</h3><p>Pending</p></div><div class="stat"><div class="stat-icon">
-✅
-</div><h3 id="approvedCount">0</h3><p>Approved</p></div><div class="stat"><div class="stat-icon">
-❌
-</div><h3 id="rejectedCount">0</h3><p>Rejected</p></div><div class="stat"><div class="stat-icon">
-💰
-</div><h3>K0</h3><p>Total Received</p></div></div><!-- PAYMENT REQUEST --><div id="paymentList"><div class="payment" id="payment1"><div class="payment-top"><div><div class="name">
-Learner
-</div><div class="date">
-Payment request
-</div></div><span class="badge">
-PENDING
-</span></div><div class="details"><div class="row"><span class="label">
-Learning Plan
-</span><span class="value">
-Not Available
-</span></div><div class="row"><span class="label">
-Payment Method
-</span><span class="value">
-Not Available
-</span></div><div class="row"><span class="label">
-Amount
-</span><span class="value">
-Not Available
-</span></div></div><div class="actions"><button class="approve" onclick="approvePayment('payment1')">
-✓ Approve
-</button><button class="reject" onclick="rejectPayment('payment1')">
-✕ Reject
-</button></div></div></div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Payment Control</strong>
+</p>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<div class="stat-icon">⏳</div>
+<h3 id="pendingCount">0</h3>
+<p>Pending</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">✅</div>
+<h3 id="approvedCount">0</h3>
+<p>Approved</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">❌</div>
+<h3 id="rejectedCount">0</h3>
+<p>Rejected</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">💰</div>
+<h3 id="totalReceived">K0</h3>
+<p>Total Received</p>
+</div>
+
+</div>
+
+<div id="paymentList">
+
+<div class="empty">
+<div class="empty-icon">💳</div>
+<h3>Loading payments...</h3>
+<p>Please wait.</p>
+</div>
+
+</div>
+
+<div class="notice">
+
+<strong>🔐 CEO Payment Control</strong>
 
 <br><br>
 
-Only the CEO should approve or reject learner
-payments.
+Only the CEO should approve or reject learner payments.
+
+<br><br>
 
 When a payment is approved, the learner's learning
 access will be activated according to the selected
 plan.
 
+<br><br>
+
 When a payment is rejected, the learner will remain
-without paid access.
+without paid access and will be shown the rejection
+reason.
 
 <br><br>
 
@@ -275,64 +315,628 @@ without paid access.
 payment has actually been received before approving
 a learner.
 
-</div><footer>Mule Learner Tuition<br>
+</div>
+
+<footer>
+Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
+</footer>
 
-</footer></div><script>
+</div>
 
-let approved=0;
-let rejected=0;
+<script type="module">
 
-function approvePayment(id){
+import {
+initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-const payment=document.getElementById(id);
+import {
+getDatabase,
+ref,
+get,
+update
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-if(!payment){
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+
+authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:"656883565460",
+
+appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+};
+
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+
+
+window.muleCEOApprovePayment=approvePayment;
+window.muleCEORejectPayment=rejectPayment;
+
+
+function formatKwacha(amount){
+
+const number=Number(amount)||0;
+
+return "K"+number.toLocaleString("en-ZM",{
+minimumFractionDigits:0,
+maximumFractionDigits:2
+});
+
+}
+
+
+function formatDate(value){
+
+if(!value){
+return "Not available";
+}
+
+const date=new Date(value);
+
+if(isNaN(date.getTime())){
+return "Not available";
+}
+
+return date.toLocaleString("en-ZM",{
+day:"2-digit",
+month:"short",
+year:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+});
+
+}
+
+
+function getPlanDuration(plan){
+
+const text=String(plan||"").toLowerCase();
+
+if(text.includes("6 hours")){
+return 6*60*60*1000;
+}
+
+if(text.includes("daily") || text.includes("1 day")){
+return 24*60*60*1000;
+}
+
+if(text.includes("weekly") || text.includes("7 days")){
+return 7*24*60*60*1000;
+}
+
+if(text.includes("monthly") || text.includes("30 days")){
+return 30*24*60*60*1000;
+}
+
+return 0;
+
+}
+
+
+async function loadPayments(){
+
+const list=document.getElementById("paymentList");
+
+try{
+
+const snapshot=await get(ref(db,"payments"));
+
+if(!snapshot.exists()){
+
+list.innerHTML=`
+<div class="empty">
+
+<div class="empty-icon">💳</div>
+
+<h3>No Payments Yet</h3>
+
+<p>
+Learner payment requests will appear here.
+</p>
+
+</div>
+`;
+
+updateStats([]);
+
 return;
 }
 
-const badge=payment.querySelector(".badge");
 
-badge.textContent="APPROVED";
-badge.style.background="#ecfdf3";
-badge.style.color="#027a48";
+const data=snapshot.val();
 
-payment.querySelector(".actions").innerHTML=
-"<button class='approve' disabled>✓ Payment Approved</button>";
+const payments=Object.keys(data).map(function(key){
 
+return{
+firebaseKey:key,
+...data[key]
+};
+
+});
+
+
+payments.sort(function(a,b){
+
+return new Date(b.submittedAt||0)-
+new Date(a.submittedAt||0);
+
+});
+
+
+renderPayments(payments);
+updateStats(payments);
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=`
+<div class="empty">
+
+<div class="empty-icon">⚠️</div>
+
+<h3>Could Not Load Payments</h3>
+
+<p>
+Please check your internet connection and try again.
+</p>
+
+</div>
+`;
+
+}
+
+}
+
+
+function updateStats(payments){
+
+let pending=0;
+let approved=0;
+let rejected=0;
+let total=0;
+
+
+payments.forEach(function(payment){
+
+if(payment.status==="pending"){
+pending++;
+}
+
+if(payment.status==="approved"){
 approved++;
+total+=Number(payment.amount)||0;
+}
+
+if(payment.status==="rejected"){
+rejected++;
+}
+
+});
+
+
+document.getElementById("pendingCount").textContent=pending;
 
 document.getElementById("approvedCount").textContent=approved;
 
+document.getElementById("rejectedCount").textContent=rejected;
+
+document.getElementById("totalReceived").textContent=
+formatKwacha(total);
+
 }
 
 
-function rejectPayment(id){
+function renderPayments(payments){
 
-const payment=document.getElementById(id);
+const list=document.getElementById("paymentList");
 
-if(!payment){
+const visiblePayments=payments.filter(function(payment){
+
+return payment.status==="pending";
+
+});
+
+
+if(visiblePayments.length===0){
+
+list.innerHTML=`
+<div class="empty">
+
+<div class="empty-icon">✅</div>
+
+<h3>No Pending Payments</h3>
+
+<p>
+There are currently no learner payments waiting for approval.
+</p>
+
+</div>
+`;
+
+return;
+
+}
+
+
+list.innerHTML="";
+
+
+visiblePayments.forEach(function(payment){
+
+const card=document.createElement("div");
+
+card.className="payment";
+
+card.id="payment-"+payment.firebaseKey;
+
+
+card.innerHTML=`
+
+<div class="payment-top">
+
+<div>
+
+<div class="name">
+${escapeHTML(payment.learnerName||"Learner")}
+</div>
+
+<div class="phone">
+📱 ${escapeHTML(payment.learnerPhone||"No phone")}
+</div>
+
+<div class="date">
+Submitted: ${formatDate(payment.submittedAt)}
+</div>
+
+</div>
+
+<span class="badge">
+PENDING
+</span>
+
+</div>
+
+
+<div class="details">
+
+<div class="row">
+
+<span class="label">
+Learning Plan
+</span>
+
+<span class="value">
+${escapeHTML(payment.plan||"Not available")}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Amount
+</span>
+
+<span class="value">
+${formatKwacha(payment.amount)}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Payment Method
+</span>
+
+<span class="value">
+${escapeHTML(payment.method||"Not available")}
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Reference
+</span>
+
+<span class="value">
+${escapeHTML(payment.reference||"Not provided")}
+</span>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="approve"
+onclick="window.muleCEOApprovePayment('${payment.firebaseKey}')">
+
+✓ Approve
+
+</button>
+
+
+<button
+class="reject"
+onclick="window.muleCEORejectPayment('${payment.firebaseKey}')">
+
+✕ Reject
+
+</button>
+
+</div>
+
+`;
+
+list.appendChild(card);
+
+});
+
+}
+
+
+function escapeHTML(value){
+
+if(value===null||value===undefined){
+return "";
+}
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+async function approvePayment(firebaseKey){
+
+if(!firebaseKey){
 return;
 }
 
-const badge=payment.querySelector(".badge");
 
-badge.textContent="REJECTED";
-badge.style.background="#fee4e2";
-badge.style.color="#b42318";
+const confirmed=confirm(
+"Have you confirmed that this payment was actually received?"
+);
 
-payment.querySelector(".actions").innerHTML=
-"<button class='reject' disabled>✕ Payment Rejected</button>";
 
-rejected++;
+if(!confirmed){
+return;
+}
 
-document.getElementById("rejectedCount").textContent=rejected;
+
+try{
+
+const paymentRef=ref(
+db,
+"payments/"+firebaseKey
+);
+
+
+const snapshot=await get(paymentRef);
+
+
+if(!snapshot.exists()){
+
+alert("Payment could not be found.");
+
+return;
 
 }
 
+
+const payment=snapshot.val();
+
+
+if(payment.status!=="pending"){
+
+alert("This payment has already been reviewed.");
+
+loadPayments();
+
+return;
+
+}
+
+
+const now=Date.now();
+
+const duration=getPlanDuration(payment.plan);
+
+
+if(!duration){
+
+alert(
+"Could not determine the duration of this learning plan."
+);
+
+return;
+
+}
+
+
+const expiresAt=now+duration;
+
+
+await update(paymentRef,{
+
+status:"approved",
+
+approvedAt:new Date(now).toISOString(),
+
+approvedBy:"CEO",
+
+rejectedAt:null,
+
+rejectionReason:"",
+
+startAt:new Date(now).toISOString(),
+
+expiresAt:new Date(expiresAt).toISOString()
+
+});
+
+
+alert(
+"Payment approved successfully.\n\n"+
+"Learning access has been activated for the selected plan."
+);
+
+
+loadPayments();
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not approve this payment. Please try again."
+);
+
+}
+
+}
+
+
+async function rejectPayment(firebaseKey){
+
+if(!firebaseKey){
+return;
+}
+
+
+const reason=prompt(
+"Enter the reason for rejecting this payment:"
+);
+
+
+if(reason===null){
+return;
+}
+
+
+const cleanReason=reason.trim();
+
+
+if(!cleanReason){
+
+alert("Please enter a rejection reason.");
+
+return;
+
+}
+
+
+try{
+
+const paymentRef=ref(
+db,
+"payments/"+firebaseKey
+);
+
+
+const snapshot=await get(paymentRef);
+
+
+if(!snapshot.exists()){
+
+alert("Payment could not be found.");
+
+return;
+
+}
+
+
+const payment=snapshot.val();
+
+
+if(payment.status!=="pending"){
+
+alert("This payment has already been reviewed.");
+
+loadPayments();
+
+return;
+
+}
+
+
+await update(paymentRef,{
+
+status:"rejected",
+
+rejectedAt:new Date().toISOString(),
+
+approvedAt:null,
+
+startAt:null,
+
+expiresAt:null,
+
+rejectionReason:cleanReason,
+
+rejectedBy:"CEO"
+
+});
+
+
+alert(
+"Payment rejected.\n\n"+
+"The learner will be shown the rejection reason."
+);
+
+
+loadPayments();
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not reject this payment. Please try again."
+);
+
+}
+
+}
+
+
+loadPayments();
+
+setInterval(loadPayments,30000);
+
 </script>
-  
-  <script src="../js/app.js"></script>
+
+
+<script src="../js/app.js"></script>
 <script src="../js/ceo.js"></script>
+
 </body>
 </html>
