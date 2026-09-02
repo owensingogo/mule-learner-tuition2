@@ -2,185 +2,546 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
-<title>Teacher Live Class | Mule Learner Tuition</title>
+
+<title>Teacher Live Learning | Mule Learner Tuition</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:#f4f7fb;color:#172033}
-header{background:#173b8f;color:#fff;text-align:center;padding:15px}
-header h2{margin:0;font-size:20px}
-main{max-width:700px;margin:auto;padding:12px}
-.card{background:#fff;padding:14px;margin-bottom:12px;border-radius:13px;box-shadow:0 3px 12px #0001}
-.info{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.box{background:#eef3ff;padding:10px;border-radius:9px;font-size:12px}
-.box b{display:block;margin-top:4px}
-video{width:100%;background:#111;border-radius:11px;min-height:210px}
-button{border:0;border-radius:9px;padding:11px;margin:3px;font-weight:bold}
-.start{background:#16803c;color:#fff}
-.end{background:#c62828;color:#fff}
-.control{background:#173b8f;color:#fff}
-.active{background:#0b6e4f!important}
-button:disabled{opacity:.5}
-.controls{text-align:center}
-#timer{text-align:center;font-size:24px;font-weight:bold;margin:9px}
-.notice{background:#fff3cd;padding:9px;border-radius:8px;font-size:12px}
-#chat{height:130px;overflow:auto;background:#f5f5f5;padding:9px;border-radius:9px}
-input{width:68%;padding:10px;border:1px solid #ccc;border-radius:8px}
-.send{background:#173b8f;color:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between
+}
+
+.logo{font-size:18px;font-weight:800}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:18px 14px
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px
+}
+
+.heading p{
+font-size:13px;
+color:#667085;
+margin-bottom:16px
+}
+
+.live-card{
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 5px 20px rgba(20,50,100,.08);
+margin-bottom:15px
+}
+
+.video-area{
+height:220px;
+background:#111827;
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden
+}
+
+video{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none
+}
+
+.camera-off{
+color:white;
+text-align:center;
+font-size:13px
+}
+
+.camera-off div{
+font-size:45px;
+margin-bottom:8px
+}
+
+.live-status{
+position:absolute;
+top:10px;
+left:10px;
+background:#e53935;
+color:white;
+padding:6px 9px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold;
+display:none
+}
+
+.timer{
+position:absolute;
+top:10px;
+right:10px;
+background:rgba(0,0,0,.7);
+color:white;
+padding:6px 9px;
+border-radius:6px;
+font-size:11px;
+display:none
+}
+
+.live-content{padding:17px}
+
+.live-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px
+}
+
+.live-title h2{font-size:18px}
+
+.badge{
+background:#fee2e2;
+color:#b42318;
+padding:6px 9px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold
+}
+
+.details{
+margin-top:11px;
+font-size:13px;
+color:#596579;
+line-height:1.8
+}
+
+.start{
+width:100%;
+border:0;
+background:#16803c;
+color:white;
+padding:13px;
+border-radius:9px;
+font-size:14px;
+font-weight:bold;
+margin-top:15px;
+cursor:pointer
+}
+
+.leave{
+width:100%;
+border:0;
+background:#d92d20;
+color:white;
+padding:12px;
+border-radius:9px;
+font-size:13px;
+font-weight:bold;
+margin-top:10px;
+display:none
+}
+
+.controls{
+display:none;
+grid-template-columns:repeat(5,1fr);
+gap:6px;
+background:#171717;
+padding:9px
+}
+
+.control{
+border:0;
+background:#292929;
+color:white;
+border-radius:8px;
+padding:9px 3px;
+font-size:17px;
+cursor:pointer
+}
+
+.control span{
+display:block;
+font-size:8px;
+margin-top:3px
+}
+
+.control.active{background:#173b8f}
+
+.control.off{background:#8e1c1c}
+
+.count{
+background:#eef3ff;
+padding:12px;
+border-radius:10px;
+font-size:12px;
+margin-top:12px;
+color:#475467
+}
+
+.info{
+margin-top:15px;
+background:#eef3ff;
+padding:14px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6
+}
+
+.chat{
+display:none;
+background:#171717;
+border-top:1px solid #333
+}
+
+.chat-header{
+color:white;
+padding:11px 12px;
+font-size:14px;
+font-weight:bold
+}
+
+.chat-messages{
+height:170px;
+overflow-y:auto;
+background:#101010;
+padding:9px
+}
+
+.message{
+background:#292929;
+color:white;
+padding:8px 10px;
+border-radius:9px;
+margin-bottom:7px;
+font-size:12px;
+max-width:90%
+}
+
+.message.me{
+background:#173b8f;
+margin-left:auto
+}
+
+.message small{
+display:block;
+font-size:9px;
+opacity:.65;
+margin-bottom:3px
+}
+
+.chat-input{
+display:flex;
+gap:6px;
+padding:8px;
+background:#202020
+}
+
+.chat-input input{
+flex:1;
+border:0;
+border-radius:8px;
+padding:10px;
+font-size:12px;
+outline:none
+}
+
+.chat-input button{
+border:0;
+background:#173b8f;
+color:white;
+border-radius:8px;
+padding:10px 13px;
+font-weight:bold
+}
+
+@media(max-width:420px){
+.container{padding:15px 10px}
+.video-area{height:205px}
+.control{font-size:15px;padding:8px 2px}
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h2>🎓 Mule Learner Tuition</h2>
-<small>Teacher Live Classroom</small>
+
+<div class="logo">
+Mule Learner Tuition
+</div>
+
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
+
 </header>
 
-<main>
+<div class="container">
 
-<div class="card">
-<h3>📚 Grade 10 Mathematics</h3>
+<div class="heading">
 
-<div class="info">
+<h1>Teacher Live Classroom 🔴</h1>
 
-<div class="box">
-Subject
-<b>Mathematics</b>
-</div>
-
-<div class="box">
-Class
-<b>Grade 10</b>
-</div>
-
-<div class="box">
-Teacher
-<b id="teacherName">Teacher</b>
-</div>
-
-<div class="box">
-Status
-<b id="status">OFFLINE</b>
-</div>
+<p>
+Start your scheduled lesson and teach learners online.
+</p>
 
 </div>
+
+
+<div class="live-card">
+
+<div class="video-area">
+
+<video
+id="teacherVideo"
+autoplay
+muted
+playsinline>
+</video>
+
+<div class="camera-off" id="cameraOff">
+
+<div>🎥</div>
+
+Camera is off
+
+</div>
+
+<div class="live-status" id="liveStatus">
+🔴 LIVE
+</div>
+
+<div class="timer" id="timer">
+00:00:00
+</div>
+
 </div>
 
 
-<div class="card">
+<div class="controls" id="controls">
 
-<button class="start" id="startBtn" onclick="startClass()">
-▶️ Start Live Class
+<button
+class="control active"
+id="micBtn"
+onclick="toggleMicrophone()">
+
+🎤
+<span>Mic On</span>
+
 </button>
 
-<button class="end" id="endBtn" onclick="endClass()" disabled>
-⏹️ End Class
+
+<button
+class="control active"
+id="cameraBtn"
+onclick="toggleCamera()">
+
+📹
+<span>Cam On</span>
+
 </button>
 
-<div id="timer">00:00:00</div>
 
-<video id="teacherVideo" autoplay muted playsinline></video>
+<button
+class="control active"
+id="speakerBtn"
+onclick="toggleSpeaker()">
 
-<div class="controls">
+🔊
+<span>Speaker</span>
 
-<button class="control" id="micBtn" onclick="toggleMic()">
-🎤 Mic ON
 </button>
 
-<button class="control" id="cameraBtn" onclick="toggleCamera()">
-📹 Camera ON
+
+<button
+class="control"
+id="flashBtn"
+onclick="toggleFlash()">
+
+🔦
+<span>Flash</span>
+
 </button>
 
-<button class="control" id="speakerBtn" onclick="toggleSpeaker()">
-🔊 Speaker ON
-</button>
 
-<button class="control" onclick="goFullscreen()">
-⛶ Fullscreen
+<button
+class="control"
+onclick="toggleFullscreen()">
+
+⛶
+<span>Full</span>
+
 </button>
 
 </div>
 
-<div class="notice" id="message">
-Press Start Live Class to begin.
-</div>
+
+<div class="live-content">
+
+<div class="live-title">
+
+<h2>Mathematics</h2>
+
+<span class="badge" id="classBadge">
+OFFLINE
+</span>
 
 </div>
 
 
-<div class="card">
+<div class="details">
 
-<h3>👥 Learners: <span id="learnerCount">0</span></h3>
-
-<div id="learners"></div>
-
-</div>
-
-
-<div class="card">
-
-<h3>💬 Live Chat</h3>
-
-<div id="chat"></div>
+<strong>👨‍🏫 Teacher:</strong>
+<span id="teacherName">Teacher</span>
 
 <br>
 
-<input id="chatInput" placeholder="Type a message">
+<strong>📚 Class:</strong>
+Grade 10 Mathematics
 
-<button class="send" onclick="sendChat()">
+<br>
+
+<strong>⏰ Lesson:</strong>
+17:00 – 18:00
+
+<br>
+
+<strong>🌐 Connection:</strong>
+Online
+
+</div>
+
+
+<div class="count">
+
+👥 Learners in class:
+<strong id="learnerCount">0</strong>
+
+</div>
+
+
+<button
+class="start"
+id="startBtn"
+onclick="startClass()">
+
+🔴 Start Live Class
+
+</button>
+
+
+<button
+class="leave"
+id="leaveBtn"
+onclick="endClass()">
+
+⛔ End Live Class
+
+</button>
+
+</div>
+
+
+<div class="chat" id="chat">
+
+<div class="chat-header">
+💬 Live Chat — Learners
+</div>
+
+<div class="chat-messages" id="chatMessages">
+
+<div class="message">
+
+<small>System</small>
+
+Welcome to the teacher live classroom.
+
+</div>
+
+</div>
+
+
+<div class="chat-input">
+
+<input
+type="text"
+id="chatInput"
+placeholder="Message learners..."
+onkeydown="handleChatKey(event)">
+
+<button onclick="sendMessage()">
 Send
 </button>
 
 </div>
 
-</main>
+</div>
+
+</div>
 
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<div class="info">
+
+<strong>💡 Teacher Live Class</strong>
+
+<br><br>
+
+Make sure you have a stable internet connection
+before starting your lesson.
+
+Your camera and microphone can be controlled
+independently during the class.
+
+When you end the lesson, the Firebase live status
+will change to ended.
+
+</div>
+
+</div>
+
+
+<!-- APP SESSION -->
 
 <script src="../js/app.js"></script>
 
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+
 <script>
 
-"use strict";
-
-
 /* =========================
-FIREBASE
-========================= */
-
-const firebaseConfig={
-
-apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
-
-authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
-
-databaseURL:
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
-
-projectId:"mule-learner-tuition-264fe",
-
-storageBucket:
-"mule-learner-tuition-264fe.firebasestorage.app",
-
-messagingSenderId:"656883565460",
-
-appId:
-"1:656883565460:web:3aaa6a5b638a34a6d28581"
-
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const db=firebase.database();
-
-
-/* =========================
-LOGIN
+TEACHER LOGIN
 ========================= */
 
 const user=getCurrentUser();
@@ -199,40 +560,78 @@ window.location.href="../login.html";
 
 }
 
+if(user){
+
 document.getElementById("teacherName").textContent=
-user ? (user.name||"Teacher") : "Teacher";
+user.name || "Teacher";
+
+}
+
+
+/* =========================
+FIREBASE
+========================= */
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db=firebase.database();
+
+const CLASS_ID="grade10-mathematics";
 
 
 /* =========================
 VARIABLES
 ========================= */
 
-const CLASS_ID="grade10-mathematics";
+let joined=false;
 
 let stream=null;
 
-let timer=null;
-
-let startTime=0;
-
-let micOn=true;
+let microphoneOn=true;
 
 let cameraOn=true;
 
 let speakerOn=true;
 
+let flashOn=false;
+
+let seconds=0;
+
+let timerInterval=null;
+
 
 /* =========================
-GET CAMERA
+START CLASS
 ========================= */
 
-async function startCamera(){
+async function startClass(){
 
-if(stream){
-
-return true;
-
-}
+if(joined)return;
 
 try{
 
@@ -244,53 +643,34 @@ audio:true
 
 });
 
-document.getElementById("teacherVideo").srcObject=stream;
 
-return true;
+const video=
+document.getElementById("teacherVideo");
 
-}catch(error){
+video.srcObject=stream;
 
-console.error(error);
+video.style.display="block";
 
-document.getElementById("message").textContent=
-"⚠️ Camera or microphone could not be started.";
-
-alert(
-"Camera/microphone access failed. Make sure you are using the GitHub Pages HTTPS website."
-);
-
-return false;
-
-}
-
-}
+document.getElementById("cameraOff").style.display="none";
 
 
-/* =========================
-START LIVE CLASS
-========================= */
+/* Firebase LIVE STATUS */
 
-async function startClass(){
-
-const ok=await startCamera();
-
-if(!ok)return;
-
-try{
-
-await db.ref("liveClasses/"+CLASS_ID).set({
+await db.ref(
+"liveClasses/"+CLASS_ID
+).set({
 
 classId:CLASS_ID,
+
+title:"Grade 10 Mathematics",
 
 subject:"Mathematics",
 
 grade:"Grade 10",
 
-title:"Grade 10 Mathematics",
+teacherId:user.id || "",
 
-teacherId:user.id||"",
-
-teacherName:user.name||"Teacher",
+teacherName:user.name || "Teacher",
 
 status:"live",
 
@@ -300,61 +680,37 @@ firebase.database.ServerValue.TIMESTAMP
 });
 
 
-document.getElementById("status").textContent="🔴 LIVE";
+joined=true;
 
-document.getElementById("status").style.color="#c62828";
+document.getElementById("startBtn").style.display="none";
 
-document.getElementById("startBtn").disabled=true;
+document.getElementById("leaveBtn").style.display="block";
 
-document.getElementById("endBtn").disabled=false;
+document.getElementById("controls").style.display="grid";
 
-document.getElementById("message").textContent=
-"🔴 You are now teaching live.";
+document.getElementById("chat").style.display="block";
 
-startTime=Date.now();
+document.getElementById("liveStatus").style.display="block";
 
-clearInterval(timer);
+document.getElementById("timer").style.display="block";
 
-timer=setInterval(updateTimer,1000);
+document.getElementById("classBadge").textContent="LIVE NOW";
+
+seconds=0;
+
+timerInterval=setInterval(updateTimer,1000);
+
+updateButtons();
 
 }catch(error){
 
-console.error(error);
+console.log(error);
 
-document.getElementById("message").textContent=
-"⚠️ Could not connect to Firebase.";
-
-alert("Could not start the live class.");
-
-}
+alert(
+"Unable to start. Please make sure camera and microphone permissions are allowed and that you are using the HTTPS website."
+);
 
 }
-
-
-/* =========================
-TIMER
-========================= */
-
-function updateTimer(){
-
-let total=
-Math.floor((Date.now()-startTime)/1000);
-
-let h=Math.floor(total/3600);
-
-total%=3600;
-
-let m=Math.floor(total/60);
-
-let s=total%60;
-
-document.getElementById("timer").textContent=
-
-[h,m,s].map(function(x){
-
-return String(x).padStart(2,"0");
-
-}).join(":");
 
 }
 
@@ -363,7 +719,7 @@ return String(x).padStart(2,"0");
 MIC
 ========================= */
 
-function toggleMic(){
+function toggleMicrophone(){
 
 if(!stream){
 
@@ -377,25 +733,21 @@ const tracks=stream.getAudioTracks();
 
 if(!tracks.length){
 
-alert("No microphone was found.");
+alert("Microphone not available.");
 
 return;
 
 }
 
-micOn=!micOn;
+microphoneOn=!microphoneOn;
 
-tracks.forEach(function(track){
+tracks.forEach(track=>{
 
-track.enabled=micOn;
+track.enabled=microphoneOn;
 
 });
 
-document.getElementById("micBtn").textContent=
-micOn ? "🎤 Mic ON" : "🔇 Mic OFF";
-
-document.getElementById("micBtn")
-.classList.toggle("active",micOn);
+updateButtons();
 
 }
 
@@ -418,7 +770,7 @@ const tracks=stream.getVideoTracks();
 
 if(!tracks.length){
 
-alert("No camera was found.");
+alert("Camera not available.");
 
 return;
 
@@ -426,17 +778,39 @@ return;
 
 cameraOn=!cameraOn;
 
-tracks.forEach(function(track){
+tracks.forEach(track=>{
 
 track.enabled=cameraOn;
 
 });
 
-document.getElementById("cameraBtn").textContent=
-cameraOn ? "📹 Camera ON" : "📷 Camera OFF";
+const video=
+document.getElementById("teacherVideo");
 
-document.getElementById("cameraBtn")
-.classList.toggle("active",cameraOn);
+const cameraOff=
+document.getElementById("cameraOff");
+
+if(cameraOn){
+
+video.style.display="block";
+
+cameraOff.style.display="none";
+
+}else{
+
+video.style.display="none";
+
+cameraOff.style.display="block";
+
+}
+
+if(!cameraOn && flashOn){
+
+turnFlashOff();
+
+}
+
+updateButtons();
 
 }
 
@@ -447,17 +821,134 @@ SPEAKER
 
 function toggleSpeaker(){
 
-speakerOn=!speakerOn;
+const video=
+document.getElementById("teacherVideo");
 
-const video=document.getElementById("teacherVideo");
+speakerOn=!speakerOn;
 
 video.muted=!speakerOn;
 
-document.getElementById("speakerBtn").textContent=
-speakerOn ? "🔊 Speaker ON" : "🔇 Speaker OFF";
+updateButtons();
 
-document.getElementById("speakerBtn")
-.classList.toggle("active",speakerOn);
+}
+
+
+/* =========================
+FLASH
+========================= */
+
+async function toggleFlash(){
+
+if(!stream){
+
+alert("Start the live class first.");
+
+return;
+
+}
+
+if(!cameraOn){
+
+alert("Turn on the camera first.");
+
+return;
+
+}
+
+const track=
+stream.getVideoTracks()[0];
+
+if(!track){
+
+alert("Camera not available.");
+
+return;
+
+}
+
+try{
+
+const capabilities=
+track.getCapabilities
+? track.getCapabilities()
+: {};
+
+if(!capabilities.torch){
+
+alert(
+"Flashlight control is not supported on this device."
+);
+
+return;
+
+}
+
+flashOn=!flashOn;
+
+await track.applyConstraints({
+
+advanced:[
+{torch:flashOn}
+]
+
+});
+
+updateButtons();
+
+}catch(error){
+
+console.log(error);
+
+flashOn=false;
+
+alert(
+"This device does not allow flashlight control from the browser."
+);
+
+updateButtons();
+
+}
+
+}
+
+
+async function turnFlashOff(){
+
+if(!stream)return;
+
+const track=
+stream.getVideoTracks()[0];
+
+if(track){
+
+try{
+
+const capabilities=
+track.getCapabilities
+? track.getCapabilities()
+: {};
+
+if(capabilities.torch){
+
+await track.applyConstraints({
+
+advanced:[
+{torch:false}
+]
+
+});
+
+}
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+flashOn=false;
 
 }
 
@@ -466,25 +957,269 @@ document.getElementById("speakerBtn")
 FULLSCREEN
 ========================= */
 
-function goFullscreen(){
+function toggleFullscreen(){
 
-const video=document.getElementById("teacherVideo");
+const card=
+document.querySelector(".live-card");
 
-if(video.requestFullscreen){
+if(!document.fullscreenElement){
 
-video.requestFullscreen();
+if(card.requestFullscreen){
 
-}else if(video.webkitRequestFullscreen){
+card.requestFullscreen();
 
-video.webkitRequestFullscreen();
+}
 
 }else{
 
-alert("Fullscreen is not supported.");
+if(document.exitFullscreen){
+
+document.exitFullscreen();
 
 }
 
 }
+
+}
+
+
+/* =========================
+TIMER
+========================= */
+
+function updateTimer(){
+
+seconds++;
+
+const hours=
+Math.floor(seconds/3600);
+
+const minutes=
+Math.floor((seconds%3600)/60);
+
+const secs=
+seconds%60;
+
+document.getElementById("timer").textContent=
+
+String(hours).padStart(2,"0")+
+":"+
+String(minutes).padStart(2,"0")+
+":"+
+String(secs).padStart(2,"0");
+
+}
+
+
+/* =========================
+BUTTON DISPLAY
+========================= */
+
+function updateButtons(){
+
+const micBtn=
+document.getElementById("micBtn");
+
+const cameraBtn=
+document.getElementById("cameraBtn");
+
+const speakerBtn=
+document.getElementById("speakerBtn");
+
+const flashBtn=
+document.getElementById("flashBtn");
+
+
+micBtn.classList.toggle(
+"active",
+microphoneOn
+);
+
+micBtn.classList.toggle(
+"off",
+!microphoneOn
+);
+
+
+cameraBtn.classList.toggle(
+"active",
+cameraOn
+);
+
+cameraBtn.classList.toggle(
+"off",
+!cameraOn
+);
+
+
+speakerBtn.classList.toggle(
+"active",
+speakerOn
+);
+
+speakerBtn.classList.toggle(
+"off",
+!speakerOn
+);
+
+
+flashBtn.classList.toggle(
+"active",
+flashOn
+);
+
+flashBtn.classList.toggle(
+"off",
+!flashOn
+);
+
+
+micBtn.querySelector("span").textContent=
+microphoneOn ? "Mic On" : "Mic Off";
+
+cameraBtn.querySelector("span").textContent=
+cameraOn ? "Cam On" : "Cam Off";
+
+speakerBtn.querySelector("span").textContent=
+speakerOn ? "Speaker" : "Muted";
+
+flashBtn.querySelector("span").textContent=
+flashOn ? "Flash On" : "Flash";
+
+}
+
+
+/* =========================
+CHAT
+========================= */
+
+function sendMessage(){
+
+const input=
+document.getElementById("chatInput");
+
+const text=input.value.trim();
+
+if(!text)return;
+
+
+const messages=
+document.getElementById("chatMessages");
+
+const message=
+document.createElement("div");
+
+message.className="message me";
+
+message.innerHTML=
+"<small>"+escapeHTML(user.name||"Teacher")+
+"</small>"+
+escapeHTML(text);
+
+messages.appendChild(message);
+
+input.value="";
+
+messages.scrollTop=messages.scrollHeight;
+
+
+/* Firebase chat */
+
+db.ref(
+"liveClasses/"+CLASS_ID+"/chat"
+).push({
+
+name:user.name||"Teacher",
+
+message:text,
+
+time:
+firebase.database.ServerValue.TIMESTAMP
+
+});
+
+}
+
+
+function handleChatKey(event){
+
+if(event.key==="Enter"){
+
+event.preventDefault();
+
+sendMessage();
+
+}
+
+}
+
+
+function escapeHTML(text){
+
+const div=
+document.createElement("div");
+
+div.textContent=text;
+
+return div.innerHTML;
+
+}
+
+
+/* =========================
+FIREBASE CHAT
+========================= */
+
+db.ref(
+"liveClasses/"+CLASS_ID+"/chat"
+).on("child_added",function(snapshot){
+
+const data=snapshot.val();
+
+if(!data)return;
+
+const messages=
+document.getElementById("chatMessages");
+
+const message=
+document.createElement("div");
+
+message.className="message";
+
+message.innerHTML=
+"<small>"+
+escapeHTML(data.name||"User")+
+"</small>"+
+escapeHTML(data.message||"");
+
+messages.appendChild(message);
+
+messages.scrollTop=messages.scrollHeight;
+
+});
+
+
+/* =========================
+LEARNER COUNT
+========================= */
+
+db.ref(
+"liveClasses/"+CLASS_ID+"/learners"
+).on("value",function(snapshot){
+
+const data=snapshot.val();
+
+let count=0;
+
+if(data){
+
+count=Object.keys(data).length;
+
+}
+
+document.getElementById("learnerCount").textContent=count;
+
+});
 
 
 /* =========================
@@ -493,15 +1228,30 @@ END CLASS
 
 async function endClass(){
 
-if(!confirm("End this live class?")){
+if(!joined)return;
+
+if(!confirm("Are you sure you want to end the live class?")){
 
 return;
 
 }
 
+await turnFlashOff();
+
+if(timerInterval){
+
+clearInterval(timerInterval);
+
+timerInterval=null;
+
+}
+
+
 try{
 
-await db.ref("liveClasses/"+CLASS_ID).update({
+await db.ref(
+"liveClasses/"+CLASS_ID
+).update({
 
 status:"ended",
 
@@ -512,122 +1262,76 @@ firebase.database.ServerValue.TIMESTAMP
 
 }catch(error){
 
-console.error(error);
+console.log(error);
 
 }
 
 
 if(stream){
 
-stream.getTracks().forEach(function(track){
+stream.getTracks().forEach(track=>{
 
 track.stop();
 
 });
 
-stream=null;
-
 }
 
-clearInterval(timer);
+stream=null;
+
+joined=false;
 
 document.getElementById("teacherVideo").srcObject=null;
 
-document.getElementById("status").textContent="OFFLINE";
+document.getElementById("teacherVideo").style.display="none";
 
-document.getElementById("status").style.color="#16803c";
+document.getElementById("cameraOff").style.display="block";
 
-document.getElementById("startBtn").disabled=false;
+document.getElementById("controls").style.display="none";
 
-document.getElementById("endBtn").disabled=true;
+document.getElementById("chat").style.display="none";
+
+document.getElementById("liveStatus").style.display="none";
+
+document.getElementById("timer").style.display="none";
+
+document.getElementById("startBtn").style.display="block";
+
+document.getElementById("leaveBtn").style.display="none";
+
+document.getElementById("classBadge").textContent="OFFLINE";
 
 document.getElementById("timer").textContent="00:00:00";
 
-document.getElementById("message").textContent=
-"Live class ended.";
+seconds=0;
+
+microphoneOn=true;
+
+cameraOn=true;
+
+speakerOn=true;
+
+flashOn=false;
+
+updateButtons();
 
 }
 
 
 /* =========================
-CHAT
+EXIT WARNING
 ========================= */
 
-function sendChat(){
+window.addEventListener(
+"beforeunload",
+function(event){
 
-const input=document.getElementById("chatInput");
+if(joined){
 
-const text=input.value.trim();
+event.preventDefault();
 
-if(!text)return;
-
-db.ref("liveClasses/"+CLASS_ID+"/chat").push({
-
-name:user.name||"Teacher",
-
-message:text,
-
-time:firebase.database.ServerValue.TIMESTAMP
-
-});
-
-input.value="";
-
-}
-
-
-db.ref("liveClasses/"+CLASS_ID+"/chat")
-.on("child_added",function(snapshot){
-
-const data=snapshot.val();
-
-const div=document.createElement("div");
-
-div.textContent=
-(data.name||"User")+": "+(data.message||"");
-
-document.getElementById("chat").appendChild(div);
-
-const chat=document.getElementById("chat");
-
-chat.scrollTop=chat.scrollHeight;
-
-});
-
-
-/* =========================
-CHECK CURRENT LIVE STATUS
-========================= */
-
-db.ref("liveClasses/"+CLASS_ID)
-.on("value",function(snapshot){
-
-const data=snapshot.val();
-
-if(!data)return;
-
-if(data.status==="live"){
-
-document.getElementById("status").textContent="🔴 LIVE";
-
-document.getElementById("status").style.color="#c62828";
-
-}
-
-});
-
-
-/* =========================
-LEAVE WARNING
-========================= */
-
-window.addEventListener("beforeunload",function(e){
-
-if(stream){
-
-e.preventDefault();
-
-e.returnValue="";
+event.returnValue=
+"You are still teaching a live class.";
 
 }
 
