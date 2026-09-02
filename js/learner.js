@@ -1,36 +1,21 @@
-/* =========================================
-MULE LEARNER TUITION
-Learner JavaScript
-========================================= */
-
 "use strict";
 
-/* ===== FIREBASE ===== */
+/* =========================================================
+   MULE LEARNER TUITION - LEARNER SYSTEM
+   Supports BOTH old "payments" and new "mulePayments"
+========================================================= */
 
-const learnerFirebaseConfig = {
-    apiKey: "AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
-    authDomain: "mule-learner-tuition-264fe.firebaseapp.com",
-    databaseURL: "https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
-    projectId: "mule-learner-tuition-264fe",
-    storageBucket: "mule-learner-tuition-264fe.firebasestorage.app",
-    messagingSenderId: "656883565460",
-    appId: "1:656883565460:web:3aaa6a5b638a34a6d28581"
-};
+const LEARNER_USERS_KEY = "muleUsers";
+const LEARNER_CURRENT_USER_KEY = "muleCurrentUser";
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(learnerFirebaseConfig);
-}
-
-const learnerDB = firebase.database();
-
-
-/* ===== NORMALIZE PHONE ===== */
+/* =========================================================
+   PHONE NORMALIZATION
+========================================================= */
 
 function normalizeLearnerPhone(phone) {
 
-    phone = String(phone || "")
-        .trim()
-        .replace(/\s+/g, "");
+    phone = String(phone || "").trim();
+    phone = phone.replace(/\s+/g, "");
 
     if (phone.startsWith("+260")) {
         phone = "0" + phone.substring(4);
@@ -43,315 +28,410 @@ function normalizeLearnerPhone(phone) {
     return phone;
 }
 
+/* =========================================================
+   GET CURRENT LEARNER
+========================================================= */
 
-/* ===== LEARNER SESSION ===== */
-
-function getLearner() {
+function getLearnerUser() {
 
     try {
 
-        return JSON.parse(
-            localStorage.getItem("muleCurrentUser")
-        );
+        const data =
+            localStorage.getItem(LEARNER_CURRENT_USER_KEY);
+
+        if (!data) return null;
+
+        return JSON.parse(data);
 
     } catch (error) {
 
+        console.error("Could not read learner session:", error);
+
         return null;
-
     }
-
 }
 
-
-/* ===== PROTECT LEARNER PAGES ===== */
+/* =========================================================
+   PROTECT LEARNER PAGE
+========================================================= */
 
 function protectLearnerPage() {
 
-    const user = getLearner();
+    const user = getLearnerUser();
 
     if (!user) {
+
+        alert("Please login first.");
 
         window.location.href = "../login.html";
 
         return false;
-
     }
 
-    if (String(user.role).toLowerCase() !== "learner") {
+    if (
+        String(user.role || "").toLowerCase() !== "learner"
+    ) {
 
         alert("This page is for learners only.");
 
         window.location.href = "../login.html";
 
         return false;
+    }
 
+    if (
+        String(user.status || "").toLowerCase() === "suspended"
+    ) {
+
+        alert(
+            "Your learner account has been suspended. Please contact support."
+        );
+
+        window.location.href = "../login.html";
+
+        return false;
     }
 
     return true;
-
 }
 
+/* =========================================================
+   GET ALL USERS
+========================================================= */
 
-/* ===== DISPLAY LEARNER NAME ===== */
+function getLearnerUsers() {
 
-function displayLearnerName() {
+    try {
 
-    const user = getLearner();
+        return JSON.parse(
+            localStorage.getItem(LEARNER_USERS_KEY)
+        ) || [];
 
-    if (!user) {
-        return;
+    } catch (error) {
+
+        return [];
     }
+}
 
-    document.querySelectorAll(
-        "[data-learner-name]"
-    ).forEach(function(element) {
+/* =========================================================
+   FIND LEARNER
+========================================================= */
 
-        element.textContent =
-            user.name || "Learner";
+function findLearnerAccount() {
+
+    const currentUser = getLearnerUser();
+
+    if (!currentUser) return null;
+
+    const users = getLearnerUsers();
+
+    const currentId =
+        String(currentUser.id || "");
+
+    const currentPhone =
+        normalizeLearnerPhone(currentUser.phone || "");
+
+    const found = users.find(function(user) {
+
+        const userId =
+            String(user.id || "");
+
+        const userPhone =
+            normalizeLearnerPhone(user.phone || "");
+
+        return (
+            (currentId && userId === currentId) ||
+            (currentPhone && userPhone === currentPhone)
+        );
 
     });
 
+    return found || currentUser;
 }
 
+/* =========================================================
+   FIREBASE REST DATABASE
+========================================================= */
 
-/* =========================================
-CHECK ACTIVE APPROVED LEARNING ACCESS
-========================================= */
+const LEARNER_DATABASE_URL =
+    "https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+/* =========================================================
+   READ FIREBASE PATH
+========================================================= */
+
+async function readFirebasePath(path) {
+
+    try {
+
+        const response =
+            await fetch(
+                LEARNER_DATABASE_URL +
+                "/" +
+                path +
+                ".json"
+            );
+
+        if (!response.ok) {
+
+            console.error(
+                "Firebase request failed:",
+                response.status
+            );
+
+            return null;
+        }
+
+        return await response.json();
+
+    } catch (error) {
+
+        console.error(
+            "Firebase connection error:",
+            error
+        );
+
+        return null;
+    }
+}
+
+/* =========================================================
+   CHECK ONE PAYMENT RECORD
+========================================================= */
+
+function paymentBelongsToLearner(payment, learner) {
+
+    if (!payment || !learner) return false;
+
+    const learnerId =
+        String(learner.id || "");
+
+    const learnerPhone =
+        normalizeLearnerPhone(
+            learner.phone || ""
+        );
+
+    const paymentLearnerId =
+        String(payment.learnerId || "");
+
+    const paymentPhone =
+        normalizeLearnerPhone(
+            payment.learnerPhone || ""
+        );
+
+    const sameId =
+        learnerId &&
+        paymentLearnerId &&
+        learnerId === paymentLearnerId;
+
+    const samePhone =
+        learnerPhone &&
+        paymentPhone &&
+        learnerPhone === paymentPhone;
+
+    return sameId || samePhone;
+}
+
+/* =========================================================
+   CHECK PAYMENT STATUS
+========================================================= */
+
+function isActiveApprovedPayment(payment) {
+
+    if (!payment) return false;
+
+    const status =
+        String(payment.status || "")
+        .trim()
+        .toLowerCase();
+
+    if (status !== "approved") {
+        return false;
+    }
+
+    const expiresAt =
+        Number(payment.expiresAt || 0);
+
+    if (!expiresAt) {
+        return false;
+    }
+
+    return expiresAt > Date.now();
+}
+
+/* =========================================================
+   CHECK LEARNING ACCESS
+   Checks BOTH:
+   1. payments
+   2. mulePayments
+========================================================= */
 
 async function checkLearningAccess() {
 
-    const user = getLearner();
+    const learner = findLearnerAccount();
 
-    if (!user) {
-
-        return {
-            active: false,
-            reason: "not_logged_in"
-        };
-
-    }
-
-    const learnerId =
-        String(user.id || "").trim();
-
-    const learnerPhone =
-        normalizeLearnerPhone(user.phone);
-
-    if (!learnerId && !learnerPhone) {
+    if (!learner) {
 
         return {
+            success: false,
             active: false,
-            reason: "invalid_account"
+            message: "Please login first."
         };
-
     }
 
     try {
 
-        const snapshot =
-            await learnerDB.ref("mulePayments").once("value");
+        /*
+         IMPORTANT:
+         Check the OLD payment path first.
+         This keeps existing learners working.
+        */
 
-        const payments =
-            snapshot.val() || {};
+        const oldPayments =
+            await readFirebasePath("payments");
 
-        let activePayment = null;
+        /*
+         Also check the NEW payment path.
+        */
 
-        Object.keys(payments).forEach(function(key) {
+        const newPayments =
+            await readFirebasePath("mulePayments");
 
-            const payment = payments[key];
+        const allPayments = [];
 
-            if (!payment) {
-                return;
-            }
+        /* OLD PAYMENTS */
 
-            const paymentLearnerId =
-                String(
-                    payment.learnerId ||
-                    payment.userId ||
-                    ""
-                ).trim();
+        if (oldPayments) {
 
-            const paymentPhone =
-                normalizeLearnerPhone(
-                    payment.learnerPhone ||
-                    payment.phone ||
-                    payment.phoneNumber ||
-                    ""
-                );
+            if (Array.isArray(oldPayments)) {
 
-            const status =
-                String(
-                    payment.status || ""
-                ).toLowerCase()
-                .trim();
+                oldPayments.forEach(function(payment) {
 
-            const expiresAt =
-                Number(
-                    payment.expiresAt || 0
-                );
+                    if (payment) {
+                        allPayments.push(payment);
+                    }
 
-            const matchesAccount =
-                (
-                    learnerId &&
-                    paymentLearnerId === learnerId
-                ) ||
-                (
-                    learnerPhone &&
-                    paymentPhone === learnerPhone
-                );
+                });
 
-            const isApproved =
-                status === "approved";
+            } else {
 
-            const isActive =
-                expiresAt > Date.now();
+                Object.keys(oldPayments).forEach(function(key) {
 
-            if (
-                matchesAccount &&
-                isApproved &&
-                isActive
-            ) {
+                    const payment =
+                        oldPayments[key];
 
-                if (
-                    !activePayment ||
-                    expiresAt >
-                    Number(activePayment.expiresAt || 0)
-                ) {
+                    if (payment) {
 
-                    activePayment = payment;
+                        allPayments.push(payment);
 
-                }
+                    }
+
+                });
 
             }
 
-        });
+        }
 
+        /* NEW PAYMENTS */
 
-        /* ===== ACTIVE PAYMENT FOUND ===== */
+        if (newPayments) {
 
-        if (activePayment) {
+            if (Array.isArray(newPayments)) {
+
+                newPayments.forEach(function(payment) {
+
+                    if (payment) {
+                        allPayments.push(payment);
+                    }
+
+                });
+
+            } else {
+
+                Object.keys(newPayments).forEach(function(key) {
+
+                    const payment =
+                        newPayments[key];
+
+                    if (payment) {
+
+                        allPayments.push(payment);
+
+                    }
+
+                });
+
+            }
+
+        }
+
+        /*
+         Find every active approved payment
+         belonging to this learner.
+        */
+
+        const activePayments =
+            allPayments.filter(function(payment) {
+
+                return (
+                    paymentBelongsToLearner(
+                        payment,
+                        learner
+                    ) &&
+                    isActiveApprovedPayment(payment)
+                );
+
+            });
+
+        /*
+         If at least one active payment exists,
+         access is granted.
+        */
+
+        if (activePayments.length > 0) {
+
+            /*
+             Use the payment with the latest expiry.
+            */
+
+            activePayments.sort(function(a, b) {
+
+                return (
+                    Number(b.expiresAt || 0) -
+                    Number(a.expiresAt || 0)
+                );
+
+            });
+
+            const activePayment =
+                activePayments[0];
 
             return {
 
+                success: true,
                 active: true,
-
                 payment: activePayment,
 
-                plan:
-                    activePayment.plan || "",
-
                 expiresAt:
-                    Number(activePayment.expiresAt),
+                    Number(
+                        activePayment.expiresAt
+                    ),
 
-                learnerId:
-                    learnerId,
-
-                learnerPhone:
-                    learnerPhone
+                plan:
+                    activePayment.plan ||
+                    "Active Learning Plan"
 
             };
 
         }
-
-
-        /* =========================================
-        CHECK FREE TRIAL
-        ========================================= */
-
-        let freeTrial = null;
-
-        Object.keys(payments).forEach(function(key) {
-
-            const payment = payments[key];
-
-            if (!payment) {
-                return;
-            }
-
-            const paymentLearnerId =
-                String(
-                    payment.learnerId ||
-                    payment.userId ||
-                    ""
-                ).trim();
-
-            const paymentPhone =
-                normalizeLearnerPhone(
-                    payment.learnerPhone ||
-                    payment.phone ||
-                    payment.phoneNumber ||
-                    ""
-                );
-
-            const matchesAccount =
-                (
-                    learnerId &&
-                    paymentLearnerId === learnerId
-                ) ||
-                (
-                    learnerPhone &&
-                    paymentPhone === learnerPhone
-                );
-
-            const isFreeTrial =
-                payment.isFreeTrial === true ||
-                String(payment.plan || "")
-                    .toLowerCase()
-                    .includes("free trial");
-
-            const status =
-                String(
-                    payment.status || ""
-                ).toLowerCase();
-
-            const expiresAt =
-                Number(payment.expiresAt || 0);
-
-            if (
-                matchesAccount &&
-                isFreeTrial &&
-                status === "approved" &&
-                expiresAt > Date.now()
-            ) {
-
-                freeTrial = payment;
-
-            }
-
-        });
-
-
-        if (freeTrial) {
-
-            return {
-
-                active: true,
-
-                payment: freeTrial,
-
-                plan:
-                    freeTrial.plan ||
-                    "Free Trial - 6 Hours",
-
-                expiresAt:
-                    Number(freeTrial.expiresAt),
-
-                learnerId:
-                    learnerId,
-
-                learnerPhone:
-                    learnerPhone
-
-            };
-
-        }
-
 
         return {
 
+            success: true,
             active: false,
-
-            reason: "no_active_plan"
+            payment: null,
+            message:
+                "No active approved learning plan was found for this account."
 
         };
 
@@ -364,11 +444,10 @@ async function checkLearningAccess() {
 
         return {
 
+            success: false,
             active: false,
-
-            reason: "firebase_error",
-
-            error: error
+            message:
+                "Unable to check learning access. Please try again."
 
         };
 
@@ -376,23 +455,23 @@ async function checkLearningAccess() {
 
 }
 
-
-/* =========================================
-PROTECT PAGE USING PAYMENT ACCESS
-========================================= */
+/* =========================================================
+   REQUIRE LEARNING ACCESS
+========================================================= */
 
 async function requireLearningAccess(
     redirectPage = "payments.html"
 ) {
 
-    const user = getLearner();
+    const user = findLearnerAccount();
 
     if (!user) {
+
+        alert("Please login first.");
 
         window.location.href = "../login.html";
 
         return false;
-
     }
 
     const result =
@@ -400,316 +479,75 @@ async function requireLearningAccess(
 
     if (result.active) {
 
-        return true;
+        /*
+         Access approved.
+         Do NOT redirect.
+        */
 
+        console.log(
+            "Mule Learner Tuition access approved:",
+            result.plan
+        );
+
+        return true;
     }
+
+    /*
+     No active approved plan.
+    */
 
     alert(
-        "Learning access is locked. No active approved learning plan was found for this account. If you have already paid, please make sure the CEO has approved the payment."
+        "🔒 Learning access is locked.\n\n" +
+        "No active approved learning plan was found for this account.\n\n" +
+        "If you have already paid, please make sure the CEO has approved the payment."
     );
 
-    window.location.href =
-        redirectPage;
+    window.location.href = redirectPage;
 
     return false;
-
 }
 
+/* =========================================================
+   GET ACCESS DETAILS
+========================================================= */
 
-/* ===== LEARNER DATA ===== */
+async function getLearningAccessDetails() {
 
-function getLearnerData() {
+    const result =
+        await checkLearningAccess();
 
-    const user = getLearner();
-
-    if (!user) {
-        return null;
-    }
-
-    const key =
-        "muleLearner_" + user.id;
-
-    try {
-
-        return JSON.parse(
-            localStorage.getItem(key)
-        ) || {
-
-            subjects: [],
-            classes: [],
-            materials: [],
-            payments: [],
-            notifications: []
-
-        };
-
-    } catch (error) {
-
-        return {
-
-            subjects: [],
-            classes: [],
-            materials: [],
-            payments: [],
-            notifications: []
-
-        };
-
-    }
-
+    return result;
 }
 
+/* =========================================================
+   CHECK WHETHER ACCESS IS ACTIVE
+========================================================= */
 
-/* ===== SAVE LEARNER DATA ===== */
+async function hasActiveLearningAccess() {
 
-function saveLearnerData(data) {
+    const result =
+        await checkLearningAccess();
 
-    const user = getLearner();
-
-    if (!user) {
-        return false;
-    }
-
-    const key =
-        "muleLearner_" + user.id;
-
-    localStorage.setItem(
-        key,
-        JSON.stringify(data)
-    );
-
-    return true;
-
+    return result.active === true;
 }
 
+/* =========================================================
+   CURRENT USER HELPERS
+========================================================= */
 
-/* ===== ENROL SUBJECT ===== */
+function getCurrentLearner() {
 
-function enrolSubject(subject) {
-
-    const data =
-        getLearnerData();
-
-    if (!data) {
-        return;
-    }
-
-    const exists =
-        data.subjects.some(function(item) {
-
-            return item.name === subject.name;
-
-        });
-
-    if (exists) {
-
-        if (
-            typeof showMessage === "function"
-        ) {
-
-            showMessage(
-                "You are already enrolled in this subject.",
-                "warning"
-            );
-
-        }
-
-        return;
-
-    }
-
-    data.subjects.push({
-
-        id:
-            subject.id ||
-            generateLearnerId(),
-
-        name:
-            subject.name,
-
-        teacher:
-            subject.teacher ||
-            "To be assigned",
-
-        enrolledAt:
-            new Date().toISOString()
-
-    });
-
-    saveLearnerData(data);
-
-    if (
-        typeof showMessage === "function"
-    ) {
-
-        showMessage(
-            "Subject added successfully.",
-            "success"
-        );
-
-    }
-
+    return getLearnerUser();
 }
 
+function getLoggedInLearner() {
 
-/* ===== LEARNER ID ===== */
-
-function generateLearnerId() {
-
-    return "LRN-" +
-
-        Date.now()
-            .toString(36)
-            .toUpperCase() +
-
-        "-" +
-
-        Math.random()
-            .toString(36)
-            .substring(2, 6)
-            .toUpperCase();
-
+    return getLearnerUser();
 }
 
-
-/* ===== COUNT LEARNER DATA ===== */
-
-function updateLearnerCounts() {
-
-    const data =
-        getLearnerData();
-
-    if (!data) {
-        return;
-    }
-
-    const counts = {
-
-        subjects:
-            data.subjects
-                ? data.subjects.length
-                : 0,
-
-        classes:
-            data.classes
-                ? data.classes.length
-                : 0,
-
-        materials:
-            data.materials
-                ? data.materials.length
-                : 0,
-
-        payments:
-            data.payments
-                ? data.payments.length
-                : 0
-
-    };
-
-
-    const subjectCount =
-        document.querySelector(
-            "[data-subject-count]"
-        );
-
-    const classCount =
-        document.querySelector(
-            "[data-class-count]"
-        );
-
-    const materialCount =
-        document.querySelector(
-            "[data-material-count]"
-        );
-
-    const paymentCount =
-        document.querySelector(
-            "[data-payment-count]"
-        );
-
-
-    if (subjectCount) {
-
-        subjectCount.textContent =
-            counts.subjects;
-
-    }
-
-    if (classCount) {
-
-        classCount.textContent =
-            counts.classes;
-
-    }
-
-    if (materialCount) {
-
-        materialCount.textContent =
-            counts.materials;
-
-    }
-
-    if (paymentCount) {
-
-        paymentCount.textContent =
-            counts.payments;
-
-    }
-
-}
-
-
-/* ===== FIND LIVE CLASS ===== */
-
-function getLiveClasses() {
-
-    try {
-
-        return JSON.parse(
-            localStorage.getItem(
-                "muleLiveClasses"
-            )
-        ) || [];
-
-    } catch (error) {
-
-        return [];
-
-    }
-
-}
-
-
-/* ===== CHECK LIVE CLASSES ===== */
-
-function showLiveClassStatus() {
-
-    const liveClasses =
-        getLiveClasses();
-
-    const liveNow =
-        liveClasses.filter(
-            function(item) {
-
-                return item.status === "live";
-
-            }
-        );
-
-    document.querySelectorAll(
-        "[data-live-count]"
-    ).forEach(function(element) {
-
-        element.textContent =
-            liveNow.length;
-
-    });
-
-}
-
-
-/* ===== LOGOUT ===== */
+/* =========================================================
+   LEARNER LOGOUT
+========================================================= */
 
 function learnerLogout() {
 
@@ -718,31 +556,76 @@ function learnerLogout() {
             "Are you sure you want to logout?"
         );
 
-    if (!confirmed) {
-        return;
-    }
+    if (!confirmed) return;
 
     localStorage.removeItem(
-        "muleCurrentUser"
+        LEARNER_CURRENT_USER_KEY
     );
 
     window.location.href =
         "../login.html";
-
 }
 
+/* =========================================================
+   FORMAT REMAINING TIME
+========================================================= */
 
-/* ===== PAGE START ===== */
+function formatRemainingAccess(expiresAt) {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+    const expiry =
+        Number(expiresAt || 0);
 
-        displayLearnerName();
+    const remaining =
+        expiry - Date.now();
 
-        updateLearnerCounts();
+    if (remaining <= 0) {
+        return "Expired";
+    }
 
-        showLiveClassStatus();
+    const totalMinutes =
+        Math.floor(
+            remaining / 60000
+        );
+
+    const days =
+        Math.floor(
+            totalMinutes / 1440
+        );
+
+    const hours =
+        Math.floor(
+            (totalMinutes % 1440) / 60
+        );
+
+    const minutes =
+        totalMinutes % 60;
+
+    if (days > 0) {
+
+        return (
+            days +
+            " day" +
+            (days === 1 ? "" : "s") +
+            " " +
+            hours +
+            " hour" +
+            (hours === 1 ? "" : "s")
+        );
 
     }
-);
+
+    if (hours > 0) {
+
+        return (
+            hours +
+            " hour" +
+            (hours === 1 ? "" : "s") +
+            " " +
+            minutes +
+            " min"
+        );
+
+    }
+
+    return minutes + " min";
+}
