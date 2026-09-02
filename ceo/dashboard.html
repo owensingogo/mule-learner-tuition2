@@ -213,7 +213,6 @@ Logout
 
 </header>
 
-
 <div class="hero">
 
 <h1>
@@ -226,23 +225,19 @@ Manage the platform and step in as a teacher whenever necessary.
 
 </div>
 
-
 <div class="container">
 
 <div id="loading" class="loading">
-Loading platform information...
+Connecting to platform database...
 </div>
-
 
 <h2 class="section-title">
 Overview
 </h2>
 
-
 <div class="stats">
 
 <div class="stat">
-
 <div class="stat-icon">👥</div>
 
 <h3 id="learnerCount">
@@ -252,12 +247,9 @@ Overview
 <p>
 Total Learners
 </p>
-
 </div>
 
-
 <div class="stat">
-
 <div class="stat-icon">👨‍🏫</div>
 
 <h3 id="teacherCount">
@@ -267,12 +259,9 @@ Total Learners
 <p>
 Teachers
 </p>
-
 </div>
 
-
 <div class="stat">
-
 <div class="stat-icon">💰</div>
 
 <h3 id="pendingCount">
@@ -282,12 +271,9 @@ Teachers
 <p>
 Pending Payments
 </p>
-
 </div>
 
-
 <div class="stat">
-
 <div class="stat-icon">🔴</div>
 
 <h3 id="liveCount">
@@ -297,16 +283,13 @@ Pending Payments
 <p>
 Live Classes
 </p>
-
 </div>
 
 </div>
-
 
 <h2 class="section-title">
 Teaching
 </h2>
-
 
 <div class="menu">
 
@@ -330,14 +313,11 @@ is unavailable.
 
 </div>
 
-
 <h2 class="section-title" style="margin-top:22px;">
 Management
 </h2>
 
-
 <div class="menu">
-
 
 <a href="payments.html" class="card">
 
@@ -355,7 +335,6 @@ Review, approve or reject learner payments.
 
 </a>
 
-
 <a href="payment-accounts.html" class="card">
 
 <div class="card-icon">
@@ -371,7 +350,6 @@ Manage Airtel Money, Zamtel Money and MTN MoMo accounts.
 </p>
 
 </a>
-
 
 <a href="learners.html" class="card">
 
@@ -389,7 +367,6 @@ View and manage registered learners.
 
 </a>
 
-
 <a href="teachers.html" class="card">
 
 <div class="card-icon">
@@ -405,7 +382,6 @@ Manage teachers and their accounts.
 </p>
 
 </a>
-
 
 <a href="teacher-applications.html" class="card">
 
@@ -423,7 +399,6 @@ Review applications and hire teachers.
 
 </a>
 
-
 <a href="subjects.html" class="card">
 
 <div class="card-icon">
@@ -439,7 +414,6 @@ Add, edit and manage learning subjects.
 </p>
 
 </a>
-
 
 <a href="classes.html" class="card">
 
@@ -457,7 +431,6 @@ Create classes and assign teachers.
 
 </a>
 
-
 <a href="live-classes.html" class="card">
 
 <div class="card-icon">
@@ -473,7 +446,6 @@ Control scheduled live learning sessions.
 </p>
 
 </a>
-
 
 <a href="materials.html" class="card">
 
@@ -491,7 +463,6 @@ Manage notes and study resources.
 
 </a>
 
-
 <a href="support.html" class="card">
 
 <div class="card-icon">
@@ -508,7 +479,6 @@ Manage learner questions and support requests.
 
 </a>
 
-
 <a href="reports.html" class="card">
 
 <div class="card-icon">
@@ -524,7 +494,6 @@ View platform activity and payment reports.
 </p>
 
 </a>
-
 
 <a href="settings.html" class="card">
 
@@ -543,7 +512,6 @@ Manage platform information and CEO controls.
 </a>
 
 </div>
-
 
 <div class="alert">
 
@@ -565,7 +533,6 @@ Teacher hiring, payment approvals, suspensions and learner access
 remain under CEO control.
 
 </div>
-
 
 <div class="security">
 
@@ -594,7 +561,6 @@ approval.
 
 </div>
 
-
 <footer>
 
 Mule Learner Tuition
@@ -607,12 +573,10 @@ CEO Administration • Learn • Practice • Succeed
 
 </div>
 
-
 <script src="../js/app.js"></script>
 <script src="../js/auth.js"></script>
 <script src="../js/payments.js"></script>
 <script src="../js/ceo.js"></script>
-
 
 <script>
 
@@ -632,18 +596,14 @@ async function ceoFirebaseGet(path){
 
 try{
 
-const response =
-await fetch(
-CEO_DATABASE_URL +
-"/" +
-path +
-".json"
+const response = await fetch(
+CEO_DATABASE_URL + "/" + path + ".json"
 );
 
 if(!response.ok){
 
 throw new Error(
-"Firebase request failed"
+"Firebase request failed: " + response.status
 );
 
 }
@@ -665,7 +625,7 @@ return null;
 
 
 /* =========================================
-   CONVERT FIREBASE DATA TO ARRAY
+   CONVERT FIREBASE OBJECT TO ARRAY
 ========================================= */
 
 function firebaseToArray(data){
@@ -673,7 +633,6 @@ function firebaseToArray(data){
 if(!data){
 
 return [];
-
 }
 
 if(Array.isArray(data)){
@@ -704,29 +663,55 @@ document.getElementById("loading");
 
 try{
 
+/*
+   READ ALL IMPORTANT FIREBASE NODES
+*/
+
 const usersData =
 await ceoFirebaseGet("users");
 
 const paymentsData =
+await ceoFirebaseGet("payments");
+
+const oldPaymentsData =
 await ceoFirebaseGet("mulePayments");
 
 const liveData =
 await ceoFirebaseGet("liveClasses");
 
 
+/*
+   USERS
+*/
+
 const users =
 firebaseToArray(usersData);
 
-const payments =
+
+/*
+   PAYMENTS
+   Supports both:
+   payments
+   and old mulePayments
+*/
+
+let payments =
 firebaseToArray(paymentsData);
 
-const liveClasses =
-firebaseToArray(liveData);
+if(
+payments.length === 0 &&
+oldPaymentsData
+){
+
+payments =
+firebaseToArray(oldPaymentsData);
+
+}
 
 
-/* =====================================
-   USERS
-===================================== */
+/*
+   LEARNERS
+*/
 
 const learners =
 users.filter(
@@ -740,6 +725,10 @@ user.role || ""
 );
 
 
+/*
+   TEACHERS
+*/
+
 const teachers =
 users.filter(
 function(user){
@@ -752,9 +741,9 @@ user.role || ""
 );
 
 
-/* =====================================
+/*
    PENDING PAYMENTS
-===================================== */
+*/
 
 const pendingPayments =
 payments.filter(
@@ -768,9 +757,15 @@ payment.status || ""
 );
 
 
-/* =====================================
+/*
    LIVE CLASSES
-===================================== */
+
+   Firebase liveClasses can be stored
+   either as objects or class records.
+*/
+
+const liveClasses =
+firebaseToArray(liveData);
 
 const activeLiveClasses =
 liveClasses.filter(
@@ -791,9 +786,9 @@ status === "started"
 );
 
 
-/* =====================================
-   DISPLAY
-===================================== */
+/*
+   DISPLAY COUNTS
+*/
 
 document.getElementById(
 "learnerCount"
@@ -819,10 +814,14 @@ document.getElementById(
 activeLiveClasses.length;
 
 
+/*
+   CONNECTION STATUS
+*/
+
 if(loading){
 
 loading.textContent =
-"Platform information updated.";
+"✓ Platform information updated";
 
 setTimeout(
 function(){
@@ -831,7 +830,7 @@ loading.style.display =
 "none";
 
 },
-1500
+1200
 );
 
 }
@@ -839,14 +838,14 @@ loading.style.display =
 }catch(error){
 
 console.error(
-"Could not load CEO statistics:",
+"CEO dashboard error:",
 error
 );
 
 if(loading){
 
 loading.textContent =
-"Some platform information could not be loaded.";
+"Unable to load platform information.";
 
 }
 
@@ -960,7 +959,7 @@ window.location.href =
 
 
 /* =========================================
-   START
+   START DASHBOARD
 ========================================= */
 
 document.addEventListener(
@@ -973,13 +972,16 @@ return;
 
 }
 
+
+/*
+   Load immediately
+*/
+
 loadCEOStatistics();
 
 
 /*
-Refresh dashboard statistics
-every 10 seconds so the CEO can
-see new learner payments.
+   Refresh every 10 seconds
 */
 
 setInterval(
