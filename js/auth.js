@@ -1,6 +1,6 @@
 /* =========================================
    MULE LEARNER TUITION
-   Authentication
+   FIREBASE AUTHENTICATION
    Phone + Password + Role
 ========================================= */
 
@@ -9,20 +9,25 @@
 const USERS_KEY = "muleUsers";
 const CURRENT_USER_KEY = "muleCurrentUser";
 
+const FIREBASE_DATABASE_URL =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-/* ===== NORMALIZE PHONE ===== */
 
-function normalizePhone(phone) {
+/* =========================================
+   NORMALIZE PHONE
+========================================= */
+
+function normalizePhone(phone){
 
     phone = String(phone || "").trim();
 
-    phone = phone.replace(/\s+/g, "");
+    phone = phone.replace(/\s+/g,"");
 
-    if (phone.startsWith("+260")) {
+    if(phone.startsWith("+260")){
         phone = "0" + phone.substring(4);
     }
 
-    if (phone.startsWith("260")) {
+    if(phone.startsWith("260")){
         phone = "0" + phone.substring(3);
     }
 
@@ -30,26 +35,129 @@ function normalizePhone(phone) {
 }
 
 
-/* ===== GET USERS ===== */
+/* =========================================
+   FIREBASE GET
+========================================= */
 
-function getUsers() {
+async function firebaseGet(path){
 
-    try {
+    const response = await fetch(
+        FIREBASE_DATABASE_URL +
+        "/" +
+        path +
+        ".json"
+    );
+
+    if(!response.ok){
+
+        throw new Error(
+            "Firebase connection failed."
+        );
+
+    }
+
+    return await response.json();
+}
+
+
+/* =========================================
+   FIREBASE SET
+========================================= */
+
+async function firebaseSet(path,data){
+
+    const response = await fetch(
+        FIREBASE_DATABASE_URL +
+        "/" +
+        path +
+        ".json",
+        {
+            method:"PUT",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify(data)
+        }
+    );
+
+    if(!response.ok){
+
+        throw new Error(
+            "Could not save data to Firebase."
+        );
+
+    }
+
+    return await response.json();
+}
+
+
+/* =========================================
+   CONVERT FIREBASE USERS TO ARRAY
+========================================= */
+
+function firebaseUsersToArray(data){
+
+    if(!data){
+        return [];
+    }
+
+    if(Array.isArray(data)){
+        return data.filter(Boolean);
+    }
+
+    return Object.keys(data)
+        .map(function(key){
+            return data[key];
+        })
+        .filter(Boolean);
+}
+
+
+/* =========================================
+   GET USERS
+   Firebase is now the main database.
+========================================= */
+
+async function getUsersFirebase(){
+
+    const data =
+        await firebaseGet("users");
+
+    return firebaseUsersToArray(data);
+}
+
+
+/* =========================================
+   LOCAL GET USERS
+   Kept for compatibility with old pages.
+========================================= */
+
+function getUsers(){
+
+    try{
 
         return JSON.parse(
-            localStorage.getItem(USERS_KEY)
+            localStorage.getItem(
+                USERS_KEY
+            )
         ) || [];
 
-    } catch (error) {
+    }catch(error){
 
         return [];
     }
 }
 
 
-/* ===== SAVE USERS ===== */
+/* =========================================
+   SAVE LOCAL USERS
+========================================= */
 
-function saveUsers(users) {
+function saveUsers(users){
 
     localStorage.setItem(
         USERS_KEY,
@@ -58,283 +166,383 @@ function saveUsers(users) {
 }
 
 
-/* ===== DEFAULT CEO ACCOUNT ===== */
+/* =========================================
+   CREATE USER ID
+========================================= */
 
-(function createDefaultCEO() {
+function createUserId(role){
 
-    const users = getUsers();
+    const prefix =
+        role === "teacher"
+        ? "TCH"
+        :
+        role === "ceo"
+        ? "CEO"
+        :
+        "LRN";
 
-    const existingCEO = users.find(function(user) {
+    return prefix +
+        "-" +
+        Date.now()
+        .toString(36)
+        .toUpperCase() +
+        "-" +
+        Math.random()
+        .toString(36)
+        .substring(2,6)
+        .toUpperCase();
+}
 
-        return (
-            normalizePhone(user.phone) === "0978362800" &&
-            String(user.role).toLowerCase() === "ceo"
-        );
 
-    });
+/* =========================================
+   REGISTER USER
+========================================= */
 
-    if (!existingCEO) {
+async function registerUser(userData){
 
-        users.push({
+    try{
 
-            id: "CEO-001",
+        const users =
+            await getUsersFirebase();
 
-            name: "Owen Singogo",
+        const name =
+            String(
+                userData.name || ""
+            ).trim();
 
-            phone: "0978362800",
+        const phone =
+            normalizePhone(
+                userData.phone
+            );
 
-            password: "Muleya22",
+        const password =
+            String(
+                userData.password || ""
+            );
 
-            role: "ceo",
+        const role =
+            String(
+                userData.role || "learner"
+            )
+            .trim()
+            .toLowerCase();
 
-            status: "active",
+
+        if(!name || !phone || !password){
+
+            return {
+
+                success:false,
+
+                message:
+                "Please complete all required fields."
+
+            };
+
+        }
+
+
+        const existingPhone =
+            users.find(function(user){
+
+                return (
+                    normalizePhone(
+                        user.phone
+                    ) === phone
+                );
+
+            });
+
+
+        if(existingPhone){
+
+            return {
+
+                success:false,
+
+                message:
+                "An account with this phone number already exists."
+
+            };
+
+        }
+
+
+        const newUser = {
+
+            id:createUserId(role),
+
+            name:name,
+
+            phone:phone,
+
+            password:password,
+
+            role:role,
+
+            status:
+                role === "teacher"
+                ? "pending"
+                : "active",
 
             createdAt:
                 new Date().toISOString()
 
-        });
-
-        saveUsers(users);
-    }
-
-})();
+        };
 
 
-/* ===== CREATE USER ID ===== */
+        /*
+           SAVE TO FIREBASE
+        */
 
-function createUserId(role) {
-
-    const prefix =
-        role === "teacher" ? "TCH" :
-        role === "ceo" ? "CEO" :
-        "LRN";
-
-    return prefix + "-" +
-        Date.now().toString(36).toUpperCase() +
-        "-" +
-        Math.random()
-            .toString(36)
-            .substring(2, 6)
-            .toUpperCase();
-}
+        await firebaseSet(
+            "users/" + newUser.id,
+            newUser
+        );
 
 
-/* ===== REGISTER USER ===== */
+        /*
+           SAVE LOCAL COPY
+           For compatibility with old pages.
+        */
 
-function registerUser(userData) {
+        const localUsers =
+            getUsers();
 
-    const users = getUsers();
+        localUsers.push(newUser);
 
-    const name =
-        String(userData.name || "").trim();
+        saveUsers(localUsers);
 
-    const phone =
-        normalizePhone(userData.phone);
-
-    const password =
-        String(userData.password || "");
-
-    const role =
-        String(userData.role || "learner")
-        .trim()
-        .toLowerCase();
-
-
-    if (!name || !phone || !password) {
 
         return {
 
-            success: false,
+            success:true,
 
             message:
-                "Please complete all required fields."
+                role === "teacher"
+                ?
+                "Teacher application submitted successfully."
+                :
+                "Account created successfully.",
+
+            user:newUser
+
+        };
+
+    }catch(error){
+
+        console.error(
+            "Registration error:",
+            error
+        );
+
+        return {
+
+            success:false,
+
+            message:
+            "Unable to connect to the platform database. Please check your internet connection and try again."
 
         };
 
     }
 
-
-    const existingPhone =
-        users.find(function(user) {
-
-            return (
-                normalizePhone(user.phone) === phone
-            );
-
-        });
-
-
-    if (existingPhone) {
-
-        return {
-
-            success: false,
-
-            message:
-                "An account with this phone number already exists."
-
-        };
-
-    }
-
-
-    const newUser = {
-
-        id: createUserId(role),
-
-        name: name,
-
-        phone: phone,
-
-        password: password,
-
-        role: role,
-
-        status:
-            role === "teacher"
-            ? "pending"
-            : "active",
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-
-    users.push(newUser);
-
-    saveUsers(users);
-
-
-    return {
-
-        success: true,
-
-        message:
-            role === "teacher"
-            ? "Teacher application submitted successfully."
-            : "Account created successfully.",
-
-        user: newUser
-
-    };
-
 }
 
 
-/* ===== LOGIN USER ===== */
+/* =========================================
+   LOGIN USER
+   Firebase version
+========================================= */
 
-function loginUser(phone, password, selectedRole) {
+async function loginUser(
+    phone,
+    password,
+    selectedRole
+){
 
-    const users = getUsers();
+    try{
 
-    const cleanPhone =
-        normalizePhone(phone);
+        const users =
+            await getUsersFirebase();
 
-    const cleanPassword =
-        String(password || "");
+        const cleanPhone =
+            normalizePhone(phone);
 
-    const cleanRole =
-        String(selectedRole || "")
-        .trim()
-        .toLowerCase();
+        const cleanPassword =
+            String(password || "");
 
-
-    const user =
-        users.find(function(account) {
-
-            return (
-
-                normalizePhone(account.phone)
-                === cleanPhone
-
-                &&
-
-                String(account.password)
-                === cleanPassword
-
-                &&
-
-                String(account.role)
-                .toLowerCase()
-                === cleanRole
-
-            );
-
-        });
+        const cleanRole =
+            String(
+                selectedRole || ""
+            )
+            .trim()
+            .toLowerCase();
 
 
-    if (!user) {
+        const user =
+            users.find(function(account){
 
-        return {
+                return (
 
-            success: false,
+                    normalizePhone(
+                        account.phone
+                    ) === cleanPhone
 
-            message:
+                    &&
+
+                    String(
+                        account.password
+                    ) === cleanPassword
+
+                    &&
+
+                    String(
+                        account.role
+                    )
+                    .toLowerCase()
+                    === cleanRole
+
+                );
+
+            });
+
+
+        if(!user){
+
+            return {
+
+                success:false,
+
+                message:
                 "Incorrect phone number, password or account type."
 
-        };
+            };
 
-    }
+        }
 
 
-    if (user.status === "suspended") {
+        /*
+           CHECK ACCOUNT STATUS
+        */
 
-        return {
+        const status =
+            String(
+                user.status || "active"
+            )
+            .toLowerCase();
 
-            success: false,
 
-            message:
+        if(status === "suspended"){
+
+            return {
+
+                success:false,
+
+                message:
                 "Your account has been suspended. Please contact support."
 
-        };
+            };
 
-    }
+        }
 
 
-    if (user.status === "pending") {
+        /*
+           TEACHER MUST BE APPROVED
+        */
+
+        if(
+            user.role === "teacher" &&
+            (
+                status === "pending" ||
+                status === "rejected"
+            )
+        ){
+
+            if(status === "rejected"){
+
+                return {
+
+                    success:false,
+
+                    message:
+                    "Your teacher application was rejected. Please contact support."
+
+                };
+
+            }
+
+            return {
+
+                success:false,
+
+                message:
+                "Your teacher account is awaiting CEO approval."
+
+            };
+
+        }
+
+
+        /*
+           SAVE SESSION
+        */
+
+        localStorage.setItem(
+            CURRENT_USER_KEY,
+            JSON.stringify(user)
+        );
+
+
+        /*
+           ALSO KEEP A LOCAL USERS COPY
+        */
+
+        saveUsers(users);
+
 
         return {
 
-            success: false,
+            success:true,
 
             message:
-                "Your teacher account is awaiting CEO approval."
+            "Login successful.",
+
+            user:user
+
+        };
+
+    }catch(error){
+
+        console.error(
+            "Login error:",
+            error
+        );
+
+        return {
+
+            success:false,
+
+            message:
+            "Unable to connect to the platform database. Please check your internet connection and try again."
 
         };
 
     }
-
-
-    /* ===== SAVE LOGIN SESSION ===== */
-
-    localStorage.setItem(
-
-        CURRENT_USER_KEY,
-
-        JSON.stringify(user)
-
-    );
-
-
-    return {
-
-        success: true,
-
-        message: "Login successful.",
-
-        user: user
-
-    };
 
 }
 
 
-/* ===== LOGIN PAGE ===== */
+/* =========================================
+   LOGIN PAGE
+========================================= */
 
-function login(event, selectedRole) {
+async function login(
+    event,
+    selectedRole
+){
 
-    if (event) {
+    if(event){
 
         event.preventDefault();
 
@@ -342,22 +550,26 @@ function login(event, selectedRole) {
 
 
     const phone =
-        document.getElementById("phone")
-        ?.value.trim();
+        document.getElementById(
+            "phone"
+        )?.value.trim();
 
 
     const password =
-        document.getElementById("password")
-        ?.value;
+        document.getElementById(
+            "password"
+        )?.value;
 
 
     const error =
-        document.getElementById("error");
+        document.getElementById(
+            "error"
+        );
 
 
-    if (!phone || !password) {
+    if(!phone || !password){
 
-        if (error) {
+        if(error){
 
             error.textContent =
                 "Please enter your phone number and password.";
@@ -372,8 +584,28 @@ function login(event, selectedRole) {
     }
 
 
+    /*
+       Show loading
+    */
+
+    const loginButton =
+        document.querySelector(
+            "button.login"
+        );
+
+
+    if(loginButton){
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+            "Logging in...";
+
+    }
+
+
     const result =
-        loginUser(
+        await loginUser(
 
             phone,
 
@@ -384,9 +616,9 @@ function login(event, selectedRole) {
         );
 
 
-    if (!result.success) {
+    if(!result.success){
 
-        if (error) {
+        if(error){
 
             error.textContent =
                 result.message;
@@ -394,9 +626,22 @@ function login(event, selectedRole) {
             error.style.display =
                 "block";
 
-        } else {
+        }else{
 
-            alert(result.message);
+            alert(
+                result.message
+            );
+
+        }
+
+
+        if(loginButton){
+
+            loginButton.disabled =
+                false;
+
+            loginButton.textContent =
+                "Login";
 
         }
 
@@ -405,7 +650,7 @@ function login(event, selectedRole) {
     }
 
 
-    if (error) {
+    if(error){
 
         error.style.display =
             "none";
@@ -413,18 +658,22 @@ function login(event, selectedRole) {
     }
 
 
-    redirectByRole(result.user);
+    redirectByRole(
+        result.user
+    );
 
     return true;
 
 }
 
 
-/* ===== REDIRECT BY ROLE ===== */
+/* =========================================
+   REDIRECT BY ROLE
+========================================= */
 
-function redirectByRole(user) {
+function redirectByRole(user){
 
-    if (!user) {
+    if(!user){
 
         window.location.href =
             "login.html";
@@ -434,7 +683,13 @@ function redirectByRole(user) {
     }
 
 
-    if (user.role === "ceo") {
+    const role =
+        String(
+            user.role || ""
+        ).toLowerCase();
+
+
+    if(role === "ceo"){
 
         window.location.href =
             "ceo/dashboard.html";
@@ -444,7 +699,7 @@ function redirectByRole(user) {
     }
 
 
-    if (user.role === "teacher") {
+    if(role === "teacher"){
 
         window.location.href =
             "teacher/dashboard.html";
@@ -460,11 +715,13 @@ function redirectByRole(user) {
 }
 
 
-/* ===== GET CURRENT USER ===== */
+/* =========================================
+   GET CURRENT USER
+========================================= */
 
-function getLoggedInUser() {
+function getLoggedInUser(){
 
-    try {
+    try{
 
         return JSON.parse(
 
@@ -474,7 +731,7 @@ function getLoggedInUser() {
 
         );
 
-    } catch (error) {
+    }catch(error){
 
         return null;
 
@@ -483,9 +740,11 @@ function getLoggedInUser() {
 }
 
 
-/* ===== LOGOUT ===== */
+/* =========================================
+   LOGOUT
+========================================= */
 
-function logoutUser() {
+function logoutUser(){
 
     localStorage.removeItem(
         CURRENT_USER_KEY
@@ -493,5 +752,42 @@ function logoutUser() {
 
     window.location.href =
         "login.html";
+
+}
+
+
+/* =========================================
+   CHECK LOGIN
+========================================= */
+
+function isLoggedIn(){
+
+    return !!getLoggedInUser();
+
+}
+
+
+/* =========================================
+   CHECK ROLE
+========================================= */
+
+function hasRole(role){
+
+    const user =
+        getLoggedInUser();
+
+    if(!user){
+
+        return false;
+
+    }
+
+    return (
+        String(user.role || "")
+        .toLowerCase()
+        ===
+        String(role || "")
+        .toLowerCase()
+    );
 
 }
