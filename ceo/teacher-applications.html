@@ -1,8 +1,7 @@
-<!DOCTYPE html><html lang="en">
-<head>
-<meta charset="UTF-8">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f"><title>Teacher Applications | Mule Learner Tuition</title><style>
+
 *{
 box-sizing:border-box;
 margin:0;
@@ -258,24 +257,27 @@ margin-top:25px;
 }
 
 @media(min-width:650px){
+
 .stats{
 grid-template-columns:repeat(4,1fr);
 }
+
 }
-</style></head><body><header>
-<div class="logo">Mule Learner Tuition</div>
-<a href="dashboard.html" class="back">← CEO Dashboard</a>
-</header><div class="container"><div class="heading">
-<h1>Teacher Applications 📋</h1>
-<p>Review applications, approve teachers and activate teacher accounts.</p>
-</div><input
+
+</style></head><body><header><div class="logo">
+Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← CEO Dashboard
+</a></header><div class="container"><div class="heading"><h1>
+Teacher Applications 📋
+</h1><p>
+Review applications, approve teachers and activate teacher accounts.
+</p></div><input
 type="search"
 id="search"
 class="search"
 placeholder="Search applicant by name or phone..."
-oninput="searchApplications()"
-
-«»
+oninput="searchApplications()">
 
 <div class="stats"><div class="stat">
 <div class="stat-icon">📋</div>
@@ -295,7 +297,9 @@ oninput="searchApplications()"
 <p>Rejected</p>
 </div></div><div id="applicationList"></div><div id="empty" class="empty">
 No teacher applications found.
-</div><div class="notice"><strong>🔐 CEO Hiring Control</strong><br><br>
+</div><div class="notice"><strong>🔐 CEO Hiring Control</strong>
+
+<br><br>
 
 Only the CEO can approve and activate teachers.
 
@@ -309,12 +313,72 @@ materials and live classes.
 
 Pending, rejected or suspended teachers cannot teach.
 
-</div><footer>
-Mule Learner Tuition<br>
+</div><footer>Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
-</footer></div><script>
 
-"use strict";
+</footer></div><script type="module">
+
+import {
+initializeApp,
+getApps
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+onValue,
+get,
+update
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+};
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+const app=
+getApps().length
+?
+getApps()[0]
+:
+initializeApp(firebaseConfig);
+
+const db=
+getDatabase(app);
 
 let applications=[];
 
@@ -330,11 +394,15 @@ phone=String(phone||"").trim();
 phone=phone.replace(/\s+/g,"");
 
 if(phone.startsWith("+260")){
+
 phone="0"+phone.substring(4);
+
 }
 
 if(phone.startsWith("260")){
+
 phone="0"+phone.substring(3);
+
 }
 
 return phone;
@@ -343,20 +411,29 @@ return phone;
 
 
 /* =========================
-   GET USERS
+   GET USERS FROM FIREBASE
 ========================= */
 
-function getUsers(){
+async function getFirebaseUsers(){
 
 try{
 
-return JSON.parse(
-localStorage.getItem("muleUsers")
-)||[];
+const snap=
+await get(ref(db,"users"));
+
+if(!snap.exists()){
+
+return {};
+
+}
+
+return snap.val()||{};
 
 }catch(error){
 
-return [];
+console.error(error);
+
+return {};
 
 }
 
@@ -364,147 +441,81 @@ return [];
 
 
 /* =========================
-   SAVE USERS
+   SAVE LOCAL USER
+   FOR COMPATIBILITY
 ========================= */
 
-function saveUsers(users){
+function saveLocalUser(user){
+
+try{
+
+const users=
+JSON.parse(
+localStorage.getItem("muleUsers")
+)||[];
+
+const index=
+users.findIndex(function(item){
+
+return normalizePhone(item.phone)===
+normalizePhone(user.phone);
+
+});
+
+if(index===-1){
+
+users.push(user);
+
+}else{
+
+users[index]={
+...users[index],
+...user
+};
+
+}
 
 localStorage.setItem(
 "muleUsers",
 JSON.stringify(users)
 );
 
+}catch(error){
+
+console.error(error);
+
+}
+
 }
 
 
 /* =========================
-   CREATE / ACTIVATE TEACHER
+   FIND TEACHER ACCOUNT
 ========================= */
 
-function activateTeacher(app){
+async function getTeacherAccount(app){
 
-const users=getUsers();
+const users=
+await getFirebaseUsers();
 
-const phone=normalizePhone(app.phone);
+let found=null;
 
-if(!phone){
+Object.values(users).forEach(function(user){
 
-alert("Teacher phone number is missing.");
+if(
+user &&
+normalizePhone(user.phone)===
+normalizePhone(app.phone) &&
+String(user.role).toLowerCase()==="teacher"
+){
 
-return false;
+found=user;
 
 }
-
-let teacher=
-users.find(function(user){
-
-return normalizePhone(user.phone)===phone;
 
 });
 
-
-/* EXISTING ACCOUNT */
-
-if(teacher){
-
-teacher.name=
-app.name || teacher.name;
-
-teacher.phone=phone;
-
-teacher.email=
-app.email || teacher.email || "";
-
-teacher.subject=
-app.subject || teacher.subject || "";
-
-teacher.qualification=
-app.qualification || teacher.qualification || "";
-
-teacher.experience=
-app.experience || teacher.experience || "";
-
-teacher.role="teacher";
-
-teacher.status="active";
-
-if(app.password){
-
-teacher.password=app.password;
-
-}
-
-teacher.approvedAt=
-new Date().toISOString();
-
-teacher.approvedBy="CEO";
-
-saveUsers(users);
-
-return true;
-
-}
-
-
-/* OLD APPLICATION WITHOUT ACCOUNT */
-
-if(!app.password){
-
-alert(
-"This old application has no saved password. "+
-"The teacher must register again to create a login password."
-);
-
-return false;
-
-}
-
-const newTeacher={
-
-id:
-app.id ||
-"TCH-"+Date.now(),
-
-name:
-app.name || "Teacher",
-
-phone:phone,
-
-email:
-app.email || "",
-
-subject:
-app.subject || "",
-
-qualification:
-app.qualification || "",
-
-experience:
-app.experience || "",
-
-password:
-app.password,
-
-role:"teacher",
-
-status:"active",
-
-createdAt:
-app.createdAt ||
-new Date().toISOString(),
-
-approvedAt:
-new Date().toISOString(),
-
-approvedBy:"CEO"
-
-};
-
-users.push(newTeacher);
-
-saveUsers(users);
-
-return true;
+return found;
 
 }
 
@@ -513,60 +524,64 @@ return true;
    LOAD APPLICATIONS
 ========================= */
 
-function loadApplications(){
+function startApplicationListener(){
 
-const saved=
-localStorage.getItem("muleTeacherApplications");
+const applicationsRef=
+ref(db,"teacherApplications");
 
-try{
-
-applications=
-saved ? JSON.parse(saved) : [];
-
-if(!Array.isArray(applications)){
-applications=[];
-}
-
-}catch(error){
+onValue(
+applicationsRef,
+function(snapshot){
 
 applications=[];
 
+if(snapshot.exists()){
+
+const data=snapshot.val();
+
+Object.keys(data).forEach(function(key){
+
+const app=data[key];
+
+if(app){
+
+applications.push({
+...app,
+id:app.id||key
+});
+
 }
+
+});
+
+}
+
+
+/* newest first */
+
+applications.sort(function(a,b){
+
+return new Date(b.createdAt||0)-
+new Date(a.createdAt||0);
+
+});
+
 
 renderApplications();
 
-}
+},
+function(error){
 
+console.error(error);
 
-/* =========================
-   SAVE APPLICATIONS
-========================= */
+document.getElementById(
+"empty"
+).textContent=
+"Unable to load applications. Check your internet connection.";
 
-function saveApplications(){
-
-localStorage.setItem(
-"muleTeacherApplications",
-JSON.stringify(applications)
-);
-
-}
-
-
-/* =========================
-   CHECK ACCOUNT STATUS
-========================= */
-
-function getTeacherAccount(app){
-
-const users=getUsers();
-
-const phone=normalizePhone(app.phone);
-
-return users.find(function(user){
-
-return normalizePhone(user.phone)===phone
-&&
-String(user.role).toLowerCase()==="teacher";
+document.getElementById(
+"empty"
+).style.display="block";
 
 });
 
@@ -577,7 +592,7 @@ String(user.role).toLowerCase()==="teacher";
    RENDER APPLICATIONS
 ========================= */
 
-function renderApplications(){
+async function renderApplications(){
 
 const list=
 document.getElementById("applicationList");
@@ -589,20 +604,53 @@ let pending=0;
 let approved=0;
 let rejected=0;
 
+const userData=
+await getFirebaseUsers();
+
+
 applications.forEach(function(app){
 
-if(app.status==="pending") pending++;
+if(app.status==="pending"){
 
-if(app.status==="approved") approved++;
+pending++;
 
-if(app.status==="rejected") rejected++;
+}
 
-const teacherAccount=
-getTeacherAccount(app);
+if(app.status==="approved"){
+
+approved++;
+
+}
+
+if(app.status==="rejected"){
+
+rejected++;
+
+}
+
+
+let teacherAccount=null;
+
+Object.values(userData).forEach(function(user){
+
+if(
+user &&
+String(user.role).toLowerCase()==="teacher" &&
+normalizePhone(user.phone)===
+normalizePhone(app.phone)
+){
+
+teacherAccount=user;
+
+}
+
+});
+
 
 const accountActive=
 teacherAccount &&
 teacherAccount.status==="active";
+
 
 const card=
 document.createElement("div");
@@ -616,25 +664,42 @@ card.dataset.search=
 (app.subject||"")
 ).toLowerCase();
 
+
 let badgeClass="";
 
 if(app.status==="approved"){
+
 badgeClass="approvedBadge";
+
 }
 
 if(app.status==="rejected"){
+
 badgeClass="rejectedBadge";
+
 }
 
-let statusText=
+
+const statusText=
 (app.status||"pending").toUpperCase();
 
-let created=
-app.createdAt
-?
-new Date(app.createdAt).toLocaleDateString()
-:
-"Not available";
+
+let created="Not available";
+
+if(app.createdAt){
+
+const date=
+new Date(app.createdAt);
+
+if(!isNaN(date.getTime())){
+
+created=
+date.toLocaleDateString();
+
+}
+
+}
+
 
 let accountText=
 accountActive
@@ -647,7 +712,9 @@ accountActive
 :
 "Not Active");
 
+
 let actionHTML="";
+
 
 if(app.status==="pending"){
 
@@ -655,13 +722,13 @@ actionHTML=`
 
 <button
 class="approve"
-onclick="approveApplication('${app.id}')">
+onclick="approveApplication('${escapeAttribute(app.id)}')">
 ✓ Approve & Activate
 </button>
 
 <button
 class="reject"
-onclick="rejectApplication('${app.id}')">
+onclick="rejectApplication('${escapeAttribute(app.id)}')">
 ✕ Reject
 </button>
 
@@ -687,7 +754,7 @@ actionHTML=`
 
 <button
 class="activate"
-onclick="activateApprovedTeacher('${app.id}')">
+onclick="activateApprovedTeacher('${escapeAttribute(app.id)}')">
 🔄 Activate Teacher Account
 </button>
 
@@ -708,6 +775,7 @@ disabled>
 `;
 
 }
+
 
 card.innerHTML=`
 
@@ -734,7 +802,7 @@ Phone: ${escapeHTML(app.phone||"Not Available")}
 </div>
 
 <span class="badge ${badgeClass}">
-${statusText}
+${escapeHTML(statusText)}
 </span>
 
 </div>
@@ -772,7 +840,7 @@ ${escapeHTML(app.subject||"Not Assigned")}
 <div class="row">
 <span class="label">Application Date</span>
 <span class="value">
-${created}
+${escapeHTML(created)}
 </span>
 </div>
 
@@ -796,7 +864,7 @@ ${accountText}
 
 <button
 class="view"
-onclick="viewApplication('${app.id}')">
+onclick="viewApplication('${escapeAttribute(app.id)}')">
 👁 View
 </button>
 
@@ -810,29 +878,43 @@ list.appendChild(card);
 
 });
 
+
 document.getElementById("total").textContent=total;
+
 document.getElementById("pending").textContent=pending;
+
 document.getElementById("approved").textContent=approved;
+
 document.getElementById("rejected").textContent=rejected;
 
+
 document.getElementById("empty").style.display=
-total===0?"block":"none";
+total===0
+?
+"block"
+:
+"none";
+
+
+/* re-apply search */
+
+searchApplications();
 
 }
 
 
 /* =========================
-   APPROVE AND ACTIVATE
+   APPROVE
 ========================= */
 
-function approveApplication(id){
+window.approveApplication=async function(id){
 
-const index=
-applications.findIndex(
-app=>app.id===id
+const app=
+applications.find(
+item=>String(item.id)===String(id)
 );
 
-if(index===-1){
+if(!app){
 
 alert("Application not found.");
 
@@ -840,19 +922,20 @@ return;
 
 }
 
-const app=applications[index];
-
 if(app.status!=="pending"){
 
-alert("This application has already been reviewed.");
+alert(
+"This application has already been reviewed."
+);
 
 return;
 
 }
 
+
 const confirmHire=
 confirm(
-"Approve and activate "+ 
+"Approve and activate "+
 (app.name||"this teacher")+"?"
 );
 
@@ -862,60 +945,151 @@ return;
 
 }
 
-const activated=
-activateTeacher(app);
 
-if(!activated){
+try{
 
-return;
+const users=
+await getFirebaseUsers();
+
+let teacherId=
+app.teacherId ||
+("TCH-"+Date.now().toString(36).toUpperCase());
+
+
+let teacher=null;
+
+Object.keys(users).forEach(function(key){
+
+const user=users[key];
+
+if(
+user &&
+String(user.role).toLowerCase()==="teacher" &&
+normalizePhone(user.phone)===
+normalizePhone(app.phone)
+){
+
+teacher={
+...user,
+firebaseKey:key
+};
 
 }
 
-app.status="approved";
+});
 
-app.reviewedAt=
+
+if(!teacher){
+
+throw new Error(
+"Teacher account could not be found."
+);
+
+}
+
+
+const now=
 new Date().toISOString();
 
-app.reviewedBy="CEO";
 
-app.rejectionReason="";
+const teacherUpdates={
 
-app.teacherAccountStatus="active";
+name:app.name,
 
-saveApplications();
+phone:normalizePhone(app.phone),
 
-renderApplications();
+email:app.email||"",
+
+subject:app.subject||"",
+
+qualification:app.qualification||"",
+
+experience:app.experience||"",
+
+role:"teacher",
+
+status:"active",
+
+approvedAt:now,
+
+approvedBy:"CEO"
+
+};
+
+
+await update(
+ref(db,"users/"+teacher.firebaseKey),
+teacherUpdates
+);
+
+
+const applicationUpdates={
+
+status:"approved",
+
+reviewedAt:now,
+
+reviewedBy:"CEO",
+
+rejectionReason:"",
+
+teacherAccountStatus:"active"
+
+};
+
+
+await update(
+ref(db,"teacherApplications/"+app.id),
+applicationUpdates
+);
+
+
+/* local compatibility */
+
+saveLocalUser({
+...teacher,
+...teacherUpdates
+});
+
 
 alert(
 "🎉 Teacher approved successfully!\n\n"+
 (app.name||"The teacher")+
-" is now an ACTIVE teacher at Mule Learner Tuition.\n\n"+
-"They can now log in to the Teacher Dashboard."
+" is now an ACTIVE teacher at Mule Learner Tuition."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to approve teacher.\n\n"+
+(error.message||"Please check your internet connection.")
 );
 
 }
 
+};
+
 
 /* =========================
-   ACTIVATE ALREADY APPROVED
+   ACTIVATE APPROVED
 ========================= */
 
-function activateApprovedTeacher(id){
+window.activateApprovedTeacher=async function(id){
 
-const index=
-applications.findIndex(
-app=>app.id===id
+const app=
+applications.find(
+item=>String(item.id)===String(id)
 );
 
-if(index===-1){
+if(!app){
 
 alert("Application not found.");
 
 return;
 
 }
-
-const app=applications[index];
 
 if(app.status!=="approved"){
 
@@ -926,6 +1100,7 @@ alert(
 return;
 
 }
+
 
 const confirmActivate=
 confirm(
@@ -939,50 +1114,127 @@ return;
 
 }
 
-const activated=
-activateTeacher(app);
 
-if(!activated){
+try{
 
-return;
+const users=
+await getFirebaseUsers();
+
+let teacherKey=null;
+let teacher=null;
+
+
+Object.keys(users).forEach(function(key){
+
+const user=users[key];
+
+if(
+user &&
+String(user.role).toLowerCase()==="teacher" &&
+normalizePhone(user.phone)===
+normalizePhone(app.phone)
+){
+
+teacherKey=key;
+teacher=user;
 
 }
 
-app.teacherAccountStatus="active";
+});
 
-app.reviewedAt=
-app.reviewedAt ||
+
+if(!teacherKey){
+
+throw new Error(
+"Teacher account could not be found."
+);
+
+}
+
+
+const now=
 new Date().toISOString();
 
-app.reviewedBy=
-app.reviewedBy ||
-"CEO";
 
-saveApplications();
+const updates={
 
-renderApplications();
+name:app.name,
+
+phone:normalizePhone(app.phone),
+
+email:app.email||"",
+
+subject:app.subject||"",
+
+qualification:app.qualification||"",
+
+experience:app.experience||"",
+
+role:"teacher",
+
+status:"active",
+
+approvedAt:
+app.reviewedAt||now,
+
+approvedBy:
+app.reviewedBy||"CEO"
+
+};
+
+
+await update(
+ref(db,"users/"+teacherKey),
+updates
+);
+
+
+await update(
+ref(db,"teacherApplications/"+app.id),
+{
+teacherAccountStatus:"active"
+}
+);
+
+
+saveLocalUser({
+...teacher,
+...updates
+});
+
 
 alert(
 "✅ Teacher account activated!\n\n"+
 (app.name||"The teacher")+
-" can now log in using the phone number and password used during registration."
+" can now log in."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to activate teacher.\n\n"+
+(error.message||"Please try again.")
 );
 
 }
+
+};
 
 
 /* =========================
    REJECT
 ========================= */
 
-function rejectApplication(id){
+window.rejectApplication=async function(id){
 
-const index=
-applications.findIndex(
-app=>app.id===id
+const app=
+applications.find(
+item=>String(item.id)===String(id)
 );
 
-if(index===-1){
+if(!app){
 
 alert("Application not found.");
 
@@ -990,15 +1242,16 @@ return;
 
 }
 
-const app=applications[index];
-
 if(app.status!=="pending"){
 
-alert("This application has already been reviewed.");
+alert(
+"This application has already been reviewed."
+);
 
 return;
 
 }
+
 
 const reason=
 prompt(
@@ -1013,11 +1266,14 @@ return;
 
 if(reason.trim()===""){
 
-alert("Please enter a rejection reason.");
+alert(
+"Please enter a rejection reason."
+);
 
 return;
 
 }
+
 
 const confirmReject=
 confirm(
@@ -1031,46 +1287,64 @@ return;
 
 }
 
-app.status="rejected";
 
-app.reviewedAt=
+try{
+
+const now=
 new Date().toISOString();
 
-app.reviewedBy="CEO";
 
-app.rejectionReason=
-reason.trim();
+await update(
+ref(db,"teacherApplications/"+app.id),
+{
 
-app.teacherAccountStatus="rejected";
+status:"rejected",
+
+reviewedAt:now,
+
+reviewedBy:"CEO",
+
+rejectionReason:
+reason.trim(),
+
+teacherAccountStatus:"rejected"
+
+}
+);
 
 
-/* UPDATE EXISTING ACCOUNT */
+/* Update teacher account */
 
-const users=getUsers();
+const users=
+await getFirebaseUsers();
 
-const phone=
-normalizePhone(app.phone);
+Object.keys(users).forEach(async function(key){
 
-const teacher=
-users.find(function(user){
+const user=users[key];
 
-return normalizePhone(user.phone)===phone;
+if(
+user &&
+String(user.role).toLowerCase()==="teacher" &&
+normalizePhone(user.phone)===
+normalizePhone(app.phone)
+){
 
+await update(
+ref(db,"users/"+key),
+{
+status:"rejected"
+}
+);
+
+saveLocalUser({
+...user,
+status:"rejected"
 });
-
-if(teacher){
-
-teacher.status="rejected";
-
-teacher.role="teacher";
-
-saveUsers(users);
 
 }
 
-saveApplications();
+});
 
-renderApplications();
 
 alert(
 "❌ Application rejected.\n\n"+
@@ -1078,18 +1352,29 @@ alert(
 reason.trim()
 );
 
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to reject application.\n\n"+
+(error.message||"Please try again.")
+);
+
 }
+
+};
 
 
 /* =========================
-   VIEW APPLICATION
+   VIEW
 ========================= */
 
-function viewApplication(id){
+window.viewApplication=function(id){
 
 const app=
 applications.find(
-item=>item.id===id
+item=>String(item.id)===String(id)
 );
 
 if(!app){
@@ -1099,6 +1384,7 @@ alert("Application not found.");
 return;
 
 }
+
 
 alert(
 
@@ -1136,14 +1422,14 @@ app.rejectionReason
 
 );
 
-}
+};
 
 
 /* =========================
    SEARCH
 ========================= */
 
-function searchApplications(){
+window.searchApplications=function(){
 
 const input=
 document.getElementById("search")
@@ -1175,10 +1461,27 @@ card.style.display="none";
 
 });
 
+
+const totalApplications=
+applications.length;
+
+
+if(totalApplications===0){
+
+document.getElementById("empty").style.display="block";
+
+}else{
+
 document.getElementById("empty").style.display=
-found===0?"block":"none";
+found===0
+?
+"block"
+:
+"none";
 
 }
+
+};
 
 
 /* =========================
@@ -1188,11 +1491,15 @@ found===0?"block":"none";
 function getStatusText(status){
 
 if(status==="approved"){
+
 return "Approved — Teacher Active";
+
 }
 
 if(status==="rejected"){
+
 return "Rejected";
+
 }
 
 return "Pending CEO Review";
@@ -1201,7 +1508,7 @@ return "Pending CEO Review";
 
 
 /* =========================
-   SECURITY
+   SECURITY HELPERS
 ========================= */
 
 function escapeHTML(value){
@@ -1221,11 +1528,20 @@ return String(value)
 }
 
 
+function escapeAttribute(value){
+
+return String(value)
+
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'");
+
+}
+
+
 /* =========================
    START
 ========================= */
 
-loadApplications();
+startApplicationListener();
 
-</script><script src="../js/app.js"></script><script src="../js/ceo.js"></script></body>
-</html>
+</script><script src="../js/app.js"></script><script src="../js/ceo.js"></script></body></html>
