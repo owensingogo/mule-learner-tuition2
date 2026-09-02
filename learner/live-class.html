@@ -155,6 +155,11 @@ margin-top:15px;
 cursor:pointer;
 }
 
+.join.disabled{
+background:#98a2b3;
+cursor:not-allowed;
+}
+
 .leave{
 width:100%;
 border:0;
@@ -393,7 +398,7 @@ background:#000;
 
 <div class="camera-off" id="cameraOff">
 <div>🎥</div>
-Waiting to join the live classroom
+Waiting for your teacher to start the live class
 </div>
 
 <div class="live-status" id="liveStatus">🔴 LIVE</div>
@@ -451,8 +456,8 @@ Waiting to join the live classroom
 <strong id="learnerCount">0</strong>
 </div>
 
-<button class="join" id="joinBtn" onclick="joinClass()">
-🔴 Join Live Class
+<button class="join disabled" id="joinBtn" onclick="joinClass()" disabled>
+⏳ Waiting for Teacher
 </button>
 
 <button class="leave" id="leaveBtn" onclick="leaveClass()">
@@ -568,7 +573,8 @@ Learn • Practice • Succeed
 <script type="module">
 
 import {
-initializeApp
+initializeApp,
+getApps
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
@@ -592,7 +598,10 @@ messagingSenderId:"656883565460",
 appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
 };
 
-const app=initializeApp(firebaseConfig);
+const app=getApps().length
+?getApps()[0]
+:initializeApp(firebaseConfig);
+
 const db=getDatabase(app);
 
 const CLASS_ID="grade10-mathematics";
@@ -608,7 +617,9 @@ let timerInterval=null;
 
 let learnerId="learner-"+Date.now()+"-"+Math.random().toString(36).slice(2,8);
 
-const peerConnections={};
+let teacherIsLive=false;
+
+let peerConnections={};
 
 const configuration={
 iceServers:[
@@ -635,9 +646,54 @@ return "Learner";
 
 }
 
-function showError(message){
+function setTeacherStatus(isLive){
 
-alert(message);
+teacherIsLive=isLive;
+
+const badge=document.getElementById("classBadge");
+const joinBtn=document.getElementById("joinBtn");
+const liveStatus=document.getElementById("liveStatus");
+const cameraOff=document.getElementById("cameraOff");
+
+if(isLive){
+
+badge.textContent="LIVE NOW";
+
+badge.style.background="#dcfce7";
+badge.style.color="#027a48";
+
+joinBtn.disabled=false;
+joinBtn.classList.remove("disabled");
+joinBtn.textContent="🔴 Join Live Class";
+
+liveStatus.style.display="block";
+
+if(!joined){
+cameraOff.innerHTML=
+"<div>🎥</div>Teacher is online — tap Join Live Class";
+}
+
+}else{
+
+badge.textContent="OFFLINE";
+
+badge.style.background="#fee2e2";
+badge.style.color="#b42318";
+
+joinBtn.disabled=true;
+joinBtn.classList.add("disabled");
+joinBtn.textContent="⏳ Waiting for Teacher";
+
+liveStatus.style.display="none";
+
+if(!joined){
+
+cameraOff.innerHTML=
+"<div>🎥</div>Waiting for your teacher to start the live class";
+
+}
+
+}
 
 }
 
@@ -645,16 +701,15 @@ window.joinClass=async function(){
 
 if(joined)return;
 
-try{
+if(!teacherIsLive){
 
-const classSnap=await importFirebaseClass();
+alert("The teacher is not online yet.");
 
-if(!classSnap){
-
-alert("The teacher has not started the live class yet.");
 return;
 
 }
+
+try{
 
 stream=await navigator.mediaDevices.getUserMedia({
 video:true,
@@ -674,7 +729,6 @@ document.getElementById("controls").style.display="grid";
 document.getElementById("chat").style.display="block";
 document.getElementById("liveStatus").style.display="block";
 document.getElementById("timer").style.display="block";
-document.getElementById("classBadge").textContent="LIVE NOW";
 
 startTimer();
 
@@ -692,7 +746,7 @@ camera:false
 
 onDisconnect(learnerRef).remove();
 
-listenTeacher();
+listenTeacherConnection();
 
 listenLearners();
 
@@ -704,7 +758,7 @@ alert("🎥 You have joined the live class.");
 
 console.error(error);
 
-showError(
+alert(
 "Unable to join the live class.\n\nPlease allow camera and microphone permission and try again."
 );
 
@@ -712,36 +766,22 @@ showError(
 
 };
 
-async function importFirebaseClass(){
+function listenTeacherConnection(){
 
-return true;
-
-}
-
-function listenTeacher(){
-
-const teacherRef=ref(
+const myRef=ref(
 db,
-"liveClasses/"+CLASS_ID+"/teacher"
+"liveClasses/"+CLASS_ID+"/learners/"+learnerId
 );
 
-onValue(teacherRef,snapshot=>{
+onValue(myRef,async snapshot=>{
 
-const teacher=snapshot.val();
+const data=snapshot.val();
 
-if(!teacher)return;
+if(!data)return;
 
-if(teacher.status==="ended"){
+if(data.offer){
 
-leaveClass();
-
-return;
-
-}
-
-if(teacher.offer){
-
-createTeacherConnection(teacher.offer);
+await createTeacherConnection(data.offer);
 
 }
 
@@ -753,21 +793,26 @@ async function createTeacherConnection(offer){
 
 let pc=peerConnections.teacher;
 
-if(pc)return;
+if(!pc){
 
 pc=new RTCPeerConnection(configuration);
 
 peerConnections.teacher=pc;
 
+if(stream){
+
 stream.getTracks().forEach(track=>{
 pc.addTrack(track,stream);
 });
+
+}
 
 pc.ontrack=function(event){
 
 const video=document.getElementById("teacherVideo");
 
 video.srcObject=event.streams[0];
+
 video.style.display="block";
 
 document.getElementById("cameraOff").style.display="none";
@@ -779,13 +824,49 @@ pc.onicecandidate=function(event){
 if(event.candidate){
 
 push(
-ref(db,
-"liveClasses/"+CLASS_ID+"/teacher/candidates/"+learnerId
-),event.candidate.toJSON());
+ref(
+db,
+"liveClasses/"+CLASS_ID+
+"/learners/"+learnerId+
+"/learnerCandidates"
+),
+event.candidate.toJSON()
+);
 
 }
 
 };
+
+onValue(
+ref(
+db,
+"liveClasses/"+CLASS_ID+
+"/learners/"+learnerId+
+"/teacherCandidates"
+),
+snapshot=>{
+
+snapshot.forEach(child=>{
+
+try{
+
+pc.addIceCandidate(
+new RTCIceCandidate(child.val())
+);
+
+}catch(e){
+
+console.error(e);
+
+}
+
+});
+
+});
+
+}
+
+try{
 
 await pc.setRemoteDescription(
 new RTCSessionDescription(offer)
@@ -796,10 +877,20 @@ const answer=await pc.createAnswer();
 await pc.setLocalDescription(answer);
 
 await set(
-ref(db,
-"liveClasses/"+CLASS_ID+"/teacher/answers/"+learnerId),
+ref(
+db,
+"liveClasses/"+CLASS_ID+
+"/learners/"+learnerId+
+"/answer"
+),
 answer.toJSON()
 );
+
+}catch(error){
+
+console.error("WebRTC error:",error);
+
+}
 
 }
 
@@ -886,6 +977,11 @@ const off=document.getElementById("cameraOff");
 if(cameraOn){
 
 video.style.display="block";
+
+if(document.getElementById("teacherVideo").srcObject){
+document.getElementById("teacherVideo").style.display="block";
+}
+
 off.style.display="none";
 
 }else{
@@ -954,6 +1050,8 @@ speakerOn?"Speaker":"Muted";
 
 function startTimer(){
 
+clearInterval(timerInterval);
+
 timerInterval=setInterval(()=>{
 
 seconds++;
@@ -978,11 +1076,15 @@ if(!joined)return;
 if(!confirm("Are you sure you want to leave the live class?"))
 return;
 
-Object.values(peerConnections).forEach(pc=>pc.close());
+Object.values(peerConnections).forEach(pc=>{
 
-Object.keys(peerConnections).forEach(key=>{
-delete peerConnections[key];
+try{
+pc.close();
+}catch(e){}
+
 });
+
+peerConnections={};
 
 if(stream){
 
@@ -991,10 +1093,21 @@ stream=null;
 
 }
 
+try{
+
 await remove(
-ref(db,
-"liveClasses/"+CLASS_ID+"/learners/"+learnerId)
+ref(
+db,
+"liveClasses/"+CLASS_ID+
+"/learners/"+learnerId
+)
 );
+
+}catch(e){
+
+console.error(e);
+
+}
 
 clearInterval(timerInterval);
 
@@ -1004,7 +1117,6 @@ document.getElementById("joinBtn").style.display="block";
 document.getElementById("leaveBtn").style.display="none";
 document.getElementById("controls").style.display="none";
 document.getElementById("chat").style.display="none";
-document.getElementById("liveStatus").style.display="none";
 document.getElementById("timer").style.display="none";
 
 document.getElementById("teacherVideo").srcObject=null;
@@ -1014,6 +1126,8 @@ document.getElementById("teacherVideo").style.display="none";
 document.getElementById("learnerVideo").style.display="none";
 
 document.getElementById("cameraOff").style.display="block";
+
+setTeacherStatus(teacherIsLive);
 
 };
 
@@ -1043,6 +1157,7 @@ window.handleChatKey=function(event){
 if(event.key==="Enter"){
 
 event.preventDefault();
+
 sendMessage();
 
 }
@@ -1081,13 +1196,13 @@ snapshot=>{
 
 const data=snapshot.val();
 
-if(data?.status==="live"){
+if(data && data.status==="live"){
 
-document.getElementById("classBadge").textContent="LIVE NOW";
+setTeacherStatus(true);
 
 }else{
 
-document.getElementById("classBadge").textContent="OFFLINE";
+setTeacherStatus(false);
 
 }
 
