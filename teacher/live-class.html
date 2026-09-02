@@ -314,15 +314,14 @@ Send
 
 </div>
 
-
 <script src="../js/app.js"></script>
 <script src="../js/teacher.js"></script>
-
 
 <script type="module">
 
 import {
-initializeApp
+initializeApp,
+getApps
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
@@ -330,13 +329,10 @@ getDatabase,
 ref,
 set,
 update,
-get,
 onValue,
 push,
 onChildAdded,
-onChildRemoved,
-onDisconnect,
-remove
+onDisconnect
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
@@ -368,8 +364,9 @@ appId:
 
 };
 
-
-const app=initializeApp(firebaseConfig);
+const app=getApps().length
+?getApps()[0]
+:initializeApp(firebaseConfig);
 
 const db=getDatabase(app);
 
@@ -386,15 +383,11 @@ VARIABLES
 ============================== */
 
 let stream=null;
-
 let timerInterval=null;
-
 let seconds=0;
 
 let micOn=false;
-
 let cameraOn=false;
-
 let speakerOn=true;
 
 let classStarted=false;
@@ -432,11 +425,9 @@ stream=
 await navigator.mediaDevices.getUserMedia({
 
 video:true,
-
 audio:true
 
 });
-
 
 const video=
 document.getElementById("teacherVideo");
@@ -444,18 +435,19 @@ document.getElementById("teacherVideo");
 video.srcObject=stream;
 
 
-/*
-Start with mic and camera OFF
-*/
+/* Start camera and microphone OFF */
 
 stream.getVideoTracks()
-.forEach(track=>track.enabled=false);
+.forEach(track=>{
+track.enabled=false;
+});
 
 stream.getAudioTracks()
-.forEach(track=>track.enabled=false);
+.forEach(track=>{
+track.enabled=false;
+});
 
 micOn=false;
-
 cameraOn=false;
 
 classStarted=true;
@@ -475,63 +467,69 @@ document.getElementById("startBtn")
 document.getElementById("endBtn")
 .style.display="block";
 
-
 updateButtons();
 
 
-/* Firebase live status */
+/* Firebase class status */
 
-await set(
+const classRef=
+ref(db,"liveClasses/"+CLASS_ID);
 
-ref(
-db,
-"liveClasses/"+CLASS_ID
-),
-
-{
+await set(classRef,{
 
 classId:CLASS_ID,
-
 title:"Grade 10 Mathematics",
-
 subject:"Mathematics",
-
 grade:"Grade 10",
-
 status:"live",
-
 startedAt:Date.now()
 
-}
-
-);
+});
 
 
-/* Teacher node */
+/* Teacher status */
 
-await set(
-
-ref(
-db,
+const teacherRef=
+ref(db,
 "liveClasses/"+CLASS_ID+"/teacher"
-),
+);
 
-{
+await set(teacherRef,{
 
 status:"live",
-
 startedAt:Date.now()
 
-}
+});
 
-);
+
+/*
+If teacher disconnects unexpectedly,
+Firebase will automatically mark
+the teacher offline.
+*/
+
+onDisconnect(teacherRef)
+.set({
+
+status:"offline",
+endedAt:Date.now()
+
+});
+
+onDisconnect(classRef)
+.update({
+
+status:"offline"
+
+});
 
 
 /* Timer */
 
 seconds=0;
 
-timerInterval=setInterval(updateTimer,1000);
+timerInterval=
+setInterval(updateTimer,1000);
 
 
 /* Listen for learners */
@@ -575,9 +573,11 @@ db,
 
 snapshot=>{
 
-const learners=snapshot.val()||{};
+const learners=
+snapshot.val()||{};
 
-const ids=Object.keys(learners);
+const ids=
+Object.keys(learners);
 
 document.getElementById("learnerCount")
 .textContent=ids.length;
@@ -612,9 +612,10 @@ autoplay
 playsinline>
 </video>
 
-<div class="audio-status"
+<div
+class="audio-status"
 id="audio-${id}">
-🎤 Waiting for learner...
+🎤 Connecting...
 </div>
 
 `;
@@ -622,9 +623,7 @@ id="audio-${id}">
 container.appendChild(box);
 
 
-/*
-Create WebRTC connection
-*/
+/* Create WebRTC connection */
 
 if(!peerConnections[id]){
 
@@ -643,7 +642,7 @@ learner
 
 
 /* ==============================
-WEBRTC CONNECTION
+WEBRTC
 ============================== */
 
 async function createPeerConnection(id,learner){
@@ -656,9 +655,7 @@ new RTCPeerConnection(configuration);
 peerConnections[id]=pc;
 
 
-/*
-Send teacher camera + microphone
-*/
+/* Teacher audio/video */
 
 stream.getTracks().forEach(track=>{
 
@@ -670,9 +667,7 @@ stream
 });
 
 
-/*
-Receive learner camera + microphone
-*/
+/* Receive learner audio/video */
 
 pc.ontrack=function(event){
 
@@ -694,16 +689,14 @@ document.getElementById("audio-"+id);
 if(audio){
 
 audio.textContent=
-"🎤 Learner audio connected";
+"🎤 Learner audio/video connected";
 
 }
 
 };
 
 
-/*
-ICE candidates from teacher
-*/
+/* Teacher ICE */
 
 pc.onicecandidate=function(event){
 
@@ -727,9 +720,7 @@ event.candidate.toJSON()
 };
 
 
-/*
-Create offer
-*/
+/* Create offer */
 
 const offer=
 await pc.createOffer();
@@ -737,9 +728,7 @@ await pc.createOffer();
 await pc.setLocalDescription(offer);
 
 
-/*
-Send offer to learner
-*/
+/* Send offer to learner */
 
 await set(
 
@@ -755,9 +744,7 @@ offer.toJSON()
 );
 
 
-/*
-Listen for answer
-*/
+/* Listen for learner answer */
 
 onValue(
 
@@ -770,7 +757,8 @@ db,
 
 async snapshot=>{
 
-const answer=snapshot.val();
+const answer=
+snapshot.val();
 
 if(
 answer &&
@@ -797,9 +785,7 @@ error
 });
 
 
-/*
-Listen for learner ICE candidates
-*/
+/* Listen for learner ICE */
 
 onChildAdded(
 
@@ -815,9 +801,11 @@ async snapshot=>{
 try{
 
 await pc.addIceCandidate(
+
 new RTCIceCandidate(
 snapshot.val()
 )
+
 );
 
 }catch(error){
@@ -835,23 +823,6 @@ error
 
 
 /* ==============================
-REMOVE CONNECTION
-============================== */
-
-function cleanupLearner(id){
-
-if(peerConnections[id]){
-
-peerConnections[id].close();
-
-delete peerConnections[id];
-
-}
-
-}
-
-
-/* ==============================
 END CLASS
 ============================== */
 
@@ -862,9 +833,23 @@ if(
 )return;
 
 
-Object.keys(peerConnections)
-.forEach(cleanupLearner);
+/* Close connections */
 
+Object.keys(peerConnections)
+.forEach(id=>{
+
+try{
+
+peerConnections[id].close();
+
+}catch(e){}
+
+delete peerConnections[id];
+
+});
+
+
+/* Stop camera */
 
 if(stream){
 
@@ -876,6 +861,8 @@ stream=null;
 }
 
 
+/* Stop timer */
+
 if(timerInterval){
 
 clearInterval(timerInterval);
@@ -885,23 +872,39 @@ timerInterval=null;
 }
 
 
+/* Update Firebase */
+
 await update(
 
-ref(
-db,
-"liveClasses/"+CLASS_ID
-),
+ref(db,"liveClasses/"+CLASS_ID),
 
 {
 
 status:"ended",
-
 endedAt:Date.now()
 
 }
 
 );
 
+await update(
+
+ref(
+db,
+"liveClasses/"+CLASS_ID+"/teacher"
+),
+
+{
+
+status:"offline",
+endedAt:Date.now()
+
+}
+
+);
+
+
+/* Reset UI */
 
 document.getElementById("teacherVideo")
 .srcObject=null;
@@ -921,13 +924,19 @@ document.getElementById("endBtn")
 document.getElementById("timer")
 .textContent="00:00:00";
 
+document.getElementById("learnersContainer")
+.innerHTML="";
+
+document.getElementById("learnerCount")
+.textContent="0";
+
 classStarted=false;
 
 };
 
 
 /* ==============================
-MICROPHONE
+MIC
 ============================== */
 
 window.toggleMicrophone=function(){
@@ -988,7 +997,9 @@ speakerOn=!speakerOn;
 
 document.querySelectorAll(".remote-video")
 .forEach(video=>{
+
 video.muted=!speakerOn;
+
 });
 
 document.getElementById("speakerBtn")
@@ -1094,9 +1105,7 @@ db,
 {
 
 sender:"Teacher",
-
 message:message,
-
 time:Date.now()
 
 }
@@ -1119,7 +1128,8 @@ db,
 
 snapshot=>{
 
-const data=snapshot.val()||{};
+const data=
+snapshot.val()||{};
 
 const chat=
 document.getElementById("chat");
