@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f">
-
-<title>Learner Dashboard | Mule Learner Tuition</title>
-
-<style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="theme-color" content="#173b8f"><title>Learner Dashboard | Mule Learner Tuition</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,sans-serif;
 background:#f4f7fc;
 color:#172033;
-padding-bottom:25px;
+padding-bottom:25px
 }
 
 header{
@@ -27,13 +18,10 @@ color:white;
 padding:15px 18px;
 display:flex;
 align-items:center;
-justify-content:space-between;
+justify-content:space-between
 }
 
-.logo{
-font-weight:800;
-font-size:18px;
-}
+.logo{font-weight:800;font-size:18px}
 
 .logout{
 background:rgba(255,255,255,.14);
@@ -41,30 +29,22 @@ color:white;
 border:1px solid rgba(255,255,255,.3);
 padding:8px 11px;
 border-radius:7px;
-font-size:12px;
-cursor:pointer;
+font-size:12px
 }
 
 .welcome{
 background:#173b8f;
 color:white;
-padding:10px 18px 25px;
+padding:10px 18px 25px
 }
 
-.welcome h2{
-font-size:23px;
-margin-bottom:4px;
-}
-
-.welcome p{
-font-size:13px;
-opacity:.9;
-}
+.welcome h2{font-size:23px;margin-bottom:4px}
+.welcome p{font-size:13px;opacity:.9}
 
 .container{
 max-width:800px;
 margin:auto;
-padding:18px;
+padding:18px
 }
 
 .status{
@@ -72,19 +52,17 @@ background:white;
 padding:17px;
 border-radius:13px;
 box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .status-top{
 display:flex;
 justify-content:space-between;
 align-items:center;
-gap:10px;
+gap:10px
 }
 
-.status h3{
-font-size:16px;
-}
+.status h3{font-size:16px}
 
 .badge{
 background:#fff4db;
@@ -92,21 +70,21 @@ color:#9a6700;
 padding:6px 9px;
 border-radius:20px;
 font-size:11px;
-font-weight:bold;
+font-weight:bold
 }
 
 .status p{
 font-size:12px;
 color:#667085;
 margin-top:8px;
-line-height:1.5;
+line-height:1.5
 }
 
 .time{
 font-size:11px;
 font-weight:bold;
 color:#173b8f;
-margin-top:8px;
+margin-top:8px
 }
 
 .payBtn{
@@ -118,13 +96,13 @@ text-decoration:none;
 padding:10px 14px;
 border-radius:8px;
 font-size:12px;
-font-weight:bold;
+font-weight:bold
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:12px;
+gap:12px
 }
 
 .card{
@@ -133,38 +111,27 @@ padding:18px 14px;
 border-radius:13px;
 box-shadow:0 4px 15px rgba(20,50,100,.07);
 text-decoration:none;
-color:#172033;
+color:#172033
 }
 
-.icon{
-font-size:27px;
-margin-bottom:8px;
-}
+.icon{font-size:27px;margin-bottom:8px}
 
-.card h3{
-font-size:15px;
-margin-bottom:4px;
-}
+.card h3{font-size:15px;margin-bottom:4px}
 
 .card p{
 font-size:12px;
 color:#667085;
-line-height:1.4;
+line-height:1.4
 }
 
 .live{
 grid-column:1/-1;
-background:#fff;
-border:1px solid #ffd4d4;
+border:1px solid #ffd4d4
 }
 
-.live h3{
-color:#b42318;
-}
+.live h3{color:#b42318}
 
-.locked{
-opacity:.6;
-}
+.locked{opacity:.6}
 
 .support{
 margin-top:18px;
@@ -172,17 +139,15 @@ background:#173b8f;
 color:white;
 border-radius:13px;
 padding:20px;
-text-align:center;
+text-align:center
 }
 
-.support h3{
-font-size:18px;
-}
+.support h3{font-size:18px}
 
 .support p{
 font-size:12px;
 opacity:.9;
-margin:7px 0 14px;
+margin:7px 0 14px
 }
 
 .whatsapp{
@@ -193,226 +158,112 @@ text-decoration:none;
 padding:11px 16px;
 border-radius:8px;
 font-size:13px;
-font-weight:bold;
+font-weight:bold
 }
 
 footer{
 text-align:center;
 color:#667085;
 font-size:11px;
-margin-top:25px;
+margin-top:25px
 }
 
 @media(min-width:650px){
-
-.grid{
-grid-template-columns:repeat(3,1fr);
+.grid{grid-template-columns:repeat(3,1fr)}
+.live{grid-column:auto}
 }
-
-.live{
-grid-column:auto;
-}
-
-}
-</style>
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
-Mule Learner Tuition
-</div>
-
-<button class="logout" onclick="logout()">
+</style></head><body><header>
+<div class="logo">Mule Learner Tuition</div><button class="logout" type="button" onclick="logout()">
 Logout
 </button>
-
-</header>
-
-
-<div class="welcome">
-
-<h2 id="welcomeName">
-Welcome, Learner 👋
-</h2>
-
-<p>
-Your learning journey starts here.
-</p>
-
-</div>
-
-
-<div class="container">
-
-
-<div class="status">
-
-<div class="status-top">
-
+</header><div class="welcome">
+<h2 id="welcomeName">Welcome, Learner 👋</h2>
+<p>Your learning journey starts here.</p>
+</div><div class="container"><div class="status"><div class="status-top">
 <h3>Learning Access</h3>
-
-<span class="badge" id="status">
-CHECKING...
-</span>
-
-</div>
-
-<p id="statusText">
+<span class="badge" id="status">CHECKING...</span>
+</div><p id="statusText">
 Checking your learning access...
-</p>
-
-<div class="time" id="timeLeft"></div>
-
-<a href="payments.html"
+</p><div class="time" id="timeLeft"></div><a href="payments.html"
 class="payBtn"
 id="payButton"
 style="display:none">
 💰 Choose Learning Plan
 </a>
 
-</div>
-
-
-<div class="grid">
-
-
-<a href="subjects.html" class="card" id="subjectsCard">
+</div><div class="grid"><a href="subjects.html" class="card" id="subjectsCard">
 <div class="icon">📚</div>
 <h3>My Subjects</h3>
 <p>View and choose your subjects.</p>
-</a>
-
-
-<a href="classes.html" class="card" id="classesCard">
+</a><a href="classes.html" class="card" id="classesCard">
 <div class="icon">🏫</div>
 <h3>My Classes</h3>
 <p>View your enrolled classes.</p>
-</a>
-
-
-<a href="live-class.html"
-class="card live"
-id="liveCard">
-
+</a><a href="live-class.html" class="card live" id="liveCard">
 <div class="icon">🔴</div>
-
 <h3>Join Live Class</h3>
-
-<p>
-Check for live lessons and join your teacher.
-</p>
-
-</a>
-
-
-<a href="materials.html"
-class="card"
-id="materialsCard">
-
+<p>Check for live lessons and join your teacher.</p>
+</a><a href="materials.html" class="card" id="materialsCard">
 <div class="icon">📖</div>
-
 <h3>Learning Materials</h3>
-
-<p>
-Access notes and study resources.
-</p>
-
-</a>
-
-
-<a href="payments.html" class="card">
-
+<p>Access notes and study resources.</p>
+</a><a href="payments.html" class="card">
 <div class="icon">💰</div>
-
 <h3>Payments</h3>
-
-<p>
-View plans and make a payment.
-</p>
-
-</a>
-
-
-<a href="payment-status.html" class="card">
-
+<p>View plans and make a payment.</p>
+</a><a href="payment-status.html" class="card">
 <div class="icon">🧾</div>
-
 <h3>Payment Status</h3>
-
-<p>
-Check your payment approval.
-</p>
-
-</a>
-
-
-<a href="support.html" class="card">
-
+<p>Check your payment approval.</p>
+</a><a href="support.html" class="card">
 <div class="icon">📞</div>
-
 <h3>Customer Support</h3>
-
-<p>
-Get help with your account or payment.
-</p>
-
-</a>
-
-
-<a href="profile.html" class="card">
-
+<p>Get help with your account or payment.</p>
+</a><a href="profile.html" class="card">
 <div class="icon">👤</div>
-
 <h3>My Profile</h3>
-
-<p>
-View and manage your account.
-</p>
-
-</a>
-
-
-</div>
-
-
-<div class="support">
-
-<h3>Need Help?</h3>
-
-<p>
+<p>View and manage your account.</p>
+</a></div><div class="support">
+<h3>Need Help?</h3><p>
 If you have paid and your account has not been activated,
 contact us on WhatsApp.
-</p>
-
-<a
-href="https://wa.me/260978362800"
-class="whatsapp">
+</p><a href="https://wa.me/260978362800" class="whatsapp">
 💬 WhatsApp Support
 </a>
-
-</div>
-
-
-<footer>
+</div><footer>
 Mule Learner Tuition<br>
 Learn • Practice • Succeed
-</footer>
+</footer></div><script>
 
+/* =========================
+   LEARNER SESSION
+========================= */
 
-</div>
+function getLearnerSession(){
 
+try{
 
-<script>
+const saved =
+localStorage.getItem("muleCurrentUser");
+
+if(!saved){
+return null;
+}
+
+return JSON.parse(saved);
+
+}catch(error){
+
+return null;
+
+}
+
+}
+
 
 function logout(){
 
-const confirmLogout =
-confirm("Are you sure you want to logout?");
-
-if(confirmLogout){
+if(confirm("Are you sure you want to logout?")){
 
 localStorage.removeItem("muleCurrentUser");
 
@@ -422,25 +273,40 @@ window.location.href="../login.html";
 
 }
 
-</script>
+
+const learner =
+getLearnerSession();
 
 
-<script type="module">
+if(learner){
 
-import {
-initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+document.getElementById("welcomeName").textContent =
+"Welcome, "+
+(learner.name || "Learner")+
+" 👋";
 
-import {
-getDatabase,
-ref,
-get
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+}else{
 
+/*
+Do not immediately redirect.
+Show the dashboard so we can confirm
+whether the login session exists.
+*/
+
+document.getElementById("welcomeName").textContent =
+"Welcome, Learner 👋";
+
+}
+
+
+/* =========================
+   FIREBASE
+========================= */
 
 const firebaseConfig={
 
-apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+apiKey:
+"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -462,74 +328,68 @@ appId:
 
 };
 
+</script><script type="module">
 
-const app=initializeApp(firebaseConfig);
-
-const db=getDatabase(app);
-
-
-function getCurrentUser(){
-
-try{
-
-return JSON.parse(
-localStorage.getItem("muleCurrentUser")
-);
-
-}catch(error){
-
-return null;
-
+import{
+initializeApp
 }
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
+import{
+getDatabase,
+ref,
+get
 }
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-const user=getCurrentUser();
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getDatabase(app);
 
 
-if(!user){
+/* =========================
+   CHECK PAYMENT
+========================= */
 
-window.location.href="../login.html";
+async function checkAccess(){
 
-}
-
-
-if(user){
-
-const name=
-user.name ||
-user.fullName ||
-"Learner";
-
-document.getElementById(
-"welcomeName"
-).textContent=
-"Welcome, "+name+" 👋";
-
-loadAccess(user);
-
-}
-
-
-async function loadAccess(user){
-
-const badge=
+const badge =
 document.getElementById("status");
 
-const text=
+const text =
 document.getElementById("statusText");
 
-const time=
+const time =
 document.getElementById("timeLeft");
 
-const payButton=
+const payButton =
 document.getElementById("payButton");
 
 
+if(!learner){
+
+badge.textContent="LOGIN";
+
+text.textContent=
+"Please login to access your learner account.";
+
+payButton.style.display="inline-block";
+
+lockLearning();
+
+return;
+
+}
+
+
 try{
 
-const snapshot=
+const snapshot =
 await get(ref(db,"payments"));
 
 
@@ -545,10 +405,11 @@ return;
 }
 
 
-const data=snapshot.val();
+const data =
+snapshot.val();
 
 
-const payments=
+const payments =
 Object.keys(data).map(function(key){
 
 return{
@@ -559,17 +420,16 @@ id:key,
 });
 
 
-const learnerPayments=
+const learnerPayments =
 payments.filter(function(payment){
 
-return String(payment.learnerId||"")
-===
-String(user.id||"");
+return String(payment.learnerId || "") ===
+String(learner.id || "");
 
 });
 
 
-if(learnerPayments.length===0){
+if(!learnerPayments.length){
 
 showLocked(
 "NO PLAN",
@@ -581,37 +441,32 @@ return;
 }
 
 
-/*
-Find the latest approved payment.
-*/
+/* APPROVED */
 
-const approved=
+const approved =
 learnerPayments
 .filter(function(payment){
 
-return payment.status==="approved";
+return payment.status === "approved";
 
 })
 .sort(function(a,b){
 
-return new Date(b.approvedAt||0)
--
-new Date(a.approvedAt||0);
+return new Date(b.approvedAt || 0) -
+new Date(a.approvedAt || 0);
 
 });
 
 
-if(approved.length>0){
+if(approved.length){
 
-const payment=approved[0];
+const payment = approved[0];
 
-const expires=
+const expires =
 new Date(payment.expiresAt).getTime();
 
-const now=Date.now();
 
-
-if(expires>now){
+if(expires > Date.now()){
 
 showActive(payment);
 
@@ -622,36 +477,25 @@ return;
 }
 
 
-/*
-Check pending payment.
-*/
+/* PENDING */
 
-const pending=
+const pending =
 learnerPayments
 .filter(function(payment){
 
-return payment.status==="pending";
-
-})
-.sort(function(a,b){
-
-return new Date(b.submittedAt||0)
--
-new Date(a.submittedAt||0);
+return payment.status === "pending";
 
 });
 
 
-if(pending.length>0){
+if(pending.length){
 
 badge.textContent="PENDING";
-
 badge.style.background="#fff4db";
-
 badge.style.color="#9a6700";
 
 text.textContent=
-"🟡 Payment Submitted — Waiting for Approval. Your payment has been submitted successfully. Please wait while the CEO verifies your payment.";
+"🟡 Payment Submitted — Waiting for Approval.";
 
 time.textContent="";
 
@@ -664,45 +508,29 @@ return;
 }
 
 
-/*
-Check rejected payment.
-*/
+/* REJECTED */
 
-const rejected=
+const rejected =
 learnerPayments
 .filter(function(payment){
 
-return payment.status==="rejected";
-
-})
-.sort(function(a,b){
-
-return new Date(b.rejectedAt||0)
--
-new Date(a.rejectedAt||0);
+return payment.status === "rejected";
 
 });
 
 
-if(rejected.length>0){
+if(rejected.length){
 
-const payment=rejected[0];
+const payment =
+rejected[rejected.length-1];
 
 badge.textContent="REJECTED";
-
 badge.style.background="#fee4e2";
-
 badge.style.color="#b42318";
 
 text.textContent=
 "❌ Payment Rejected. "+
-(payment.rejectionReason
-?
-"Reason: "+payment.rejectionReason
-:
-"Please submit another payment.");
-
-time.textContent="";
+(payment.rejectionReason || "Please submit another payment.");
 
 payButton.style.display="inline-block";
 
@@ -721,16 +549,14 @@ showLocked(
 
 }catch(error){
 
-console.error(error);
+console.log("Firebase error:",error);
 
 badge.textContent="ERROR";
-
 badge.style.background="#fee4e2";
-
 badge.style.color="#b42318";
 
 text.textContent=
-"Unable to check your learning access. Please check your internet connection.";
+"Unable to check learning access. Please check your internet connection.";
 
 }
 
@@ -739,103 +565,70 @@ text.textContent=
 
 function showActive(payment){
 
-const badge=
+const badge =
 document.getElementById("status");
 
-const text=
+const text =
 document.getElementById("statusText");
 
-const time=
-document.getElementById("timeLeft");
-
-const payButton=
+const payButton =
 document.getElementById("payButton");
 
-
 badge.textContent="ACTIVE";
-
 badge.style.background="#ecfdf3";
-
 badge.style.color="#027a48";
-
 
 text.textContent=
 "✅ Your "+payment.plan+
 " learning access is active.";
 
-
 payButton.style.display="none";
-
-
-updateTime(payment.expiresAt);
 
 unlockLearning();
 
+updateTime(payment.expiresAt);
 
 }
 
 
 function updateTime(expiresAt){
 
-const time=
+const time =
 document.getElementById("timeLeft");
 
 function update(){
 
-const difference=
-new Date(expiresAt).getTime()
--
+const difference =
+new Date(expiresAt).getTime() -
 Date.now();
 
+if(difference <= 0){
 
-if(difference<=0){
-
-time.textContent=
+time.textContent =
 "⛔ Your learning access has expired.";
 
+setTimeout(function(){
 location.reload();
+},1000);
 
 return;
 
 }
 
+const hours =
+Math.floor(difference/3600000);
 
-const hours=
-Math.floor(
-difference/(1000*60*60)
-);
+const minutes =
+Math.floor((difference%3600000)/60000);
 
-const minutes=
-Math.floor(
-(difference%(1000*60*60))
-/
-(1000*60)
-);
+const seconds =
+Math.floor((difference%60000)/1000);
 
-const seconds=
-Math.floor(
-(difference%(1000*60))
-/
-1000
-);
-
-
-if(hours>0){
-
-time.textContent=
+time.textContent =
 "⏱️ Time remaining: "+
 hours+"h "+
 minutes+"m "+
 seconds+"s";
-
-}else{
-
-time.textContent=
-"⏱️ Time remaining: "+
-minutes+"m "+
-seconds+"s";
-
-}
 
 }
 
@@ -846,22 +639,19 @@ setInterval(update,1000);
 }
 
 
-function showLocked(statusText,bigText){
+function showLocked(status,bigText){
 
-const badge=
+const badge =
 document.getElementById("status");
 
-const text=
+const text =
 document.getElementById("statusText");
 
-const payButton=
+const payButton =
 document.getElementById("payButton");
 
-
-badge.textContent=statusText;
-
+badge.textContent=status;
 badge.style.background="#fff4db";
-
 badge.style.color="#9a6700";
 
 text.textContent="🔒 "+bigText;
@@ -882,12 +672,10 @@ function lockLearning(){
 "materialsCard"
 ].forEach(function(id){
 
-const card=
+const card =
 document.getElementById(id);
 
-if(!card){
-return;
-}
+if(!card)return;
 
 card.classList.add("locked");
 
@@ -915,15 +703,12 @@ function unlockLearning(){
 "materialsCard"
 ].forEach(function(id){
 
-const card=
+const card =
 document.getElementById(id);
 
-if(!card){
-return;
-}
+if(!card)return;
 
 card.classList.remove("locked");
-
 card.onclick=null;
 
 });
@@ -931,11 +716,7 @@ card.onclick=null;
 }
 
 
-</script>
+checkAccess();
 
-
-<script src="../js/app.js"></script>
-<script src="../js/learner.js"></script>
-
-</body>
+</script></body>
 </html>
