@@ -110,6 +110,11 @@ font-weight:700;
 cursor:pointer
 }
 
+button.register:disabled{
+opacity:.7;
+cursor:not-allowed
+}
+
 .notice{
 margin:16px 0;
 padding:12px;
@@ -187,6 +192,7 @@ Join Mule Learner Tuition and start your learning journey.
 <form onsubmit="registerLearner(event)">
 
 <label>Full Name</label>
+
 <input
 type="text"
 id="name"
@@ -194,7 +200,9 @@ placeholder="Enter your full name"
 autocomplete="name"
 required>
 
+
 <label>Phone Number</label>
+
 <input
 type="tel"
 id="phone"
@@ -202,22 +210,58 @@ placeholder="e.g. 0971234567"
 autocomplete="tel"
 required>
 
+
 <label>Class / Level</label>
 
 <select id="level" required>
-<option value="">Select your class</option>
-<option value="Grade 7">Grade 7</option>
-<option value="Grade 8">Grade 8</option>
-<option value="Grade 9">Grade 9</option>
-<option value="Grade 10">Grade 10</option>
-<option value="Grade 11">Grade 11</option>
-<option value="Grade 12">Grade 12</option>
-<option value="Other">Other</option>
+
+<option value="">
+Select your class
+</option>
+
+<option value="Grade 7">
+Grade 7
+</option>
+
+<option value="Form 1">
+Form 1
+</option>
+
+<option value="Form 2">
+Form 2
+</option>
+
+<option value="Form 3">
+Form 3
+</option>
+
+<option value="Form 4">
+Form 4
+</option>
+
+<option value="Grade 10">
+Grade 10
+</option>
+
+<option value="Grade 11">
+Grade 11
+</option>
+
+<option value="Grade 12">
+Grade 12
+</option>
+
+<option value="Other">
+Other
+</option>
+
 </select>
+
 
 <label>Password</label>
 
 <div class="password-box">
+
 <input
 type="password"
 id="password"
@@ -231,11 +275,14 @@ class="show"
 onclick="togglePassword('password',this)">
 Show
 </button>
+
 </div>
+
 
 <label>Confirm Password</label>
 
 <div class="password-box">
+
 <input
 type="password"
 id="confirm"
@@ -249,36 +296,51 @@ class="show"
 onclick="togglePassword('confirm',this)">
 Show
 </button>
+
 </div>
+
 
 <div class="notice">
+
 🔐 Your phone number identifies your learner account.
 Email is not required.
+
 </div>
 
-<button class="register" type="submit">
+
+<button
+class="register"
+type="submit">
+
 Create Learner Account
+
 </button>
 
 </form>
+
 
 <div class="links">
 
 <p>
 Already have an account?
-<a href="login.html">Login</a>
+<a href="login.html">
+Login
+</a>
 </p>
 
 <br>
 
 <p>
 Are you a teacher?
-<a href="teacher-register.html">Apply as Teacher</a>
+<a href="teacher-register.html">
+Apply as Teacher
+</a>
 </p>
 
 </div>
 
 </div>
+
 
 <a href="index.html" class="back">
 ← Back to Home
@@ -286,75 +348,121 @@ Are you a teacher?
 
 </div>
 
+
+<!-- FIREBASE AUTHENTICATION -->
+
+<script src="js/auth.js"></script>
+
+
 <script>
+
+/* =========================================
+   SHOW / HIDE PASSWORD
+========================================= */
 
 function togglePassword(id,button){
 
-const input=document.getElementById(id);
+const input=
+document.getElementById(id);
 
 if(input.type==="password"){
+
 input.type="text";
+
 button.textContent="Hide";
+
 }else{
+
 input.type="password";
+
 button.textContent="Show";
-}
 
 }
 
+}
 
-/* ===== NORMALIZE ZAMBIAN PHONE ===== */
+
+/* =========================================
+   NORMALIZE ZAMBIAN PHONE
+========================================= */
 
 function normalizePhone(phone){
 
-phone=String(phone||"").trim();
+let p=
+String(phone||"")
+.trim()
+.replace(/\s+/g,"");
 
-phone=phone.replace(/\s+/g,"");
-
-if(phone.startsWith("+260")){
-phone="0"+phone.substring(4);
+if(p.startsWith("+260")){
+p="0"+p.substring(4);
 }
 
-if(phone.startsWith("260")){
-phone="0"+phone.substring(3);
+if(p.startsWith("260")){
+p="0"+p.substring(3);
 }
 
-return phone;
+return p;
+
 }
 
 
-/* ===== REGISTER LEARNER ===== */
+/* =========================================
+   REGISTER LEARNER
+========================================= */
 
-function registerLearner(event){
+async function registerLearner(event){
 
 event.preventDefault();
 
+
 const name=
-document.getElementById("name").value.trim();
+document.getElementById("name")
+.value.trim();
+
 
 const phone=
 normalizePhone(
 document.getElementById("phone").value
 );
 
+
 const level=
-document.getElementById("level").value;
+document.getElementById("level")
+.value;
+
 
 const password=
-document.getElementById("password").value;
+document.getElementById("password")
+.value;
+
 
 const confirmPassword=
-document.getElementById("confirm").value;
+document.getElementById("confirm")
+.value;
+
 
 const error=
 document.getElementById("error");
 
+
 const success=
 document.getElementById("success");
 
+
+const button=
+document.querySelector(
+"button.register"
+);
+
+
 error.style.display="none";
+
 success.style.display="none";
 
+
+/* =================================
+   VALIDATE NAME
+================================= */
 
 if(name.length<2){
 
@@ -362,9 +470,15 @@ error.textContent=
 "Please enter your full name.";
 
 error.style.display="block";
+
 return;
+
 }
 
+
+/* =================================
+   VALIDATE PHONE
+================================= */
 
 if(!/^0[97][0-9]{8}$/.test(phone)){
 
@@ -372,9 +486,15 @@ error.textContent=
 "Please enter a valid Zambian phone number.";
 
 error.style.display="block";
+
 return;
+
 }
 
+
+/* =================================
+   VALIDATE LEVEL
+================================= */
 
 if(!level){
 
@@ -382,9 +502,15 @@ error.textContent=
 "Please select your class or level.";
 
 error.style.display="block";
+
 return;
+
 }
 
+
+/* =================================
+   VALIDATE PASSWORD
+================================= */
 
 if(password.length<6){
 
@@ -392,7 +518,9 @@ error.textContent=
 "Password must be at least 6 characters.";
 
 error.style.display="block";
+
 return;
+
 }
 
 
@@ -402,108 +530,68 @@ error.textContent=
 "Passwords do not match.";
 
 error.style.display="block";
+
 return;
+
 }
 
 
-/* ===== GET EXISTING USERS ===== */
+/* =================================
+   LOADING
+================================= */
 
-let users=[];
+button.disabled=true;
+
+button.textContent=
+"Creating Account...";
+
 
 try{
 
-users=
-JSON.parse(
-localStorage.getItem("muleUsers")
-)||[];
+/* =================================
+   SAVE DIRECTLY TO FIREBASE
+================================= */
 
-}catch(e){
-
-users=[];
-}
-
-
-/* ===== CHECK PHONE ===== */
-
-const existing=
-users.find(function(user){
-
-return normalizePhone(user.phone)===phone;
-
-});
-
-
-if(existing){
-
-error.textContent=
-"An account with this phone number already exists.";
-
-error.style.display="block";
-
-return;
-}
-
-
-/* ===== CREATE LEARNER ===== */
-
-const learner={
-
-id:
-"LRN-"+Date.now().toString(36).toUpperCase(),
+const result=
+await registerUser({
 
 name:name,
 
 phone:phone,
 
-level:level,
-
 password:password,
 
 role:"learner",
 
-status:"active",
+level:level
 
-createdAt:
-new Date().toISOString()
-
-};
+});
 
 
-/* ===== SAVE TO SAME STORAGE USED BY LOGIN ===== */
+/* =================================
+   CHECK RESULT
+================================= */
 
-users.push(learner);
+if(!result.success){
 
-localStorage.setItem(
-"muleUsers",
-JSON.stringify(users)
-);
+error.textContent=
+result.message;
 
+error.style.display="block";
 
-/* ===== SAVE LEARNER COPY ===== */
+button.disabled=false;
 
-let learners=[];
+button.textContent=
+"Create Learner Account";
 
-try{
+return;
 
-learners=
-JSON.parse(
-localStorage.getItem("muleLearners")
-)||[];
-
-}catch(e){
-
-learners=[];
 }
 
-learners.push(learner);
 
-localStorage.setItem(
-"muleLearners",
-JSON.stringify(learners)
-);
-
-
-/* ===== SUCCESS ===== */
+/* =================================
+   SUCCESS
+================================= */
 
 success.textContent=
 "Welcome, "+name+
@@ -512,13 +600,36 @@ success.textContent=
 success.style.display="block";
 
 
-/* ===== GO TO LOGIN ===== */
+/* =================================
+   GO TO LOGIN
+================================= */
 
 setTimeout(function(){
 
-window.location.href="login.html";
+window.location.href=
+"login.html";
 
 },1200);
+
+
+}catch(e){
+
+console.error(
+"Registration error:",
+e
+);
+
+error.textContent=
+"Unable to create your account. Please check your internet connection and try again.";
+
+error.style.display="block";
+
+button.disabled=false;
+
+button.textContent=
+"Create Learner Account";
+
+}
 
 }
 
