@@ -1,6 +1,7 @@
 /* =========================================
-MULE LEARNER TUITION
-Payments JavaScript
+   MULE LEARNER TUITION
+   PAYMENTS SYSTEM
+   Firebase + Local Backup
 ========================================= */
 
 "use strict";
@@ -8,424 +9,1011 @@ Payments JavaScript
 const PAYMENTS_KEY = "mulePayments";
 const PAYMENT_ACCOUNTS_KEY = "mulePaymentAccounts";
 
-/* ===== GET PAYMENTS ===== */
+const PAYMENT_DATABASE_URL =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+
+/* =========================================
+   FIREBASE REST HELPER
+========================================= */
+
+async function paymentFirebaseRequest(
+    path,
+    method = "GET",
+    data = null
+) {
+
+    try {
+
+        const options = {
+            method: method,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+
+        if (data !== null) {
+
+            options.body =
+                JSON.stringify(data);
+
+        }
+
+        const response =
+            await fetch(
+                PAYMENT_DATABASE_URL +
+                "/" +
+                path +
+                ".json",
+                options
+            );
+
+        if (!response.ok) {
+
+            console.error(
+                "Firebase payment error:",
+                response.status
+            );
+
+            return null;
+        }
+
+        return await response.json();
+
+    } catch (error) {
+
+        console.error(
+            "Firebase connection error:",
+            error
+        );
+
+        return null;
+    }
+}
+
+
+/* =========================================
+   NORMALIZE PHONE
+========================================= */
+
+function normalizePaymentPhone(phone) {
+
+    phone = String(phone || "").trim();
+
+    phone = phone.replace(/\s+/g, "");
+
+    if (phone.startsWith("+260")) {
+
+        phone =
+            "0" +
+            phone.substring(4);
+
+    }
+
+    if (phone.startsWith("260")) {
+
+        phone =
+            "0" +
+            phone.substring(3);
+
+    }
+
+    return phone;
+}
+
+
+/* =========================================
+   GET LOCAL PAYMENTS
+========================================= */
 
 function getPayments() {
 
-try {
+    try {
 
-    return JSON.parse(
-        localStorage.getItem(PAYMENTS_KEY)
-    ) || [];
+        return JSON.parse(
+            localStorage.getItem(PAYMENTS_KEY)
+        ) || [];
 
-} catch (error) {
+    } catch (error) {
 
-    return [];
-
+        return [];
+    }
 }
 
-}
 
-/* ===== SAVE PAYMENTS ===== */
+/* =========================================
+   SAVE LOCAL PAYMENTS
+========================================= */
 
 function savePayments(payments) {
 
-localStorage.setItem(
-    PAYMENTS_KEY,
-    JSON.stringify(payments)
-);
+    localStorage.setItem(
+        PAYMENTS_KEY,
+        JSON.stringify(payments)
+    );
 
 }
 
-/* ===== GET PAYMENT ACCOUNTS ===== */
+
+/* =========================================
+   GET FIREBASE PAYMENTS
+========================================= */
+
+async function getFirebasePayments() {
+
+    const data =
+        await paymentFirebaseRequest(
+            "mulePayments"
+        );
+
+    if (!data) {
+
+        return [];
+    }
+
+    const payments = [];
+
+    if (Array.isArray(data)) {
+
+        data.forEach(function(payment) {
+
+            if (payment) {
+
+                payments.push(payment);
+
+            }
+
+        });
+
+    } else {
+
+        Object.keys(data).forEach(function(key) {
+
+            const payment =
+                data[key];
+
+            if (payment) {
+
+                payments.push(payment);
+
+            }
+
+        });
+
+    }
+
+    return payments;
+}
+
+
+/* =========================================
+   SYNC FIREBASE PAYMENTS TO LOCAL
+========================================= */
+
+async function syncPaymentsFromFirebase() {
+
+    const firebasePayments =
+        await getFirebasePayments();
+
+    if (!firebasePayments.length) {
+
+        return getPayments();
+    }
+
+    savePayments(firebasePayments);
+
+    return firebasePayments;
+}
+
+
+/* =========================================
+   GET PAYMENT ACCOUNTS
+========================================= */
 
 function getPaymentAccounts() {
 
-try {
+    try {
 
-    return JSON.parse(
-        localStorage.getItem(
-            PAYMENT_ACCOUNTS_KEY
-        )
-    ) || [];
+        return JSON.parse(
+            localStorage.getItem(
+                PAYMENT_ACCOUNTS_KEY
+            )
+        ) || [];
 
-} catch (error) {
+    } catch (error) {
 
-    return [];
-
+        return [];
+    }
 }
 
-}
 
-/* ===== SAVE PAYMENT ACCOUNTS ===== */
+/* =========================================
+   SAVE PAYMENT ACCOUNTS
+========================================= */
 
 function savePaymentAccounts(accounts) {
 
-localStorage.setItem(
-    PAYMENT_ACCOUNTS_KEY,
-    JSON.stringify(accounts)
-);
+    localStorage.setItem(
+        PAYMENT_ACCOUNTS_KEY,
+        JSON.stringify(accounts)
+    );
 
 }
 
-/* ===== SUBMIT PAYMENT ===== */
+
+/* =========================================
+   SUBMIT PAYMENT
+========================================= */
 
 function submitPayment(paymentData) {
 
-if (!paymentData) {
-    return false;
-}
+    if (!paymentData) {
 
-const learner =
-    typeof getLearner === "function"
-    ? getLearner()
-    : null;
+        return false;
+    }
 
-const payment = {
-
-    id:
-        typeof generateId === "function"
-        ? generateId("PAY")
-        : "PAY-" + Date.now(),
-
-    learnerId:
-        paymentData.learnerId ||
-        (learner ? learner.id : ""),
-
-    learnerName:
-        paymentData.learnerName ||
-        (learner ? learner.name : "Learner"),
-
-    plan:
-        paymentData.plan || "",
-
-    amount:
-        paymentData.amount || "",
-
-    method:
-        paymentData.method || "",
-
-    reference:
-        paymentData.reference || "",
-
-    status:"pending",
-
-    submittedAt:
-        new Date().toISOString()
-
-};
-
-if (
-    !payment.plan ||
-    !payment.amount ||
-    !payment.method ||
-    !payment.reference
-) {
-
-    if (typeof showMessage === "function") {
-
-        showMessage(
-            "Please complete all payment details.",
-            "error"
+    const learner =
+        typeof getLearner === "function"
+        ? getLearner()
+        : (
+            typeof getCurrentLearner === "function"
+            ? getCurrentLearner()
+            : null
         );
 
-    } else {
 
-        alert(
-            "Please complete all payment details."
+    const payment = {
+
+        id:
+            paymentData.id ||
+            (
+                typeof generateId === "function"
+                ? generateId("PAY")
+                : "PAY-" + Date.now()
+            ),
+
+        learnerId:
+            paymentData.learnerId ||
+            (learner ? learner.id : ""),
+
+        learnerName:
+            paymentData.learnerName ||
+            (learner ? learner.name : "Learner"),
+
+        learnerPhone:
+            paymentData.learnerPhone ||
+            (learner ? learner.phone : ""),
+
+        plan:
+            paymentData.plan || "",
+
+        amount:
+            paymentData.amount || "",
+
+        method:
+            paymentData.method || "",
+
+        reference:
+            paymentData.reference || "",
+
+        status:
+            "pending",
+
+        submittedAt:
+            new Date().toISOString(),
+
+        approvedAt:
+            null,
+
+        approvedBy:
+            null,
+
+        rejectedAt:
+            null,
+
+        rejectionReason:
+            "",
+
+        startAt:
+            null,
+
+        expiresAt:
+            null,
+
+        isFreeTrial:
+            false
+    };
+
+
+    /* =====================================
+       VALIDATION
+    ===================================== */
+
+    if (
+        !payment.plan ||
+        !payment.amount ||
+        !payment.method ||
+        !payment.reference
+    ) {
+
+        if (
+            typeof showMessage === "function"
+        ) {
+
+            showMessage(
+                "Please complete all payment details.",
+                "error"
+            );
+
+        } else {
+
+            alert(
+                "Please complete all payment details."
+            );
+
+        }
+
+        return false;
+    }
+
+
+    /* =====================================
+       SAVE LOCAL
+    ===================================== */
+
+    const payments =
+        getPayments();
+
+    payments.push(payment);
+
+    savePayments(payments);
+
+
+    /* =====================================
+       SAVE TO FIREBASE
+       IMPORTANT FOR DIFFERENT PHONES
+    ===================================== */
+
+    paymentFirebaseRequest(
+        "mulePayments/" +
+        encodeURIComponent(payment.id),
+        "PUT",
+        payment
+    )
+    .then(function(result) {
+
+        if (result) {
+
+            console.log(
+                "Payment saved to Firebase:",
+                payment.id
+            );
+
+        } else {
+
+            console.error(
+                "Payment could not be saved to Firebase."
+            );
+
+        }
+
+    });
+
+
+    if (
+        typeof showMessage === "function"
+    ) {
+
+        showMessage(
+            "Payment submitted for review.",
+            "success"
         );
 
     }
 
-    return false;
+    return payment;
 }
 
-const payments = getPayments();
 
-payments.push(payment);
-
-savePayments(payments);
-
-if (typeof showMessage === "function") {
-
-    showMessage(
-        "Payment submitted for review.",
-        "success"
-    );
-
-}
-
-return payment;
-
-}
-
-/* ===== GET LEARNER PAYMENTS ===== */
+/* =========================================
+   GET LEARNER PAYMENTS
+========================================= */
 
 function getLearnerPayments(learnerId) {
 
-return getPayments().filter(function(payment) {
+    const cleanId =
+        String(learnerId || "");
 
-    return payment.learnerId === learnerId;
+    return getPayments().filter(
+        function(payment) {
 
-});
+            return (
+                String(
+                    payment.learnerId || ""
+                ) === cleanId
+            );
 
+        }
+    );
 }
 
-/* ===== GET PENDING PAYMENTS ===== */
+
+/* =========================================
+   GET PENDING PAYMENTS
+========================================= */
 
 function getPendingPayments() {
 
-return getPayments().filter(function(payment) {
+    return getPayments().filter(
+        function(payment) {
 
-    return payment.status === "pending";
+            return (
+                String(
+                    payment.status || ""
+                ).toLowerCase() === "pending"
+            );
 
-});
-
+        }
+    );
 }
 
-/* ===== APPROVE PAYMENT ===== */
+
+/* =========================================
+   PLAN DURATION
+========================================= */
+
+function getPlanDurationMilliseconds(plan) {
+
+    const cleanPlan =
+        String(plan || "")
+        .toLowerCase();
+
+    if (
+        cleanPlan.includes("6 hours")
+    ) {
+
+        return 6 * 60 * 60 * 1000;
+    }
+
+    if (
+        cleanPlan.includes("daily") ||
+        cleanPlan.includes("1 day")
+    ) {
+
+        return 24 * 60 * 60 * 1000;
+    }
+
+    if (
+        cleanPlan.includes("weekly") ||
+        cleanPlan.includes("7 days")
+    ) {
+
+        return 7 * 24 * 60 * 60 * 1000;
+    }
+
+    if (
+        cleanPlan.includes("monthly") ||
+        cleanPlan.includes("30 days")
+    ) {
+
+        return 30 * 24 * 60 * 60 * 1000;
+    }
+
+    return 0;
+}
+
+
+/* =========================================
+   APPROVE PAYMENT
+========================================= */
 
 function approvePayment(paymentId) {
 
-const payments = getPayments();
+    const payments =
+        getPayments();
 
-const payment =
-    payments.find(function(item) {
+    const payment =
+        payments.find(
+            function(item) {
 
-        return item.id === paymentId;
+                return (
+                    item.id === paymentId
+                );
+
+            }
+        );
+
+    if (!payment) {
+
+        return false;
+    }
+
+
+    const now =
+        Date.now();
+
+    const duration =
+        getPlanDurationMilliseconds(
+            payment.plan
+        );
+
+    if (!duration) {
+
+        if (
+            typeof showMessage === "function"
+        ) {
+
+            showMessage(
+                "Unable to determine the learning plan duration.",
+                "error"
+            );
+
+        } else {
+
+            alert(
+                "Unable to determine the learning plan duration."
+            );
+
+        }
+
+        return false;
+    }
+
+
+    const startAt =
+        new Date(now).toISOString();
+
+    const expiresAt =
+        new Date(
+            now + duration
+        ).toISOString();
+
+
+    /* =====================================
+       UPDATE PAYMENT
+    ===================================== */
+
+    payment.status =
+        "approved";
+
+    payment.approvedAt =
+        startAt;
+
+    payment.approvedBy =
+        "CEO";
+
+    payment.rejectedAt =
+        null;
+
+    payment.rejectionReason =
+        "";
+
+    payment.startAt =
+        startAt;
+
+    payment.expiresAt =
+        expiresAt;
+
+    payment.isFreeTrial =
+        false;
+
+
+    /* =====================================
+       SAVE LOCAL
+    ===================================== */
+
+    savePayments(payments);
+
+
+    /* =====================================
+       SAVE APPROVAL TO FIREBASE
+    ===================================== */
+
+    paymentFirebaseRequest(
+        "mulePayments/" +
+        encodeURIComponent(payment.id),
+        "PUT",
+        payment
+    )
+    .then(function(result) {
+
+        if (result) {
+
+            console.log(
+                "Payment approval saved to Firebase:",
+                payment.id
+            );
+
+        } else {
+
+            console.error(
+                "Payment approval failed to sync to Firebase."
+            );
+
+        }
 
     });
 
-if (!payment) {
-    return false;
+
+    if (
+        typeof showMessage === "function"
+    ) {
+
+        showMessage(
+            "Payment approved successfully. Learning access is now active.",
+            "success"
+        );
+
+    }
+
+    return true;
 }
 
-payment.status = "approved";
 
-payment.approvedAt =
-    new Date().toISOString();
+/* =========================================
+   REJECT PAYMENT
+========================================= */
 
-savePayments(payments);
+function rejectPayment(
+    paymentId,
+    rejectionReason = ""
+) {
 
-if (typeof showMessage === "function") {
+    const payments =
+        getPayments();
 
-    showMessage(
-        "Payment approved successfully.",
-        "success"
-    );
+    const payment =
+        payments.find(
+            function(item) {
 
-}
+                return (
+                    item.id === paymentId
+                );
 
-return true;
+            }
+        );
 
-}
+    if (!payment) {
 
-/* ===== REJECT PAYMENT ===== */
+        return false;
+    }
 
-function rejectPayment(paymentId) {
 
-const payments = getPayments();
+    payment.status =
+        "rejected";
 
-const payment =
-    payments.find(function(item) {
+    payment.rejectedAt =
+        new Date().toISOString();
 
-        return item.id === paymentId;
+    payment.approvedAt =
+        null;
+
+    payment.approvedBy =
+        null;
+
+    payment.startAt =
+        null;
+
+    payment.expiresAt =
+        null;
+
+    payment.rejectionReason =
+        String(
+            rejectionReason || ""
+        ).trim();
+
+    payment.rejectedBy =
+        "CEO";
+
+
+    savePayments(payments);
+
+
+    /* =====================================
+       SAVE REJECTION TO FIREBASE
+    ===================================== */
+
+    paymentFirebaseRequest(
+        "mulePayments/" +
+        encodeURIComponent(payment.id),
+        "PUT",
+        payment
+    )
+    .then(function(result) {
+
+        if (result) {
+
+            console.log(
+                "Payment rejection saved to Firebase:",
+                payment.id
+            );
+
+        }
 
     });
 
-if (!payment) {
-    return false;
+
+    if (
+        typeof showMessage === "function"
+    ) {
+
+        showMessage(
+            "Payment rejected.",
+            "warning"
+        );
+
+    }
+
+    return true;
 }
 
-payment.status = "rejected";
 
-payment.rejectedAt =
-    new Date().toISOString();
-
-savePayments(payments);
-
-if (typeof showMessage === "function") {
-
-    showMessage(
-        "Payment rejected.",
-        "warning"
-    );
-
-}
-
-return true;
-
-}
-
-/* ===== ADD PAYMENT ACCOUNT ===== */
+/* =========================================
+   ADD PAYMENT ACCOUNT
+========================================= */
 
 function addPaymentAccount(accountData) {
 
-if (!accountData) {
-    return false;
-}
+    if (!accountData) {
 
-const provider =
-    String(
-        accountData.provider || ""
-    ).trim();
+        return false;
+    }
 
-const number =
-    String(
-        accountData.number || ""
-    ).trim();
+    const provider =
+        String(
+            accountData.provider || ""
+        ).trim();
 
-const name =
-    String(
-        accountData.name || ""
-    ).trim();
+    const number =
+        String(
+            accountData.number || ""
+        ).trim();
 
-if (!provider || !number || !name) {
+    const name =
+        String(
+            accountData.name || ""
+        ).trim();
 
-    if (typeof showMessage === "function") {
+
+    if (
+        !provider ||
+        !number ||
+        !name
+    ) {
+
+        if (
+            typeof showMessage === "function"
+        ) {
+
+            showMessage(
+                "Please complete the payment account details.",
+                "error"
+            );
+
+        } else {
+
+            alert(
+                "Please complete the payment account details."
+            );
+
+        }
+
+        return false;
+    }
+
+
+    const accounts =
+        getPaymentAccounts();
+
+    const account = {
+
+        id:
+            typeof generateId === "function"
+            ? generateId("ACC")
+            : "ACC-" + Date.now(),
+
+        provider:
+            provider,
+
+        number:
+            number,
+
+        name:
+            name,
+
+        status:
+            "active",
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    accounts.push(account);
+
+    savePaymentAccounts(accounts);
+
+
+    /* Save account to Firebase too */
+
+    paymentFirebaseRequest(
+        "mulePaymentAccounts/" +
+        encodeURIComponent(account.id),
+        "PUT",
+        account
+    );
+
+
+    if (
+        typeof showMessage === "function"
+    ) {
 
         showMessage(
-            "Please complete the payment account details.",
-            "error"
-        );
-
-    } else {
-
-        alert(
-            "Please complete the payment account details."
+            "Payment account added.",
+            "success"
         );
 
     }
 
-    return false;
+    return account;
 }
 
-const accounts =
-    getPaymentAccounts();
 
-const account = {
-
-    id:
-        typeof generateId === "function"
-        ? generateId("ACC")
-        : "ACC-" + Date.now(),
-
-    provider:provider,
-
-    number:number,
-
-    name:name,
-
-    status:"active",
-
-    createdAt:
-        new Date().toISOString()
-
-};
-
-accounts.push(account);
-
-savePaymentAccounts(accounts);
-
-if (typeof showMessage === "function") {
-
-    showMessage(
-        "Payment account added.",
-        "success"
-    );
-
-}
-
-return account;
-
-}
-
-/* ===== DELETE PAYMENT ACCOUNT ===== */
+/* =========================================
+   DELETE PAYMENT ACCOUNT
+========================================= */
 
 function deletePaymentAccount(accountId) {
 
-const accounts =
-    getPaymentAccounts();
+    const accounts =
+        getPaymentAccounts();
 
-const account =
-    accounts.find(function(item) {
+    const account =
+        accounts.find(
+            function(item) {
 
-        return item.id === accountId;
+                return (
+                    item.id === accountId
+                );
 
-    });
+            }
+        );
 
-if (!account) {
-    return false;
-}
+    if (!account) {
 
-const confirmed =
-    confirm(
-        "Delete this payment account?"
+        return false;
+    }
+
+
+    const confirmed =
+        confirm(
+            "Delete this payment account?"
+        );
+
+    if (!confirmed) {
+
+        return false;
+    }
+
+
+    const updated =
+        accounts.filter(
+            function(item) {
+
+                return (
+                    item.id !== accountId
+                );
+
+            }
+        );
+
+
+    savePaymentAccounts(updated);
+
+
+    paymentFirebaseRequest(
+        "mulePaymentAccounts/" +
+        encodeURIComponent(accountId),
+        "DELETE"
     );
 
-if (!confirmed) {
-    return false;
+
+    if (
+        typeof showMessage === "function"
+    ) {
+
+        showMessage(
+            "Payment account deleted.",
+            "success"
+        );
+
+    }
+
+    return true;
 }
 
-const updated =
-    accounts.filter(function(item) {
 
-        return item.id !== accountId;
-
-    });
-
-savePaymentAccounts(updated);
-
-if (typeof showMessage === "function") {
-
-    showMessage(
-        "Payment account deleted.",
-        "success"
-    );
-
-}
-
-return true;
-
-}
-
-/* ===== PAYMENT SUMMARY ===== */
+/* =========================================
+   PAYMENT SUMMARY
+========================================= */
 
 function getPaymentSummary() {
 
-const payments =
-    getPayments();
+    const payments =
+        getPayments();
 
-let approved = 0;
-let pending = 0;
-let rejected = 0;
+    let approved = 0;
+    let pending = 0;
+    let rejected = 0;
 
-payments.forEach(function(payment) {
 
-    if (payment.status === "approved") {
-        approved++;
-    }
+    payments.forEach(
+        function(payment) {
 
-    if (payment.status === "pending") {
-        pending++;
-    }
+            const status =
+                String(
+                    payment.status || ""
+                ).toLowerCase();
 
-    if (payment.status === "rejected") {
-        rejected++;
-    }
+            if (status === "approved") {
+                approved++;
+            }
 
-});
+            if (status === "pending") {
+                pending++;
+            }
 
-return {
+            if (status === "rejected") {
+                rejected++;
+            }
 
-    total:payments.length,
+        }
+    );
 
-    approved:approved,
 
-    pending:pending,
+    return {
 
-    rejected:rejected
+        total:
+            payments.length,
 
-};
+        approved:
+            approved,
 
+        pending:
+            pending,
+
+        rejected:
+            rejected
+
+    };
 }
+
+
+/* =========================================
+   AUTOMATIC FIREBASE SYNC
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        syncPaymentsFromFirebase()
+            .then(function() {
+
+                console.log(
+                    "Mule payment records synchronized."
+                );
+
+            })
+            .catch(function(error) {
+
+                console.error(
+                    "Payment synchronization failed:",
+                    error
+                );
+
+            });
+
+    }
+);
