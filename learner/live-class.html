@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f">
-
-<title>Live Learning | Mule Learner Tuition</title>
-
-<style>
+<meta name="theme-color" content="#173b8f"><title>Live Learning | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
@@ -353,253 +348,131 @@ margin-top:24px;
 }
 
 @media(max-width:420px){
-.container{padding:15px 10px}
-.video-area{height:205px}
+
+.container{
+padding:15px 10px;
+}
+
+.video-area{
+height:205px;
+}
+
 .control{
 font-size:15px;
 padding:8px 2px;
 }
+
 }
-</style>
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
+</style></head><body><header><div class="logo">
 Mule Learner Tuition
-</div>
-
-<a href="dashboard.html" class="back">
+</div><a href="dashboard.html" class="back">
 ← Dashboard
-</a>
-
-</header>
-
-<div class="container">
-
-<div class="heading">
-
-<h1>Live Learning 🔴</h1>
-
-<p>
+</a></header><div class="container"><div class="heading"><h1>Live Learning 🔴</h1><p>
 Join your scheduled live lessons and learn directly
 with your teacher.
-</p>
+</p></div><div class="live-card"><div class="video-area"><video id="learnerVideo" autoplay playsinline></video>
 
-</div>
+<div class="camera-off" id="cameraOff"><div>🎥</div>Waiting to join the live classroom
 
-
-<div class="live-card">
-
-<div class="video-area">
-
-<video id="learnerVideo" autoplay playsinline></video>
-
-<div class="camera-off" id="cameraOff">
-
-<div>🎥</div>
-
-Waiting to join the live classroom
-
-</div>
-
-<div class="live-status" id="liveStatus">
+</div><div class="live-status" id="liveStatus">
 🔴 LIVE
-</div>
-
-<div class="timer" id="timer">
+</div><div class="timer" id="timer">
 00:00:00
-</div>
-
-</div>
-
-
-<div class="controls" id="controls">
-
-<button class="control active"
+</div></div><div class="controls" id="controls"><button class="control off"
 id="micBtn"
 onclick="toggleMicrophone()">
+
 🎤
 <span>Mic Off</span>
-</button>
 
-<button class="control"
+</button><button class="control off"
 id="cameraBtn"
 onclick="toggleCamera()">
+
 📹
 <span>Cam Off</span>
-</button>
 
-<button class="control active"
+</button><button class="control active"
 id="speakerBtn"
 onclick="toggleSpeaker()">
+
 🔊
 <span>Speaker</span>
-</button>
 
-<button class="control"
+</button><button class="control"
 id="flashBtn"
 onclick="toggleFlash()">
+
 🔦
 <span>Flash</span>
-</button>
 
-<button class="control"
+</button><button class="control"
 onclick="toggleFullscreen()">
+
 ⛶
 <span>Full</span>
-</button>
 
-</div>
-
-
-<div class="live-content">
-
-<div class="live-title">
-
-<h2>Mathematics</h2>
-
-<span class="badge" id="classBadge">
+</button></div><div class="live-content"><div class="live-title"><h2>Mathematics</h2><span class="badge" id="classBadge">
 LIVE NOW
-</span>
-
-</div>
-
-<div class="details">
-
-<strong>👨‍🏫 Teacher:</strong>
+</span></div><div class="details"><strong>👨‍🏫 Teacher:</strong>
 Assigned Teacher
 
-<br>
-
-<strong>📚 Class:</strong>
+<br><strong>📚 Class:</strong>
 Mathematics
 
-<br>
-
-<strong>⏰ Lesson:</strong>
+<br><strong>⏰ Lesson:</strong>
 17:00 – 18:00
 
-</div>
-
-<div class="count">
-
-👥 Learners in class:
+</div><div class="count">👥 Learners in class:
 <strong id="learnerCount">0</strong>
 
-</div>
-
-<button
+</div><button
 class="join"
 id="joinBtn"
 onclick="joinClass()">
 
 🔴 Join Live Class
 
-</button>
-
-<button
+</button><button
 class="leave"
 id="leaveBtn"
 onclick="leaveClass()">
 
 ⛔ Leave Live Class
 
-</button>
-
-</div>
-
-
-<div class="chat" id="chat">
-
-<div class="chat-header">
+</button></div><div class="chat" id="chat"><div class="chat-header">
 💬 Live Chat — Ask Your Teacher
-</div>
-
-<div class="chat-messages" id="chatMessages">
-
-<div class="message">
-
-<small>System</small>
+</div><div class="chat-messages" id="chatMessages"><div class="message"><small>System</small>
 
 Welcome to the live class. You can ask your teacher
 questions here.
 
-</div>
-
-</div>
-
-<div class="chat-input">
-
-<input
+</div></div><div class="chat-input"><input
 type="text"
 id="chatInput"
 placeholder="Ask your teacher..."
 onkeydown="handleChatKey(event)"
->
+
+«»
 
 <button onclick="sendMessage()">
 Send
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="schedule">
-
-<h3>Upcoming Lessons 📅</h3>
-
-<div class="lesson">
-
-<div>
+</button></div></div></div><div class="schedule"><h3>Upcoming Lessons 📅</h3><div class="lesson"><div>
 <strong>ICT / Computer Studies</strong>
 <p>With your assigned teacher</p>
-</div>
-
-<div class="time">
+</div><div class="time">
 Tomorrow<br>16:00
-</div>
-
-</div>
-
-<div class="lesson">
-
-<div>
+</div></div><div class="lesson"><div>
 <strong>English</strong>
 <p>Live learning session</p>
-</div>
-
-<div class="time">
+</div><div class="time">
 Friday<br>17:00
-</div>
-
-</div>
-
-<div class="lesson">
-
-<div>
+</div></div><div class="lesson"><div>
 <strong>Science</strong>
 <p>Live learning session</p>
-</div>
-
-<div class="time">
+</div><div class="time">
 Saturday<br>10:00
-</div>
-
-</div>
-
-</div>
-
-
-<div class="info">
-
-<strong>💡 Before joining a live class</strong>
+</div></div></div><div class="info"><strong>💡 Before joining a live class</strong>
 
 <br><br>
 
@@ -610,44 +483,21 @@ permissions are ready when required.
 Only learners with valid learning access can join
 paid live classes.
 
-</div>
-
-
-<div class="support">
-
-<h3>Having trouble joining?</h3>
-
-<p>
+</div><div class="support"><h3>Having trouble joining?</h3><p>
 If you have paid and cannot access your live class,
 contact Mule Learner Tuition support.
-</p>
-
-<a
+</p><a
 href="https://wa.me/260978362800"
 class="whatsapp">
 
 💬 WhatsApp Support
 
-</a>
-
-</div>
-
-
-<footer>
-
-Mule Learner Tuition<br>
+</a></div><footer>Mule Learner Tuition<br>
 Learn • Practice • Succeed
 
-</footer>
+</footer></div><!-- FIREBASE ACCESS CHECK --><script type="module">
 
-</div>
-
-
-<!-- FIREBASE ACCESS PROTECTION -->
-
-<script type="module">
-
-import { initializeApp }
+import {initializeApp}
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -658,9 +508,10 @@ get
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-const firebaseConfig = {
+const firebaseConfig={
 
-apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+apiKey:
+"AIzaSyCRyW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -683,14 +534,20 @@ appId:
 };
 
 
-const app = initializeApp(firebaseConfig);
+const firebaseApp=
+initializeApp(firebaseConfig);
 
-const db = getDatabase(app);
+const db=
+getDatabase(firebaseApp);
 
+
+/* =========================
+   CHECK LEARNING ACCESS
+========================= */
 
 async function checkLearningAccess(){
 
-const userData =
+const userData=
 localStorage.getItem("muleCurrentUser");
 
 
@@ -700,121 +557,217 @@ alert("Please login first.");
 
 window.location.href="../login.html";
 
-return false;
+return;
 
 }
 
 
 let learner;
 
-
 try{
 
-learner = JSON.parse(userData);
+learner=
+JSON.parse(userData);
 
 }catch(error){
 
 localStorage.removeItem("muleCurrentUser");
 
+alert("Your login session is invalid.");
+
 window.location.href="../login.html";
 
-return false;
+return;
 
 }
 
 
-if(!learner || !learner.id){
+if(!learner){
 
-alert("Your learner account could not be found.");
+alert("Please login first.");
 
 window.location.href="../login.html";
 
-return false;
+return;
 
 }
+
+
+/*
+Use both learner ID and phone.
+
+This is important because older payment
+records may have been created using the
+learner phone while newer records use ID.
+*/
+
+const learnerId=
+String(learner.id||"");
+
+const learnerPhone=
+normalizePhone(learner.phone||"");
 
 
 try{
 
-const snapshot =
+const snapshot=
 await get(ref(db,"payments"));
 
-let hasAccess = false;
+
+if(!snapshot.exists()){
+
+showPaymentRequired();
+
+return;
+
+}
 
 
-if(snapshot.exists()){
+const payments=
+snapshot.val();
 
-const payments = snapshot.val();
+let activePayment=null;
 
 
 Object.keys(payments).forEach(function(key){
 
-const payment = payments[key];
+const payment=
+payments[key];
+
+if(!payment)return;
+
+const paymentLearnerId=
+String(payment.learnerId||"");
+
+const paymentPhone=
+normalizePhone(payment.learnerPhone||"");
+
+
+const sameLearner=
+
+(
+learnerId &&
+paymentLearnerId &&
+paymentLearnerId===learnerId
+)
+||
+(
+learnerPhone &&
+paymentPhone &&
+paymentPhone===learnerPhone
+);
+
+
+const approved=
+String(payment.status||"")
+.toLowerCase()==="approved";
+
+
+const expiresAt=
+Number(payment.expiresAt||0);
+
+
+const notExpired=
+expiresAt>Date.now();
 
 
 if(
-payment &&
-payment.learnerId === learner.id &&
-payment.status === "approved" &&
-payment.expiresAt &&
-Number(payment.expiresAt) > Date.now()
+sameLearner &&
+approved &&
+notExpired
 ){
 
-hasAccess = true;
+activePayment=payment;
 
 }
 
 });
 
+
+if(!activePayment){
+
+showPaymentRequired();
+
+return;
+
 }
 
 
-if(!hasAccess){
+/*
+Access granted.
+Do NOT redirect to payments.
+*/
+
+console.log(
+"Learning access approved:",
+activePayment
+);
+
+
+/* Optional: show active plan on page */
+
+const badge=
+document.getElementById("classBadge");
+
+if(badge){
+
+badge.textContent="ACCESS ACTIVE";
+
+badge.style.background="#ecfdf3";
+badge.style.color="#027a48";
+
+}
+
+
+}
+
+
+/* =========================
+   NORMALIZE PHONE
+========================= */
+
+function normalizePhone(phone){
+
+phone=String(phone||"").trim();
+
+phone=phone.replace(/\s+/g,"");
+
+if(phone.startsWith("+260")){
+
+phone=
+"0"+phone.substring(4);
+
+}
+
+if(phone.startsWith("260")){
+
+phone=
+"0"+phone.substring(3);
+
+}
+
+return phone;
+
+}
+
+
+/* =========================
+   PAYMENT REQUIRED
+========================= */
+
+function showPaymentRequired(){
 
 alert(
-"🔒 Live Class Access Locked.\n\n" +
-"Your free trial or paid learning plan has expired " +
-"or has not yet been approved.\n\n" +
+"🔒 Live Class Access Locked.\n\n"+
+"Your learning plan is not currently active.\n\n"+
 "Please choose a learning plan to continue."
 );
 
 window.location.href="payments.html";
 
-return false;
-
 }
 
-
-return true;
-
-
-}catch(error){
-
-console.error(
-"Firebase access check error:",
-error
-);
-
-alert(
-"Unable to verify your learning access right now. " +
-"Please try again."
-);
-
-window.location.href="dashboard.html";
-
-return false;
-
-}
-
-}
-
-
-checkLearningAccess();
-
-</script>
-
-
-<script>
+</script><script>
 
 let joined=false;
 let stream=null;
@@ -828,23 +781,30 @@ let seconds=0;
 let timerInterval=null;
 
 
+/* =========================
+   JOIN CLASS
+========================= */
+
 async function joinClass(){
 
 if(joined)return;
 
 try{
 
-stream=await navigator.mediaDevices.getUserMedia({
+stream=
+await navigator.mediaDevices.getUserMedia({
 video:true,
 audio:true
 });
 
 
-stream.getVideoTracks().forEach(track=>{
+stream.getVideoTracks()
+.forEach(track=>{
 track.enabled=false;
 });
 
-stream.getAudioTracks().forEach(track=>{
+stream.getAudioTracks()
+.forEach(track=>{
 track.enabled=false;
 });
 
@@ -856,25 +816,34 @@ video.srcObject=stream;
 
 joined=true;
 
-document.getElementById("joinBtn").style.display="none";
+document.getElementById("joinBtn")
+.style.display="none";
 
-document.getElementById("leaveBtn").style.display="block";
+document.getElementById("leaveBtn")
+.style.display="block";
 
-document.getElementById("controls").style.display="grid";
+document.getElementById("controls")
+.style.display="grid";
 
-document.getElementById("chat").style.display="block";
+document.getElementById("chat")
+.style.display="block";
 
-document.getElementById("liveStatus").style.display="block";
+document.getElementById("liveStatus")
+.style.display="block";
 
-document.getElementById("timer").style.display="block";
+document.getElementById("timer")
+.style.display="block";
 
 seconds=0;
 
-timerInterval=setInterval(updateTimer,1000);
+timerInterval=
+setInterval(updateTimer,1000);
 
 updateButtons();
 
-alert("You have joined the live class.");
+alert(
+"You have joined the live class."
+);
 
 }catch(error){
 
@@ -889,11 +858,17 @@ console.log(error);
 }
 
 
+/* =========================
+   MICROPHONE
+========================= */
+
 function toggleMicrophone(){
 
 if(!stream){
 
-alert("Join the live class first.");
+alert(
+"Join the live class first."
+);
 
 return;
 
@@ -901,7 +876,8 @@ return;
 
 microphoneOn=!microphoneOn;
 
-stream.getAudioTracks().forEach(track=>{
+stream.getAudioTracks()
+.forEach(track=>{
 track.enabled=microphoneOn;
 });
 
@@ -910,11 +886,17 @@ updateButtons();
 }
 
 
+/* =========================
+   CAMERA
+========================= */
+
 function toggleCamera(){
 
 if(!stream){
 
-alert("Join the live class first.");
+alert(
+"Join the live class first."
+);
 
 return;
 
@@ -922,7 +904,8 @@ return;
 
 cameraOn=!cameraOn;
 
-stream.getVideoTracks().forEach(track=>{
+stream.getVideoTracks()
+.forEach(track=>{
 track.enabled=cameraOn;
 });
 
@@ -937,15 +920,19 @@ document.getElementById("cameraOff");
 if(cameraOn){
 
 video.style.display="block";
+
 cameraOff.style.display="none";
 
 }else{
 
 video.style.display="none";
+
 cameraOff.style.display="block";
 
 if(flashOn){
+
 turnFlashOff();
+
 }
 
 }
@@ -954,6 +941,10 @@ updateButtons();
 
 }
 
+
+/* =========================
+   SPEAKER
+========================= */
 
 function toggleSpeaker(){
 
@@ -969,11 +960,17 @@ updateButtons();
 }
 
 
+/* =========================
+   FLASH
+========================= */
+
 async function toggleFlash(){
 
 if(!stream){
 
-alert("Join the live class first.");
+alert(
+"Join the live class first."
+);
 
 return;
 
@@ -981,7 +978,9 @@ return;
 
 if(!cameraOn){
 
-alert("Turn on your camera first to use the flashlight.");
+alert(
+"Turn on your camera first to use the flashlight."
+);
 
 return;
 
@@ -992,7 +991,9 @@ stream.getVideoTracks()[0];
 
 if(!videoTrack){
 
-alert("Camera is not available.");
+alert(
+"Camera is not available."
+);
 
 return;
 
@@ -1002,8 +1003,10 @@ try{
 
 const capabilities=
 videoTrack.getCapabilities
-? videoTrack.getCapabilities()
-: {};
+?
+videoTrack.getCapabilities()
+:{};
+
 
 if(!capabilities.torch){
 
@@ -1018,9 +1021,11 @@ return;
 flashOn=!flashOn;
 
 await videoTrack.applyConstraints({
+
 advanced:[
 {torch:flashOn}
 ]
+
 });
 
 updateButtons();
@@ -1042,6 +1047,10 @@ updateButtons();
 }
 
 
+/* =========================
+   TURN FLASH OFF
+========================= */
+
 async function turnFlashOff(){
 
 if(!stream)return;
@@ -1055,15 +1064,18 @@ try{
 
 const capabilities=
 track.getCapabilities
-? track.getCapabilities()
-: {};
+?
+track.getCapabilities()
+:{};
 
 if(capabilities.torch){
 
 await track.applyConstraints({
+
 advanced:[
 {torch:false}
 ]
+
 });
 
 }
@@ -1081,6 +1093,10 @@ flashOn=false;
 }
 
 
+/* =========================
+   FULLSCREEN
+========================= */
+
 function toggleFullscreen(){
 
 const card=
@@ -1089,19 +1105,27 @@ document.querySelector(".live-card");
 if(!document.fullscreenElement){
 
 if(card.requestFullscreen){
+
 card.requestFullscreen();
+
 }
 
 }else{
 
 if(document.exitFullscreen){
+
 document.exitFullscreen();
-}
 
 }
 
 }
 
+}
+
+
+/* =========================
+   TIMER
+========================= */
 
 function updateTimer(){
 
@@ -1116,7 +1140,9 @@ Math.floor((seconds%3600)/60);
 const secs=
 seconds%60;
 
-document.getElementById("timer").textContent=
+document.getElementById("timer")
+.textContent=
+
 String(hours).padStart(2,"0")+
 ":"+
 String(minutes).padStart(2,"0")+
@@ -1125,6 +1151,10 @@ String(secs).padStart(2,"0");
 
 }
 
+
+/* =========================
+   BUTTONS
+========================= */
 
 function updateButtons(){
 
@@ -1141,40 +1171,91 @@ const flashBtn=
 document.getElementById("flashBtn");
 
 
-micBtn.classList.toggle("active",microphoneOn);
-micBtn.classList.toggle("off",!microphoneOn);
+micBtn.classList.toggle(
+"active",
+microphoneOn
+);
 
-cameraBtn.classList.toggle("active",cameraOn);
-cameraBtn.classList.toggle("off",!cameraOn);
-
-speakerBtn.classList.toggle("active",speakerOn);
-speakerBtn.classList.toggle("off",!speakerOn);
-
-flashBtn.classList.toggle("active",flashOn);
-flashBtn.classList.toggle("off",!flashOn);
+micBtn.classList.toggle(
+"off",
+!microphoneOn
+);
 
 
-micBtn.querySelector("span").textContent=
-microphoneOn?"Mic On":"Mic Off";
+cameraBtn.classList.toggle(
+"active",
+cameraOn
+);
 
-cameraBtn.querySelector("span").textContent=
-cameraOn?"Cam On":"Cam Off";
+cameraBtn.classList.toggle(
+"off",
+!cameraOn
+);
 
-speakerBtn.querySelector("span").textContent=
-speakerOn?"Speaker":"Muted";
 
-flashBtn.querySelector("span").textContent=
-flashOn?"Flash On":"Flash";
+speakerBtn.classList.toggle(
+"active",
+speakerOn
+);
+
+speakerBtn.classList.toggle(
+"off",
+!speakerOn
+);
+
+
+flashBtn.classList.toggle(
+"active",
+flashOn
+);
+
+flashBtn.classList.toggle(
+"off",
+!flashOn
+);
+
+
+micBtn.querySelector("span")
+.textContent=
+microphoneOn
+?"Mic On"
+:"Mic Off";
+
+
+cameraBtn.querySelector("span")
+.textContent=
+cameraOn
+?"Cam On"
+:"Cam Off";
+
+
+speakerBtn.querySelector("span")
+.textContent=
+speakerOn
+?"Speaker"
+:"Muted";
+
+
+flashBtn.querySelector("span")
+.textContent=
+flashOn
+?"Flash On"
+:"Flash";
 
 }
 
+
+/* =========================
+   CHAT
+========================= */
 
 function sendMessage(){
 
 const input=
 document.getElementById("chatInput");
 
-const text=input.value.trim();
+const text=
+input.value.trim();
 
 if(text==="")return;
 
@@ -1200,6 +1281,10 @@ messages.scrollHeight;
 }
 
 
+/* =========================
+   CHAT ENTER
+========================= */
+
 function handleChatKey(event){
 
 if(event.key==="Enter"){
@@ -1213,6 +1298,10 @@ sendMessage();
 }
 
 
+/* =========================
+   ESCAPE HTML
+========================= */
+
 function escapeHTML(text){
 
 const div=
@@ -1225,12 +1314,18 @@ return div.innerHTML;
 }
 
 
+/* =========================
+   LEAVE CLASS
+========================= */
+
 async function leaveClass(){
 
 if(!joined)return;
 
 const confirmLeave=
-confirm("Are you sure you want to leave the live class?");
+confirm(
+"Are you sure you want to leave the live class?"
+);
 
 if(!confirmLeave)return;
 
@@ -1239,38 +1334,50 @@ await turnFlashOff();
 if(timerInterval){
 
 clearInterval(timerInterval);
+
 timerInterval=null;
 
 }
 
 if(stream){
 
-stream.getTracks().forEach(track=>{
+stream.getTracks()
+.forEach(track=>{
 track.stop();
 });
 
 }
 
 stream=null;
+
 joined=false;
 
-document.getElementById("joinBtn").style.display="block";
+document.getElementById("joinBtn")
+.style.display="block";
 
-document.getElementById("leaveBtn").style.display="none";
+document.getElementById("leaveBtn")
+.style.display="none";
 
-document.getElementById("controls").style.display="none";
+document.getElementById("controls")
+.style.display="none";
 
-document.getElementById("chat").style.display="none";
+document.getElementById("chat")
+.style.display="none";
 
-document.getElementById("liveStatus").style.display="none";
+document.getElementById("liveStatus")
+.style.display="none";
 
-document.getElementById("timer").style.display="none";
+document.getElementById("timer")
+.style.display="none";
 
-document.getElementById("learnerVideo").style.display="none";
+document.getElementById("learnerVideo")
+.style.display="none";
 
-document.getElementById("cameraOff").style.display="block";
+document.getElementById("cameraOff")
+.style.display="block";
 
-document.getElementById("timer").textContent="00:00:00";
+document.getElementById("timer")
+.textContent="00:00:00";
 
 seconds=0;
 
@@ -1283,6 +1390,10 @@ updateButtons();
 
 }
 
+
+/* =========================
+   PAGE EXIT
+========================= */
 
 window.addEventListener(
 "beforeunload",
@@ -1299,12 +1410,5 @@ event.returnValue=
 
 });
 
-</script>
-
-
-<script src="../js/app.js"></script>
-<script src="../js/learner.js"></script>
-<script src="../js/live-class.js"></script>
-
-</body>
+</script><script src="../js/app.js"></script><script src="../js/learner.js"></script><script src="../js/live-class.js"></script></body>
 </html>
