@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+
+<title>Payments | Mule Learner Tuition</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:20px;
+}
+
+.heading h1{
+font-size:24px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:13px;
+color:#667085;
+}
+
+.plan{
+background:white;
+padding:17px;
+border-radius:13px;
+margin-bottom:10px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+cursor:pointer;
+border:2px solid transparent;
+}
+
+.plan.selected{
+border-color:#173b8f;
+background:#f5f8ff;
+}
+
+.plan-name{
+font-size:14px;
+font-weight:700;
+}
+
+.plan-info{
+font-size:11px;
+color:#667085;
+margin-top:4px;
+}
+
+.price{
+font-size:17px;
+font-weight:800;
+color:#173b8f;
+white-space:nowrap;
+}
+
+.free{
+color:#027a48;
+}
+
+.payment-box{
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:14px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.payment-box h2{
+font-size:19px;
+margin-bottom:5px;
+}
+
+.payment-box>p{
+font-size:12px;
+color:#667085;
+margin-bottom:17px;
+line-height:1.5;
+}
+
+.account{
+border:2px solid #e0e5ee;
+padding:14px;
+border-radius:10px;
+margin-bottom:10px;
+cursor:pointer;
+}
+
+.account.selected{
+border-color:#173b8f;
+background:#f5f8ff;
+}
+
+.account strong{
+display:block;
+font-size:13px;
+margin-bottom:5px;
+}
+
+.number{
+font-size:17px;
+font-weight:800;
+color:#173b8f;
+letter-spacing:.5px;
+}
+
+.name{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+label{
+display:block;
+font-size:13px;
+font-weight:700;
+margin:17px 0 7px;
+}
+
+select{
+width:100%;
+padding:13px;
+border:1px solid #d8deea;
+border-radius:9px;
+font-size:14px;
+outline:none;
+background:white;
+}
+
+button{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:14px;
+border-radius:9px;
+font-size:14px;
+font-weight:700;
+margin-top:18px;
+cursor:pointer;
+}
+
+button:active{
+transform:scale(.98);
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+.success{
+display:none;
+margin-top:15px;
+padding:14px;
+background:#ecfdf3;
+color:#027a48;
+border-radius:9px;
+font-size:12px;
+line-height:1.6;
+}
+
+.waiting{
+background:#fff7ed;
+color:#9a3412;
+}
+
+.error{
+background:#fff1f2;
+color:#b42318;
+}
+
+.notice{
+margin-top:17px;
+padding:13px;
+background:#eef3ff;
+border-radius:9px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+.support{
+margin-top:18px;
+background:#173b8f;
+color:white;
+padding:20px;
+border-radius:13px;
+text-align:center;
+}
+
+.support p{
+font-size:12px;
+opacity:.9;
+margin:7px 0 13px;
+}
+
+.whatsapp{
+display:inline-block;
+background:#25d366;
+color:white;
+text-decoration:none;
+padding:11px 16px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Mule Learner Tuition
+</div>
+
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
+
+</header>
+
+
+<div class="container">
+
+
+<div class="heading">
+
+<h1>
+Learning Payments 💰
+</h1>
+
+<p>
+Choose your learning plan and payment account.
+</p>
+
+</div>
+
+
+<!-- LEARNING PLANS -->
+
+<div
+class="plan"
+onclick="choosePlan('Free Trial - 6 Hours',this)"
+>
+
+<div>
+
+<div class="plan-name">
+🆓 Free Trial
+</div>
+
+<div class="plan-info">
+6 hours FREE — available once
+</div>
+
+</div>
+
+<div class="price free">
+FREE
+</div>
+
+</div>
+
+
+<div
+class="plan"
+onclick="choosePlan('6 Hours - K5',this)"
+>
+
+<div>
+
+<div class="plan-name">
+⏱️ 6 Hours
+</div>
+
+<div class="plan-info">
+Learning access for 6 hours
+</div>
+
+</div>
+
+<div class="price">
+K5
+</div>
+
+</div>
+
+
+<div
+class="plan"
+onclick="choosePlan('Daily - K10',this)"
+>
+
+<div>
+
+<div class="plan-name">
+📅 Daily
+</div>
+
+<div class="plan-info">
+1 day learning access
+</div>
+
+</div>
+
+<div class="price">
+K10
+</div>
+
+</div>
+
+
+<div
+class="plan"
+onclick="choosePlan('Weekly - K45',this)"
+>
+
+<div>
+
+<div class="plan-name">
+📆 Weekly
+</div>
+
+<div class="plan-info">
+7 days learning access
+</div>
+
+</div>
+
+<div class="price">
+K45
+</div>
+
+</div>
+
+
+<div
+class="plan"
+onclick="choosePlan('Monthly - K180',this)"
+>
+
+<div>
+
+<div class="plan-name">
+🗓️ Monthly
+</div>
+
+<div class="plan-info">
+30 days learning access
+</div>
+
+</div>
+
+<div class="price">
+K180
+</div>
+
+</div>
+
+
+<!-- PAYMENT INFORMATION -->
+
+<div class="payment-box">
+
+<h2>
+Choose Payment Account
+</h2>
+
+<p>
+For paid plans, select the account you want to use.
+For the FREE trial, you can still select your preferred
+account. No payment is required for the FREE trial.
+</p>
+
+
+<div
+class="account"
+onclick="chooseMethod('Airtel Money',this)"
+>
+
+<strong>
+📱 Airtel Money
+</strong>
+
+<div class="number">
+0978362800
+</div>
+
+<div class="name">
+Account Name: Owen Singogo
+</div>
+
+</div>
+
+
+<div
+class="account"
+onclick="chooseMethod('Zamtel Money',this)"
+>
+
+<strong>
+📱 Zamtel Money
+</strong>
+
+<div class="number">
+0750840210
+</div>
+
+<div class="name">
+Account Name: Owen Singogo
+</div>
+
+</div>
+
+
+<div
+class="account"
+onclick="chooseMethod('MTN MoMo',this)"
+>
+
+<strong>
+📱 MTN MoMo
+</strong>
+
+<div class="number">
+0768217115
+</div>
+
+<div class="name">
+Account Name: Owen Singogo
+</div>
+
+</div>
+
+
+<!-- CONFIRMATION -->
+
+<form onsubmit="confirmPayment(event)">
+
+<label>
+Selected Learning Plan
+</label>
+
+<select id="plan" required>
+
+<option value="">
+Choose your plan
+</option>
+
+<option value="Free Trial - 6 Hours">
+Free Trial — 6 Hours FREE
+</option>
+
+<option value="6 Hours - K5">
+6 Hours — K5
+</option>
+
+<option value="Daily - K10">
+Daily — K10
+</option>
+
+<option value="Weekly - K45">
+Weekly — K45
+</option>
+
+<option value="Monthly - K180">
+Monthly — K180
+</option>
+
+</select>
+
+
+<label>
+Selected Payment Account
+</label>
+
+<select id="method" required>
+
+<option value="">
+Choose payment account
+</option>
+
+<option value="Airtel Money">
+Airtel Money
+</option>
+
+<option value="Zamtel Money">
+Zamtel Money
+</option>
+
+<option value="MTN MoMo">
+MTN MoMo
+</option>
+
+</select>
+
+
+<button
+id="submitBtn"
+type="submit"
+>
+Continue
+</button>
+
+</form>
+
+
+<div
+id="success"
+class="success">
+</div>
+
+
+<div class="notice">
+
+<strong>
+🔐 Payment & Learning Access
+</strong>
+
+<br><br>
+
+🆓 <strong>Free Trial:</strong>
+Every learner receives one 6-hour FREE trial.
+It activates automatically and does not require payment.
+
+<br><br>
+
+🔒 The FREE trial can only be used once.
+Your trial record is stored in the Mule Learner Tuition
+Firebase database.
+
+<br><br>
+
+💰 <strong>Paid Plans:</strong>
+Send the correct amount to the selected payment account
+before submitting your payment.
+
+<br><br>
+
+🟡 <strong>Waiting for Approval:</strong>
+Paid payments do NOT immediately activate learning access.
+The CEO must first verify and approve the payment.
+
+<br><br>
+
+✅ <strong>After Approval:</strong>
+Your selected learning period starts automatically.
+
+<br><br>
+
+⏱️ <strong>After Expiry:</strong>
+Your learning access automatically locks again.
+
+</div>
+
+</div>
+
+
+<!-- CUSTOMER SUPPORT -->
+
+<div class="support">
+
+<h3>
+Need Payment Help?
+</h3>
+
+<p>
+If you have paid but your learning access has not been
+activated, contact us on WhatsApp.
+</p>
+
+<a
+href="https://wa.me/260978362800"
+class="whatsapp"
+>
+💬 WhatsApp Support
+</a>
+
+</div>
+
+
+<footer>
+
+Mule Learner Tuition<br>
+Learn • Practice • Succeed
+
+</footer>
+
+</div>
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+push,
+get,
+query,
+orderByChild,
+equalTo
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const db=getDatabase(app);
+
+
+window.muleFirebaseDatabase=db;
+window.muleFirebaseRef=ref;
+window.muleFirebasePush=push;
+window.muleFirebaseGet=get;
+window.muleFirebaseQuery=query;
+window.muleFirebaseOrderByChild=orderByChild;
+window.muleFirebaseEqualTo=equalTo;
+
+</script>
+
+
+<script>
+
+let selectedPlan="";
+let selectedMethod="";
+
+
+/* ===== SELECT PLAN ===== */
+
+function choosePlan(plan,element){
+
+selectedPlan=plan;
+
+document.getElementById("plan").value=plan;
+
+document.querySelectorAll(".plan")
+.forEach(function(item){
+
+item.classList.remove("selected");
+
+});
+
+element.classList.add("selected");
+
+}
+
+
+/* ===== SELECT ACCOUNT ===== */
+
+function chooseMethod(method,element){
+
+selectedMethod=method;
+
+document.getElementById("method").value=method;
+
+document.querySelectorAll(".account")
+.forEach(function(item){
+
+item.classList.remove("selected");
+
+});
+
+element.classList.add("selected");
+
+}
+
+
+/* ===== GET CURRENT LEARNER ===== */
+
+function getLearnerInformation(){
+
+let user=null;
+
+try{
+
+user=JSON.parse(
+localStorage.getItem("muleCurrentUser")
+);
+
+}catch(error){
+
+user=null;
+
+}
+
+if(!user){
+
+return null;
+
+}
+
+return{
+
+id:user.id||"",
+
+name:user.name||"Learner",
+
+phone:user.phone||"",
+
+role:user.role||"learner"
+
+};
+
+}
+
+
+/* ===== PLAN AMOUNT ===== */
+
+function getPlanAmount(plan){
+
+if(plan==="Free Trial - 6 Hours"){
+return 0;
+}
+
+if(plan==="6 Hours - K5"){
+return 5;
+}
+
+if(plan==="Daily - K10"){
+return 10;
+}
+
+if(plan==="Weekly - K45"){
+return 45;
+}
+
+if(plan==="Monthly - K180"){
+return 180;
+}
+
+return 0;
+
+}
+
+
+/* ===== CHECK FREE TRIAL ===== */
+
+async function freeTrialAlreadyUsed(learnerId){
+
+try{
+
+const paymentsRef=
+window.muleFirebaseRef(
+window.muleFirebaseDatabase,
+"payments"
+);
+
+
+const learnerQuery=
+window.muleFirebaseQuery(
+paymentsRef,
+window.muleFirebaseOrderByChild("learnerId"),
+window.muleFirebaseEqualTo(learnerId)
+);
+
+
+const snapshot=
+await window.muleFirebaseGet(learnerQuery);
+
+
+if(!snapshot.exists()){
+
+return false;
+
+}
+
+
+let used=false;
+
+
+snapshot.forEach(function(child){
+
+const payment=child.val();
+
+
+if(
+payment &&
+payment.plan==="Free Trial - 6 Hours"
+){
+
+used=true;
+
+}
+
+});
+
+
+return used;
+
+
+}catch(error){
+
+console.error(error);
+
+throw error;
+
+}
+
+}
+
+
+/* ===== CHECK EXISTING ACTIVE ACCESS ===== */
+
+async function hasActiveAccess(learnerId){
+
+try{
+
+const paymentsRef=
+window.muleFirebaseRef(
+window.muleFirebaseDatabase,
+"payments"
+);
+
+
+const learnerQuery=
+window.muleFirebaseQuery(
+paymentsRef,
+window.muleFirebaseOrderByChild("learnerId"),
+window.muleFirebaseEqualTo(learnerId)
+);
+
+
+const snapshot=
+await window.muleFirebaseGet(learnerQuery);
+
+
+if(!snapshot.exists()){
+
+return false;
+
+}
+
+
+let active=false;
+
+
+snapshot.forEach(function(child){
+
+const payment=child.val();
+
+
+if(
+payment &&
+payment.status==="approved" &&
+payment.expiresAt &&
+new Date(payment.expiresAt).getTime()>Date.now()
+){
+
+active=true;
+
+}
+
+});
+
+
+return active;
+
+
+}catch(error){
+
+console.error(error);
+
+return false;
+
+}
+
+}
+
+
+/* ===== SUBMIT ===== */
+
+async function confirmPayment(event){
+
+event.preventDefault();
+
+
+const plan=
+document.getElementById("plan").value;
+
+const method=
+document.getElementById("method").value;
+
+const success=
+document.getElementById("success");
+
+const button=
+document.getElementById("submitBtn");
+
+const learner=
+getLearnerInformation();
+
+
+if(!learner){
+
+success.className="success error";
+
+success.innerHTML=
+"❌ You must be logged in as a learner before continuing.";
+
+success.style.display="block";
+
+return;
+
+}
+
+
+if(!plan){
+
+alert("Please select a learning plan.");
+
+return;
+
+}
+
+
+if(!method){
+
+alert("Please select a payment account.");
+
+return;
+
+}
+
+
+button.disabled=true;
+button.textContent="Checking...";
+
+
+try{
+
+
+/* ===== FREE TRIAL ===== */
+
+if(plan==="Free Trial - 6 Hours"){
+
+
+const alreadyUsed=
+await freeTrialAlreadyUsed(learner.id);
+
+
+if(alreadyUsed){
+
+success.className="success error";
+
+success.innerHTML=
+"❌ <strong>Free Trial Already Used</strong><br><br>"+
+"Your 6-hour FREE trial has already been used. "+
+"Please choose a paid learning plan.";
+
+success.style.display="block";
+
+button.disabled=false;
+button.textContent="Continue";
+
+return;
+
+}
+
+
+/*
+Activate FREE trial immediately.
+*/
+
+const now=Date.now();
+
+const expiresAt=
+now+(6*60*60*1000);
+
+
+const paymentData={
+
+learnerId:learner.id,
+
+learnerName:learner.name,
+
+learnerPhone:learner.phone,
+
+plan:"Free Trial - 6 Hours",
+
+amount:0,
+
+method:method,
+
+status:"approved",
+
+submittedAt:
+new Date(now).toISOString(),
+
+approvedAt:
+new Date(now).toISOString(),
+
+approvedBy:"SYSTEM",
+
+rejectedAt:null,
+
+rejectionReason:"",
+
+startAt:
+new Date(now).toISOString(),
+
+expiresAt:
+new Date(expiresAt).toISOString(),
+
+isFreeTrial:true
+
+};
+
+
+const paymentsRef=
+window.muleFirebaseRef(
+window.muleFirebaseDatabase,
+"payments"
+);
+
+
+await window.muleFirebasePush(
+paymentsRef,
+paymentData
+);
+
+
+success.className="success";
+
+success.innerHTML=
+"🎉 <strong>FREE Trial Activated!</strong><br><br>"+
+"You now have 6 hours of FREE learning access.<br><br>"+
+"⏱️ Your 6 hours started now.<br><br>"+
+"Payment Account Selected: <strong>"+
+method+
+"</strong><br><br>"+
+"Go to your dashboard and start learning.";
+
+success.style.display="block";
+
+
+button.disabled=true;
+button.textContent="FREE Trial Active";
+
+
+return;
+
+}
+
+
+/* ===== PAID PLAN ===== */
+
+
+/*
+Prevent submitting another payment while
+there is already an active plan.
+*/
+
+const active=
+await hasActiveAccess(learner.id);
+
+
+if(active){
+
+success.className="success error";
+
+success.innerHTML=
+"⚠️ <strong>Learning Access Already Active</strong><br><br>"+
+"You already have an active learning plan. "+
+"Wait until it expires before purchasing another plan.";
+
+success.style.display="block";
+
+button.disabled=false;
+button.textContent="Continue";
+
+return;
+
+}
+
+
+/*
+Create pending paid payment.
+*/
+
+const paymentData={
+
+learnerId:learner.id,
+
+learnerName:learner.name,
+
+learnerPhone:learner.phone,
+
+plan:plan,
+
+amount:getPlanAmount(plan),
+
+method:method,
+
+status:"pending",
+
+submittedAt:
+new Date().toISOString(),
+
+approvedAt:null,
+
+rejectedAt:null,
+
+rejectionReason:"",
+
+startAt:null,
+
+expiresAt:null,
+
+isFreeTrial:false
+
+};
+
+
+const paymentsRef=
+window.muleFirebaseRef(
+window.muleFirebaseDatabase,
+"payments"
+);
+
+
+await window.muleFirebasePush(
+paymentsRef,
+paymentData
+);
+
+
+success.className="success waiting";
+
+success.innerHTML=
+"🟡 <strong>Payment Submitted — Waiting for Approval</strong><br><br>"+
+"Selected Plan: <strong>"+
+plan+
+"</strong><br>"+
+"Payment Account: <strong>"+
+method+
+"</strong><br>"+
+"Amount: <strong>K"+
+getPlanAmount(plan)+
+"</strong><br><br>"+
+"Your payment has been submitted successfully.<br><br>"+
+"🔒 Your learning access will remain locked until the CEO approves your payment.";
+
+success.style.display="block";
+
+
+button.disabled=true;
+button.textContent="Submitted";
+
+
+}catch(error){
+
+console.error(error);
+
+
+success.className="success error";
+
+success.innerHTML=
+"❌ <strong>Something went wrong</strong><br><br>"+
+"We could not process your request. Please check your internet connection and try again.";
+
+success.style.display="block";
+
+
+button.disabled=false;
+button.textContent="Continue";
+
+}
+
+}
+
+</script>
+
+
+<script src="../js/app.js"></script>
+<script src="../js/learner.js"></script>
+<script src="../js/payments.js"></script>
+
+</body>
+</html>

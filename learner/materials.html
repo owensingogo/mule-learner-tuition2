@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+
+<title>Learning Materials | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:20px;
+}
+
+.heading h1{
+font-size:24px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:13px;
+color:#667085;
+}
+
+.material{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:12px;
+}
+
+.material-top{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.icon{
+font-size:30px;
+}
+
+.material h3{
+font-size:15px;
+margin-bottom:3px;
+}
+
+.material p{
+font-size:12px;
+color:#667085;
+}
+
+.tag{
+display:inline-block;
+margin-top:12px;
+background:#eef3ff;
+color:#173b8f;
+padding:5px 8px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold;
+}
+
+.actions{
+display:flex;
+gap:8px;
+margin-top:14px;
+}
+
+.btn{
+flex:1;
+padding:10px;
+border-radius:8px;
+text-align:center;
+text-decoration:none;
+font-size:12px;
+font-weight:bold;
+border:0;
+cursor:pointer;
+}
+
+.view{
+background:#173b8f;
+color:white;
+}
+
+.download{
+background:#eef3ff;
+color:#173b8f;
+}
+
+.info{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Mule Learner Tuition
+</div>
+
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
+
+</header>
+
+<div class="container">
+
+<div class="heading">
+
+<h1>Learning Materials 📖</h1>
+
+<p>
+Access notes and study resources for your classes.
+</p>
+
+</div>
+
+
+<div class="material">
+
+<div class="material-top">
+
+<div class="icon">📐</div>
+
+<div>
+
+<h3>Mathematics Notes</h3>
+
+<p>Algebra & Basic Calculations</p>
+
+</div>
+
+</div>
+
+<span class="tag">
+MATHEMATICS
+</span>
+
+<div class="actions">
+
+<button class="btn view"
+onclick="viewMaterial('Mathematics Notes')">
+👁️ View
+</button>
+
+<button class="btn download"
+onclick="downloadMaterial('Mathematics Notes')">
+⬇️ Download
+</button>
+
+</div>
+
+</div>
+
+
+<div class="material">
+
+<div class="material-top">
+
+<div class="icon">💻</div>
+
+<div>
+
+<h3>ICT Notes</h3>
+
+<p>Introduction to Computer Studies</p>
+
+</div>
+
+</div>
+
+<span class="tag">
+ICT
+</span>
+
+<div class="actions">
+
+<button class="btn view"
+onclick="viewMaterial('ICT Notes')">
+👁️ View
+</button>
+
+<button class="btn download"
+onclick="downloadMaterial('ICT Notes')">
+⬇️ Download
+</button>
+
+</div>
+
+</div>
+
+
+<div class="material">
+
+<div class="material-top">
+
+<div class="icon">📖</div>
+
+<div>
+
+<h3>English Notes</h3>
+
+<p>Grammar & Communication Skills</p>
+
+</div>
+
+</div>
+
+<span class="tag">
+ENGLISH
+</span>
+
+<div class="actions">
+
+<button class="btn view"
+onclick="viewMaterial('English Notes')">
+👁️ View
+</button>
+
+<button class="btn download"
+onclick="downloadMaterial('English Notes')">
+⬇️ Download
+</button>
+
+</div>
+
+</div>
+
+
+<div class="material">
+
+<div class="material-top">
+
+<div class="icon">🔬</div>
+
+<div>
+
+<h3>Science Notes</h3>
+
+<p>General Science Study Material</p>
+
+</div>
+
+</div>
+
+<span class="tag">
+SCIENCE
+</span>
+
+<div class="actions">
+
+<button class="btn view"
+onclick="viewMaterial('Science Notes')">
+👁️ View
+</button>
+
+<button class="btn download"
+onclick="downloadMaterial('Science Notes')">
+⬇️ Download
+</button>
+
+</div>
+
+</div>
+
+
+<div class="info">
+
+<strong>💡 Important</strong>
+
+<br><br>
+
+Learning materials will be provided and managed by
+Mule Learner Tuition teachers. Materials available to
+you will depend on the subjects and classes you are
+enrolled in.
+
+</div>
+
+
+<footer>
+
+Mule Learner Tuition<br>
+Learn • Practice • Succeed
+
+</footer>
+
+</div>
+
+
+<!-- FIREBASE ACCESS PROTECTION -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+get
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+
+async function checkLearningAccess(){
+
+const userData =
+localStorage.getItem("muleCurrentUser");
+
+
+if(!userData){
+
+alert("Please login first.");
+
+window.location.href="../login.html";
+
+return;
+
+}
+
+
+let learner;
+
+
+try{
+
+learner = JSON.parse(userData);
+
+}catch(error){
+
+localStorage.removeItem("muleCurrentUser");
+
+window.location.href="../login.html";
+
+return;
+
+}
+
+
+if(!learner || !learner.id){
+
+alert("Your learner account could not be found.");
+
+window.location.href="../login.html";
+
+return;
+
+}
+
+
+try{
+
+const paymentsRef =
+ref(db,"payments");
+
+const snapshot =
+await get(paymentsRef);
+
+
+let hasAccess = false;
+
+
+if(snapshot.exists()){
+
+const payments = snapshot.val();
+
+
+Object.keys(payments).forEach(function(key){
+
+const payment = payments[key];
+
+
+if(
+payment &&
+payment.learnerId === learner.id &&
+payment.status === "approved" &&
+payment.expiresAt &&
+Number(payment.expiresAt) > Date.now()
+){
+
+hasAccess = true;
+
+}
+
+});
+
+}
+
+
+if(!hasAccess){
+
+alert(
+"🔒 Learning access is locked.\n\n" +
+"Your free trial or paid learning plan has expired " +
+"or has not yet been approved.\n\n" +
+"Please choose a learning plan to continue."
+);
+
+window.location.href="payments.html";
+
+return;
+
+}
+
+
+}catch(error){
+
+console.error(
+"Firebase access check error:",
+error
+);
+
+alert(
+"Unable to verify your learning access right now. " +
+"Please try again."
+);
+
+window.location.href="dashboard.html";
+
+}
+
+}
+
+
+checkLearningAccess();
+
+</script>
+
+
+<script>
+
+function viewMaterial(name){
+
+alert(
+name +
+"\n\nThe material viewer will be connected when teachers begin uploading learning materials."
+);
+
+}
+
+
+function downloadMaterial(name){
+
+alert(
+name +
+"\n\nDownload will be available when the material storage system is connected."
+);
+
+}
+
+</script>
+
+
+<script src="../js/app.js"></script>
+<script src="../js/learner.js"></script>
+
+</body>
+</html>

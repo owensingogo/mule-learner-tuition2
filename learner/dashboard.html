@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+
+<title>Learner Dashboard | Mule Learner Tuition</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:25px;
+}
+
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-weight:800;
+font-size:18px;
+}
+
+.logout{
+background:rgba(255,255,255,.14);
+color:white;
+border:1px solid rgba(255,255,255,.3);
+padding:8px 11px;
+border-radius:7px;
+font-size:12px;
+cursor:pointer;
+}
+
+.welcome{
+background:#173b8f;
+color:white;
+padding:10px 18px 25px;
+}
+
+.welcome h2{
+font-size:23px;
+margin-bottom:4px;
+}
+
+.welcome p{
+font-size:13px;
+opacity:.9;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:18px;
+}
+
+.status{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:18px;
+}
+
+.status-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.status h3{
+font-size:16px;
+}
+
+.badge{
+background:#fff4db;
+color:#9a6700;
+padding:6px 9px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
+}
+
+.status p{
+font-size:12px;
+color:#667085;
+margin-top:8px;
+line-height:1.5;
+}
+
+.time{
+font-size:11px;
+font-weight:bold;
+color:#173b8f;
+margin-top:8px;
+}
+
+.payBtn{
+display:inline-block;
+margin-top:12px;
+background:#173b8f;
+color:white;
+text-decoration:none;
+padding:10px 14px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.card{
+background:white;
+padding:18px 14px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+text-decoration:none;
+color:#172033;
+}
+
+.icon{
+font-size:27px;
+margin-bottom:8px;
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:4px;
+}
+
+.card p{
+font-size:12px;
+color:#667085;
+line-height:1.4;
+}
+
+.live{
+grid-column:1/-1;
+background:#fff;
+border:1px solid #ffd4d4;
+}
+
+.live h3{
+color:#b42318;
+}
+
+.locked{
+opacity:.6;
+}
+
+.support{
+margin-top:18px;
+background:#173b8f;
+color:white;
+border-radius:13px;
+padding:20px;
+text-align:center;
+}
+
+.support h3{
+font-size:18px;
+}
+
+.support p{
+font-size:12px;
+opacity:.9;
+margin:7px 0 14px;
+}
+
+.whatsapp{
+display:inline-block;
+background:#25d366;
+color:white;
+text-decoration:none;
+padding:11px 16px;
+border-radius:8px;
+font-size:13px;
+font-weight:bold;
+}
+
+footer{
+text-align:center;
+color:#667085;
+font-size:11px;
+margin-top:25px;
+}
+
+@media(min-width:650px){
+
+.grid{
+grid-template-columns:repeat(3,1fr);
+}
+
+.live{
+grid-column:auto;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Mule Learner Tuition
+</div>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+
+</header>
+
+
+<div class="welcome">
+
+<h2 id="welcomeName">
+Welcome, Learner 👋
+</h2>
+
+<p>
+Your learning journey starts here.
+</p>
+
+</div>
+
+
+<div class="container">
+
+
+<div class="status">
+
+<div class="status-top">
+
+<h3>Learning Access</h3>
+
+<span class="badge" id="status">
+CHECKING...
+</span>
+
+</div>
+
+<p id="statusText">
+Checking your learning access...
+</p>
+
+<div class="time" id="timeLeft"></div>
+
+<a href="payments.html"
+class="payBtn"
+id="payButton"
+style="display:none">
+💰 Choose Learning Plan
+</a>
+
+</div>
+
+
+<div class="grid">
+
+
+<a href="subjects.html" class="card" id="subjectsCard">
+<div class="icon">📚</div>
+<h3>My Subjects</h3>
+<p>View and choose your subjects.</p>
+</a>
+
+
+<a href="classes.html" class="card" id="classesCard">
+<div class="icon">🏫</div>
+<h3>My Classes</h3>
+<p>View your enrolled classes.</p>
+</a>
+
+
+<a href="live-class.html"
+class="card live"
+id="liveCard">
+
+<div class="icon">🔴</div>
+
+<h3>Join Live Class</h3>
+
+<p>
+Check for live lessons and join your teacher.
+</p>
+
+</a>
+
+
+<a href="materials.html"
+class="card"
+id="materialsCard">
+
+<div class="icon">📖</div>
+
+<h3>Learning Materials</h3>
+
+<p>
+Access notes and study resources.
+</p>
+
+</a>
+
+
+<a href="payments.html" class="card">
+
+<div class="icon">💰</div>
+
+<h3>Payments</h3>
+
+<p>
+View plans and make a payment.
+</p>
+
+</a>
+
+
+<a href="payment-status.html" class="card">
+
+<div class="icon">🧾</div>
+
+<h3>Payment Status</h3>
+
+<p>
+Check your payment approval.
+</p>
+
+</a>
+
+
+<a href="support.html" class="card">
+
+<div class="icon">📞</div>
+
+<h3>Customer Support</h3>
+
+<p>
+Get help with your account or payment.
+</p>
+
+</a>
+
+
+<a href="profile.html" class="card">
+
+<div class="icon">👤</div>
+
+<h3>My Profile</h3>
+
+<p>
+View and manage your account.
+</p>
+
+</a>
+
+
+</div>
+
+
+<div class="support">
+
+<h3>Need Help?</h3>
+
+<p>
+If you have paid and your account has not been activated,
+contact us on WhatsApp.
+</p>
+
+<a
+href="https://wa.me/260978362800"
+class="whatsapp">
+💬 WhatsApp Support
+</a>
+
+</div>
+
+
+<footer>
+Mule Learner Tuition<br>
+Learn • Practice • Succeed
+</footer>
+
+
+</div>
+
+
+<script>
+
+function logout(){
+
+const confirmLogout =
+confirm("Are you sure you want to logout?");
+
+if(confirmLogout){
+
+localStorage.removeItem("muleCurrentUser");
+
+window.location.href="../login.html";
+
+}
+
+}
+
+</script>
+
+
+<script type="module">
+
+import {
+initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+get
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const db=getDatabase(app);
+
+
+function getCurrentUser(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem("muleCurrentUser")
+);
+
+}catch(error){
+
+return null;
+
+}
+
+}
+
+
+const user=getCurrentUser();
+
+
+if(!user){
+
+window.location.href="../login.html";
+
+}
+
+
+if(user){
+
+const name=
+user.name ||
+user.fullName ||
+"Learner";
+
+document.getElementById(
+"welcomeName"
+).textContent=
+"Welcome, "+name+" 👋";
+
+loadAccess(user);
+
+}
+
+
+async function loadAccess(user){
+
+const badge=
+document.getElementById("status");
+
+const text=
+document.getElementById("statusText");
+
+const time=
+document.getElementById("timeLeft");
+
+const payButton=
+document.getElementById("payButton");
+
+
+try{
+
+const snapshot=
+await get(ref(db,"payments"));
+
+
+if(!snapshot.exists()){
+
+showLocked(
+"NO PLAN",
+"No active learning plan was found. Choose a learning plan to continue."
+);
+
+return;
+
+}
+
+
+const data=snapshot.val();
+
+
+const payments=
+Object.keys(data).map(function(key){
+
+return{
+id:key,
+...data[key]
+};
+
+});
+
+
+const learnerPayments=
+payments.filter(function(payment){
+
+return String(payment.learnerId||"")
+===
+String(user.id||"");
+
+});
+
+
+if(learnerPayments.length===0){
+
+showLocked(
+"NO PLAN",
+"No learning plan is currently active. Choose a plan to start learning."
+);
+
+return;
+
+}
+
+
+/*
+Find the latest approved payment.
+*/
+
+const approved=
+learnerPayments
+.filter(function(payment){
+
+return payment.status==="approved";
+
+})
+.sort(function(a,b){
+
+return new Date(b.approvedAt||0)
+-
+new Date(a.approvedAt||0);
+
+});
+
+
+if(approved.length>0){
+
+const payment=approved[0];
+
+const expires=
+new Date(payment.expiresAt).getTime();
+
+const now=Date.now();
+
+
+if(expires>now){
+
+showActive(payment);
+
+return;
+
+}
+
+}
+
+
+/*
+Check pending payment.
+*/
+
+const pending=
+learnerPayments
+.filter(function(payment){
+
+return payment.status==="pending";
+
+})
+.sort(function(a,b){
+
+return new Date(b.submittedAt||0)
+-
+new Date(a.submittedAt||0);
+
+});
+
+
+if(pending.length>0){
+
+badge.textContent="PENDING";
+
+badge.style.background="#fff4db";
+
+badge.style.color="#9a6700";
+
+text.textContent=
+"🟡 Payment Submitted — Waiting for Approval. Your payment has been submitted successfully. Please wait while the CEO verifies your payment.";
+
+time.textContent="";
+
+payButton.style.display="none";
+
+lockLearning();
+
+return;
+
+}
+
+
+/*
+Check rejected payment.
+*/
+
+const rejected=
+learnerPayments
+.filter(function(payment){
+
+return payment.status==="rejected";
+
+})
+.sort(function(a,b){
+
+return new Date(b.rejectedAt||0)
+-
+new Date(a.rejectedAt||0);
+
+});
+
+
+if(rejected.length>0){
+
+const payment=rejected[0];
+
+badge.textContent="REJECTED";
+
+badge.style.background="#fee4e2";
+
+badge.style.color="#b42318";
+
+text.textContent=
+"❌ Payment Rejected. "+
+(payment.rejectionReason
+?
+"Reason: "+payment.rejectionReason
+:
+"Please submit another payment.");
+
+time.textContent="";
+
+payButton.style.display="inline-block";
+
+lockLearning();
+
+return;
+
+}
+
+
+showLocked(
+"EXPIRED",
+"Your learning access has expired. Please choose a new learning plan."
+);
+
+
+}catch(error){
+
+console.error(error);
+
+badge.textContent="ERROR";
+
+badge.style.background="#fee4e2";
+
+badge.style.color="#b42318";
+
+text.textContent=
+"Unable to check your learning access. Please check your internet connection.";
+
+}
+
+}
+
+
+function showActive(payment){
+
+const badge=
+document.getElementById("status");
+
+const text=
+document.getElementById("statusText");
+
+const time=
+document.getElementById("timeLeft");
+
+const payButton=
+document.getElementById("payButton");
+
+
+badge.textContent="ACTIVE";
+
+badge.style.background="#ecfdf3";
+
+badge.style.color="#027a48";
+
+
+text.textContent=
+"✅ Your "+payment.plan+
+" learning access is active.";
+
+
+payButton.style.display="none";
+
+
+updateTime(payment.expiresAt);
+
+unlockLearning();
+
+
+}
+
+
+function updateTime(expiresAt){
+
+const time=
+document.getElementById("timeLeft");
+
+function update(){
+
+const difference=
+new Date(expiresAt).getTime()
+-
+Date.now();
+
+
+if(difference<=0){
+
+time.textContent=
+"⛔ Your learning access has expired.";
+
+location.reload();
+
+return;
+
+}
+
+
+const hours=
+Math.floor(
+difference/(1000*60*60)
+);
+
+const minutes=
+Math.floor(
+(difference%(1000*60*60))
+/
+(1000*60)
+);
+
+const seconds=
+Math.floor(
+(difference%(1000*60))
+/
+1000
+);
+
+
+if(hours>0){
+
+time.textContent=
+"⏱️ Time remaining: "+
+hours+"h "+
+minutes+"m "+
+seconds+"s";
+
+}else{
+
+time.textContent=
+"⏱️ Time remaining: "+
+minutes+"m "+
+seconds+"s";
+
+}
+
+}
+
+update();
+
+setInterval(update,1000);
+
+}
+
+
+function showLocked(statusText,bigText){
+
+const badge=
+document.getElementById("status");
+
+const text=
+document.getElementById("statusText");
+
+const payButton=
+document.getElementById("payButton");
+
+
+badge.textContent=statusText;
+
+badge.style.background="#fff4db";
+
+badge.style.color="#9a6700";
+
+text.textContent="🔒 "+bigText;
+
+payButton.style.display="inline-block";
+
+lockLearning();
+
+}
+
+
+function lockLearning(){
+
+[
+"subjectsCard",
+"classesCard",
+"liveCard",
+"materialsCard"
+].forEach(function(id){
+
+const card=
+document.getElementById(id);
+
+if(!card){
+return;
+}
+
+card.classList.add("locked");
+
+card.onclick=function(event){
+
+event.preventDefault();
+
+alert(
+"🔒 This lesson requires an active learning plan to start learning."
+);
+
+};
+
+});
+
+}
+
+
+function unlockLearning(){
+
+[
+"subjectsCard",
+"classesCard",
+"liveCard",
+"materialsCard"
+].forEach(function(id){
+
+const card=
+document.getElementById(id);
+
+if(!card){
+return;
+}
+
+card.classList.remove("locked");
+
+card.onclick=null;
+
+});
+
+}
+
+
+</script>
+
+
+<script src="../js/app.js"></script>
+<script src="../js/learner.js"></script>
+
+</body>
+</html>
