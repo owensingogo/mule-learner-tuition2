@@ -184,6 +184,13 @@ background:#fee4e2;
 color:#b42318;
 }
 
+.refresh{
+width:100%;
+background:#173b8f;
+color:white;
+margin-bottom:15px;
+}
+
 .empty{
 background:white;
 padding:30px 18px;
@@ -225,9 +232,11 @@ margin-top:25px;
 }
 
 @media(min-width:650px){
+
 .stats{
 grid-template-columns:repeat(4,1fr);
 }
+
 }
 </style>
 </head>
@@ -235,63 +244,136 @@ grid-template-columns:repeat(4,1fr);
 <body>
 
 <header>
-<div class="logo">Mule Learner Tuition</div>
+
+<div class="logo">
+Mule Learner Tuition
+</div>
 
 <a href="dashboard.html" class="back">
 ← CEO Dashboard
 </a>
+
 </header>
+
 
 <div class="container">
 
 <div class="heading">
-<h1>Payment Management 💰</h1>
+
+<h1>
+Payment Management 💰
+</h1>
+
 <p>
 Review learner payments and control learning access.
 </p>
+
 </div>
+
 
 <div class="stats">
 
 <div class="stat">
-<div class="stat-icon">⏳</div>
-<h3 id="pendingCount">0</h3>
-<p>Pending</p>
+
+<div class="stat-icon">
+⏳
 </div>
+
+<h3 id="pendingCount">
+0
+</h3>
+
+<p>
+Pending
+</p>
+
+</div>
+
 
 <div class="stat">
-<div class="stat-icon">✅</div>
-<h3 id="approvedCount">0</h3>
-<p>Approved</p>
+
+<div class="stat-icon">
+✅
 </div>
+
+<h3 id="approvedCount">
+0
+</h3>
+
+<p>
+Approved
+</p>
+
+</div>
+
 
 <div class="stat">
-<div class="stat-icon">❌</div>
-<h3 id="rejectedCount">0</h3>
-<p>Rejected</p>
+
+<div class="stat-icon">
+❌
 </div>
+
+<h3 id="rejectedCount">
+0
+</h3>
+
+<p>
+Rejected
+</p>
+
+</div>
+
 
 <div class="stat">
-<div class="stat-icon">💰</div>
-<h3 id="totalReceived">K0</h3>
-<p>Total Received</p>
+
+<div class="stat-icon">
+💰
+</div>
+
+<h3 id="totalReceived">
+K0
+</h3>
+
+<p>
+Total Received
+</p>
+
 </div>
 
 </div>
+
+
+<button class="refresh" onclick="loadPayments()">
+↻ Refresh Payments
+</button>
+
 
 <div id="paymentList">
 
 <div class="empty">
-<div class="empty-icon">💳</div>
-<h3>Loading payments...</h3>
-<p>Please wait.</p>
+
+<div class="empty-icon">
+💳
+</div>
+
+<h3>
+Loading payments...
+</h3>
+
+<p>
+Please wait.
+</p>
+
 </div>
 
 </div>
+
 
 <div class="notice">
 
-<strong>🔐 CEO Payment Control</strong>
+<strong>
+🔐 CEO Payment Control
+</strong>
 
 <br><br>
 
@@ -311,396 +393,238 @@ reason.
 
 <br><br>
 
-<strong>Important:</strong> Always confirm that the
-payment has actually been received before approving
-a learner.
+<strong>
+Important:
+</strong>
+
+Always confirm that the payment has actually been
+received before approving a learner.
 
 </div>
 
+
 <footer>
-Mule Learner Tuition<br>
+
+Mule Learner Tuition
+<br>
 CEO Administration • Learn • Practice • Succeed
+
 </footer>
 
 </div>
 
-<script type="module">
 
-import {
-initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+<script>
 
-import {
-getDatabase,
-ref,
-get,
-update
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+"use strict";
 
 
-const firebaseConfig = {
+/* =========================================
+   FIREBASE DATABASE
+========================================= */
 
-apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2tVvmLF7M",
+const PAYMENT_DATABASE_URL =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
 
-databaseURL:
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+/* =========================================
+   FIREBASE REQUEST
+========================================= */
 
-projectId:"mule-learner-tuition-264fe",
+async function firebasePaymentRequest(
+path,
+method="GET",
+data=null
+){
 
-storageBucket:
-"mule-learner-tuition-264fe.firebasestorage.app",
+try{
 
-messagingSenderId:"656883565460",
-
-appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+const options={
+method:method,
+headers:{
+"Content-Type":"application/json"
+}
 };
 
+if(data!==null){
 
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
-
-
-window.muleCEOApprovePayment=approvePayment;
-window.muleCEORejectPayment=rejectPayment;
-
-
-function formatKwacha(amount){
-
-const number=Number(amount)||0;
-
-return "K"+number.toLocaleString("en-ZM",{
-minimumFractionDigits:0,
-maximumFractionDigits:2
-});
+options.body=
+JSON.stringify(data);
 
 }
 
+const response=
+await fetch(
+PAYMENT_DATABASE_URL+
+"/"+
+path+
+".json",
+options
+);
+
+if(!response.ok){
+
+throw new Error(
+"Firebase request failed: "+
+response.status
+);
+
+}
+
+return await response.json();
+
+}catch(error){
+
+console.error(
+"Firebase payment error:",
+error
+);
+
+return null;
+
+}
+
+}
+
+
+/* =========================================
+   FORMAT KWACHA
+========================================= */
+
+function formatKwacha(amount){
+
+const number=
+Number(amount)||0;
+
+return "K"+
+number.toLocaleString(
+"en-ZM",
+{
+minimumFractionDigits:0,
+maximumFractionDigits:2
+}
+);
+
+}
+
+
+/* =========================================
+   FORMAT DATE
+========================================= */
 
 function formatDate(value){
 
 if(!value){
+
 return "Not available";
+
 }
 
-const date=new Date(value);
+const date=
+new Date(value);
 
 if(isNaN(date.getTime())){
+
 return "Not available";
+
 }
 
-return date.toLocaleString("en-ZM",{
+return date.toLocaleString(
+"en-ZM",
+{
 day:"2-digit",
 month:"short",
 year:"numeric",
 hour:"2-digit",
 minute:"2-digit"
-});
+}
+);
 
 }
 
+
+/* =========================================
+   PLAN DURATION
+========================================= */
 
 function getPlanDuration(plan){
 
-const text=String(plan||"").toLowerCase();
+const text=
+String(plan||"")
+.toLowerCase();
 
-if(text.includes("6 hours")){
-return 6*60*60*1000;
+
+if(
+text.includes("6 hours")
+){
+
+return 6*
+60*
+60*
+1000;
+
 }
 
-if(text.includes("daily") || text.includes("1 day")){
-return 24*60*60*1000;
+
+if(
+text.includes("daily")||
+text.includes("1 day")
+){
+
+return 24*
+60*
+60*
+1000;
+
 }
 
-if(text.includes("weekly") || text.includes("7 days")){
-return 7*24*60*60*1000;
+
+if(
+text.includes("weekly")||
+text.includes("7 days")
+){
+
+return 7*
+24*
+60*
+60*
+1000;
+
 }
 
-if(text.includes("monthly") || text.includes("30 days")){
-return 30*24*60*60*1000;
+
+if(
+text.includes("monthly")||
+text.includes("30 days")
+){
+
+return 30*
+24*
+60*
+60*
+1000;
+
 }
+
 
 return 0;
 
 }
 
 
-async function loadPayments(){
-
-const list=document.getElementById("paymentList");
-
-try{
-
-const snapshot=await get(ref(db,"payments"));
-
-if(!snapshot.exists()){
-
-list.innerHTML=`
-<div class="empty">
-
-<div class="empty-icon">💳</div>
-
-<h3>No Payments Yet</h3>
-
-<p>
-Learner payment requests will appear here.
-</p>
-
-</div>
-`;
-
-updateStats([]);
-
-return;
-}
-
-
-const data=snapshot.val();
-
-const payments=Object.keys(data).map(function(key){
-
-return{
-firebaseKey:key,
-...data[key]
-};
-
-});
-
-
-payments.sort(function(a,b){
-
-return new Date(b.submittedAt||0)-
-new Date(a.submittedAt||0);
-
-});
-
-
-renderPayments(payments);
-updateStats(payments);
-
-}catch(error){
-
-console.error(error);
-
-list.innerHTML=`
-<div class="empty">
-
-<div class="empty-icon">⚠️</div>
-
-<h3>Could Not Load Payments</h3>
-
-<p>
-Please check your internet connection and try again.
-</p>
-
-</div>
-`;
-
-}
-
-}
-
-
-function updateStats(payments){
-
-let pending=0;
-let approved=0;
-let rejected=0;
-let total=0;
-
-
-payments.forEach(function(payment){
-
-if(payment.status==="pending"){
-pending++;
-}
-
-if(payment.status==="approved"){
-approved++;
-total+=Number(payment.amount)||0;
-}
-
-if(payment.status==="rejected"){
-rejected++;
-}
-
-});
-
-
-document.getElementById("pendingCount").textContent=pending;
-
-document.getElementById("approvedCount").textContent=approved;
-
-document.getElementById("rejectedCount").textContent=rejected;
-
-document.getElementById("totalReceived").textContent=
-formatKwacha(total);
-
-}
-
-
-function renderPayments(payments){
-
-const list=document.getElementById("paymentList");
-
-const visiblePayments=payments.filter(function(payment){
-
-return payment.status==="pending";
-
-});
-
-
-if(visiblePayments.length===0){
-
-list.innerHTML=`
-<div class="empty">
-
-<div class="empty-icon">✅</div>
-
-<h3>No Pending Payments</h3>
-
-<p>
-There are currently no learner payments waiting for approval.
-</p>
-
-</div>
-`;
-
-return;
-
-}
-
-
-list.innerHTML="";
-
-
-visiblePayments.forEach(function(payment){
-
-const card=document.createElement("div");
-
-card.className="payment";
-
-card.id="payment-"+payment.firebaseKey;
-
-
-card.innerHTML=`
-
-<div class="payment-top">
-
-<div>
-
-<div class="name">
-${escapeHTML(payment.learnerName||"Learner")}
-</div>
-
-<div class="phone">
-📱 ${escapeHTML(payment.learnerPhone||"No phone")}
-</div>
-
-<div class="date">
-Submitted: ${formatDate(payment.submittedAt)}
-</div>
-
-</div>
-
-<span class="badge">
-PENDING
-</span>
-
-</div>
-
-
-<div class="details">
-
-<div class="row">
-
-<span class="label">
-Learning Plan
-</span>
-
-<span class="value">
-${escapeHTML(payment.plan||"Not available")}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-Amount
-</span>
-
-<span class="value">
-${formatKwacha(payment.amount)}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-Payment Method
-</span>
-
-<span class="value">
-${escapeHTML(payment.method||"Not available")}
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">
-Reference
-</span>
-
-<span class="value">
-${escapeHTML(payment.reference||"Not provided")}
-</span>
-
-</div>
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="approve"
-onclick="window.muleCEOApprovePayment('${payment.firebaseKey}')">
-
-✓ Approve
-
-</button>
-
-
-<button
-class="reject"
-onclick="window.muleCEORejectPayment('${payment.firebaseKey}')">
-
-✕ Reject
-
-</button>
-
-</div>
-
-`;
-
-list.appendChild(card);
-
-});
-
-}
-
+/* =========================================
+   ESCAPE HTML
+========================================= */
 
 function escapeHTML(value){
 
-if(value===null||value===undefined){
+if(
+value===null||
+value===undefined
+){
+
 return "";
+
 }
 
 return String(value)
@@ -713,49 +637,515 @@ return String(value)
 }
 
 
-async function approvePayment(firebaseKey){
+/* =========================================
+   LOAD PAYMENTS FROM FIREBASE
+   IMPORTANT:
+   USES mulePayments
+========================================= */
 
-if(!firebaseKey){
+async function loadPayments(){
+
+const list=
+document.getElementById(
+"paymentList"
+);
+
+
+list.innerHTML=`
+
+<div class="empty">
+
+<div class="empty-icon">
+⏳
+</div>
+
+<h3>
+Loading Payments...
+</h3>
+
+<p>
+Checking Firebase.
+</p>
+
+</div>
+
+`;
+
+
+try{
+
+const data=
+await firebasePaymentRequest(
+"mulePayments"
+);
+
+
+if(!data){
+
+renderPayments([]);
+
+updateStats([]);
+
 return;
+
 }
 
 
-const confirmed=confirm(
+let payments=[];
+
+
+if(Array.isArray(data)){
+
+data.forEach(
+function(payment,index){
+
+if(payment){
+
+payments.push({
+
+firebaseKey:
+String(index),
+
+...payment
+
+});
+
+}
+
+}
+);
+
+}else{
+
+Object.keys(data)
+.forEach(
+function(key){
+
+if(data[key]){
+
+payments.push({
+
+firebaseKey:key,
+
+...data[key]
+
+});
+
+}
+
+}
+);
+
+}
+
+
+payments.sort(
+function(a,b){
+
+return new Date(
+b.submittedAt||0
+)-
+new Date(
+a.submittedAt||0
+);
+
+}
+);
+
+
+updateStats(payments);
+
+renderPayments(payments);
+
+
+}catch(error){
+
+console.error(error);
+
+
+list.innerHTML=`
+
+<div class="empty">
+
+<div class="empty-icon">
+⚠️
+</div>
+
+<h3>
+Could Not Load Payments
+</h3>
+
+<p>
+Please check your internet connection and try again.
+</p>
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================================
+   UPDATE STATISTICS
+========================================= */
+
+function updateStats(payments){
+
+let pending=0;
+let approved=0;
+let rejected=0;
+let total=0;
+
+
+payments.forEach(
+function(payment){
+
+const status=
+String(
+payment.status||""
+)
+.toLowerCase();
+
+
+if(status==="pending"){
+
+pending++;
+
+}
+
+
+if(status==="approved"){
+
+approved++;
+
+total+=
+Number(payment.amount)||0;
+
+}
+
+
+if(status==="rejected"){
+
+rejected++;
+
+}
+
+}
+);
+
+
+document.getElementById(
+"pendingCount"
+).textContent=
+pending;
+
+
+document.getElementById(
+"approvedCount"
+).textContent=
+approved;
+
+
+document.getElementById(
+"rejectedCount"
+).textContent=
+rejected;
+
+
+document.getElementById(
+"totalReceived"
+).textContent=
+formatKwacha(total);
+
+}
+
+
+/* =========================================
+   DISPLAY PENDING PAYMENTS
+========================================= */
+
+function renderPayments(payments){
+
+const list=
+document.getElementById(
+"paymentList"
+);
+
+
+const pendingPayments=
+payments.filter(
+function(payment){
+
+return String(
+payment.status||""
+).toLowerCase()==="pending";
+
+}
+);
+
+
+if(
+pendingPayments.length===0
+){
+
+list.innerHTML=`
+
+<div class="empty">
+
+<div class="empty-icon">
+✅
+</div>
+
+<h3>
+No Pending Payments
+</h3>
+
+<p>
+There are currently no learner payments waiting for approval.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+list.innerHTML="";
+
+
+pendingPayments.forEach(
+function(payment){
+
+const card=
+document.createElement("div");
+
+card.className="payment";
+
+
+card.innerHTML=`
+
+<div class="payment-top">
+
+<div>
+
+<div class="name">
+
+${escapeHTML(
+payment.learnerName||
+"Learner"
+)}
+
+</div>
+
+
+<div class="phone">
+
+📱
+${escapeHTML(
+payment.learnerPhone||
+"No phone"
+)}
+
+</div>
+
+
+<div class="date">
+
+Submitted:
+${formatDate(
+payment.submittedAt
+)}
+
+</div>
+
+</div>
+
+
+<span class="badge">
+PENDING
+</span>
+
+</div>
+
+
+<div class="details">
+
+
+<div class="row">
+
+<span class="label">
+Learning Plan
+</span>
+
+<span class="value">
+
+${escapeHTML(
+payment.plan||
+"Not available"
+)}
+
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Amount
+</span>
+
+<span class="value">
+
+${formatKwacha(
+payment.amount
+)}
+
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Payment Method
+</span>
+
+<span class="value">
+
+${escapeHTML(
+payment.method||
+"Not available"
+)}
+
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span class="label">
+Reference
+</span>
+
+<span class="value">
+
+${escapeHTML(
+payment.reference||
+"Not provided"
+)}
+
+</span>
+
+</div>
+
+
+</div>
+
+
+<div class="actions">
+
+
+<button
+class="approve"
+onclick="approvePayment('${escapeHTML(payment.firebaseKey)}')">
+
+✓ Approve
+
+</button>
+
+
+<button
+class="reject"
+onclick="rejectPayment('${escapeHTML(payment.firebaseKey)}')">
+
+✕ Reject
+
+</button>
+
+
+</div>
+
+`;
+
+
+list.appendChild(card);
+
+}
+);
+
+}
+
+
+/* =========================================
+   APPROVE PAYMENT
+========================================= */
+
+async function approvePayment(firebaseKey){
+
+if(!firebaseKey){
+
+return;
+
+}
+
+
+const confirmed=
+confirm(
 "Have you confirmed that this payment was actually received?"
 );
 
 
 if(!confirmed){
+
 return;
+
 }
 
 
 try{
 
-const paymentRef=ref(
-db,
-"payments/"+firebaseKey
+
+const paymentPath=
+"mulePayments/"+
+encodeURIComponent(
+firebaseKey
 );
 
 
-const snapshot=await get(paymentRef);
+const payment=
+await firebasePaymentRequest(
+paymentPath
+);
 
 
-if(!snapshot.exists()){
+if(!payment){
 
-alert("Payment could not be found.");
+alert(
+"Payment could not be found."
+);
 
 return;
 
 }
 
 
-const payment=snapshot.val();
+if(
+String(payment.status||"")
+.toLowerCase()!=="pending"
+){
 
-
-if(payment.status!=="pending"){
-
-alert("This payment has already been reviewed.");
+alert(
+"This payment has already been reviewed."
+);
 
 loadPayments();
 
@@ -764,9 +1154,10 @@ return;
 }
 
 
-const now=Date.now();
-
-const duration=getPlanDuration(payment.plan);
+const duration=
+getPlanDuration(
+payment.plan
+);
 
 
 if(!duration){
@@ -780,14 +1171,29 @@ return;
 }
 
 
-const expiresAt=now+duration;
+const now=
+Date.now();
 
 
-await update(paymentRef,{
+const startAt=
+new Date(
+now
+).toISOString();
+
+
+const expiresAt=
+new Date(
+now+duration
+).toISOString();
+
+
+const updatedPayment={
+
+...payment,
 
 status:"approved",
 
-approvedAt:new Date(now).toISOString(),
+approvedAt:startAt,
 
 approvedBy:"CEO",
 
@@ -795,16 +1201,37 @@ rejectedAt:null,
 
 rejectionReason:"",
 
-startAt:new Date(now).toISOString(),
+startAt:startAt,
 
-expiresAt:new Date(expiresAt).toISOString()
+expiresAt:expiresAt,
 
-});
+isFreeTrial:false
+
+};
+
+
+const result=
+await firebasePaymentRequest(
+paymentPath,
+"PUT",
+updatedPayment
+);
+
+
+if(!result){
+
+alert(
+"Could not save the approval to Firebase."
+);
+
+return;
+
+}
 
 
 alert(
 "Payment approved successfully.\n\n"+
-"Learning access has been activated for the selected plan."
+"Learning access is now active."
 );
 
 
@@ -813,7 +1240,10 @@ loadPayments();
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Approval error:",
+error
+);
 
 alert(
 "Could not approve this payment. Please try again."
@@ -824,29 +1254,41 @@ alert(
 }
 
 
+/* =========================================
+   REJECT PAYMENT
+========================================= */
+
 async function rejectPayment(firebaseKey){
 
 if(!firebaseKey){
+
 return;
+
 }
 
 
-const reason=prompt(
+const reason=
+prompt(
 "Enter the reason for rejecting this payment:"
 );
 
 
 if(reason===null){
+
 return;
+
 }
 
 
-const cleanReason=reason.trim();
+const cleanReason=
+reason.trim();
 
 
 if(!cleanReason){
 
-alert("Please enter a rejection reason.");
+alert(
+"Please enter a rejection reason."
+);
 
 return;
 
@@ -855,30 +1297,39 @@ return;
 
 try{
 
-const paymentRef=ref(
-db,
-"payments/"+firebaseKey
+
+const paymentPath=
+"mulePayments/"+
+encodeURIComponent(
+firebaseKey
 );
 
 
-const snapshot=await get(paymentRef);
+const payment=
+await firebasePaymentRequest(
+paymentPath
+);
 
 
-if(!snapshot.exists()){
+if(!payment){
 
-alert("Payment could not be found.");
+alert(
+"Payment could not be found."
+);
 
 return;
 
 }
 
 
-const payment=snapshot.val();
+if(
+String(payment.status||"")
+.toLowerCase()!=="pending"
+){
 
-
-if(payment.status!=="pending"){
-
-alert("This payment has already been reviewed.");
+alert(
+"This payment has already been reviewed."
+);
 
 loadPayments();
 
@@ -887,23 +1338,48 @@ return;
 }
 
 
-await update(paymentRef,{
+const updatedPayment={
+
+...payment,
 
 status:"rejected",
 
-rejectedAt:new Date().toISOString(),
+rejectedAt:
+new Date().toISOString(),
 
 approvedAt:null,
+
+approvedBy:null,
 
 startAt:null,
 
 expiresAt:null,
 
-rejectionReason:cleanReason,
+rejectionReason:
+cleanReason,
 
 rejectedBy:"CEO"
 
-});
+};
+
+
+const result=
+await firebasePaymentRequest(
+paymentPath,
+"PUT",
+updatedPayment
+);
+
+
+if(!result){
+
+alert(
+"Could not save the rejection to Firebase."
+);
+
+return;
+
+}
 
 
 alert(
@@ -917,7 +1393,10 @@ loadPayments();
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Rejection error:",
+error
+);
 
 alert(
 "Could not reject this payment. Please try again."
@@ -928,9 +1407,118 @@ alert(
 }
 
 
+/* =========================================
+   CEO ACCESS CHECK
+========================================= */
+
+function checkCEOAccess(){
+
+let user=null;
+
+
+try{
+
+user=
+JSON.parse(
+localStorage.getItem(
+"muleCurrentUser"
+)
+);
+
+}catch(error){
+
+user=null;
+
+}
+
+
+if(!user){
+
+window.location.href=
+"../login.html";
+
+return false;
+
+}
+
+
+if(
+String(user.role||"")
+.toLowerCase()!=="ceo"
+){
+
+alert(
+"You do not have permission to access payment management."
+);
+
+window.location.href=
+"../login.html";
+
+return false;
+
+}
+
+
+if(
+String(user.status||"")
+.toLowerCase()==="suspended"
+){
+
+alert(
+"Your CEO account has been suspended."
+);
+
+localStorage.removeItem(
+"muleCurrentUser"
+);
+
+window.location.href=
+"../login.html";
+
+return false;
+
+}
+
+
+return true;
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+if(!checkCEOAccess()){
+
+return;
+
+}
+
+
 loadPayments();
 
-setInterval(loadPayments,30000);
+
+/*
+Check Firebase every 10 seconds.
+This allows the CEO to see new
+payments without manually refreshing.
+*/
+
+setInterval(
+function(){
+
+loadPayments();
+
+},
+10000
+);
+
+});
 
 </script>
 
