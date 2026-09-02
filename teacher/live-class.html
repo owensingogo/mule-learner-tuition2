@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+
+<title>Teacher Live Class | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+color:#172033;
+}
+
+.header{
+background:#173b8f;
+color:white;
+padding:18px;
+text-align:center;
+}
+
+.header h2{
+margin:0;
+font-size:20px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+padding:15px;
+}
+
+.card{
+background:white;
+border-radius:14px;
+padding:16px;
+margin-bottom:15px;
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.title{
+font-size:17px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.status{
+display:inline-block;
+padding:7px 12px;
+border-radius:20px;
+background:#eee;
+font-size:12px;
+font-weight:bold;
+}
+
+.live{
+background:#dcfce7;
+color:#15803d;
+}
+
+video{
+width:100%;
+height:250px;
+background:#111;
+border-radius:12px;
+object-fit:cover;
+margin-top:12px;
+}
+
+button{
+border:0;
+border-radius:10px;
+padding:12px;
+font-weight:bold;
+font-size:13px;
+cursor:pointer;
+}
+
+.start{
+background:#173b8f;
+color:white;
+width:100%;
+margin-top:12px;
+}
+
+.end{
+background:#dc2626;
+color:white;
+width:100%;
+margin-top:10px;
+}
+
+.controls{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin-top:12px;
+}
+
+.control{
+background:#eef3ff;
+color:#173b8f;
+}
+
+.control.off{
+background:#fee2e2;
+color:#b91c1c;
+}
+
+.timer{
+text-align:center;
+font-size:24px;
+font-weight:bold;
+margin:12px;
+}
+
+.chat{
+height:150px;
+overflow-y:auto;
+background:#f7f8fa;
+padding:10px;
+border-radius:10px;
+font-size:13px;
+}
+
+.chat-input{
+display:flex;
+gap:7px;
+margin-top:8px;
+}
+
+.chat-input input{
+flex:1;
+padding:11px;
+border:1px solid #ddd;
+border-radius:9px;
+}
+
+.chat-input button{
+background:#173b8f;
+color:white;
+}
+
+.back{
+display:block;
+text-align:center;
+margin:18px 0;
+color:#173b8f;
+text-decoration:none;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h2>🎓 Mule Learner Tuition</h2>
+<p>Teacher Live Classroom</p>
+</div>
+
+<div class="container">
+
+<div class="card">
+<div class="title">📚 Grade 10 Mathematics</div>
+
+<p><b>Subject:</b> Mathematics</p>
+<p><b>Class:</b> Grade 10</p>
+<p><b>Teacher:</b> Teacher</p>
+
+<span id="status" class="status">OFFLINE</span>
+
+<button id="startBtn"
+class="start"
+type="button"
+onclick="startClass()">
+▶️ Start Live Class
+</button>
+
+<button id="endBtn"
+class="end"
+type="button"
+onclick="endClass()"
+style="display:none">
+⏹️ End Class
+</button>
+</div>
+
+<div class="card">
+
+<div class="title">🎥 Teacher Camera</div>
+
+<video id="teacherVideo"
+autoplay
+playsinline
+muted></video>
+
+<div id="timer" class="timer">00:00:00</div>
+
+<div class="controls">
+
+<button id="micBtn"
+class="control"
+type="button"
+onclick="toggleMicrophone()">
+🎤 Mic ON
+</button>
+
+<button id="cameraBtn"
+class="control"
+type="button"
+onclick="toggleCamera()">
+📹 Camera ON
+</button>
+
+<button id="speakerBtn"
+class="control"
+type="button"
+onclick="toggleSpeaker()">
+🔊 Speaker ON
+</button>
+
+<button class="control"
+type="button"
+onclick="toggleFullscreen()">
+⛶ Fullscreen
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">👥 Learners</div>
+
+<p>
+Learners in class:
+<b id="learnerCount">0</b>
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="title">💬 Live Chat</div>
+
+<div id="chat" class="chat">
+No messages yet.
+</div>
+
+<div class="chat-input">
+
+<input
+id="chatInput"
+type="text"
+placeholder="Type a message...">
+
+<button
+type="button"
+onclick="sendMessage()">
+Send
+</button>
+
+</div>
+
+</div>
+
+<a href="dashboard.html" class="back">
+← Back to Teacher Dashboard
+</a>
+
+</div>
+
+<script>
+
+/* ==============================
+TEACHER LIVE CLASS
+============================== */
+
+let stream = null;
+let timerInterval = null;
+let seconds = 0;
+
+let micOn = true;
+let cameraOn = true;
+let speakerOn = true;
+
+const CLASS_ID = "grade10-mathematics";
+
+
+/* ==============================
+START CLASS
+============================== */
+
+async function startClass(){
+
+try{
+
+/*
+IMPORTANT:
+This is the same camera code
+that was tested successfully.
+*/
+
+stream = await navigator.mediaDevices.getUserMedia({
+video:true,
+audio:true
+});
+
+const video =
+document.getElementById("teacherVideo");
+
+video.srcObject = stream;
+
+/* Turn camera and microphone OFF initially */
+stream.getVideoTracks().forEach(function(track){
+track.enabled = false;
+});
+
+stream.getAudioTracks().forEach(function(track){
+track.enabled = false;
+});
+
+cameraOn = false;
+micOn = false;
+
+document.getElementById("cameraBtn").textContent =
+"📹 Camera OFF";
+
+document.getElementById("micBtn").textContent =
+"🎤 Mic OFF";
+
+document.getElementById("status").textContent =
+"LIVE";
+
+document.getElementById("status").className =
+"status live";
+
+document.getElementById("startBtn").style.display =
+"none";
+
+document.getElementById("endBtn").style.display =
+"block";
+
+/* Start timer */
+seconds = 0;
+
+timerInterval = setInterval(function(){
+
+seconds++;
+
+let h = Math.floor(seconds / 3600);
+let m = Math.floor((seconds % 3600) / 60);
+let s = seconds % 60;
+
+document.getElementById("timer").textContent =
+String(h).padStart(2,"0") + ":" +
+String(m).padStart(2,"0") + ":" +
+String(s).padStart(2,"0");
+
+},1000);
+
+/*
+Firebase is loaded AFTER the camera starts.
+If Firebase has a problem, the camera still works.
+*/
+
+try{
+
+if(typeof firebase !== "undefined"){
+
+if(!firebase.apps.length){
+
+firebase.initializeApp({
+
+apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+
+authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+});
+
+}
+
+const db = firebase.database();
+
+db.ref("liveClasses/" + CLASS_ID).set({
+
+classId:CLASS_ID,
+
+title:"Grade 10 Mathematics",
+
+subject:"Mathematics",
+
+grade:"Grade 10",
+
+status:"live",
+
+startedAt:firebase.database.ServerValue.TIMESTAMP
+
+});
+
+}
+
+}catch(firebaseError){
+
+console.log(
+"Firebase error:",
+firebaseError
+);
+
+}
+
+alert("🎥 Live Class Started Successfully!");
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Camera or microphone could not start.\n\n" +
+"Please check Chrome camera and microphone permission."
+);
+
+}
+
+}
+
+
+/* ==============================
+END CLASS
+============================== */
+
+function endClass(){
+
+if(!confirm("End this live class?")){
+return;
+}
+
+if(stream){
+
+stream.getTracks().forEach(function(track){
+track.stop();
+});
+
+stream = null;
+
+}
+
+clearInterval(timerInterval);
+
+document.getElementById("teacherVideo").srcObject =
+null;
+
+document.getElementById("status").textContent =
+"OFFLINE";
+
+document.getElementById("status").className =
+"status";
+
+document.getElementById("startBtn").style.display =
+"block";
+
+document.getElementById("endBtn").style.display =
+"none";
+
+document.getElementById("timer").textContent =
+"00:00:00";
+
+try{
+
+if(typeof firebase !== "undefined"){
+
+firebase.database()
+.ref("liveClasses/" + CLASS_ID)
+.update({
+
+status:"ended",
+
+endedAt:
+firebase.database.ServerValue.TIMESTAMP
+
+});
+
+}
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+
+/* ==============================
+MICROPHONE
+============================== */
+
+function toggleMicrophone(){
+
+if(!stream){
+
+alert("Start the live class first.");
+
+return;
+
+}
+
+const tracks =
+stream.getAudioTracks();
+
+if(!tracks.length){
+
+alert("Microphone not available.");
+
+return;
+
+}
+
+micOn = !micOn;
+
+tracks.forEach(function(track){
+
+track.enabled = micOn;
+
+});
+
+document.getElementById("micBtn").textContent =
+micOn ? "🎤 Mic ON" : "🎤 Mic OFF";
+
+}
+
+
+/* ==============================
+CAMERA
+============================== */
+
+function toggleCamera(){
+
+if(!stream){
+
+alert("Start the live class first.");
+
+return;
+
+}
+
+const tracks =
+stream.getVideoTracks();
+
+if(!tracks.length){
+
+alert("Camera not available.");
+
+return;
+
+}
+
+cameraOn = !cameraOn;
+
+tracks.forEach(function(track){
+
+track.enabled = cameraOn;
+
+});
+
+document.getElementById("cameraBtn").textContent =
+cameraOn ? "📹 Camera ON" : "📹 Camera OFF";
+
+}
+
+
+/* ==============================
+SPEAKER
+============================== */
+
+function toggleSpeaker(){
+
+const video =
+document.getElementById("teacherVideo");
+
+speakerOn = !speakerOn;
+
+video.muted = !speakerOn;
+
+document.getElementById("speakerBtn").textContent =
+speakerOn ? "🔊 Speaker ON" : "🔇 Speaker OFF";
+
+}
+
+
+/* ==============================
+FULLSCREEN
+============================== */
+
+function toggleFullscreen(){
+
+const card =
+document.querySelector(".card:nth-of-type(2)");
+
+if(!document.fullscreenElement){
+
+if(card.requestFullscreen){
+
+card.requestFullscreen();
+
+}
+
+}else{
+
+document.exitFullscreen();
+
+}
+
+}
+
+
+/* ==============================
+CHAT
+============================== */
+
+function sendMessage(){
+
+const input =
+document.getElementById("chatInput");
+
+const message =
+input.value.trim();
+
+if(!message){
+return;
+}
+
+const chat =
+document.getElementById("chat");
+
+if(chat.textContent === "No messages yet."){
+
+chat.innerHTML = "";
+
+}
+
+const item =
+document.createElement("div");
+
+item.style.padding = "6px 0";
+
+item.textContent =
+"👨‍🏫 Teacher: " + message;
+
+chat.appendChild(item);
+
+input.value = "";
+
+chat.scrollTop =
+chat.scrollHeight;
+
+
+/* Firebase chat */
+
+try{
+
+if(typeof firebase !== "undefined"){
+
+firebase.database()
+.ref("liveClasses/" + CLASS_ID + "/chat")
+.push({
+
+sender:"Teacher",
+
+message:message,
+
+time:
+firebase.database.ServerValue.TIMESTAMP
+
+});
+
+}
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
