@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>Add Test | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f7fc;
+ color:#172033;
+ font-size:13px
+}
+header{
+ background:#173b8f;
+ color:white;
+ padding:11px 14px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center
+}
+.logo{font-weight:bold;font-size:15px}
+.back{
+ background:white;
+ color:#173b8f;
+ border:0;
+ border-radius:6px;
+ padding:6px 9px;
+ font-weight:bold
+}
+.container{
+ max-width:700px;
+ margin:auto;
+ padding:14px
+}
+h1{
+ font-size:20px;
+ margin:8px 0 4px
+}
+.subtitle{
+ color:#667085;
+ font-size:11px;
+ margin-bottom:14px
+}
+.box{
+ background:white;
+ padding:13px;
+ border-radius:10px;
+ box-shadow:0 2px 7px rgba(0,0,0,.07);
+ margin-bottom:10px
+}
+label{
+ display:block;
+ font-weight:bold;
+ font-size:11px;
+ margin:8px 0 4px
+}
+input,select,textarea{
+ width:100%;
+ padding:9px;
+ border:1px solid #d0d5dd;
+ border-radius:7px;
+ font-size:12px;
+ outline:none
+}
+textarea{
+ min-height:70px;
+ resize:vertical
+}
+.question{
+ border:1px solid #e1e5ec;
+ border-radius:9px;
+ padding:11px;
+ margin-top:10px
+}
+.question h3{
+ margin:0 0 8px;
+ font-size:13px
+}
+.remove{
+ float:right;
+ border:0;
+ background:#fee4e2;
+ color:#b42318;
+ border-radius:5px;
+ padding:4px 7px;
+ font-size:10px
+}
+.option{
+ margin:5px 0
+}
+.actions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-top:12px
+}
+button{
+ cursor:pointer
+}
+.btn{
+ border:0;
+ border-radius:7px;
+ padding:10px;
+ font-weight:bold;
+ font-size:12px
+}
+.add{
+ background:#eef4ff;
+ color:#173b8f
+}
+.save{
+ background:#173b8f;
+ color:white
+}
+.status{
+ text-align:center;
+ padding:8px;
+ font-size:11px;
+ color:#667085
+}
+.success{color:#067647}
+.error{color:#b42318}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">📚 Mule Learner Tuition</div>
+ <button class="back" onclick="location.href='dashboard.html'">← Dashboard</button>
+</header>
+
+<main class="container">
+
+ <h1>➕ Add Test</h1>
+ <div class="subtitle">
+  Create a test with questions and correct answers for automatic marking.
+ </div>
+
+ <div class="box">
+
+  <label>Test Title</label>
+  <input id="title" type="text" placeholder="e.g. Mathematics Test 1">
+
+  <label>Subject</label>
+  <select id="subject">
+   <option value="">Select Subject</option>
+   <option>Mathematics</option>
+   <option>English</option>
+   <option>Science</option>
+   <option>Physics</option>
+   <option>Chemistry</option>
+   <option>Biology</option>
+   <option>ICT</option>
+   <option>Computer Studies</option>
+  </select>
+
+  <label>Class / Level</label>
+  <select id="level">
+   <option value="">Select Class</option>
+   <option>Form 1</option>
+   <option>Form 2</option>
+   <option>Form 3</option>
+   <option>Form 4</option>
+   <option>Grade 10</option>
+   <option>Grade 11</option>
+   <option>Grade 12</option>
+  </select>
+
+  <label>Duration (minutes)</label>
+  <input id="duration" type="number" min="1" value="30">
+
+ </div>
+
+ <div class="box">
+
+  <b>Questions</b>
+
+  <div id="questions"></div>
+
+  <div class="actions">
+   <button class="btn add" onclick="addQuestion()">
+    ➕ Add Question
+   </button>
+
+   <button class="btn save" onclick="saveTest()">
+    💾 Save Test
+   </button>
+  </div>
+
+  <div id="status" class="status"></div>
+
+ </div>
+
+</main>
+
+<script>
+const DB_URL =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+let questionCount=0;
+
+function session(){
+ try{
+  return JSON.parse(localStorage.getItem("muleCurrentUser"));
+ }catch(e){
+  return null;
+ }
+}
+
+function checkCEO(){
+ const user=session();
+
+ if(!user || user.role!=="ceo"){
+  location.href="../login.html";
+  return false;
+ }
+
+ return true;
+}
+
+function addQuestion(){
+
+ questionCount++;
+
+ const div=document.createElement("div");
+ div.className="question";
+ div.id="question-"+questionCount;
+
+ div.innerHTML=`
+  <button class="remove"
+   onclick="this.parentElement.remove()">
+   Remove
+  </button>
+
+  <h3>Question ${questionCount}</h3>
+
+  <label>Question</label>
+  <textarea class="qtext"
+   placeholder="Enter the question"></textarea>
+
+  <label>Option A</label>
+  <input class="a" type="text" placeholder="Option A">
+
+  <label>Option B</label>
+  <input class="b" type="text" placeholder="Option B">
+
+  <label>Option C</label>
+  <input class="c" type="text" placeholder="Option C">
+
+  <label>Option D</label>
+  <input class="d" type="text" placeholder="Option D">
+
+  <label>Correct Answer</label>
+  <select class="correct">
+   <option value="">Select correct answer</option>
+   <option value="A">A</option>
+   <option value="B">B</option>
+   <option value="C">C</option>
+   <option value="D">D</option>
+  </select>
+
+  <label>Marks</label>
+  <input class="marks" type="number" min="1" value="1">
+ `;
+
+ document.getElementById("questions").appendChild(div);
+}
+
+async function saveTest(){
+
+ if(!checkCEO()) return;
+
+ const status=document.getElementById("status");
+
+ const title=document.getElementById("title").value.trim();
+ const subject=document.getElementById("subject").value;
+ const level=document.getElementById("level").value;
+ const duration=Number(document.getElementById("duration").value);
+
+ if(!title || !subject || !level || !duration){
+  status.className="status error";
+  status.textContent="Please complete all test information.";
+  return;
+ }
+
+ const questionBoxes=
+   document.querySelectorAll(".question");
+
+ if(questionBoxes.length===0){
+  status.className="status error";
+  status.textContent="Please add at least one question.";
+  return;
+ }
+
+ const questions={};
+ let totalMarks=0;
+ let number=0;
+
+ for(const box of questionBoxes){
+
+  number++;
+
+  const question=
+    box.querySelector(".qtext").value.trim();
+
+  const A=
+    box.querySelector(".a").value.trim();
+
+  const B=
+    box.querySelector(".b").value.trim();
+
+  const C=
+    box.querySelector(".c").value.trim();
+
+  const D=
+    box.querySelector(".d").value.trim();
+
+  const correct=
+    box.querySelector(".correct").value;
+
+  const marks=
+    Number(box.querySelector(".marks").value)||1;
+
+  if(!question || !A || !B || !C || !D || !correct){
+   status.className="status error";
+   status.textContent=
+     "Please complete every question and select the correct answer.";
+   return;
+  }
+
+  questions[number]={
+   question:question,
+   options:{
+    A:A,
+    B:B,
+    C:C,
+    D:D
+   },
+   correctAnswer:correct,
+   marks:marks
+  };
+
+  totalMarks+=marks;
+ }
+
+ status.className="status";
+ status.textContent="Saving test...";
+
+ const testId=
+   "TEST-"+Date.now()+"-"+Math.random()
+   .toString(36).substring(2,7);
+
+ const data={
+  id:testId,
+  title:title,
+  subject:subject,
+  level:level,
+  duration:duration,
+  totalMarks:totalMarks,
+  questions:questions,
+  status:"PUBLISHED",
+  createdAt:new Date().toISOString(),
+  createdBy:"CEO"
+ };
+
+ try{
+
+  const response=await fetch(
+   DB_URL+"/tests/"+encodeURIComponent(testId)+".json",
+   {
+    method:"PUT",
+    headers:{
+     "Content-Type":"application/json"
+    },
+    body:JSON.stringify(data)
+   }
+  );
+
+  if(!response.ok){
+   throw new Error("Firebase save failed");
+  }
+
+  status.className="status success";
+  status.textContent=
+    "✅ Test saved successfully.";
+
+  document.getElementById("title").value="";
+  document.getElementById("subject").value="";
+  document.getElementById("level").value="";
+  document.getElementById("duration").value=30;
+  document.getElementById("questions").innerHTML="";
+  questionCount=0;
+
+ }catch(error){
+
+  console.error(error);
+
+  status.className="status error";
+  status.textContent=
+    "❌ Failed to save test. Check Firebase connection.";
+ }
+}
+
+checkCEO();
+addQuestion();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>Marking Test | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f7fc;
+ color:#172033;
+ font-size:13px
+}
+
+header{
+ background:#173b8f;
+ color:white;
+ padding:11px 14px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center
+}
+
+.logo{
+ font-weight:bold;
+ font-size:15px
+}
+
+.back{
+ background:white;
+ color:#173b8f;
+ border:0;
+ border-radius:6px;
+ padding:6px 9px;
+ font-size:11px;
+ font-weight:bold
+}
+
+.container{
+ max-width:750px;
+ margin:auto;
+ padding:14px
+}
+
+h1{
+ font-size:20px;
+ margin:8px 0 4px
+}
+
+.subtitle{
+ color:#667085;
+ font-size:11px;
+ margin-bottom:13px
+}
+
+.card{
+ background:white;
+ border-radius:10px;
+ padding:12px;
+ margin-bottom:9px;
+ box-shadow:0 2px 7px rgba(0,0,0,.07)
+}
+
+.test-title{
+ font-size:14px;
+ font-weight:bold;
+ color:#173b8f
+}
+
+.info{
+ color:#667085;
+ font-size:10px;
+ margin-top:4px;
+ line-height:1.5
+}
+
+.score{
+ margin-top:8px;
+ font-weight:bold;
+ font-size:12px
+}
+
+.badge{
+ display:inline-block;
+ padding:4px 7px;
+ border-radius:5px;
+ font-size:9px;
+ font-weight:bold;
+ background:#ecfdf3;
+ color:#067647
+}
+
+button{
+ border:0;
+ border-radius:7px;
+ padding:8px 10px;
+ font-size:11px;
+ font-weight:bold;
+ cursor:pointer
+}
+
+.open{
+ background:#173b8f;
+ color:white;
+ margin-top:9px
+}
+
+.question{
+ border-top:1px solid #eaecf0;
+ padding-top:10px;
+ margin-top:10px
+}
+
+.question:first-child{
+ border-top:0;
+ margin-top:0
+}
+
+.q{
+ font-weight:bold;
+ font-size:12px;
+ line-height:1.4
+}
+
+.answer{
+ margin-top:5px;
+ font-size:11px
+}
+
+.correct{
+ color:#067647
+}
+
+.wrong{
+ color:#b42318
+}
+
+.markbox{
+ margin-top:8px;
+ display:flex;
+ gap:6px;
+ align-items:center
+}
+
+.markbox input{
+ width:70px;
+ padding:7px;
+ border:1px solid #d0d5dd;
+ border-radius:6px
+}
+
+.save{
+ background:#173b8f;
+ color:white;
+ width:100%;
+ margin-top:12px
+}
+
+.empty,.loading{
+ text-align:center;
+ color:#667085;
+ padding:20px
+}
+
+.error{
+ color:#b42318;
+ text-align:center;
+ padding:15px
+}
+
+.hidden{
+ display:none
+}
+
+.summary{
+ background:#eef4ff;
+ padding:10px;
+ border-radius:8px;
+ margin-top:10px;
+ font-size:11px;
+ line-height:1.6
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">📚 Mule Learner Tuition</div>
+ <button class="back" onclick="location.href='dashboard.html'">
+  ← Dashboard
+ </button>
+</header>
+
+<main class="container">
+
+ <h1>📝 Marking Test</h1>
+
+ <div class="subtitle">
+  Review learner submissions, marks and results.
+ </div>
+
+ <div id="loading" class="loading">
+  Loading submissions...
+ </div>
+
+ <div id="list"></div>
+
+ <div id="details" class="hidden"></div>
+
+</main>
+
+<script>
+const DB_URL=
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+let submissions={};
+let tests={};
+let selectedId=null;
+
+function getSession(){
+ try{
+  return JSON.parse(
+   localStorage.getItem("muleCurrentUser")
+  );
+ }catch(e){
+  return null;
+ }
+}
+
+function checkStaff(){
+
+ const user=getSession();
+
+ if(
+  !user ||
+  (
+   user.role!=="ceo" &&
+   user.role!=="teacher"
+  )
+ ){
+  location.href="../login.html";
+  return false;
+ }
+
+ return true;
+}
+
+function esc(value){
+
+ return String(value??"")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+async function loadData(){
+
+ if(!checkStaff()) return;
+
+ try{
+
+  const [subResponse,testResponse]=
+   await Promise.all([
+    fetch(DB_URL+"/testSubmissions.json"),
+    fetch(DB_URL+"/tests.json")
+   ]);
+
+  submissions=
+   await subResponse.json()||{};
+
+  tests=
+   await testResponse.json()||{};
+
+  document.getElementById("loading")
+   .style.display="none";
+
+  renderList();
+
+ }catch(error){
+
+  console.error(error);
+
+  document.getElementById("loading").className="error";
+
+  document.getElementById("loading")
+   .textContent=
+   "Unable to load test submissions.";
+ }
+}
+
+function renderList(){
+
+ const list=document.getElementById("list");
+
+ const items=Object.values(submissions);
+
+ if(!items.length){
+
+  list.innerHTML=
+   '<div class="card empty">No learner submissions yet.</div>';
+
+  return;
+ }
+
+ items.sort((a,b)=>
+  String(b.submittedAt||"")
+   .localeCompare(String(a.submittedAt||""))
+ );
+
+ list.innerHTML="";
+
+ items.forEach(item=>{
+
+  const card=document.createElement("div");
+  card.className="card";
+
+  const percentage=
+   Number(item.percentage)||0;
+
+  card.innerHTML=`
+   <div class="test-title">
+    ${esc(item.testTitle||"Test")}
+   </div>
+
+   <div class="info">
+    Learner: <b>${esc(item.learnerName||"Learner")}</b><br>
+    Subject: ${esc(item.subject||"")} ·
+    Level: ${esc(item.level||"")}<br>
+    Submitted:
+    ${formatDate(item.submittedAt)}
+   </div>
+
+   <div class="score">
+    Score:
+    ${Number(item.score)||0}/${Number(item.totalMarks)||0}
+    (${percentage}%)
+    <span class="badge">
+     ${esc(item.status||"MARKED")}
+    </span>
+   </div>
+
+   <button class="open"
+    onclick="openSubmission('${esc(item.id)}')">
+    👁 Review Submission
+   </button>
+  `;
+
+  list.appendChild(card);
+ });
+}
+
+function formatDate(value){
+
+ if(!value) return "Unknown";
+
+ const d=new Date(value);
+
+ if(isNaN(d.getTime())) return value;
+
+ return d.toLocaleString();
+}
+
+function openSubmission(id){
+
+ const item=submissions[id];
+
+ if(!item) return;
+
+ selectedId=id;
+
+ const test=tests[item.testId]||{};
+ const questions=test.questions||{};
+
+ const details=document.getElementById("details");
+
+ let html=`
+  <div class="card">
+
+   <div class="test-title">
+    ${esc(item.testTitle||test.title||"Test")}
+   </div>
+
+   <div class="info">
+    Learner: <b>${esc(item.learnerName||"Learner")}</b><br>
+    Subject: ${esc(item.subject||test.subject||"")} ·
+    Level: ${esc(item.level||test.level||"")}
+   </div>
+
+   <div class="summary">
+    Current Score:
+    <b>${Number(item.score)||0}/${Number(item.totalMarks)||0}</b><br>
+    Percentage:
+    <b>${Number(item.percentage)||0}%</b><br>
+    Grade:
+    <b>${esc(item.grade||getGrade(Number(item.percentage)||0))}</b>
+   </div>
+ `;
+
+ Object.keys(questions).forEach((key,index)=>{
+
+  const q=questions[key];
+  const answer=
+   item.answers ? item.answers[key] : "";
+
+  const correct=
+   String(q.correctAnswer||"").toUpperCase();
+
+  const given=
+   String(answer||"").toUpperCase();
+
+  const isCorrect=
+   given && given===correct;
+
+  const marks=Number(q.marks)||1;
+
+  html+=`
+   <div class="question">
+
+    <div class="q">
+     ${index+1}. ${esc(q.question)}
+    </div>
+
+    <div class="answer">
+     Learner answer:
+     <b class="${isCorrect?'correct':'wrong'}">
+      ${esc(answer||"Not answered")}
+     </b>
+    </div>
+
+    <div class="answer correct">
+     Correct answer: <b>${esc(correct)}</b>
+    </div>
+
+    <div class="markbox">
+     <span>Marks:</span>
+     <input
+      type="number"
+      min="0"
+      max="${marks}"
+      step="1"
+      value="${isCorrect?marks:0}"
+      data-mark="${esc(key)}"
+     >
+     <span>/ ${marks}</span>
+    </div>
+
+   </div>
+  `;
+ });
+
+ html+=`
+   <button class="save" onclick="saveMarks()">
+    💾 Save Marks & Update Result
+   </button>
+
+   <button
+    style="background:#eef4ff;color:#173b8f;width:100%;margin-top:7px"
+    onclick="closeDetails()">
+    ← Back to Submissions
+   </button>
+
+  </div>
+ `;
+
+ details.innerHTML=html;
+ details.classList.remove("hidden");
+
+ document.getElementById("list").style.display="none";
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+}
+
+function closeDetails(){
+
+ document.getElementById("details").classList.add("hidden");
+ document.getElementById("details").innerHTML="";
+ document.getElementById("list").style.display="block";
+ selectedId=null;
+}
+
+async function saveMarks(){
+
+ if(!selectedId) return;
+
+ const item=submissions[selectedId];
+
+ if(!item) return;
+
+ const inputs=
+  document.querySelectorAll("[data-mark]");
+
+ let score=0;
+ let totalMarks=0;
+
+ inputs.forEach(input=>{
+
+  let mark=Number(input.value)||0;
+  const max=Number(input.max)||1;
+
+  if(mark<0) mark=0;
+  if(mark>max) mark=max;
+
+  input.value=mark;
+
+  score+=mark;
+  totalMarks+=max;
+ });
+
+ const percentage=
+  totalMarks>0
+   ? Math.round((score/totalMarks)*100)
+   :0;
+
+ const grade=getGrade(percentage);
+
+ const updated={
+  ...item,
+  score:score,
+  totalMarks:totalMarks,
+  percentage:percentage,
+  grade:grade,
+  status:"MARKED",
+  markedAt:new Date().toISOString(),
+  markedBy:getSession().name||"CEO"
+ };
+
+ try{
+
+  const response=await fetch(
+   DB_URL+
+   "/testSubmissions/"+
+   encodeURIComponent(selectedId)+
+   ".json",
+   {
+    method:"PUT",
+    headers:{
+     "Content-Type":"application/json"
+    },
+    body:JSON.stringify(updated)
+   }
+  );
+
+  if(!response.ok){
+   throw new Error("Save failed");
+  }
+
+  submissions[selectedId]=updated;
+
+  alert(
+   "Marks saved successfully.\n\n"+
+   "Score: "+score+"/"+totalMarks+
+   "\nPercentage: "+percentage+
+   "%\nGrade: "+grade
+  );
+
+  openSubmission(selectedId);
+
+ }catch(error){
+
+  console.error(error);
+
+  alert(
+   "Unable to save marks. Check your Firebase connection."
+  );
+ }
+}
+
+function getGrade(percent){
+
+ if(percent>=80) return "A";
+ if(percent>=70) return "B";
+ if(percent>=60) return "C";
+ if(percent>=50) return "D";
+ if(percent>=40) return "E";
+ return "F";
+}
+
+loadData();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>Results | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f7fc;
+ color:#172033;
+ font-size:13px
+}
+
+header{
+ background:#173b8f;
+ color:white;
+ padding:11px 14px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center
+}
+
+.logo{
+ font-weight:bold;
+ font-size:15px
+}
+
+.back{
+ background:white;
+ color:#173b8f;
+ border:0;
+ border-radius:6px;
+ padding:6px 9px;
+ font-size:11px;
+ font-weight:bold
+}
+
+.container{
+ max-width:800px;
+ margin:auto;
+ padding:14px
+}
+
+h1{
+ font-size:20px;
+ margin:8px 0 4px
+}
+
+.subtitle{
+ color:#667085;
+ font-size:11px;
+ margin-bottom:13px
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:8px;
+ margin-bottom:12px
+}
+
+.stat{
+ background:white;
+ padding:11px;
+ border-radius:9px;
+ box-shadow:0 2px 7px rgba(0,0,0,.07)
+}
+
+.stat-number{
+ font-size:19px;
+ font-weight:bold;
+ color:#173b8f
+}
+
+.stat-label{
+ font-size:10px;
+ color:#667085;
+ margin-top:3px
+}
+
+.filters{
+ background:white;
+ padding:11px;
+ border-radius:9px;
+ box-shadow:0 2px 7px rgba(0,0,0,.07);
+ margin-bottom:10px
+}
+
+input,select{
+ width:100%;
+ padding:8px;
+ border:1px solid #d0d5dd;
+ border-radius:6px;
+ font-size:11px;
+ margin-bottom:7px
+}
+
+.result{
+ background:white;
+ border-radius:10px;
+ padding:12px;
+ margin-bottom:9px;
+ box-shadow:0 2px 7px rgba(0,0,0,.07)
+}
+
+.test{
+ color:#173b8f;
+ font-weight:bold;
+ font-size:14px
+}
+
+.info{
+ color:#667085;
+ font-size:10px;
+ line-height:1.6;
+ margin-top:4px
+}
+
+.score{
+ font-size:16px;
+ font-weight:bold;
+ margin-top:8px
+}
+
+.percent{
+ font-size:11px;
+ margin-top:2px
+}
+
+.grade{
+ display:inline-block;
+ padding:4px 7px;
+ border-radius:5px;
+ background:#ecfdf3;
+ color:#067647;
+ font-size:10px;
+ font-weight:bold;
+ margin-top:6px
+}
+
+.empty,.loading{
+ text-align:center;
+ color:#667085;
+ padding:20px
+}
+
+.error{
+ text-align:center;
+ color:#b42318;
+ padding:15px
+}
+
+@media(min-width:700px){
+ .stats{
+  grid-template-columns:repeat(4,1fr)
+ }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">📚 Mule Learner Tuition</div>
+ <button class="back" onclick="location.href='dashboard.html'">
+  ← Dashboard
+ </button>
+</header>
+
+<main class="container">
+
+<h1>📊 Results</h1>
+
+<div class="subtitle">
+ View learner test results and performance.
+</div>
+
+<div class="stats">
+
+ <div class="stat">
+  <div class="stat-number" id="total">0</div>
+  <div class="stat-label">Submissions</div>
+ </div>
+
+ <div class="stat">
+  <div class="stat-number" id="learners">0</div>
+  <div class="stat-label">Learners</div>
+ </div>
+
+ <div class="stat">
+  <div class="stat-number" id="average">0%</div>
+  <div class="stat-label">Average</div>
+ </div>
+
+ <div class="stat">
+  <div class="stat-number" id="passed">0</div>
+  <div class="stat-label">Passed</div>
+ </div>
+
+</div>
+
+<div class="filters">
+
+ <input
+  id="search"
+  type="text"
+  placeholder="Search learner or test..."
+  oninput="render()"
+ >
+
+ <select id="subject" onchange="render()">
+  <option value="">All Subjects</option>
+  <option>Mathematics</option>
+  <option>English</option>
+  <option>Science</option>
+  <option>Physics</option>
+  <option>Chemistry</option>
+  <option>Biology</option>
+  <option>ICT</option>
+  <option>Computer Studies</option>
+ </select>
+
+ <select id="grade" onchange="render()">
+  <option value="">All Grades</option>
+  <option value="A">A</option>
+  <option value="B">B</option>
+  <option value="C">C</option>
+  <option value="D">D</option>
+  <option value="E">E</option>
+  <option value="F">F</option>
+ </select>
+
+</div>
+
+<div id="loading" class="loading">
+ Loading results...
+</div>
+
+<div id="results"></div>
+
+</main>
+
+<script>
+
+const DB_URL=
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+let allResults={};
+
+function getSession(){
+
+ try{
+  return JSON.parse(
+   localStorage.getItem("muleCurrentUser")
+  );
+ }catch(e){
+  return null;
+ }
+
+}
+
+function checkAccess(){
+
+ const user=getSession();
+
+ if(
+  !user ||
+  (
+   user.role!=="ceo" &&
+   user.role!=="teacher"
+  )
+ ){
+  location.href="../login.html";
+  return false;
+ }
+
+ return true;
+}
+
+function esc(value){
+
+ return String(value??"")
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;")
+ .replace(/'/g,"&#039;");
+
+}
+
+async function loadResults(){
+
+ if(!checkAccess()) return;
+
+ try{
+
+  const response=
+   await fetch(
+    DB_URL+"/testSubmissions.json"
+   );
+
+  if(!response.ok){
+   throw new Error("Firebase error");
+  }
+
+  allResults=
+   await response.json()||{};
+
+  document.getElementById("loading")
+   .style.display="none";
+
+  render();
+
+ }catch(error){
+
+  console.error(error);
+
+  document.getElementById("loading")
+   .className="error";
+
+  document.getElementById("loading")
+   .textContent=
+   "Unable to load results from Firebase.";
+
+ }
+
+}
+
+function render(){
+
+ const container=
+  document.getElementById("results");
+
+ const search=
+  document.getElementById("search")
+   .value
+   .trim()
+   .toLowerCase();
+
+ const subject=
+  document.getElementById("subject").value;
+
+ const grade=
+  document.getElementById("grade").value;
+
+ let items=
+  Object.values(allResults);
+
+ items=items.filter(item=>{
+
+  const learner=
+   String(item.learnerName||"")
+   .toLowerCase();
+
+  const test=
+   String(item.testTitle||"")
+   .toLowerCase();
+
+  if(
+   search &&
+   !learner.includes(search) &&
+   !test.includes(search)
+  ){
+   return false;
+  }
+
+  if(
+   subject &&
+   String(item.subject||"")!==subject
+  ){
+   return false;
+  }
+
+  if(
+   grade &&
+   String(item.grade||"")!==grade
+  ){
+   return false;
+  }
+
+  return true;
+
+ });
+
+ items.sort((a,b)=>
+  String(b.submittedAt||"")
+  .localeCompare(
+   String(a.submittedAt||"")
+  )
+ );
+
+ updateStats(items);
+
+ if(!items.length){
+
+  container.innerHTML=
+   '<div class="result empty">No results found.</div>';
+
+  return;
+
+ }
+
+ container.innerHTML="";
+
+ items.forEach(item=>{
+
+  const score=
+   Number(item.score)||0;
+
+  const total=
+   Number(item.totalMarks)||0;
+
+  const percentage=
+   Number(item.percentage)||0;
+
+  const calculatedGrade=
+   item.grade||
+   getGrade(percentage);
+
+  const div=
+   document.createElement("div");
+
+  div.className="result";
+
+  div.innerHTML=`
+
+   <div class="test">
+    📚 ${esc(item.testTitle||"Test")}
+   </div>
+
+   <div class="info">
+    Learner:
+    <b>${esc(item.learnerName||"Learner")}</b><br>
+
+    Subject:
+    ${esc(item.subject||"")} ·
+    Level:
+    ${esc(item.level||"")}<br>
+
+    Submitted:
+    ${formatDate(item.submittedAt)}
+   </div>
+
+   <div class="score">
+    ${score}/${total}
+   </div>
+
+   <div class="percent">
+    ${percentage}%
+   </div>
+
+   <div class="grade">
+    Grade ${esc(calculatedGrade)}
+   </div>
+
+  `;
+
+  container.appendChild(div);
+
+ });
+
+}
+
+function updateStats(items){
+
+ document.getElementById("total")
+  .textContent=items.length;
+
+ const learners=
+  new Set(
+   items.map(x=>x.learnerId||x.learnerName)
+  );
+
+ document.getElementById("learners")
+  .textContent=learners.size;
+
+ let total=0;
+ let passed=0;
+
+ items.forEach(item=>{
+
+  const p=
+   Number(item.percentage)||0;
+
+  total+=p;
+
+  if(p>=50){
+   passed++;
+  }
+
+ });
+
+ const average=
+  items.length
+   ? Math.round(total/items.length)
+   :0;
+
+ document.getElementById("average")
+  .textContent=average+"%";
+
+ document.getElementById("passed")
+  .textContent=passed;
+
+}
+
+function getGrade(percent){
+
+ if(percent>=80)return"A";
+ if(percent>=70)return"B";
+ if(percent>=60)return"C";
+ if(percent>=50)return"D";
+ if(percent>=40)return"E";
+ return"F";
+
+}
+
+function formatDate(value){
+
+ if(!value)return"Unknown";
+
+ const d=new Date(value);
+
+ if(isNaN(d.getTime()))
+  return value;
+
+ return d.toLocaleString();
+
+}
+
+loadResults();
+
+setInterval(loadResults,10000);
+
+</script>
+
+</body>
+</html>

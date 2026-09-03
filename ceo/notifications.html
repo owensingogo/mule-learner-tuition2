@@ -1,0 +1,388 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>Notifications | Mule Learner Tuition</title><style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fc;
+  color:#172033;
+  font-size:13px
+}
+header{
+  background:#173b8f;
+  color:#fff;
+  padding:10px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
+.logo{font-size:15px;font-weight:bold}
+.logout{
+  border:0;
+  background:#fff;
+  color:#173b8f;
+  padding:6px 10px;
+  border-radius:6px;
+  font-weight:bold;
+  font-size:11px
+}
+.hero{
+  background:#173b8f;
+  color:#fff;
+  padding:18px 14px 22px
+}
+.hero h1{margin:0 0 5px;font-size:20px}
+.hero p{margin:0;font-size:11px;opacity:.9}
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:13px
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:12px
+}
+.title{
+  font-size:15px;
+  font-weight:bold;
+  margin:0
+}
+.btn{
+  border:0;
+  background:#173b8f;
+  color:#fff;
+  padding:7px 10px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:bold
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-bottom:13px
+}
+.stat{
+  background:#fff;
+  border-radius:9px;
+  padding:11px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06)
+}
+.stat b{
+  display:block;
+  font-size:19px;
+  margin-bottom:3px
+}
+.stat span{font-size:10px;color:#687386}
+.notification{
+  background:#fff;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:9px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  border-left:4px solid #173b8f
+}
+.notification.unread{
+  background:#eef4ff
+}
+.nhead{
+  display:flex;
+  justify-content:space-between;
+  gap:8px
+}
+.ntitle{
+  font-weight:bold;
+  font-size:13px
+}
+.time{
+  color:#788397;
+  font-size:9px;
+  white-space:nowrap
+}
+.message{
+  margin:7px 0;
+  line-height:1.45;
+  font-size:11px
+}
+.type{
+  display:inline-block;
+  background:#edf1f7;
+  padding:4px 7px;
+  border-radius:5px;
+  font-size:9px;
+  font-weight:bold
+}
+.actions{
+  margin-top:8px;
+  display:flex;
+  gap:6px
+}
+.small{
+  border:0;
+  padding:5px 8px;
+  border-radius:5px;
+  font-size:9px;
+  font-weight:bold;
+  background:#173b8f;
+  color:#fff
+}
+.small.delete{background:#dc3545}
+.empty{
+  background:#fff;
+  padding:25px 15px;
+  border-radius:10px;
+  text-align:center;
+  color:#788397;
+  box-shadow:0 2px 8px rgba(0,0,0,.05)
+}
+.status{
+  text-align:center;
+  font-size:10px;
+  color:#788397;
+  margin:8px 0
+}
+footer{
+  text-align:center;
+  color:#8a94a6;
+  font-size:9px;
+  padding:20px 10px
+}
+@media(min-width:700px){
+  body{font-size:14px}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .container{padding:18px}
+}
+</style></head><body><header>
+  <div class="logo">MULE LEARNER TUITION</div>
+  <button class="logout" onclick="logout()">Logout</button>
+</header><section class="hero">
+  <h1>Notifications 🔔</h1>
+  <p>Stay updated with important activity on the platform.</p>
+</section><main class="container">  <div class="top">
+    <h2 class="title">CEO Notifications</h2>
+    <button class="btn" onclick="markAllRead()">Mark All Read</button>
+  </div>  <div class="stats">
+    <div class="stat">
+      <b id="total">0</b>
+      <span>Total Notifications</span>
+    </div><div class="stat">
+  <b id="unread">0</b>
+  <span>Unread</span>
+</div>
+
+<div class="stat">
+  <b id="payments">0</b>
+  <span>Payments</span>
+</div>
+
+<div class="stat">
+  <b id="teachers">0</b>
+  <span>Teacher Applications</span>
+</div>
+
+  </div>  <div id="status" class="status">Loading notifications...</div>
+  <div id="list"></div></main><footer>
+  © 2026 Mule Learner Tuition • Learn • Practice • Succeed
+</footer><script>
+const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+function session(){
+  try{
+    return JSON.parse(localStorage.getItem("muleCurrentUser")||"null");
+  }catch(e){
+    return null;
+  }
+}
+
+const user=session();
+
+if(!user || user.role!=="ceo"){
+  location.href="../login.html";
+}
+
+function logout(){
+  localStorage.removeItem("muleCurrentUser");
+  location.href="../login.html";
+}
+
+function escapeHtml(value){
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function formatTime(value){
+  if(!value)return "";
+  const d=new Date(value);
+  if(isNaN(d))return value;
+  return d.toLocaleString();
+}
+
+let notifications={};
+
+async function loadNotifications(){
+  const status=document.getElementById("status");
+
+  try{
+    const r=await fetch(DB+"/notifications.json?cache="+Date.now());
+
+    if(!r.ok)throw new Error("Unable to load notifications");
+
+    notifications=await r.json()||{};
+
+    render();
+  }catch(e){
+    status.textContent="Could not load notifications.";
+    document.getElementById("list").innerHTML="";
+  }
+}
+
+function render(){
+  const list=document.getElementById("list");
+
+  const items=Object.entries(notifications)
+    .map(([key,value])=>({
+      key,
+      ...(value||{})
+    }))
+    .sort((a,b)=>{
+      return new Date(b.createdAt||0)-new Date(a.createdAt||0);
+    });
+
+  const unread=items.filter(x=>x.read!==true).length;
+  const payments=items.filter(x=>
+    String(x.type||"").toLowerCase()==="payment"
+  ).length;
+  const teachers=items.filter(x=>
+    String(x.type||"").toLowerCase()==="teacher"
+  ).length;
+
+  document.getElementById("total").textContent=items.length;
+  document.getElementById("unread").textContent=unread;
+  document.getElementById("payments").textContent=payments;
+  document.getElementById("teachers").textContent=teachers;
+
+  document.getElementById("status").textContent=
+    items.length ? "" : "No notifications yet.";
+
+  if(!items.length){
+    list.innerHTML='<div class="empty">🔔 No notifications yet.</div>';
+    return;
+  }
+
+  list.innerHTML=items.map(n=>`
+    <div class="notification ${n.read===true?"":"unread"}">
+
+      <div class="nhead">
+        <div class="ntitle">${escapeHtml(n.title||"Notification")}</div>
+        <div class="time">${escapeHtml(formatTime(n.createdAt))}</div>
+      </div>
+
+      <div class="message">
+        ${escapeHtml(n.message||"")}
+      </div>
+
+      <span class="type">
+        ${escapeHtml(String(n.type||"GENERAL").toUpperCase())}
+      </span>
+
+      <div class="actions">
+        ${n.read!==true
+          ? `<button class="small" onclick="markRead('${n.key}')">Mark Read</button>`
+          : ""
+        }
+        <button class="small delete" onclick="deleteNotification('${n.key}')">
+          Delete
+        </button>
+      </div>
+
+    </div>
+  `).join("");
+}
+
+async function markRead(key){
+  try{
+    await fetch(DB+"/notifications/"+encodeURIComponent(key)+".json",{
+      method:"PATCH",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        read:true,
+        readAt:new Date().toISOString()
+      })
+    });
+
+    if(notifications[key]){
+      notifications[key].read=true;
+    }
+
+    render();
+  }catch(e){
+    alert("Could not mark notification as read.");
+  }
+}
+
+async function markAllRead(){
+  const unread=Object.entries(notifications)
+    .filter(([key,value])=>value && value.read!==true);
+
+  if(!unread.length){
+    alert("There are no unread notifications.");
+    return;
+  }
+
+  if(!confirm("Mark all notifications as read?"))return;
+
+  try{
+    await Promise.all(
+      unread.map(([key])=>
+        fetch(DB+"/notifications/"+encodeURIComponent(key)+".json",{
+          method:"PATCH",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            read:true,
+            readAt:new Date().toISOString()
+          })
+        })
+      )
+    );
+
+    unread.forEach(([key])=>{
+      if(notifications[key])notifications[key].read=true;
+    });
+
+    render();
+  }catch(e){
+    alert("Could not mark all notifications.");
+  }
+}
+
+async function deleteNotification(key){
+  if(!confirm("Delete this notification?"))return;
+
+  try{
+    await fetch(DB+"/notifications/"+encodeURIComponent(key)+".json",{
+      method:"DELETE"
+    });
+
+    delete notifications[key];
+    render();
+  }catch(e){
+    alert("Could not delete notification.");
+  }
+}
+
+loadNotifications();
+
+setInterval(loadNotifications,10000);
+</script></body>
+</html>
