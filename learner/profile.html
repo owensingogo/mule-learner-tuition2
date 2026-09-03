@@ -111,6 +111,7 @@ color:#667085;
 .value{
 font-weight:700;
 text-align:right;
+word-break:break-word;
 }
 
 .status{
@@ -164,39 +165,56 @@ font-size:11px;
 color:#667085;
 margin-top:25px;
 }
-</style></head><body><header><div class="logo">
+</style></head><body><header>
+<div class="logo">
 Mule Learner Tuition
 </div><a href="dashboard.html" class="back">
 ← Dashboard
-</a></header><div class="container"><div class="heading"><h1>My Profile 👤</h1><p>
+</a>
+</header><div class="container"><div class="heading">
+<h1>My Profile 👤</h1>
+<p>
 View your learner account information.
-</p></div><div class="profile-card"><div class="avatar">
+</p>
+</div><div class="profile-card"><div class="avatar">
 👤
-</div><div class="profile-name">
-Learner
+</div><div class="profile-name" id="profileName">
+Loading...
 </div><div class="role">
 Mule Learner Tuition Learner
-</div><div class="details"><div class="row"><span class="label">
+</div><div class="details"><div class="row">
+<span class="label">
 Full Name
-</span><span class="value">
-Not Available
-</span></div><div class="row"><span class="label">
+</span><span class="value" id="fullName">
+Loading...
+</span>
+</div><div class="row">
+<span class="label">
 Phone Number
-</span><span class="value">
-Not Available
-</span></div><div class="row"><span class="label">
+</span><span class="value" id="phoneNumber">
+Loading...
+</span>
+</div><div class="row">
+<span class="label">
 Email
 </span><span class="value">
 Not Required
-</span></div><div class="row"><span class="label">
+</span>
+</div><div class="row">
+<span class="label">
 Account Type
 </span><span class="value">
 Learner
-</span></div><div class="row"><span class="label">
+</span>
+</div><div class="row">
+<span class="label">
 Learning Status
-</span><span class="value"><span class="status">
-PENDING
-</span></span></div></div><div class="actions"><a href="payments.html" class="button payment">
+</span><span class="value">
+<span class="status" id="learningStatus">
+Loading...
+</span>
+</span>
+</div></div><div class="actions"><a href="payments.html" class="button payment">
 💰 Manage Learning Payment
 </a><a href="support.html" class="button support">
 📞 Customer Support
@@ -211,11 +229,108 @@ provided during registration.
 Your learning access and payment status will be
 controlled by Mule Learner Tuition administration.
 
-</div><footer>Mule Learner Tuition<br>
+</div><footer>
+Mule Learner Tuition<br>
 Learn • Practice • Succeed
+</footer></div><script src="../js/app.js"></script><script src="../js/learner.js"></script><script type="module">
 
-  <script src="../js/app.js"></script>
-<script src="../js/learner.js"></script>
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-</footer></div></body>
+import {
+getDatabase,
+ref,
+get
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyCRUQW0JTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+projectId:"mule-learner-tuition-264fe",
+storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+messagingSenderId:"656883565460",
+appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+
+async function loadProfile(){
+
+try{
+
+const session=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"null"
+);
+
+if(!session || !session.id){
+
+window.location.href="../login.html";
+return;
+
+}
+
+const snapshot=await get(
+ref(db,"users/"+session.id)
+);
+
+if(!snapshot.exists()){
+
+document.getElementById("profileName").textContent=
+session.name||"Learner";
+
+document.getElementById("fullName").textContent=
+session.name||"Not Available";
+
+document.getElementById("phoneNumber").textContent=
+session.phone||"Not Available";
+
+document.getElementById("learningStatus").textContent=
+(session.status||"PENDING").toUpperCase();
+
+return;
+}
+
+const user=snapshot.val();
+
+if(user.role && user.role!=="learner"){
+
+window.location.href="../login.html";
+return;
+
+}
+
+const name=user.name||session.name||"Learner";
+const phone=user.phone||session.phone||"Not Available";
+const status=(user.status||"pending").toUpperCase();
+
+document.getElementById("profileName").textContent=name;
+
+document.getElementById("fullName").textContent=name;
+
+document.getElementById("phoneNumber").textContent=phone;
+
+document.getElementById("learningStatus").textContent=status;
+
+}catch(error){
+
+console.error("Profile loading error:",error);
+
+document.getElementById("profileName").textContent="Learner";
+
+document.getElementById("fullName").textContent="Unable to load";
+
+document.getElementById("phoneNumber").textContent="Unable to load";
+
+document.getElementById("learningStatus").textContent="UNKNOWN";
+
+}
+
+}
+
+loadProfile();
+
+</script></body>
 </html>

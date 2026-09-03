@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>Take Test | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f7fc;
+ color:#172033;
+ font-size:13px
+}
+
+header{
+ background:#173b8f;
+ color:white;
+ padding:11px 14px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center
+}
+
+.logo{
+ font-weight:bold;
+ font-size:15px
+}
+
+.back{
+ background:white;
+ color:#173b8f;
+ border:0;
+ border-radius:6px;
+ padding:6px 9px;
+ font-weight:bold
+}
+
+.container{
+ max-width:700px;
+ margin:auto;
+ padding:14px
+}
+
+.test-header{
+ background:#173b8f;
+ color:white;
+ padding:15px;
+ border-radius:10px;
+ margin-bottom:10px
+}
+
+.test-header h1{
+ margin:0 0 5px;
+ font-size:19px
+}
+
+.test-info{
+ font-size:11px;
+ opacity:.9
+}
+
+.question{
+ background:white;
+ padding:13px;
+ border-radius:10px;
+ margin-bottom:9px;
+ box-shadow:0 2px 7px rgba(0,0,0,.07)
+}
+
+.question-number{
+ font-size:11px;
+ color:#667085;
+ margin-bottom:5px
+}
+
+.question-text{
+ font-weight:bold;
+ font-size:13px;
+ line-height:1.4;
+ margin-bottom:9px
+}
+
+.option{
+ display:block;
+ border:1px solid #d0d5dd;
+ border-radius:7px;
+ padding:9px;
+ margin:6px 0;
+ cursor:pointer;
+ font-size:12px
+}
+
+.option input{
+ margin-right:7px
+}
+
+.option:has(input:checked){
+ border-color:#173b8f;
+ background:#eef4ff
+}
+
+.submit{
+ width:100%;
+ border:0;
+ border-radius:8px;
+ background:#173b8f;
+ color:white;
+ padding:11px;
+ font-size:13px;
+ font-weight:bold;
+ margin-top:5px
+}
+
+.status{
+ text-align:center;
+ padding:12px;
+ color:#667085
+}
+
+.success{
+ background:#ecfdf3;
+ color:#067647;
+ border-radius:9px;
+ padding:15px;
+ margin-top:10px;
+ text-align:center
+}
+
+.error{
+ color:#b42318
+}
+
+#testArea{
+ display:none
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">📚 Mule Learner Tuition</div>
+ <button class="back" onclick="location.href='dashboard.html'">
+  ← Dashboard
+ </button>
+</header>
+
+<main class="container">
+
+ <div id="loading" class="status">
+  Loading test...
+ </div>
+
+ <div id="testArea">
+
+  <div class="test-header">
+   <h1 id="testTitle">Test</h1>
+   <div class="test-info">
+    <span id="testSubject"></span> ·
+    <span id="testLevel"></span> ·
+    <span id="testDuration"></span> minutes
+   </div>
+  </div>
+
+  <form id="testForm"></form>
+
+  <button class="submit" onclick="submitTest(event)">
+   Submit Answers
+  </button>
+
+  <div id="result"></div>
+
+ </div>
+
+</main>
+
+<script>
+const DB_URL=
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+let TEST_ID=null;
+let TEST_DATA=null;
+
+function getSession(){
+ try{
+  return JSON.parse(
+   localStorage.getItem("muleCurrentUser")
+  );
+ }catch(e){
+  return null;
+ }
+}
+
+function showError(message){
+ const loading=document.getElementById("loading");
+ loading.className="status error";
+ loading.textContent=message;
+}
+
+async function loadTest(){
+
+ const learner=getSession();
+
+ if(!learner || learner.role!=="learner"){
+  location.href="../login.html";
+  return;
+ }
+
+ const params=
+  new URLSearchParams(location.search);
+
+ TEST_ID=params.get("id");
+
+ if(!TEST_ID){
+  showError("No test was selected.");
+  return;
+ }
+
+ try{
+
+  const response=await fetch(
+   DB_URL+"/tests/"+encodeURIComponent(TEST_ID)+".json"
+  );
+
+  if(!response.ok){
+   throw new Error("Could not load test");
+  }
+
+  TEST_DATA=await response.json();
+
+  if(!TEST_DATA){
+   showError("Test not found.");
+   return;
+  }
+
+  if(
+   String(TEST_DATA.status||"").toUpperCase()!=="PUBLISHED"
+  ){
+   showError("This test is not currently available.");
+   return;
+  }
+
+  document.getElementById("testTitle").textContent=
+   TEST_DATA.title||"Test";
+
+  document.getElementById("testSubject").textContent=
+   TEST_DATA.subject||"";
+
+  document.getElementById("testLevel").textContent=
+   TEST_DATA.level||"";
+
+  document.getElementById("testDuration").textContent=
+   TEST_DATA.duration||"";
+
+  renderQuestions(TEST_DATA.questions||{});
+
+  document.getElementById("loading").style.display="none";
+  document.getElementById("testArea").style.display="block";
+
+ }catch(error){
+
+  console.error(error);
+  showError("Unable to load the test. Check your internet connection.");
+ }
+}
+
+function renderQuestions(questions){
+
+ const form=document.getElementById("testForm");
+
+ form.innerHTML="";
+
+ const keys=Object.keys(questions);
+
+ keys.forEach((key,index)=>{
+
+  const q=questions[key];
+
+  const div=document.createElement("div");
+  div.className="question";
+
+  const options=q.options||{};
+
+  div.innerHTML=`
+   <div class="question-number">
+    Question ${index+1} · ${Number(q.marks)||1} mark(s)
+   </div>
+
+   <div class="question-text">
+    ${escapeHTML(q.question||"")}
+   </div>
+
+   ${makeOption(key,"A",options.A)}
+   ${makeOption(key,"B",options.B)}
+   ${makeOption(key,"C",options.C)}
+   ${makeOption(key,"D",options.D)}
+  `;
+
+  form.appendChild(div);
+ });
+}
+
+function makeOption(questionId,letter,text){
+
+ return `
+  <label class="option">
+   <input
+    type="radio"
+    name="question-${escapeAttr(questionId)}"
+    value="${letter}"
+   >
+   <b>${letter}.</b> ${escapeHTML(text||"")}
+  </label>
+ `;
+}
+
+function escapeHTML(value){
+
+ return String(value)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+function escapeAttr(value){
+ return String(value).replace(/[^a-zA-Z0-9_-]/g,"_");
+}
+
+async function submitTest(event){
+
+ event.preventDefault();
+
+ const learner=getSession();
+
+ if(!learner || learner.role!=="learner"){
+  location.href="../login.html";
+  return;
+ }
+
+ if(!TEST_DATA){
+  return;
+ }
+
+ const questions=TEST_DATA.questions||{};
+ const answers={};
+ let unanswered=0;
+ let score=0;
+ let totalMarks=0;
+
+ Object.keys(questions).forEach((key)=>{
+
+  const q=questions[key];
+  const marks=Number(q.marks)||1;
+
+  totalMarks+=marks;
+
+  const safeKey=
+   String(key).replace(/[^a-zA-Z0-9_-]/g,"_");
+
+  const selected=
+   document.querySelector(
+    'input[name="question-'+safeKey+'"]:checked'
+   );
+
+  if(!selected){
+
+   unanswered++;
+
+  }else{
+
+   answers[key]=selected.value;
+
+   if(
+    String(selected.value).toUpperCase()===
+    String(q.correctAnswer||"").toUpperCase()
+   ){
+    score+=marks;
+   }
+  }
+
+ });
+
+ if(unanswered>0){
+
+  if(
+   !confirm(
+    "You have "+unanswered+
+    " unanswered question(s). Submit anyway?"
+   )
+  ){
+   return;
+  }
+ }
+
+ if(!confirm("Submit your answers now?")){
+  return;
+ }
+
+ const resultBox=
+  document.getElementById("result");
+
+ resultBox.className="status";
+ resultBox.textContent="Submitting answers...";
+
+ const submissionId=
+  "SUB-"+Date.now()+"-"+Math.random()
+  .toString(36).substring(2,7);
+
+ const percentage=
+  totalMarks>0
+   ? Math.round((score/totalMarks)*100)
+   :0;
+
+ const grade=getGrade(percentage);
+
+ const submission={
+  id:submissionId,
+  testId:TEST_ID,
+  testTitle:TEST_DATA.title||"",
+  learnerId:learner.id||"",
+  learnerName:learner.name||"Learner",
+  subject:TEST_DATA.subject||"",
+  level:TEST_DATA.level||"",
+  answers:answers,
+  score:score,
+  totalMarks:totalMarks,
+  percentage:percentage,
+  grade:grade,
+  submittedAt:new Date().toISOString(),
+  status:"MARKED"
+ };
+
+ try{
+
+  const checkResponse=await fetch(
+   DB_URL+
+   "/testSubmissions.json?orderBy=%22testId%22&equalTo=%22"+
+   encodeURIComponent(TEST_ID)+
+   "%22"
+  );
+
+  const existing=
+   await checkResponse.json();
+
+  if(existing){
+
+   const alreadySubmitted=
+    Object.values(existing).some(item=>
+     item &&
+     String(item.learnerId)===
+     String(learner.id)
+    );
+
+   if(alreadySubmitted){
+
+    resultBox.className="error";
+    resultBox.textContent=
+     "You have already submitted this test.";
+
+    return;
+   }
+  }
+
+  const saveResponse=await fetch(
+   DB_URL+
+   "/testSubmissions/"+
+   encodeURIComponent(submissionId)+
+   ".json",
+   {
+    method:"PUT",
+    headers:{
+     "Content-Type":"application/json"
+    },
+    body:JSON.stringify(submission)
+   }
+  );
+
+  if(!saveResponse.ok){
+   throw new Error("Submission failed");
+  }
+
+  document
+   .querySelector(".submit")
+   .style.display="none";
+
+  document
+   .querySelectorAll("input")
+   .forEach(input=>{
+    input.disabled=true;
+   });
+
+  resultBox.className="success";
+
+  resultBox.innerHTML=`
+   <strong>✅ Test Submitted!</strong><br><br>
+   Score: <strong>${score}/${totalMarks}</strong><br>
+   Percentage: <strong>${percentage}%</strong><br>
+   Grade: <strong>${grade}</strong>
+  `;
+
+ }catch(error){
+
+  console.error(error);
+
+  resultBox.className="error";
+  resultBox.textContent=
+   "❌ Could not submit your answers. Please try again.";
+ }
+}
+
+function getGrade(percent){
+
+ if(percent>=80) return "A";
+ if(percent>=70) return "B";
+ if(percent>=60) return "C";
+ if(percent>=50) return "D";
+ if(percent>=40) return "E";
+ return "F";
+}
+
+loadTest();
+</script>
+
+</body>
+</html>

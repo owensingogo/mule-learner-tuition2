@@ -1,0 +1,478 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>My Results | Mule Learner Tuition</title><style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f7fc;
+ color:#172033;
+ font-size:13px
+}
+
+header{
+ background:#173b8f;
+ color:white;
+ padding:11px 14px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center
+}
+
+.logo{
+ font-weight:bold;
+ font-size:15px
+}
+
+.back{
+ background:white;
+ color:#173b8f;
+ border:0;
+ border-radius:6px;
+ padding:6px 9px;
+ font-weight:bold;
+ text-decoration:none;
+ font-size:12px
+}
+
+.container{
+ max-width:700px;
+ margin:auto;
+ padding:14px
+}
+
+.page-header{
+ background:#173b8f;
+ color:white;
+ padding:15px;
+ border-radius:10px;
+ margin-bottom:10px
+}
+
+.page-header h1{
+ margin:0 0 5px;
+ font-size:19px
+}
+
+.page-header p{
+ margin:0;
+ font-size:11px;
+ opacity:.9
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:7px;
+ margin-bottom:10px
+}
+
+.stat{
+ background:white;
+ border-radius:9px;
+ padding:11px 6px;
+ text-align:center;
+ box-shadow:0 2px 7px rgba(0,0,0,.07)
+}
+
+.stat strong{
+ display:block;
+ color:#173b8f;
+ font-size:17px;
+ margin-bottom:3px
+}
+
+.stat span{
+ color:#667085;
+ font-size:10px
+}
+
+.result-card{
+ background:white;
+ padding:13px;
+ border-radius:10px;
+ margin-bottom:9px;
+ box-shadow:0 2px 7px rgba(0,0,0,.07)
+}
+
+.result-title{
+ font-weight:bold;
+ font-size:14px;
+ margin-bottom:5px
+}
+
+.result-info{
+ color:#667085;
+ font-size:11px;
+ line-height:1.7
+}
+
+.score{
+ margin-top:8px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ border-top:1px solid #eaecf0;
+ padding-top:9px
+}
+
+.score strong{
+ color:#173b8f;
+ font-size:16px
+}
+
+.grade{
+ font-weight:bold;
+ background:#ecfdf3;
+ color:#067647;
+ padding:5px 9px;
+ border-radius:15px;
+ font-size:11px
+}
+
+.failed{
+ background:#fef3f2;
+ color:#b42318
+}
+
+.status{
+ text-align:center;
+ padding:15px;
+ color:#667085;
+ font-size:12px
+}
+
+.error{
+ color:#b42318
+}
+
+.empty{
+ background:white;
+ padding:25px 15px;
+ border-radius:10px;
+ text-align:center;
+ box-shadow:0 2px 7px rgba(0,0,0,.07)
+}
+
+.empty-icon{
+ font-size:35px;
+ margin-bottom:8px
+}
+
+.empty h3{
+ margin:0 0 5px;
+ font-size:15px
+}
+
+.empty p{
+ margin:0;
+ color:#667085;
+ font-size:11px;
+ line-height:1.5
+}
+
+footer{
+ text-align:center;
+ color:#667085;
+ font-size:10px;
+ margin-top:20px
+}
+
+@media(max-width:380px){
+
+.stats{
+ grid-template-columns:1fr 1fr
+}
+
+.stat:last-child{
+ grid-column:1/-1
+}
+
+}
+</style></head><body><header><div class="logo">
+📚 Mule Learner Tuition
+</div><a href="dashboard.html" class="back">
+← Dashboard
+</a></header><main class="container"><div class="page-header"><h1 id="welcome">
+My Results 📊
+</h1><p>
+View your test scores and performance.
+</p></div><div class="stats"><div class="stat">
+<strong id="testsTaken">0</strong>
+<span>Tests Taken</span>
+</div><div class="stat">
+<strong id="average">0%</strong>
+<span>Average Score</span>
+</div><div class="stat">
+<strong id="passed">0</strong>
+<span>Passed</span>
+</div></div><div id="results"><div class="status">
+Loading results...
+</div></div><footer>
+Mule Learner Tuition<br>
+Learn • Practice • Succeed
+</footer></main><script>
+
+const DB_URL=
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+function getSession(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem("muleCurrentUser")
+);
+
+}catch(e){
+
+return null;
+
+}
+
+}
+
+function escapeHTML(value){
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+const learner=getSession();
+
+if(!learner || learner.role!=="learner"){
+
+location.href="../login.html";
+
+}else{
+
+document.getElementById("welcome").textContent=
+"My Results - "+
+(learner.name||"Learner")+" 📊";
+
+loadResults();
+
+}
+
+
+async function loadResults(){
+
+const box=
+document.getElementById("results");
+
+try{
+
+const response=await fetch(
+DB_URL+"/testSubmissions.json"
+);
+
+if(!response.ok){
+
+throw new Error("Could not load results");
+
+}
+
+const data=await response.json();
+
+if(!data){
+
+showEmpty();
+
+return;
+
+}
+
+const results=
+Object.values(data)
+.filter(function(item){
+
+return item &&
+String(item.learnerId||"")===
+String(learner.id||"");
+
+})
+.sort(function(a,b){
+
+return new Date(b.submittedAt||0)-
+new Date(a.submittedAt||0);
+
+});
+
+
+updateStats(results);
+
+if(!results.length){
+
+showEmpty();
+
+return;
+
+}
+
+box.innerHTML="";
+
+results.forEach(function(item){
+
+const percentage=
+Number(item.percentage||0);
+
+const grade=
+item.grade||
+getGrade(percentage);
+
+const passed=
+percentage>=50;
+
+const date=
+formatDate(item.submittedAt);
+
+const card=
+document.createElement("div");
+
+card.className="result-card";
+
+card.innerHTML=`
+
+<div class="result-title">
+${escapeHTML(item.testTitle||"Test")}
+</div>
+
+<div class="result-info">
+
+Subject:
+${escapeHTML(item.subject||"Not specified")}
+<br>
+
+Class:
+${escapeHTML(item.level||"Not specified")}
+<br>
+
+Submitted:
+${escapeHTML(date)}
+
+</div>
+
+<div class="score">
+
+<div>
+<strong>
+${escapeHTML(item.score||0)}/${escapeHTML(item.totalMarks||0)}
+</strong>
+<br>
+<span class="result-info">
+${percentage}%
+</span>
+</div>
+
+<span class="grade ${passed?"":"failed"}">
+Grade ${escapeHTML(grade)}
+</span>
+
+</div>
+
+`;
+
+box.appendChild(card);
+
+});
+
+}catch(error){
+
+console.error(error);
+
+box.innerHTML=
+'<div class="status error">Unable to load your results. Please check your internet connection.</div>';
+
+}
+
+}
+
+
+function updateStats(results){
+
+document.getElementById("testsTaken").textContent=
+results.length;
+
+if(!results.length){
+
+document.getElementById("average").textContent="0%";
+document.getElementById("passed").textContent="0";
+
+return;
+
+}
+
+let total=0;
+let passed=0;
+
+results.forEach(function(item){
+
+const percentage=
+Number(item.percentage||0);
+
+total+=percentage;
+
+if(percentage>=50){
+
+passed++;
+
+}
+
+});
+
+const average=
+Math.round(total/results.length);
+
+document.getElementById("average").textContent=
+average+"%";
+
+document.getElementById("passed").textContent=
+passed;
+
+}
+
+
+function formatDate(value){
+
+if(!value){
+
+return "Unknown";
+
+}
+
+const date=new Date(value);
+
+if(isNaN(date.getTime())){
+
+return "Unknown";
+
+}
+
+return date.toLocaleString();
+
+}
+
+
+function getGrade(percent){
+
+if(percent>=80)return"A";
+if(percent>=70)return"B";
+if(percent>=60)return"C";
+if(percent>=50)return"D";
+if(percent>=40)return"E";
+
+return"F";
+
+}
+
+</script></body>
+</html>
