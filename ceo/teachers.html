@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Teachers | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="theme-color" content="#173b8f">
+<title>Teachers | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,sans-serif;
@@ -211,132 +211,118 @@ margin-top:25px;
 }
 
 @media(min-width:650px){
-
 .stats{
 grid-template-columns:repeat(4,1fr);
 }
-
 }
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-Dashboard
-</a></header><div class="hero"><h1>
-Teachers 👨‍🏫
-</h1><p>
-Manage teachers and their accounts.
-</p></div><div class="container"><div id="loading" class="loading">
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">Dashboard</a>
+</header>
+
+<div class="hero">
+<h1>Teachers 👨‍🏫</h1>
+<p>Manage teachers and their accounts.</p>
+</div>
+
+<div class="container">
+
+<div id="loading" class="loading">
 Loading teachers...
-</div><div class="stats"><div class="stat">
+</div>
+
+<div class="stats">
+
+<div class="stat">
 <h3 id="totalCount">0</h3>
 <p>Total Teachers</p>
-</div><div class="stat">
+</div>
+
+<div class="stat">
 <h3 id="activeCount">0</h3>
 <p>Active</p>
-</div><div class="stat">
+</div>
+
+<div class="stat">
 <h3 id="pendingCount">0</h3>
 <p>Pending</p>
-</div><div class="stat">
+</div>
+
+<div class="stat">
 <h3 id="suspendedCount">0</h3>
 <p>Suspended</p>
-</div></div><input
+</div>
+
+</div>
+
+<input
 id="search"
 class="search"
 type="search"
 placeholder="Search teacher by name, phone or subject..."
-autocomplete="off"
+autocomplete="off">
 
-«»
+<div id="teachersList"></div>
 
-<div id="teachersList"></div><footer>
+<footer>
 Mule Learner Tuition
 <br>
 CEO Administration • Learn • Practice • Succeed
-</footer></div><script src="../js/auth.js"></script><script>
+</footer>
+
+</div>
+
+<script src="../js/auth.js"></script>
+
+<script>
 
 const DATABASE_URL =
 "https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
 
-/* ================================
-   FIREBASE GET
-================================ */
-
-async function firebaseGet(path){
-
-const response=await fetch(
-DATABASE_URL+"/"+path+".json",
-{
-cache:"no-store"
-}
-);
-
-if(!response.ok){
-
-throw new Error(
-"Firebase connection failed."
-);
-
-}
-
-return await response.json();
-
-}
-
-
-/* ================================
-   FIREBASE ARRAY CONVERSION
-================================ */
-
-function toArray(data){
-
-if(!data){
-return [];
-}
-
-if(Array.isArray(data)){
-
-return data
-.map(function(item,index){
-
-if(item && !item.id){
-item.id="USER-"+index;
-}
-
-return item;
-
-})
-.filter(Boolean);
-
-}
-
-return Object.keys(data)
-.map(function(key){
-
-const item=data[key];
-
-if(item && !item.id){
-item.id=key;
-}
-
-return item;
-
-})
-.filter(Boolean);
-
-}
-
-
-/* ================================
-   TEACHERS
-================================ */
-
 let allTeachers=[];
 
 
-/* ================================
-   LOAD TEACHERS
-================================ */
+/* =========================
+   CHECK CEO
+========================= */
+
+function checkCEO(){
+
+try{
+
+const user=
+JSON.parse(
+localStorage.getItem("muleCurrentUser")
+);
+
+if(!user ||
+String(user.role||"").toLowerCase()!=="ceo"){
+
+location.href="../login.html";
+return false;
+}
+
+return true;
+
+}catch(error){
+
+location.href="../login.html";
+return false;
+
+}
+
+}
+
+
+/* =========================
+   LOAD USERS DIRECTLY
+========================= */
 
 async function loadTeachers(){
 
@@ -345,36 +331,97 @@ document.getElementById("loading");
 
 try{
 
-const data=
-await firebaseGet("users");
+loading.style.display="block";
+loading.textContent="Loading teachers...";
 
-const users=
-toArray(data);
+
+const response=
+await fetch(
+DATABASE_URL+"/users.json?cache="+Date.now(),
+{
+method:"GET",
+cache:"no-store"
+}
+);
+
+
+if(!response.ok){
+
+throw new Error(
+"Firebase returned "+response.status
+);
+
+}
+
+
+const data=
+await response.json();
+
+
+console.log("Firebase users:",data);
+
+
+allTeachers=[];
 
 
 /*
-   IMPORTANT:
-   Find teachers by ROLE.
-   This means Sandra will appear
-   even if her Firebase ID changes.
+   Firebase users is normally an OBJECT:
+   
+   users
+      TCH-MTKFB40F
+      LRN-MTKZMPED-N2CBL
+      CEO-MULE-001
+
+   We check every record and only
+   keep role = teacher.
 */
 
-allTeachers=
-users.filter(function(user){
+if(data && typeof data==="object"){
 
-return String(user.role||"")
+Object.keys(data).forEach(function(key){
+
+const user=data[key];
+
+if(!user || typeof user!=="object"){
+return;
+}
+
+
+const role=
+String(user.role||"")
 .trim()
-.toLowerCase()==="teacher";
+.toLowerCase();
+
+
+if(role==="teacher"){
+
+/*
+   Use Firebase key if the record
+   doesn't contain its own id.
+*/
+
+if(!user.id){
+user.id=key;
+}
+
+allTeachers.push(user);
+
+}
 
 });
 
+}
+
+
+console.log(
+"Teachers found:",
+allTeachers
+);
+
 
 updateStats();
-
 renderTeachers(allTeachers);
 
-
-if(loading){
 
 loading.textContent=
 "✓ Teachers updated";
@@ -383,32 +430,34 @@ setTimeout(function(){
 
 loading.style.display="none";
 
-},1000);
+},800);
 
-}
 
 }catch(error){
 
 console.error(
-"Teacher loading error:",
+"LOAD TEACHERS ERROR:",
 error
 );
 
-if(loading){
+loading.style.display="block";
 
 loading.textContent=
 "Unable to load teachers.";
 
-}
+document.getElementById(
+"teachersList"
+).innerHTML=
+'<div class="empty">Unable to connect to Firebase.<br><br>Please check your internet connection.</div>';
 
 }
 
 }
 
 
-/* ================================
+/* =========================
    STATS
-================================ */
+========================= */
 
 function updateStats(){
 
@@ -420,7 +469,9 @@ allTeachers.forEach(function(teacher){
 
 const status=
 String(teacher.status||"active")
+.trim()
 .toLowerCase();
+
 
 if(status==="active"){
 active++;
@@ -436,28 +487,25 @@ suspended++;
 
 });
 
-document.getElementById(
-"totalCount"
-).textContent=allTeachers.length;
 
-document.getElementById(
-"activeCount"
-).textContent=active;
+document.getElementById("totalCount")
+.textContent=allTeachers.length;
 
-document.getElementById(
-"pendingCount"
-).textContent=pending;
+document.getElementById("activeCount")
+.textContent=active;
 
-document.getElementById(
-"suspendedCount"
-).textContent=suspended;
+document.getElementById("pendingCount")
+.textContent=pending;
+
+document.getElementById("suspendedCount")
+.textContent=suspended;
 
 }
 
 
-/* ================================
-   RENDER
-================================ */
+/* =========================
+   RENDER TEACHERS
+========================= */
 
 function renderTeachers(teachers){
 
@@ -466,35 +514,45 @@ document.getElementById("teachersList");
 
 list.innerHTML="";
 
+
 if(!teachers.length){
 
 list.innerHTML=
-'<div class="empty">No teachers found.</div>';
+'<div class="empty">No teachers found in Firebase.</div>';
 
 return;
 
 }
 
+
 teachers.forEach(function(teacher){
 
 const status=
 String(teacher.status||"active")
+.trim()
 .toLowerCase();
 
-const statusClass=
-status==="active"
-?"active"
-:status==="pending"
-?"pending"
-:status==="suspended"
-?"suspended"
-:"rejected";
+
+let statusClass="rejected";
+
+if(status==="active"){
+statusClass="active";
+}
+
+else if(status==="pending"){
+statusClass="pending";
+}
+
+else if(status==="suspended"){
+statusClass="suspended";
+}
 
 
 const card=
 document.createElement("div");
 
 card.className="teacher";
+
 
 card.innerHTML=`
 
@@ -539,31 +597,70 @@ ${escapeHTML(teacher.applicationId||"Not provided")}
 
 <div class="actions">
 
-<button class="view"
-onclick='viewTeacher(${JSON.stringify(teacher)})'>
+<button class="view">
 View Details
 </button>
 
 ${
 status==="suspended"
 ?
-`<button class="reactivate"
-onclick="changeStatus('${escapeJS(teacher.id)}','active')">
-Reactivate
-</button>`
+'<button class="reactivate">Reactivate</button>'
 :
 status==="active"
 ?
-`<button class="suspend"
-onclick="changeStatus('${escapeJS(teacher.id)}','suspended')">
-Suspend
-</button>`
+'<button class="suspend">Suspend</button>'
 :
-""
+''
 }
 
 </div>
+
 `;
+
+
+card.querySelector(".view")
+.addEventListener("click",function(){
+
+viewTeacher(teacher);
+
+});
+
+
+const action=
+card.querySelector(".suspend");
+
+
+if(action){
+
+action.addEventListener("click",function(){
+
+changeStatus(
+teacher.id,
+"suspended"
+);
+
+});
+
+}
+
+
+const reactivate=
+card.querySelector(".reactivate");
+
+
+if(reactivate){
+
+reactivate.addEventListener("click",function(){
+
+changeStatus(
+teacher.id,
+"active"
+);
+
+});
+
+}
+
 
 list.appendChild(card);
 
@@ -572,20 +669,16 @@ list.appendChild(card);
 }
 
 
-/* ================================
+/* =========================
    SEARCH
-================================ */
+========================= */
 
-document.getElementById(
-"search"
-).addEventListener(
-"input",
-function(){
+document.getElementById("search")
+.addEventListener("input",function(){
 
 const term=
-this.value
-.trim()
-.toLowerCase();
+this.value.trim().toLowerCase();
+
 
 if(!term){
 
@@ -593,6 +686,7 @@ renderTeachers(allTeachers);
 return;
 
 }
+
 
 const filtered=
 allTeachers.filter(function(teacher){
@@ -625,14 +719,15 @@ String(teacher.qualification||"")
 
 });
 
+
 renderTeachers(filtered);
 
 });
 
 
-/* ================================
-   VIEW TEACHER
-================================ */
+/* =========================
+   VIEW
+========================= */
 
 function viewTeacher(teacher){
 
@@ -650,15 +745,17 @@ alert(
 }
 
 
-/* ================================
+/* =========================
    CHANGE STATUS
-================================ */
+========================= */
 
 async function changeStatus(id,status){
 
 if(!id){
+alert("Teacher ID is missing.");
 return;
 }
+
 
 const message=
 status==="suspended"
@@ -667,15 +764,20 @@ status==="suspended"
 :
 "Reactivate this teacher?";
 
+
 if(!confirm(message)){
 return;
 }
+
 
 try{
 
 const response=
 await fetch(
-DATABASE_URL+"/users/"+encodeURIComponent(id)+".json",
+DATABASE_URL+
+"/users/"+
+encodeURIComponent(id)+
+".json",
 {
 method:"PATCH",
 headers:{
@@ -689,15 +791,18 @@ updatedBy:"CEO"
 }
 );
 
+
 if(!response.ok){
 
 throw new Error(
-"Unable to update teacher."
+"Firebase update failed."
 );
 
 }
 
+
 await loadTeachers();
+
 
 alert(
 status==="suspended"
@@ -707,12 +812,13 @@ status==="suspended"
 "Teacher reactivated successfully."
 );
 
+
 }catch(error){
 
 console.error(error);
 
 alert(
-"Unable to update teacher. Please check your internet connection."
+"Unable to update teacher."
 );
 
 }
@@ -720,57 +826,25 @@ alert(
 }
 
 
-/* ================================
+/* =========================
    SECURITY
-================================ */
+========================= */
 
-function checkCEO(){
+if(checkCEO()){
 
-let user=null;
+loadTeachers();
 
-try{
-
-user=
-JSON.parse(
-localStorage.getItem("muleCurrentUser")
+setInterval(
+loadTeachers,
+10000
 );
 
-}catch(e){
-
-user=null;
-
-}
-
-if(!user){
-
-location.href="../login.html";
-return false;
-
-}
-
-if(
-String(user.role||"")
-.toLowerCase()!=="ceo"
-){
-
-alert(
-"You do not have permission to access this page."
-);
-
-location.href="../login.html";
-
-return false;
-
-}
-
-return true;
-
 }
 
 
-/* ================================
+/* =========================
    ESCAPE HTML
-================================ */
+========================= */
 
 function escapeHTML(value){
 
@@ -783,38 +857,7 @@ return String(value||"")
 
 }
 
-function escapeJS(value){
+</script>
 
-return String(value||"")
-.replace(/\\/g,"\\\\")
-.replace(/'/g,"\\'")
-.replace(/"/g,"&quot;")
-.replace(/\n/g,"\\n")
-.replace(/\r/g,"\\r");
-
-}
-
-
-/* ================================
-   START
-================================ */
-
-document.addEventListener(
-"DOMContentLoaded",
-function(){
-
-if(!checkCEO()){
-return;
-}
-
-loadTeachers();
-
-setInterval(
-loadTeachers,
-10000
-);
-
-});
-
-</script></body>
+</body>
 </html>
