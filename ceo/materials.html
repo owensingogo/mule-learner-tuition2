@@ -1,271 +1,775 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CEO Materials | Mule Learner Tuition</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
-header{background:#173b8f;color:white;padding:18px;text-align:center}
-header h2{margin:0;font-size:20px}
-main{max-width:700px;margin:auto;padding:15px}
-.card{background:white;border-radius:14px;padding:15px;margin-bottom:15px;box-shadow:0 3px 12px #0001}
-input,select,textarea,button{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:9px;font-size:15px}
-textarea{min-height:80px;resize:vertical}
-button{background:#173b8f;color:white;border:0;font-weight:bold}
-button.danger{background:#c62828}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:#eef3ff;padding:12px;text-align:center;border-radius:10px}
-.stat b{display:block;font-size:20px;color:#173b8f}
-.material{border:1px solid #e1e5ec;border-radius:10px;padding:12px;margin-top:10px}
-.material h3{margin:0 0 7px;color:#173b8f}
-.small{font-size:13px;color:#667085}
-.actions{display:flex;gap:8px}
-.actions button{flex:1}
-.empty{text-align:center;color:#777;padding:20px}
-</style>
-</head>
+<meta name="theme-color" content="#173b8f">
+<title>Learning Materials | Mule Learner Tuition</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:900px;margin:auto;padding:18px}
+h1{font-size:23px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:12px;color:#667085;line-height:1.5;margin-bottom:20px}
 
-<body>
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.stat{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 15px #14326412}
+.stat strong{display:block;font-size:22px;color:#173b8f}
+.stat span{font-size:11px;color:#667085}
 
-<header>
-  <h2>📚 CEO Materials</h2>
-  <div class="small" style="color:#dce6ff">Mule Learner Tuition</div>
-</header>
+.form-box{background:white;padding:17px;border-radius:14px;margin-bottom:20px;box-shadow:0 4px 15px #14326412}
+.form-title{font-size:15px;font-weight:800;color:#173b8f;margin-bottom:14px}
 
-<main>
+label{display:block;font-size:11px;font-weight:bold;color:#475467;margin:11px 0 5px}
 
-<div class="card">
-  <h3>➕ Add Learning Material</h3>
-
-  <input id="title" placeholder="Material title" required>
-
-  <select id="subject" required>
-    <option value="">Select Subject</option>
-    <option>Mathematics</option>
-    <option>English</option>
-    <option>Science</option>
-    <option>Physics</option>
-    <option>Chemistry</option>
-    <option>Biology</option>
-    <option>ICT</option>
-    <option>Computer Studies</option>
-    <option>Other</option>
-  </select>
-
-  <select id="level" required>
-    <option value="">Select Level</option>
-    <option>Form 1</option>
-    <option>Form 2</option>
-    <option>Form 3</option>
-    <option>Form 4</option>
-    <option>Grade 10</option>
-    <option>Grade 11</option>
-    <option>Grade 12</option>
-    <option>Other</option>
-  </select>
-
-  <textarea id="description" placeholder="Short description"></textarea>
-
-  <input id="link" type="url" placeholder="Material link (optional)">
-
-  <button onclick="addMaterial()">Publish Material</button>
-</div>
-
-<div class="card">
-  <h3>📊 Material Overview</h3>
-  <div class="stats">
-    <div class="stat">
-      <b id="total">0</b>
-      Materials
-    </div>
-    <div class="stat">
-      <b id="subjects">0</b>
-      Subjects
-    </div>
-    <div class="stat">
-      <b id="levels">0</b>
-      Levels
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <h3>📚 Published Materials</h3>
-  <div id="list">
-    <div class="empty">Loading materials...</div>
-  </div>
-</div>
-
-</main>
-
-<script src="../js/auth.js"></script>
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
-
-<script>
-const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
-
-async function getMaterials(){
-  const r=await fetch(DB+"/materials.json");
-  if(!r.ok) throw new Error("Could not load materials");
-  const d=await r.json();
-  if(!d)return[];
-  return Object.values(d);
+input,select,textarea{
+width:100%;
+border:1px solid #d0d5dd;
+background:white;
+border-radius:8px;
+padding:11px;
+font-size:12px;
+color:#172033;
+outline:none
 }
 
-async function addMaterial(){
-  const title=document.getElementById("title").value.trim();
-  const subject=document.getElementById("subject").value;
-  const level=document.getElementById("level").value;
-  const description=document.getElementById("description").value.trim();
-  const link=document.getElementById("link").value.trim();
+textarea{min-height:75px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#173b8f}
 
-  if(!title||!subject||!level){
-    alert("Please enter the title, subject and level.");
-    return;
-  }
-
-  const id="MAT-"+Date.now();
-
-  const material={
-    id:id,
-    title:title,
-    subject:subject,
-    level:level,
-    description:description,
-    link:link,
-    status:"PUBLISHED",
-    createdAt:new Date().toISOString(),
-    createdBy:"CEO"
-  };
-
-  try{
-    const r=await fetch(DB+"/materials/"+id+".json",{
-      method:"PUT",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(material)
-    });
-
-    if(!r.ok)throw new Error();
-
-    alert("Material published successfully.");
-
-    document.getElementById("title").value="";
-    document.getElementById("subject").value="";
-    document.getElementById("level").value="";
-    document.getElementById("description").value="";
-    document.getElementById("link").value="";
-
-    loadMaterials();
-
-  }catch(e){
-    alert("Failed to publish material.");
-  }
+.file-box{
+border:2px dashed #c7d2fe;
+background:#f8faff;
+padding:15px;
+border-radius:10px;
+margin-top:6px
 }
 
-async function removeMaterial(id){
-  if(!confirm("Remove this material?"))return;
-
-  try{
-    const r=await fetch(DB+"/materials/"+id+".json",{
-      method:"DELETE"
-    });
-
-    if(!r.ok)throw new Error();
-
-    loadMaterials();
-
-  }catch(e){
-    alert("Could not remove material.");
-  }
+.file-box input{
+border:0;
+padding:5px 0;
+background:transparent
 }
 
-function viewMaterial(link){
-  if(link){
-    window.open(link,"_blank");
-  }else{
-    alert("No material link was added.");
-  }
+.file-info{
+font-size:10px;
+color:#667085;
+margin-top:5px;
+line-height:1.5
+}
+
+.upload-btn{
+width:100%;
+border:0;
+background:#173b8f;
+color:white;
+padding:12px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+margin-top:14px
+}
+
+.upload-btn:disabled{
+opacity:.6
+}
+
+.material{
+background:white;
+padding:16px;
+border-radius:14px;
+margin-bottom:11px;
+box-shadow:0 4px 15px #14326412
+}
+
+.material-top{
+display:flex;
+justify-content:space-between;
+gap:10px
+}
+
+.material-name{
+font-size:15px;
+font-weight:800
+}
+
+.status{
+font-size:10px;
+font-weight:bold;
+padding:6px 9px;
+border-radius:20px;
+height:max-content
+}
+
+.meta{
+font-size:11px;
+color:#667085;
+margin-top:7px;
+line-height:1.6
+}
+
+.description{
+font-size:12px;
+color:#475467;
+margin-top:9px;
+line-height:1.5
+}
+
+.material-actions{
+display:flex;
+gap:8px;
+margin-top:13px
+}
+
+.action{
+flex:1;
+border:0;
+padding:10px;
+border-radius:8px;
+font-size:11px;
+font-weight:bold
+}
+
+.open{
+background:#eef3ff;
+color:#173b8f
+}
+
+.disable{
+background:#fee4e2;
+color:#b42318
+}
+
+.enable{
+background:#ecfdf3;
+color:#027a48
+}
+
+.delete{
+background:#fef3f2;
+color:#b42318
+}
+
+.empty,.loading{
+text-align:center;
+background:white;
+padding:25px;
+border-radius:12px;
+color:#667085;
+font-size:13px
+}
+
+.progress{
+display:none;
+margin-top:12px;
+font-size:11px;
+color:#173b8f;
+font-weight:bold
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:16px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6
+}
+
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
+
+@media(min-width:700px){
+.stats{grid-template-columns:repeat(4,1fr)}
+}
+</style></head><body><header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header><div class="container"><div class="heading">
+<h1>📖 Learning Materials</h1>
+<p>Manage notes, books, pamphlets, scanned notes, links and other learning resources.</p>
+</div><div class="stats"><div class="stat">
+<strong id="total">0</strong>
+<span>Total Materials</span>
+</div><div class="stat">
+<strong id="published">0</strong>
+<span>Published</span>
+</div><div class="stat">
+<strong id="disabled">0</strong>
+<span>Disabled</span>
+</div><div class="stat">
+<strong id="files">0</strong>
+<span>Uploaded Files</span>
+</div></div><div class="form-box"><div class="form-title">
+➕ Add Learning Material
+</div><label>Material Title</label>
+<input
+id="title"
+type="text"
+placeholder="e.g. Form 4 Mathematics Revision Notes">
+
+<label>Subject</label>
+<select id="subject">
+
+<option value="">Select Subject</option>
+<option>Mathematics</option>
+<option>English</option>
+<option>Science</option>
+<option>Physics</option>
+<option>Chemistry</option>
+<option>Biology</option>
+<option>ICT</option>
+<option>Computer Studies</option>
+</select><label>Class / Level</label>
+<select id="level">
+
+<option value="">Select Class</option>
+<option>Form 1</option>
+<option>Form 2</option>
+<option>Form 3</option>
+<option>Form 4</option>
+<option>Grade 10</option>
+<option>Grade 11</option>
+<option>Grade 12</option>
+</select><label>Material Type</label>
+<select id="type">
+
+<option value="Notes">📝 Notes</option>
+<option value="Book">📚 Book</option>
+<option value="Pamphlet">📑 Pamphlet</option>
+<option value="Scanned Notes">📷 Scanned Notes</option>
+<option value="Past Paper">📄 Past Paper</option>
+<option value="Exercise">✍️ Exercise</option>
+<option value="Video">🎥 Video</option>
+<option value="Link">🔗 External Link</option>
+<option value="Other">📁 Other</option>
+</select><label>Description</label>
+
+<textarea
+id="description"
+placeholder="Short description of this learning material..."></textarea><label>Upload From Device</label>
+
+<div class="file-box"><input
+id="file"
+type="file"
+accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.webp">
+
+<div class="file-info">
+PDF, books, pamphlets, scanned notes, images and documents.
+</div></div><label>OR Learning Resource Link</label>
+
+<input
+id="link"
+type="url"
+placeholder="https://example.com/learning-resource">
+
+<div id="progress" class="progress">
+Uploading material...
+</div><button
+id="uploadBtn"
+class="upload-btn"
+onclick="addMaterial()">
+📤 Upload & Publish Material
+</button>
+
+</div><div id="materials" class="loading">
+Loading learning materials...
+</div><div class="notice">
+<strong>👑 CEO Learning Resource Control</strong><br><br>
+Uploaded materials can be made available to learners according to subject and class.<br><br>
+You can upload notes, books, pamphlets, scanned notes, past papers and other resources directly from your device.
+</div><footer>
+Mule Learner Tuition<br>
+CEO Administration • Learn • Practice • Succeed
+</footer></div><script type="module">
+
+import{
+initializeApp
+}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import{
+getStorage,
+ref,
+uploadBytes,
+getDownloadURL,
+deleteObject
+}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2VvmLFM7",
+authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+projectId:"mule-learner-tuition-264fe",
+storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+messagingSenderId:"656883565460",
+appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+};
+
+const app=initializeApp(firebaseConfig);
+const storage=getStorage(app);
+
+const DB=
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+let materials={};
+
+function checkCEO(){
+
+try{
+
+const session=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"null"
+);
+
+if(
+!session||
+session.role!=="ceo"||
+session.status!=="active"
+){
+
+location.href="../login.html";
+return false;
+
+}
+
+return true;
+
+}catch(e){
+
+location.href="../login.html";
+return false;
+
+}
+
 }
 
 async function loadMaterials(){
-  const list=document.getElementById("list");
 
-  try{
-    let materials=await getMaterials();
+if(!checkCEO())return;
 
-    materials.sort((a,b)=>
-      new Date(b.createdAt||0)-new Date(a.createdAt||0)
-    );
+try{
 
-    document.getElementById("total").textContent=materials.length;
+const response=await fetch(
+DB+"/materials.json?cache="+Date.now()
+);
 
-    document.getElementById("subjects").textContent=
-      new Set(materials.map(x=>x.subject).filter(Boolean)).size;
+if(!response.ok)
+throw new Error("Firebase request failed");
 
-    document.getElementById("levels").textContent=
-      new Set(materials.map(x=>x.level).filter(Boolean)).size;
+const data=await response.json();
 
-    if(!materials.length){
-      list.innerHTML='<div class="empty">No materials published yet.</div>';
-      return;
-    }
+materials=
+(data&&typeof data==="object")
+?data:{};
 
-    list.innerHTML=materials.map(m=>`
-      <div class="material">
-        <h3>${escapeHTML(m.title||"Untitled")}</h3>
+render();
 
-        <div class="small">
-          📘 ${escapeHTML(m.subject||"")} 
-          &nbsp; | &nbsp;
-          🎓 ${escapeHTML(m.level||"")}
-        </div>
+}catch(error){
 
-        <p>${escapeHTML(m.description||"No description")}</p>
+console.error(error);
 
-        <div class="actions">
-          <button onclick="viewMaterial('${safeJS(m.link||"")}')">
-            👁 View
-          </button>
+document.getElementById("materials").innerHTML=
+'<div class="empty">Could not load learning materials.</div>';
 
-          <button class="danger"
-            onclick="removeMaterial('${safeJS(m.id)}')">
-            🗑 Remove
-          </button>
-        </div>
-      </div>
-    `).join("");
+}
 
-  }catch(e){
-    list.innerHTML='<div class="empty">Unable to load materials.</div>';
-  }
+}
+
+async function addMaterial(){
+
+if(!checkCEO())return;
+
+const title=
+document.getElementById("title").value.trim();
+
+const subject=
+document.getElementById("subject").value;
+
+const level=
+document.getElementById("level").value;
+
+const type=
+document.getElementById("type").value;
+
+const description=
+document.getElementById("description").value.trim();
+
+const link=
+document.getElementById("link").value.trim();
+
+const file=
+document.getElementById("file").files[0];
+
+if(!title){
+
+alert("Please enter the material title.");
+return;
+
+}
+
+if(!subject){
+
+alert("Please select a subject.");
+return;
+
+}
+
+if(!level){
+
+alert("Please select a class.");
+return;
+
+}
+
+if(!file&&!link){
+
+alert("Please upload a file or enter a learning resource link.");
+return;
+
+}
+
+if(file&&file.size>50*1024*1024){
+
+alert("The file is too large. Maximum size is 50 MB.");
+return;
+
+}
+
+const btn=document.getElementById("uploadBtn");
+const progress=document.getElementById("progress");
+
+btn.disabled=true;
+progress.style.display="block";
+
+try{
+
+let resourceURL=link;
+let fileName="";
+let filePath="";
+
+if(file){
+
+fileName=file.name;
+
+const safeName=file.name.replace(
+/[^a-zA-Z0-9._-]/g,
+"_"
+);
+
+filePath=
+"learning-materials/"+
+level.replace(/\s/g,"_")+
+"/"+
+Date.now()+"_"+safeName;
+
+const storageRef=ref(storage,filePath);
+
+await uploadBytes(storageRef,file);
+
+resourceURL=
+await getDownloadURL(storageRef);
+
+}
+
+const id=
+"MAT-"+Date.now();
+
+const material={
+id:id,
+title:title,
+subject:subject,
+level:level,
+type:type,
+description:description,
+url:resourceURL,
+fileName:fileName,
+filePath:filePath,
+status:"PUBLISHED",
+createdAt:new Date().toISOString(),
+createdBy:"CEO"
+};
+
+const response=await fetch(
+DB+"/materials/"+id+".json",
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(material)
+}
+);
+
+if(!response.ok)
+throw new Error("Could not save material");
+
+materials[id]=material;
+
+document.getElementById("title").value="";
+document.getElementById("description").value="";
+document.getElementById("link").value="";
+document.getElementById("file").value="";
+
+render();
+
+alert("Learning material uploaded successfully.");
+
+}catch(error){
+
+console.error("Upload error:",error);
+
+alert(
+"Could not upload the material. Please check Firebase Storage settings and try again."
+);
+
+}finally{
+
+btn.disabled=false;
+progress.style.display="none";
+
+}
+
+}
+
+function render(){
+
+const box=document.getElementById("materials");
+
+const list=Object.entries(materials);
+
+document.getElementById("total").textContent=list.length;
+
+document.getElementById("published").textContent=
+list.filter(([k,m])=>
+String(m.status||"").toUpperCase()==="PUBLISHED"
+).length;
+
+document.getElementById("disabled").textContent=
+list.filter(([k,m])=>
+String(m.status||"").toUpperCase()!=="PUBLISHED"
+).length;
+
+document.getElementById("files").textContent=
+list.filter(([k,m])=>m.filePath).length;
+
+if(!list.length){
+
+box.innerHTML=
+'<div class="empty">No learning materials yet.</div>';
+
+return;
+
+}
+
+box.innerHTML=list
+.sort((a,b)=>
+String(b[1].createdAt||"")
+.localeCompare(String(a[1].createdAt||""))
+)
+.map(([key,m])=>{
+
+const published=
+String(m.status||"").toUpperCase()==="PUBLISHED";
+
+return `
+
+<div class="material">
+
+<div class="material-top">
+
+<div class="material-name">
+📖 ${escapeHTML(m.title||"Untitled")}
+</div>
+
+<div class="status"
+style="${
+published
+?"background:#ecfdf3;color:#027a48"
+:"background:#fee4e2;color:#b42318"
+}">
+
+${published?"PUBLISHED":"DISABLED"}
+
+</div>
+
+</div>
+
+<div class="meta">
+
+📚 ${escapeHTML(m.subject||"")}
+&nbsp; • &nbsp;
+🎓 ${escapeHTML(m.level||"")}
+<br>
+
+📁 ${escapeHTML(m.type||"Material")}
+
+</div>
+
+${
+m.description
+?
+`<div class="description">
+${escapeHTML(m.description)}
+</div>`
+:""
+}
+
+<div class="material-actions">
+
+${
+m.url
+?
+`
+<button
+class="action open"
+onclick="window.open('${escapeHTML(m.url)}','_blank')">
+🔗 Open
+</button>
+`
+:""
+}
+
+<button
+class="action ${published?"disable":"enable"}"
+onclick="toggleMaterial('${key}')">
+
+${published?"Disable":"Publish"}
+
+</button>
+
+<button
+class="action delete"
+onclick="removeMaterial('${key}')">
+
+🗑️ Delete
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+async function toggleMaterial(key){
+
+const material=materials[key];
+
+if(!material)return;
+
+const newStatus=
+String(material.status||"").toUpperCase()==="PUBLISHED"
+?"DISABLED"
+:"PUBLISHED";
+
+try{
+
+const response=await fetch(
+DB+"/materials/"+key+".json",
+{
+method:"PATCH",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+status:newStatus
+})
+}
+);
+
+if(!response.ok)
+throw new Error();
+
+material.status=newStatus;
+
+render();
+
+}catch(error){
+
+alert("Could not update the material.");
+
+}
+
+}
+
+async function removeMaterial(key){
+
+const material=materials[key];
+
+if(!material)return;
+
+if(!confirm(
+"Are you sure you want to delete this learning material?"
+))return;
+
+try{
+
+if(material.filePath){
+
+try{
+
+await deleteObject(
+ref(storage,material.filePath)
+);
+
+}catch(storageError){
+
+console.warn(
+"Storage file could not be deleted:",
+storageError
+);
+
+}
+
+}
+
+const response=await fetch(
+DB+"/materials/"+key+".json",
+{
+method:"DELETE"
+}
+);
+
+if(!response.ok)
+throw new Error();
+
+delete materials[key];
+
+render();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not delete the learning material."
+);
+
+}
+
 }
 
 function escapeHTML(value){
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
 
-function safeJS(value){
-  return String(value)
-    .replace(/\\/g,"\\\\")
-    .replace(/'/g,"\\'")
-    .replace(/\n/g,"\\n")
-    .replace(/\r/g,"\\r");
-}
+window.addMaterial=addMaterial;
+window.toggleMaterial=toggleMaterial;
+window.removeMaterial=removeMaterial;
 
-if(typeof protectCEOPage==="function"){
-  protectCEOPage();
-}
-
+checkCEO();
 loadMaterials();
-</script>
 
-</body>
+</script></body>
 </html>
