@@ -2,7 +2,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Learner Dashboard | Mule Learner Tuition</title><style>
+<meta name="theme-color" content="#173b8f">
+<title>Learner Dashboard | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
@@ -207,6 +208,14 @@ style="display:none">
 <div class="icon">📖</div>
 <h3>Learning Materials</h3>
 <p>Access notes and study resources.</p>
+</a><!-- TESTS --><a href="test.html" class="card" id="testsCard">
+<div class="icon">📝</div>
+<h3>Tests</h3>
+<p>Take tests and submit your answers.</p>
+</a><!-- RESULTS --><a href="results.html" class="card" id="resultsCard">
+<div class="icon">📊</div>
+<h3>Results</h3>
+<p>View your test scores and results.</p>
 </a><a href="payments.html" class="card">
 <div class="icon">💰</div>
 <h3>Payments</h3>
@@ -223,34 +232,35 @@ style="display:none">
 <div class="icon">👤</div>
 <h3>My Profile</h3>
 <p>View and manage your account.</p>
-</a></div><div class="support">
-<h3>Need Help?</h3><p>
+</a></div><div class="support"><h3>Need Help?</h3><p>
 If you have paid and your account has not been activated,
 contact us on WhatsApp.
-</p><a href="https://wa.me/260978362800" class="whatsapp">
+</p><a href="https://wa.me/260978362800"
+class="whatsapp">
 💬 WhatsApp Support
 </a>
+
 </div><footer>
 Mule Learner Tuition<br>
 Learn • Practice • Succeed
 </footer></div><script>
 
-/* =========================
-   LEARNER SESSION
-========================= */
-
 function getLearnerSession(){
 
 try{
 
-const saved =
+const saved=
 localStorage.getItem("muleCurrentUser");
 
-if(!saved){
+if(!saved)return null;
+
+const user=JSON.parse(saved);
+
+if(!user || user.role!=="learner"){
 return null;
 }
 
-return JSON.parse(saved);
+return user;
 
 }catch(error){
 
@@ -259,7 +269,6 @@ return null;
 }
 
 }
-
 
 function logout(){
 
@@ -273,40 +282,43 @@ window.location.href="../login.html";
 
 }
 
-
-const learner =
-getLearnerSession();
-
+const learner=getLearnerSession();
 
 if(learner){
 
-document.getElementById("welcomeName").textContent =
+document.getElementById("welcomeName").textContent=
 "Welcome, "+
-(learner.name || "Learner")+
+(learner.name||"Learner")+
 " 👋";
 
 }else{
 
-/*
-Do not immediately redirect.
-Show the dashboard so we can confirm
-whether the login session exists.
-*/
-
-document.getElementById("welcomeName").textContent =
+document.getElementById("welcomeName").textContent=
 "Welcome, Learner 👋";
 
 }
 
+</script><script type="module">
 
-/* =========================
-   FIREBASE
-========================= */
+import{
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import{
+getDatabase,
+ref,
+get
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
 
 const firebaseConfig={
 
 apiKey:
-"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -328,46 +340,23 @@ appId:
 
 };
 
-</script><script type="module">
+const app=initializeApp(firebaseConfig);
 
-import{
-initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+const db=getDatabase(app);
 
-import{
-getDatabase,
-ref,
-get
-}
-from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
-
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getDatabase(app);
-
-
-/* =========================
-   CHECK PAYMENT
-========================= */
 
 async function checkAccess(){
 
-const badge =
+const badge=
 document.getElementById("status");
 
-const text =
+const text=
 document.getElementById("statusText");
 
-const time =
+const time=
 document.getElementById("timeLeft");
 
-const payButton =
+const payButton=
 document.getElementById("payButton");
 
 
@@ -389,9 +378,8 @@ return;
 
 try{
 
-const snapshot =
+const snapshot=
 await get(ref(db,"payments"));
-
 
 if(!snapshot.exists()){
 
@@ -405,26 +393,22 @@ return;
 }
 
 
-const data =
-snapshot.val();
+const data=snapshot.val();
 
-
-const payments =
-Object.keys(data).map(function(key){
+const learnerPayments=
+Object.keys(data)
+.map(function(key){
 
 return{
 id:key,
 ...data[key]
 };
 
-});
+})
+.filter(function(payment){
 
-
-const learnerPayments =
-payments.filter(function(payment){
-
-return String(payment.learnerId || "") ===
-String(learner.id || "");
+return String(payment.learnerId||"")===
+String(learner.id||"");
 
 });
 
@@ -441,32 +425,62 @@ return;
 }
 
 
-/* APPROVED */
+/* APPROVED PAYMENTS */
 
-const approved =
+const approved=
 learnerPayments
 .filter(function(payment){
 
-return payment.status === "approved";
+return(
+payment.status==="approved" ||
+payment.paymentStatus==="approved" ||
+payment.status==="active" ||
+payment.paymentStatus==="active"
+);
 
 })
 .sort(function(a,b){
 
-return new Date(b.approvedAt || 0) -
-new Date(a.approvedAt || 0);
+return new Date(
+b.approvedAt||
+b.activatedAt||
+b.createdAt||
+0
+)-
+new Date(
+a.approvedAt||
+a.activatedAt||
+a.createdAt||
+0
+);
 
 });
 
 
 if(approved.length){
 
-const payment = approved[0];
+const payment=approved[0];
 
-const expires =
-new Date(payment.expiresAt).getTime();
+const expiryValue=
+payment.expiresAt||
+payment.expiryDate||
+payment.expirationDate;
 
 
-if(expires > Date.now()){
+if(expiryValue){
+
+const expires=
+new Date(expiryValue).getTime();
+
+if(expires>Date.now()){
+
+showActive(payment);
+
+return;
+
+}
+
+}else{
 
 showActive(payment);
 
@@ -479,11 +493,13 @@ return;
 
 /* PENDING */
 
-const pending =
-learnerPayments
-.filter(function(payment){
+const pending=
+learnerPayments.filter(function(payment){
 
-return payment.status === "pending";
+return(
+payment.status==="pending" ||
+payment.paymentStatus==="pending"
+);
 
 });
 
@@ -491,6 +507,7 @@ return payment.status === "pending";
 if(pending.length){
 
 badge.textContent="PENDING";
+
 badge.style.background="#fff4db";
 badge.style.color="#9a6700";
 
@@ -510,27 +527,33 @@ return;
 
 /* REJECTED */
 
-const rejected =
-learnerPayments
-.filter(function(payment){
+const rejected=
+learnerPayments.filter(function(payment){
 
-return payment.status === "rejected";
+return(
+payment.status==="rejected" ||
+payment.paymentStatus==="rejected"
+);
 
 });
 
 
 if(rejected.length){
 
-const payment =
+const payment=
 rejected[rejected.length-1];
 
 badge.textContent="REJECTED";
+
 badge.style.background="#fee4e2";
 badge.style.color="#b42318";
 
 text.textContent=
 "❌ Payment Rejected. "+
-(payment.rejectionReason || "Please submit another payment.");
+(payment.rejectionReason||
+"Please submit another payment.");
+
+time.textContent="";
 
 payButton.style.display="inline-block";
 
@@ -549,14 +572,20 @@ showLocked(
 
 }catch(error){
 
-console.log("Firebase error:",error);
+console.error(
+"Firebase access check error:",
+error
+);
 
 badge.textContent="ERROR";
+
 badge.style.background="#fee4e2";
 badge.style.color="#b42318";
 
 text.textContent=
 "Unable to check learning access. Please check your internet connection.";
+
+lockLearning();
 
 }
 
@@ -565,66 +594,91 @@ text.textContent=
 
 function showActive(payment){
 
-const badge =
+const badge=
 document.getElementById("status");
 
-const text =
+const text=
 document.getElementById("statusText");
 
-const payButton =
+const payButton=
 document.getElementById("payButton");
 
 badge.textContent="ACTIVE";
+
 badge.style.background="#ecfdf3";
 badge.style.color="#027a48";
 
 text.textContent=
-"✅ Your "+payment.plan+
+"✅ Your "+
+(payment.plan||"learning")+
 " learning access is active.";
 
 payButton.style.display="none";
 
 unlockLearning();
 
-updateTime(payment.expiresAt);
+if(
+payment.expiresAt||
+payment.expiryDate||
+payment.expirationDate
+){
+
+updateTime(
+payment.expiresAt||
+payment.expiryDate||
+payment.expirationDate
+);
+
+}else{
+
+document.getElementById("timeLeft").textContent=
+"✅ Learning access is active.";
+
+}
 
 }
 
 
 function updateTime(expiresAt){
 
-const time =
+const time=
 document.getElementById("timeLeft");
 
 function update(){
 
-const difference =
-new Date(expiresAt).getTime() -
+const difference=
+new Date(expiresAt).getTime()-
 Date.now();
 
-if(difference <= 0){
+if(difference<=0){
 
-time.textContent =
+time.textContent=
 "⛔ Your learning access has expired.";
 
 setTimeout(function(){
+
 location.reload();
+
 },1000);
 
 return;
 
 }
 
-const hours =
+const hours=
 Math.floor(difference/3600000);
 
-const minutes =
-Math.floor((difference%3600000)/60000);
+const minutes=
+Math.floor(
+(difference%3600000)/60000
+);
 
-const seconds =
-Math.floor((difference%60000)/1000);
+const seconds=
+Math.floor(
+(difference%60000)/1000
+);
 
-time.textContent =
+time.textContent=
 "⏱️ Time remaining: "+
 hours+"h "+
 minutes+"m "+
@@ -641,17 +695,18 @@ setInterval(update,1000);
 
 function showLocked(status,bigText){
 
-const badge =
+const badge=
 document.getElementById("status");
 
-const text =
+const text=
 document.getElementById("statusText");
 
-const payButton =
+const payButton=
 document.getElementById("payButton");
 
 badge.textContent=status;
-badge.style.background="#fff4db";
+
+badge.style.background="#fff4e6";
 badge.style.color="#9a6700";
 
 text.textContent="🔒 "+bigText;
@@ -669,10 +724,12 @@ function lockLearning(){
 "subjectsCard",
 "classesCard",
 "liveCard",
-"materialsCard"
+"materialsCard",
+"testsCard",
+"resultsCard"
 ].forEach(function(id){
 
-const card =
+const card=
 document.getElementById(id);
 
 if(!card)return;
@@ -700,15 +757,18 @@ function unlockLearning(){
 "subjectsCard",
 "classesCard",
 "liveCard",
-"materialsCard"
+"materialsCard",
+"testsCard",
+"resultsCard"
 ].forEach(function(id){
 
-const card =
+const card=
 document.getElementById(id);
 
 if(!card)return;
 
 card.classList.remove("locked");
+
 card.onclick=null;
 
 });
