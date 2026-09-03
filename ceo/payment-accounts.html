@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
-<title>Payment Accounts | Mule Learner Tuition</title>
-
-<style>
+<title>Payment Accounts | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
 header{background:#173b8f;color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
@@ -18,7 +15,7 @@ h1{font-size:23px;color:#173b8f;margin-bottom:5px}
 .account{background:white;padding:18px;border-radius:14px;margin-bottom:12px;box-shadow:0 4px 15px #14326412}
 .top{display:flex;justify-content:space-between;align-items:center}
 .network{font-size:16px;font-weight:800}
-.status{font-size:10px;font-weight:bold;background:#ecfdf3;color:#027a48;padding:6px 9px;border-radius:20px}
+.status{font-size:10px;font-weight:bold;padding:6px 9px;border-radius:20px}
 .number{font-size:21px;font-weight:800;color:#173b8f;margin-top:15px}
 .owner{font-size:11px;color:#667085;margin-top:4px}
 .actions{display:flex;gap:8px;margin-top:15px}
@@ -27,43 +24,21 @@ button{flex:1;border:0;padding:11px;border-radius:8px;font-size:12px;font-weight
 .disable{background:#fee4e2;color:#b42318}
 .notice{margin-top:18px;background:#eef3ff;padding:16px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
 footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
-</style>
-</head>
-
-<body>
-
-<header>
+.loading{text-align:center;padding:25px;color:#667085;font-size:13px}
+</style></head><body><header>
 <div class="logo">Mule Learner Tuition</div>
 <a href="dashboard.html" class="back">← CEO Dashboard</a>
-</header>
-
-<div class="container">
-
-<div class="heading">
+</header><div class="container"><div class="heading">
 <h1>Payment Accounts 💳</h1>
 <p>Manage the mobile money accounts used by learners to make tuition payments.</p>
-</div>
-
-<div id="accounts">Loading...</div>
-
-<div class="notice">
+</div><div id="accounts" class="loading">Loading payment accounts...</div><div class="notice">
 <strong>🔐 CEO Payment Control</strong><br><br>
 These accounts are displayed to learners on the payment page.<br><br>
 Only the CEO should be able to change or disable payment accounts.
-</div>
-
-<footer>
+</div><footer>
 Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
-</footer>
-
-</div>
-
-<script src="../js/auth.js"></script>
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
-
-<script>
+</footer></div><script>
 const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
 const defaults={
@@ -89,134 +64,292 @@ const defaults={
 
 let accounts={};
 
+function checkCEO(){
+
+  try{
+    const session=JSON.parse(
+      localStorage.getItem("muleCurrentUser")||"null"
+    );
+
+    if(
+      !session ||
+      session.role!=="ceo" ||
+      session.status!=="active"
+    ){
+      location.href="../login.html";
+      return false;
+    }
+
+    return true;
+
+  }catch(e){
+    location.href="../login.html";
+    return false;
+  }
+}
+
 async function loadAccounts(){
 
-try{
-const r=await fetch(DB+"/paymentAccounts.json");
-const data=await r.json();
+  if(!checkCEO()) return;
 
-accounts=data||defaults;
+  const box=document.getElementById("accounts");
 
-for(const k in defaults){
-if(!accounts[k])accounts[k]=defaults[k];
-}
+  try{
 
-render();
+    const response=await fetch(
+      DB+"/paymentAccounts.json?cache="+Date.now()
+    );
 
-}catch(e){
-accounts=defaults;
-render();
-}
+    if(!response.ok){
+      throw new Error("Firebase request failed");
+    }
 
+    const data=await response.json();
+
+    if(data && typeof data==="object"){
+      accounts=data;
+    }else{
+      accounts={};
+    }
+
+    /* Add any missing default accounts */
+    let changed=false;
+
+    for(const key of Object.keys(defaults)){
+
+      if(!accounts[key]){
+        accounts[key]={...defaults[key]};
+        changed=true;
+      }
+
+    }
+
+    /* Save defaults if Firebase was empty */
+    if(changed || !data){
+
+      await fetch(DB+"/paymentAccounts.json",{
+        method:"PUT",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(accounts)
+      });
+
+    }
+
+    render();
+
+  }catch(error){
+
+    console.error("Payment accounts error:",error);
+
+    /*
+      If Firebase is temporarily unavailable,
+      still show the correct default accounts.
+    */
+    accounts={...defaults};
+
+    render();
+
+  }
 }
 
 function render(){
 
-const box=document.getElementById("accounts");
+  const box=document.getElementById("accounts");
 
-box.innerHTML=Object.entries(accounts).map(([key,a])=>`
+  const list=Object.entries(accounts);
 
-<div class="account">
+  if(!list.length){
+    box.innerHTML='<div class="loading">No payment accounts found.</div>';
+    return;
+  }
 
-<div class="top">
-<div class="network">📱 ${a.name}</div>
+  box.innerHTML=list.map(([key,a])=>{
 
-<div class="status"
-style="${a.active?
-'background:#ecfdf3;color:#027a48':
-'background:#fee4e2;color:#b42318'}">
+    const name=a.name || key;
+    const number=a.number || "Not set";
+    const owner=a.owner || "Not set";
+    const active=a.active!==false;
 
-${a.active?"ACTIVE":"DISABLED"}
+    return `
+    <div class="account">
 
-</div>
-</div>
+      <div class="top">
 
-<div class="number">${a.number}</div>
+        <div class="network">
+          📱 ${escapeHTML(name)}
+        </div>
 
-<div class="owner">
-Account Name: ${a.owner}
-</div>
+        <div class="status"
+        style="${
+          active
+          ?"background:#ecfdf3;color:#027a48"
+          :"background:#fee4e2;color:#b42318"
+        }">
 
-<div class="actions">
+          ${active?"ACTIVE":"DISABLED"}
 
-<button class="edit"
-onclick="editAccount('${key}')">
-✏️ Edit
-</button>
+        </div>
 
-<button class="disable"
-onclick="toggleAccount('${key}')">
-${a.active?"Disable":"Enable"}
-</button>
+      </div>
 
-</div>
+      <div class="number">
+        ${escapeHTML(number)}
+      </div>
 
-</div>
+      <div class="owner">
+        Account Name: ${escapeHTML(owner)}
+      </div>
 
-`).join("");
+      <div class="actions">
+
+        <button
+          class="edit"
+          onclick="editAccount('${key}')">
+          ✏️ Edit
+        </button>
+
+        <button
+          class="disable"
+          onclick="toggleAccount('${key}')">
+          ${active?"Disable":"Enable"}
+        </button>
+
+      </div>
+
+    </div>
+    `;
+
+  }).join("");
 
 }
 
-async function save(){
+function escapeHTML(value){
 
-await fetch(DB+"/paymentAccounts.json",{
-method:"PUT",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify(accounts)
-});
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+async function saveAccounts(){
+
+  const response=await fetch(
+    DB+"/paymentAccounts.json",
+    {
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(accounts)
+    }
+  );
+
+  if(!response.ok){
+    throw new Error("Could not save payment accounts");
+  }
 
 }
 
 async function editAccount(key){
 
-const current=accounts[key].number;
+  if(!accounts[key]) return;
 
-const number=prompt(
-"Enter the new "+accounts[key].name+" number:",
-current
-);
+  const current=accounts[key].number || "";
 
-if(!number||!number.trim())return;
+  const number=prompt(
+    "Enter the new "+accounts[key].name+" number:",
+    current
+  );
 
-const clean=number.trim();
+  if(number===null) return;
 
-if(!/^0[0-9]{9}$/.test(clean)){
-alert("Enter a valid 10-digit Zambian phone number.");
-return;
-}
+  const clean=number.trim();
 
-accounts[key].number=clean;
+  if(!/^0[0-9]{9}$/.test(clean)){
 
-try{
-await save();
-render();
-alert("Payment account updated successfully.");
-}catch(e){
-alert("Could not save the new number.");
-}
+    alert(
+      "Enter a valid 10-digit Zambian phone number."
+    );
+
+    return;
+  }
+
+  const old=accounts[key].number;
+
+  accounts[key].number=clean;
+
+  try{
+
+    await saveAccounts();
+
+    render();
+
+    alert(
+      accounts[key].name+
+      " number updated successfully."
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    accounts[key].number=old;
+
+    alert(
+      "Could not save the new number. Please try again."
+    );
+
+  }
 
 }
 
 async function toggleAccount(key){
 
-accounts[key].active=!accounts[key].active;
+  if(!accounts[key]) return;
 
-try{
-await save();
-render();
-}catch(e){
-accounts[key].active=!accounts[key].active;
-alert("Could not update account status.");
+  const old=accounts[key].active!==false;
+
+  const action=old?"disable":"enable";
+
+  const confirmed=confirm(
+    "Are you sure you want to "+
+    action+
+    " "+accounts[key].name+"?"
+  );
+
+  if(!confirmed) return;
+
+  accounts[key].active=!old;
+
+  try{
+
+    await saveAccounts();
+
+    render();
+
+  }catch(error){
+
+    console.error(error);
+
+    accounts[key].active=old;
+
+    render();
+
+    alert(
+      "Could not update the account status."
+    );
+
+  }
+
 }
 
-}
-
-if(typeof protectCEOPage==="function"){
-protectCEOPage();
-}
-
+checkCEO();
 loadAccounts();
-</script>
 
-</body>
+</script></body>
 </html>
