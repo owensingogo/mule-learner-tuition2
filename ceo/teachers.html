@@ -1,316 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
-<title>Teachers | Mule Learner Tuition</title>
-
-<style>
+<title>Teachers | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:900px;margin:auto;padding:18px}
+h1{font-size:23px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:12px;color:#667085;line-height:1.5;margin-bottom:20px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px}
+.stat{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 15px #14326412}
+.stat strong{display:block;font-size:22px;color:#173b8f}
+.stat span{font-size:11px;color:#667085}
+.teacher{background:white;border-radius:14px;padding:17px;margin-bottom:12px;box-shadow:0 4px 15px #14326412}
+.top{display:flex;justify-content:space-between;gap:10px}
+.name{font-size:16px;font-weight:800}
+.phone{font-size:12px;color:#667085;margin-top:4px}
+.status{font-size:10px;font-weight:bold;padding:6px 9px;border-radius:20px;height:max-content}
+.info{margin-top:13px;font-size:12px;line-height:1.7;color:#475467}
+.info b{color:#172033}
+.assignment{margin-top:15px;padding:14px;background:#f7f9fd;border-radius:10px}
+.assignment-title{font-size:12px;font-weight:800;color:#173b8f;margin-bottom:9px}
+select{width:100%;border:1px solid #d0d5dd;background:white;border-radius:8px;padding:11px;font-size:12px;color:#172033}
+.assign-btn{width:100%;margin-top:9px;background:#173b8f;color:white;border:0;padding:11px;border-radius:8px;font-size:12px;font-weight:bold}
+.actions{display:flex;gap:8px;margin-top:12px}
+.action{flex:1;border:0;padding:10px;border-radius:8px;font-size:11px;font-weight:bold}
+.suspend{background:#fee4e2;color:#b42318}
+.activate{background:#ecfdf3;color:#027a48}
+.empty,.loading{text-align:center;background:white;padding:25px;border-radius:12px;color:#667085;font-size:13px}
+.notice{margin-top:18px;background:#eef3ff;padding:16px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
+@media(min-width:700px){
+.stats{grid-template-columns:repeat(4,1fr)}
 }
-
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
-
-.logo{
-font-size:18px;
-font-weight:800;
-}
-
-.back{
-border:1px solid rgba(255,255,255,.3);
-background:rgba(255,255,255,.12);
-color:white;
-padding:8px 11px;
-border-radius:7px;
-font-size:12px;
-text-decoration:none;
-}
-
-.hero{
-background:#173b8f;
-color:white;
-padding:10px 18px 25px;
-}
-
-.hero h1{
-font-size:23px;
-margin-bottom:5px;
-}
-
-.hero p{
-font-size:12px;
-opacity:.9;
-}
-
-.container{
-max-width:900px;
-margin:auto;
-padding:18px;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
-}
-
-.stat{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-}
-
-.stat h3{
-font-size:20px;
-margin-top:5px;
-}
-
-.stat p{
-font-size:11px;
-color:#667085;
-}
-
-.search{
-width:100%;
-padding:12px;
-border:1px solid #d0d5dd;
-border-radius:9px;
-font-size:13px;
-margin-bottom:15px;
-outline:none;
-}
-
-.teacher{
-background:white;
-padding:16px;
-border-radius:12px;
-margin-bottom:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-}
-
-.teacher-top{
-display:flex;
-justify-content:space-between;
-gap:10px;
-align-items:flex-start;
-}
-
-.name{
-font-size:16px;
-font-weight:800;
-}
-
-.phone{
-font-size:12px;
-color:#667085;
-margin-top:4px;
-}
-
-.badge{
-padding:5px 8px;
-border-radius:20px;
-font-size:10px;
-font-weight:bold;
-}
-
-.active{
-background:#e8f7ee;
-color:#18794e;
-}
-
-.pending{
-background:#fff4db;
-color:#7a4f00;
-}
-
-.suspended{
-background:#fdecec;
-color:#b42318;
-}
-
-.rejected{
-background:#fdecec;
-color:#b42318;
-}
-
-.details{
-margin-top:12px;
-font-size:12px;
-line-height:1.7;
-color:#475467;
-}
-
-.actions{
-display:flex;
-gap:8px;
-margin-top:13px;
-flex-wrap:wrap;
-}
-
-button{
-border:0;
-padding:9px 12px;
-border-radius:7px;
-font-size:11px;
-cursor:pointer;
-}
-
-.view{
-background:#173b8f;
-color:white;
-}
-
-.suspend{
-background:#fdecec;
-color:#b42318;
-}
-
-.reactivate{
-background:#e8f7ee;
-color:#18794e;
-}
-
-.empty{
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
-color:#667085;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-}
-
-.loading{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-bottom:15px;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-@media(min-width:650px){
-.stats{
-grid-template-columns:repeat(4,1fr);
-}
-}
-</style>
-</head>
-
-<body>
-
-<header>
+</style></head><body><header>
 <div class="logo">Mule Learner Tuition</div>
-<a href="dashboard.html" class="back">Dashboard</a>
-</header>
-
-<div class="hero">
-<h1>Teachers 👨‍🏫</h1>
-<p>Manage teachers and their accounts.</p>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header><div class="container"><div class="heading">
+<h1>👨‍🏫 Teachers</h1>
+<p>Manage teachers, their accounts and the classes they are assigned to teach.</p>
+</div><div class="stats">
+<div class="stat">
+<strong id="total">0</strong>
+<span>Total Teachers</span>
+</div><div class="stat">
+<strong id="active">0</strong>
+<span>Active</span>
+</div><div class="stat">
+<strong id="pending">0</strong>
+<span>Pending</span>
+</div><div class="stat">
+<strong id="suspended">0</strong>
+<span>Suspended</span>
 </div>
-
-<div class="container">
-
-<div id="loading" class="loading">
+</div><div id="teachers" class="loading">
 Loading teachers...
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<h3 id="totalCount">0</h3>
-<p>Total Teachers</p>
-</div>
-
-<div class="stat">
-<h3 id="activeCount">0</h3>
-<p>Active</p>
-</div>
-
-<div class="stat">
-<h3 id="pendingCount">0</h3>
-<p>Pending</p>
-</div>
-
-<div class="stat">
-<h3 id="suspendedCount">0</h3>
-<p>Suspended</p>
-</div>
-
-</div>
-
-<input
-id="search"
-class="search"
-type="search"
-placeholder="Search teacher by name, phone or subject..."
-autocomplete="off">
-
-<div id="teachersList"></div>
-
-<footer>
-Mule Learner Tuition
-<br>
+</div><div class="notice">
+<strong>👑 CEO Teacher Control</strong><br><br>
+The CEO can approve, suspend, reactivate and assign classes to teachers.<br><br>
+A teacher can be assigned to one class, several classes, or <strong>All Classes</strong>.
+</div><footer>
+Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
-</footer>
+</footer></div><script>
 
-</div>
+const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-<script src="../js/auth.js"></script>
+const CLASS_OPTIONS=[
+"All Classes",
+"Form 1",
+"Form 2",
+"Form 3",
+"Form 4",
+"Grade 10",
+"Grade 11",
+"Grade 12"
+];
 
-<script>
-
-const DATABASE_URL =
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
-
-
-let allTeachers=[];
-
-
-/* =========================
-   CHECK CEO
-========================= */
+let teachers=[];
 
 function checkCEO(){
 
 try{
 
-const user=
-JSON.parse(
-localStorage.getItem("muleCurrentUser")
+const session=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"null"
 );
 
-if(!user ||
-String(user.role||"").toLowerCase()!=="ceo"){
+if(
+!session ||
+session.role!=="ceo" ||
+session.status!=="active"
+){
 
 location.href="../login.html";
 return false;
+
 }
 
 return true;
 
-}catch(error){
+}catch(e){
 
 location.href="../login.html";
 return false;
@@ -319,92 +114,41 @@ return false;
 
 }
 
-
-/* =========================
-   LOAD USERS DIRECTLY
-========================= */
-
 async function loadTeachers(){
 
-const loading=
-document.getElementById("loading");
+if(!checkCEO())return;
+
+const box=document.getElementById("teachers");
 
 try{
 
-loading.style.display="block";
-loading.textContent="Loading teachers...";
-
-
-const response=
-await fetch(
-DATABASE_URL+"/users.json?cache="+Date.now(),
-{
-method:"GET",
-cache:"no-store"
-}
+const response=await fetch(
+DB+"/users.json?cache="+Date.now()
 );
 
+if(!response.ok)
+throw new Error("Firebase request failed");
 
-if(!response.ok){
+const data=await response.json();
 
-throw new Error(
-"Firebase returned "+response.status
-);
-
-}
-
-
-const data=
-await response.json();
-
-
-console.log("Firebase users:",data);
-
-
-allTeachers=[];
-
-
-/*
-   Firebase users is normally an OBJECT:
-   
-   users
-      TCH-MTKFB40F
-      LRN-MTKZMPED-N2CBL
-      CEO-MULE-001
-
-   We check every record and only
-   keep role = teacher.
-*/
+teachers=[];
 
 if(data && typeof data==="object"){
 
-Object.keys(data).forEach(function(key){
+Object.keys(data).forEach(key=>{
 
 const user=data[key];
 
-if(!user || typeof user!=="object"){
-return;
-}
+if(
+user &&
+String(user.role||"").trim().toLowerCase()==="teacher"
+){
 
-
-const role=
-String(user.role||"")
-.trim()
-.toLowerCase();
-
-
-if(role==="teacher"){
-
-/*
-   Use Firebase key if the record
-   doesn't contain its own id.
-*/
-
-if(!user.id){
-user.id=key;
-}
-
-allTeachers.push(user);
+teachers.push({
+...user,
+id:user.id||key,
+firebaseKey:key
+});
 
 }
 
@@ -412,443 +156,333 @@ allTeachers.push(user);
 
 }
 
-
-console.log(
-"Teachers found:",
-allTeachers
-);
-
-
 updateStats();
-renderTeachers(allTeachers);
-
-
-loading.textContent=
-"✓ Teachers updated";
-
-setTimeout(function(){
-
-loading.style.display="none";
-
-},800);
-
+renderTeachers();
 
 }catch(error){
 
-console.error(
-"LOAD TEACHERS ERROR:",
-error
-);
+console.error("Teachers error:",error);
 
-loading.style.display="block";
-
-loading.textContent=
-"Unable to load teachers.";
-
-document.getElementById(
-"teachersList"
-).innerHTML=
-'<div class="empty">Unable to connect to Firebase.<br><br>Please check your internet connection.</div>';
+box.innerHTML=
+'<div class="empty">Could not load teachers. Please refresh the page.</div>';
 
 }
 
 }
-
-
-/* =========================
-   STATS
-========================= */
 
 function updateStats(){
 
-let active=0;
-let pending=0;
-let suspended=0;
+document.getElementById("total").textContent=teachers.length;
 
-allTeachers.forEach(function(teacher){
+document.getElementById("active").textContent=
+teachers.filter(t=>String(t.status||"").toLowerCase()==="active").length;
 
-const status=
-String(teacher.status||"active")
-.trim()
-.toLowerCase();
+document.getElementById("pending").textContent=
+teachers.filter(t=>String(t.status||"").toLowerCase()==="pending").length;
 
-
-if(status==="active"){
-active++;
-}
-
-else if(status==="pending"){
-pending++;
-}
-
-else if(status==="suspended"){
-suspended++;
-}
-
-});
-
-
-document.getElementById("totalCount")
-.textContent=allTeachers.length;
-
-document.getElementById("activeCount")
-.textContent=active;
-
-document.getElementById("pendingCount")
-.textContent=pending;
-
-document.getElementById("suspendedCount")
-.textContent=suspended;
+document.getElementById("suspended").textContent=
+teachers.filter(t=>String(t.status||"").toLowerCase()==="suspended").length;
 
 }
 
+function getAssignedClasses(teacher){
 
-/* =========================
-   RENDER TEACHERS
-========================= */
+let classes=teacher.assignedClasses;
 
-function renderTeachers(teachers){
+if(Array.isArray(classes) && classes.length)
+return classes;
 
-const list=
-document.getElementById("teachersList");
+if(typeof classes==="string" && classes.trim())
+return [classes];
 
-list.innerHTML="";
+return [];
 
+}
+
+function renderTeachers(){
+
+const box=document.getElementById("teachers");
 
 if(!teachers.length){
 
-list.innerHTML=
-'<div class="empty">No teachers found in Firebase.</div>';
+box.innerHTML=
+'<div class="empty">No teachers found.</div>';
 
 return;
 
 }
 
+box.innerHTML=teachers.map((teacher,index)=>{
 
-teachers.forEach(function(teacher){
+const status=String(
+teacher.status||"pending"
+).toLowerCase();
 
-const status=
-String(teacher.status||"active")
-.trim()
-.toLowerCase();
+const assigned=getAssignedClasses(teacher);
 
+let assignedText=
+assigned.length
+?assigned.join(", ")
+:"Not assigned";
 
-let statusClass="rejected";
+let options=CLASS_OPTIONS.map(c=>{
 
-if(status==="active"){
-statusClass="active";
-}
+const selected=assigned.includes(c);
 
-else if(status==="pending"){
-statusClass="pending";
-}
+return `
+<option value="${c}" ${selected?"selected":""}>
+${c}
+</option>
+`;
 
-else if(status==="suspended"){
-statusClass="suspended";
-}
+}).join("");
 
+return `
 
-const card=
-document.createElement("div");
+<div class="teacher">
 
-card.className="teacher";
-
-
-card.innerHTML=`
-
-<div class="teacher-top">
+<div class="top">
 
 <div>
-
 <div class="name">
-${escapeHTML(teacher.name||"Unnamed Teacher")}
+👨‍🏫 ${escapeHTML(teacher.name||"Teacher")}
 </div>
 
 <div class="phone">
-${escapeHTML(teacher.phone||"No phone number")}
+📱 ${escapeHTML(teacher.phone||"No phone")}
 </div>
+</div>
+
+<div class="status"
+style="${
+status==="active"
+?"background:#ecfdf3;color:#027a48":
+status==="suspended"
+?"background:#fee4e2;color:#b42318":
+"background:#fff7e6;color:#b54708"
+}">
+
+${status.toUpperCase()}
 
 </div>
 
-<span class="badge ${statusClass}">
-${escapeHTML(status.toUpperCase())}
+</div>
+
+<div class="info">
+
+<b>Subject:</b>
+${escapeHTML(teacher.subject||"Not specified")}
+<br>
+
+<b>Qualification:</b>
+${escapeHTML(teacher.qualification||"Not specified")}
+<br>
+
+<b>Assigned Classes:</b>
+<span id="assignedText${index}">
+${escapeHTML(assignedText)}
 </span>
 
 </div>
 
-<div class="details">
+<div class="assignment">
 
-<strong>Subject:</strong>
-${escapeHTML(teacher.subject||"Not provided")}
-<br>
+<div class="assignment-title">
+📚 Assign Classes
+</div>
 
-<strong>Qualification:</strong>
-${escapeHTML(teacher.qualification||"Not provided")}
-<br>
+<select
+id="classes${index}"
+multiple
+size="5"
+onchange="handleClassSelection(${index})">
 
-<strong>Experience:</strong>
-${escapeHTML(teacher.experience||"Not provided")}
-<br>
+${options}
 
-<strong>Application ID:</strong>
-${escapeHTML(teacher.applicationId||"Not provided")}
+</select>
+
+<div style="font-size:10px;color:#667085;margin-top:7px">
+Hold/tap multiple options to assign several classes.
+Choose <b>All Classes</b> if this teacher should teach every class.
+</div>
+
+<button
+class="assign-btn"
+onclick="saveAssignment(${index})">
+
+💾 Save Class Assignment
+
+</button>
 
 </div>
 
 <div class="actions">
 
-<button class="view">
-View Details
-</button>
-
 ${
 status==="suspended"
 ?
-'<button class="reactivate">Reactivate</button>'
+`
+<button
+class="action activate"
+onclick="changeStatus('${teacher.firebaseKey}','active')">
+✓ Reactivate
+</button>
+`
 :
-status==="active"
-?
-'<button class="suspend">Suspend</button>'
-:
-''
+`
+<button
+class="action suspend"
+onclick="changeStatus('${teacher.firebaseKey}','suspended')">
+⛔ Suspend
+</button>
+`
 }
+
+</div>
 
 </div>
 
 `;
 
+}).join("");
 
-card.querySelector(".view")
-.addEventListener("click",function(){
+}
 
-viewTeacher(teacher);
+function handleClassSelection(index){
 
-});
-
-
-const action=
-card.querySelector(".suspend");
-
-
-if(action){
-
-action.addEventListener("click",function(){
-
-changeStatus(
-teacher.id,
-"suspended"
+const select=document.getElementById(
+"classes"+index
 );
 
+const values=Array.from(
+select.selectedOptions
+).map(o=>o.value);
+
+if(values.includes("All Classes")){
+
+Array.from(select.options).forEach(option=>{
+option.selected=option.value==="All Classes";
 });
 
 }
 
+}
 
-const reactivate=
-card.querySelector(".reactivate");
+async function saveAssignment(index){
 
+const teacher=teachers[index];
 
-if(reactivate){
-
-reactivate.addEventListener("click",function(){
-
-changeStatus(
-teacher.id,
-"active"
+const select=document.getElementById(
+"classes"+index
 );
 
-});
+let selected=Array.from(
+select.selectedOptions
+).map(o=>o.value);
+
+if(selected.includes("All Classes")){
+
+selected=["All Classes"];
 
 }
 
+if(!selected.length){
 
-list.appendChild(card);
-
-});
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-document.getElementById("search")
-.addEventListener("input",function(){
-
-const term=
-this.value.trim().toLowerCase();
-
-
-if(!term){
-
-renderTeachers(allTeachers);
-return;
+if(!confirm(
+"No class is selected. Remove all class assignments?"
+))return;
 
 }
-
-
-const filtered=
-allTeachers.filter(function(teacher){
-
-return (
-
-String(teacher.name||"")
-.toLowerCase()
-.includes(term)
-
-||
-
-String(teacher.phone||"")
-.toLowerCase()
-.includes(term)
-
-||
-
-String(teacher.subject||"")
-.toLowerCase()
-.includes(term)
-
-||
-
-String(teacher.qualification||"")
-.toLowerCase()
-.includes(term)
-
-);
-
-});
-
-
-renderTeachers(filtered);
-
-});
-
-
-/* =========================
-   VIEW
-========================= */
-
-function viewTeacher(teacher){
-
-alert(
-"Teacher Details\n\n"+
-"Name: "+(teacher.name||"Not provided")+
-"\nPhone: "+(teacher.phone||"Not provided")+
-"\nSubject: "+(teacher.subject||"Not provided")+
-"\nQualification: "+(teacher.qualification||"Not provided")+
-"\nExperience: "+(teacher.experience||"Not provided")+
-"\nApplication ID: "+(teacher.applicationId||"Not provided")+
-"\nStatus: "+(teacher.status||"active")
-);
-
-}
-
-
-/* =========================
-   CHANGE STATUS
-========================= */
-
-async function changeStatus(id,status){
-
-if(!id){
-alert("Teacher ID is missing.");
-return;
-}
-
-
-const message=
-status==="suspended"
-?
-"Are you sure you want to suspend this teacher?"
-:
-"Reactivate this teacher?";
-
-
-if(!confirm(message)){
-return;
-}
-
 
 try{
 
-const response=
-await fetch(
-DATABASE_URL+
-"/users/"+
-encodeURIComponent(id)+
-".json",
+const response=await fetch(
+DB+"/users/"+teacher.firebaseKey+".json",
 {
 method:"PATCH",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-status:status,
-updatedAt:new Date().toISOString(),
-updatedBy:"CEO"
+assignedClasses:selected,
+assignmentUpdatedAt:new Date().toISOString(),
+assignmentUpdatedBy:"CEO"
 })
 }
 );
 
+if(!response.ok)
+throw new Error("Could not save assignment");
 
-if(!response.ok){
+teacher.assignedClasses=selected;
 
-throw new Error(
-"Firebase update failed."
-);
-
-}
-
-
-await loadTeachers();
-
+document.getElementById(
+"assignedText"+index
+).textContent=
+selected.length
+?selected.join(", ")
+:"Not assigned";
 
 alert(
-status==="suspended"
-?
-"Teacher suspended successfully."
-:
-"Teacher reactivated successfully."
+"Class assignment saved successfully."
 );
-
 
 }catch(error){
 
 console.error(error);
 
 alert(
-"Unable to update teacher."
+"Could not save the class assignment. Please try again."
 );
 
 }
 
 }
 
+async function changeStatus(key,status){
 
-/* =========================
-   SECURITY
-========================= */
+const message=
+status==="suspended"
+?"Are you sure you want to suspend this teacher?"
+:"Are you sure you want to reactivate this teacher?";
 
-if(checkCEO()){
+if(!confirm(message))return;
+
+try{
+
+const response=await fetch(
+DB+"/users/"+key+".json",
+{
+method:"PATCH",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+status:status
+})
+}
+);
+
+if(!response.ok)
+throw new Error("Status update failed");
 
 loadTeachers();
 
-setInterval(
-loadTeachers,
-10000
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not update teacher status."
 );
 
 }
 
-
-/* =========================
-   ESCAPE HTML
-========================= */
+}
 
 function escapeHTML(value){
 
-return String(value||"")
+return String(value)
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -857,7 +491,8 @@ return String(value||"")
 
 }
 
-</script>
+checkCEO();
+loadTeachers();
 
-</body>
+</script></body>
 </html>

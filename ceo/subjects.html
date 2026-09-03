@@ -1,161 +1,363 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
-<title>Subjects | Mule Learner Tuition</title>
-
-<style>
+<title>Subjects | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
-header{background:#173b8f;color:white;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
 .logo{font-size:18px;font-weight:800}
 .back{color:white;text-decoration:none;font-size:13px}
-.container{max-width:900px;margin:auto;padding:20px 16px}
-.heading{margin-bottom:18px}
-.heading h1{font-size:23px;color:#173b8f;margin-bottom:5px}
-.heading p{font-size:12px;color:#667085;line-height:1.5}
-.add-box,.stat,.subject{background:white;border-radius:13px;box-shadow:0 4px 15px #14326412}
-.add-box{padding:16px;margin-bottom:18px}
-.add-box h2{font-size:15px;margin-bottom:11px}
-input{width:100%;padding:12px;border:1px solid #d8deea;border-radius:8px;font-size:13px;margin-bottom:9px}
-button{border:0;border-radius:8px;font-weight:bold;cursor:pointer}
-.add-btn{width:100%;background:#173b8f;color:white;padding:12px;font-size:12px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.stat{padding:15px}
-.stat-icon{font-size:22px}
-.stat h3{font-size:19px;margin-top:6px}
-.stat p{font-size:11px;color:#667085;margin-top:3px}
-.subject{padding:16px;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.subject-left{display:flex;align-items:center;gap:11px}
-.subject-icon{width:42px;height:42px;border-radius:10px;background:#eef3ff;display:flex;align-items:center;justify-content:center;font-size:22px}
-.subject-name{font-size:14px;font-weight:800}
-.subject-status{font-size:10px;color:#027a48;margin-top:3px}
-.delete{background:#fee4e2;color:#b42318;padding:8px 10px;font-size:10px}
-.empty{display:none;background:white;padding:25px;border-radius:12px;text-align:center;font-size:12px;color:#667085}
-.notice{margin-top:18px;background:#eef3ff;padding:15px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
+.container{max-width:900px;margin:auto;padding:18px}
+h1{font-size:23px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:12px;color:#667085;line-height:1.5;margin-bottom:20px}
+
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.stat{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 15px #14326412}
+.stat strong{display:block;font-size:22px;color:#173b8f}
+.stat span{font-size:11px;color:#667085}
+
+.add-box{background:white;padding:16px;border-radius:14px;margin-bottom:18px;box-shadow:0 4px 15px #14326412}
+.add-title{font-size:14px;font-weight:800;color:#173b8f;margin-bottom:10px}
+
+.form{display:flex;gap:8px}
+input{flex:1;border:1px solid #d0d5dd;border-radius:8px;padding:11px;font-size:12px;outline:none}
+input:focus{border-color:#173b8f}
+.add-btn{border:0;background:#173b8f;color:white;border-radius:8px;padding:0 16px;font-size:12px;font-weight:bold}
+
+.subject{background:white;padding:16px;border-radius:14px;margin-bottom:10px;box-shadow:0 4px 15px #14326412}
+.subject-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.subject-name{font-size:15px;font-weight:800}
+.status{font-size:10px;font-weight:bold;padding:6px 9px;border-radius:20px}
+
+.actions{display:flex;gap:8px;margin-top:13px}
+.action{flex:1;border:0;padding:10px;border-radius:8px;font-size:11px;font-weight:bold}
+.edit{background:#eef3ff;color:#173b8f}
+.disable{background:#fee4e2;color:#b42318}
+.enable{background:#ecfdf3;color:#027a48}
+
+.empty,.loading{text-align:center;background:white;padding:25px;border-radius:12px;color:#667085;font-size:13px}
+
+.notice{margin-top:18px;background:#eef3ff;padding:16px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
 footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
-</style>
-</head>
 
-<body>
-
-<header>
+@media(min-width:700px){
+.stats{grid-template-columns:repeat(4,1fr)}
+}
+</style></head><body><header>
 <div class="logo">Mule Learner Tuition</div>
 <a href="dashboard.html" class="back">← CEO Dashboard</a>
-</header>
+</header><div class="container"><div class="heading">
+<h1>📚 Subjects</h1>
+<p>Manage subjects available to learners.</p>
+</div><div class="stats"><div class="stat">
+<strong id="total">0</strong>
+<span>Total Subjects</span>
+</div><div class="stat">
+<strong id="active">0</strong>
+<span>Available</span>
+</div><div class="stat">
+<strong id="disabled">0</strong>
+<span>Disabled</span>
+</div><div class="stat">
+<strong id="teachers">0</strong>
+<span>Subjects With Teachers</span>
+</div></div><div class="add-box"><div class="add-title">
+➕ Add New Subject
+</div><div class="form"><input
+id="subjectInput"
+type="text"
+placeholder="Enter subject name"
+autocomplete="off">
 
-<div class="container">
+<button
+class="add-btn"
+onclick="addSubject()">
+Add
+</button>
 
-<div class="heading">
-<h1>Subject Management 📚</h1>
-<p>Create and manage the subjects available for learners and teachers.</p>
-</div>
-
-<div class="add-box">
-<h2>Add New Subject</h2>
-<input id="subjectInput" type="text"
-placeholder="Enter subject name" maxlength="50">
-<button class="add-btn" onclick="addSubject()">+ Add Subject</button>
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<div class="stat-icon">📚</div>
-<h3 id="totalSubjects">0</h3>
-<p>Total Subjects</p>
-</div>
-
-<div class="stat">
-<div class="stat-icon">🟢</div>
-<h3 id="activeSubjects">0</h3>
-<p>Active Subjects</p>
-</div>
-
-</div>
-
-<div id="subjectList"></div>
-
-<div id="empty" class="empty">
-No subjects available.
-</div>
-
-<div class="notice">
-<strong>🔐 CEO Subject Control</strong><br><br>
-The CEO controls which subjects are available on Mule Learner Tuition.
-<br><br>
-Teachers can later be assigned to specific subjects, and learners will be able to choose from the subjects made available by the CEO.
-<br><br>
-Subjects added here are stored in the platform database.
-</div>
-
-<footer>
+</div></div><div id="subjects" class="loading">
+Loading subjects...
+</div><div class="notice">
+<strong>👑 CEO Subject Control</strong><br><br>
+Only active subjects will be made available to learners.<br><br>
+You can add, edit, disable or enable subjects whenever necessary.
+</div><footer>
 Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
-</footer>
-
-</div>
-
-<script src="../js/auth.js"></script>
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
-
-<script>
+</footer></div><script>
 
 const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
+const defaultSubjects={
+  mathematics:{
+    name:"Mathematics",
+    active:true
+  },
+  english:{
+    name:"English",
+    active:true
+  },
+  science:{
+    name:"Science",
+    active:true
+  },
+  physics:{
+    name:"Physics",
+    active:true
+  },
+  chemistry:{
+    name:"Chemistry",
+    active:true
+  },
+  biology:{
+    name:"Biology",
+    active:true
+  },
+  ict:{
+    name:"ICT",
+    active:true
+  },
+  computerStudies:{
+    name:"Computer Studies",
+    active:true
+  }
+};
+
 let subjects={};
 
-async function loadSubjects(){
+function checkCEO(){
 
 try{
 
-const r=await fetch(DB+"/subjects.json");
-const data=await r.json();
+const session=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"null"
+);
 
-if(data){
-subjects=data;
-}else{
-subjects={};
+if(
+!session ||
+session.role!=="ceo" ||
+session.status!=="active"
+){
+
+location.href="../login.html";
+return false;
+
+}
+
+return true;
+
+}catch(e){
+
+location.href="../login.html";
+return false;
+
+}
+
+}
+
+async function loadSubjects(){
+
+if(!checkCEO())return;
+
+const box=document.getElementById("subjects");
+
+try{
+
+const response=await fetch(
+DB+"/subjects.json?cache="+Date.now()
+);
+
+if(!response.ok)
+throw new Error("Firebase request failed");
+
+const data=await response.json();
+
+subjects=(data && typeof data==="object")
+?data:{};
+
+let changed=false;
+
+for(const key of Object.keys(defaultSubjects)){
+
+if(!subjects[key]){
+
+subjects[key]={
+...defaultSubjects[key]
+};
+
+changed=true;
+
+}
+
+}
+
+if(changed){
+
+await saveSubjects();
+
 }
 
 render();
 
-}catch(e){
+}catch(error){
 
-alert("Could not load subjects.");
+console.error("Subjects error:",error);
+
+subjects={...defaultSubjects};
+
+render();
 
 }
+
+}
+
+async function saveSubjects(){
+
+const response=await fetch(
+DB+"/subjects.json",
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(subjects)
+}
+);
+
+if(!response.ok)
+throw new Error("Could not save subjects");
+
+}
+
+function render(){
+
+const box=document.getElementById("subjects");
+
+const list=Object.entries(subjects);
+
+if(!list.length){
+
+box.innerHTML=
+'<div class="empty">No subjects found.</div>';
+
+updateStats();
+return;
+
+}
+
+box.innerHTML=list.map(([key,subject])=>{
+
+const active=subject.active!==false;
+
+return `
+
+<div class="subject">
+
+<div class="subject-top">
+
+<div class="subject-name">
+📘 ${escapeHTML(subject.name||key)}
+</div>
+
+<div class="status"
+style="${
+active
+?"background:#ecfdf3;color:#027a48"
+:"background:#fee4e2;color:#b42318"
+}">
+
+${active?"AVAILABLE":"DISABLED"}
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+class="action edit"
+onclick="editSubject('${key}')">
+✏️ Edit
+</button>
+
+<button
+class="action ${active?"disable":"enable"}"
+onclick="toggleSubject('${key}')">
+
+${active?"Disable":"Enable"}
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+updateStats();
+
+}
+
+function updateStats(){
+
+const list=Object.values(subjects);
+
+document.getElementById("total").textContent=
+list.length;
+
+document.getElementById("active").textContent=
+list.filter(s=>s.active!==false).length;
+
+document.getElementById("disabled").textContent=
+list.filter(s=>s.active===false).length;
+
+/*
+This will be connected to teacher assignments
+later. For now it counts subjects that have
+a teacher assigned through the subject record.
+*/
+document.getElementById("teachers").textContent=
+list.filter(s=>s.teacherId||s.teacherIds).length;
 
 }
 
 async function addSubject(){
 
 const input=document.getElementById("subjectInput");
+
 const name=input.value.trim();
 
 if(!name){
+
 alert("Please enter a subject name.");
+
+input.focus();
+
 return;
+
 }
 
-const exists=Object.values(subjects).some(s=>
-String(s.name||"").toLowerCase()===name.toLowerCase()
+const exists=Object.values(subjects).some(
+s=>String(s.name||"").toLowerCase()===name.toLowerCase()
 );
 
 if(exists){
+
 alert("This subject already exists.");
+
 return;
+
 }
 
-const id="SUB-"+Date.now();
+const key=createKey(name);
 
-subjects[id]={
-id:id,
+subjects[key]={
 name:name,
-status:"active",
+active:true,
 createdAt:new Date().toISOString(),
 createdBy:"CEO"
 };
@@ -165,112 +367,151 @@ try{
 await saveSubjects();
 
 input.value="";
+
 render();
 
-alert("Subject added successfully.");
-
-}catch(e){
-
-delete subjects[id];
-alert("Could not save subject.");
-
-}
-
-}
-
-async function deleteSubject(id){
-
-if(!confirm("Remove this subject?"))return;
-
-const old=subjects[id];
-delete subjects[id];
-
-try{
-
-await saveSubjects();
-render();
-
-}catch(e){
-
-subjects[id]=old;
-alert("Could not remove subject.");
-
-}
-
-}
-
-async function saveSubjects(){
-
-const r=await fetch(DB+"/subjects.json",{
-method:"PUT",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify(subjects)
-});
-
-if(!r.ok)throw new Error();
-
-}
-
-function render(){
-
-const list=document.getElementById("subjectList");
-const arr=Object.values(subjects);
-
-arr.sort((a,b)=>
-String(a.name||"").localeCompare(String(b.name||""))
+alert(
+name+" has been added successfully."
 );
 
-document.getElementById("totalSubjects").textContent=arr.length;
+}catch(error){
 
-document.getElementById("activeSubjects").textContent=
-arr.filter(s=>String(s.status).toLowerCase()==="active").length;
+console.error(error);
 
-if(!arr.length){
+delete subjects[key];
 
-list.innerHTML="";
-document.getElementById("empty").style.display="block";
+alert(
+"Could not add the subject. Please try again."
+);
+
+}
+
+}
+
+function createKey(name){
+
+let key=name
+.toLowerCase()
+.trim()
+.replace(/[^a-z0-9]+/g,"_")
+.replace(/^_+|_+$/g,"");
+
+if(!key)
+key="subject";
+
+let original=key;
+let number=2;
+
+while(subjects[key]){
+
+key=original+"_"+number;
+number++;
+
+}
+
+return key;
+
+}
+
+async function editSubject(key){
+
+if(!subjects[key])return;
+
+const current=subjects[key].name||"";
+
+const name=prompt(
+"Enter the new subject name:",
+current
+);
+
+if(name===null)return;
+
+const clean=name.trim();
+
+if(!clean){
+
+alert("Subject name cannot be empty.");
+
 return;
 
 }
 
-document.getElementById("empty").style.display="none";
+const duplicate=Object.entries(subjects).some(
+([k,s])=>
+k!==key &&
+String(s.name||"").toLowerCase()===clean.toLowerCase()
+);
 
-list.innerHTML=arr.map(s=>`
+if(duplicate){
 
-<div class="subject">
+alert("Another subject already has this name.");
 
-<div class="subject-left">
-
-<div class="subject-icon">📚</div>
-
-<div>
-
-<div class="subject-name">
-${escapeHTML(s.name||"")}
-</div>
-
-<div class="subject-status">
-● ${String(s.status||"active").toUpperCase()}
-</div>
-
-</div>
-
-</div>
-
-<button class="delete"
-onclick="deleteSubject('${safeJS(s.id)}')">
-Remove
-</button>
-
-</div>
-
-`).join("");
+return;
 
 }
 
-function escapeHTML(text){
+const old=subjects[key].name;
 
-return String(text)
+subjects[key].name=clean;
+
+try{
+
+await saveSubjects();
+
+render();
+
+alert("Subject updated successfully.");
+
+}catch(error){
+
+subjects[key].name=old;
+
+alert(
+"Could not update the subject."
+);
+
+}
+
+}
+
+async function toggleSubject(key){
+
+if(!subjects[key])return;
+
+const old=subjects[key].active!==false;
+
+const action=old?"disable":"enable";
+
+if(!confirm(
+"Are you sure you want to "+
+action+" "+subjects[key].name+"?"
+))return;
+
+subjects[key].active=!old;
+
+try{
+
+await saveSubjects();
+
+render();
+
+}catch(error){
+
+subjects[key].active=old;
+
+render();
+
+alert(
+"Could not update the subject."
+);
+
+}
+
+}
+
+function escapeHTML(value){
+
+return String(value)
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -279,19 +520,8 @@ return String(text)
 
 }
 
-function safeJS(text){
-
-return String(text).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
-
-}
-
-if(typeof protectCEOPage==="function"){
-protectCEOPage();
-}
-
+checkCEO();
 loadSubjects();
 
-</script>
-
-</body>
+</script></body>
 </html>
