@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Teachers | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="theme-color" content="#173b8f">
+<title>Teachers | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,sans-serif;
@@ -25,16 +25,8 @@ align-items:center;
 justify-content:space-between;
 }
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
-
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
 
 .container{
 max-width:900px;
@@ -42,16 +34,12 @@ margin:auto;
 padding:20px 16px;
 }
 
-.heading{
-margin-bottom:18px;
-}
-
+.heading{margin-bottom:18px}
 .heading h1{
 font-size:23px;
 color:#173b8f;
 margin-bottom:5px;
 }
-
 .heading p{
 font-size:12px;
 color:#667085;
@@ -83,20 +71,9 @@ border-radius:12px;
 box-shadow:0 4px 15px rgba(20,50,100,.06);
 }
 
-.stat-icon{
-font-size:22px;
-}
-
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
-
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
+.stat-icon{font-size:22px}
+.stat h3{font-size:19px;margin-top:6px}
+.stat p{font-size:11px;color:#667085;margin-top:3px}
 
 .teacher{
 background:white;
@@ -147,9 +124,22 @@ padding:6px 9px;
 border-radius:20px;
 font-size:9px;
 font-weight:bold;
+white-space:nowrap;
+}
+
+.active{
 background:#ecfdf3;
 color:#027a48;
-white-space:nowrap;
+}
+
+.suspended{
+background:#fee4e2;
+color:#b42318;
+}
+
+.pending{
+background:#fff7e6;
+color:#b54708;
 }
 
 .details{
@@ -166,13 +156,12 @@ padding:7px 0;
 font-size:12px;
 }
 
-.label{
-color:#667085;
-}
-
+.label{color:#667085}
 .value{
 font-weight:700;
 text-align:right;
+max-width:65%;
+word-break:break-word;
 }
 
 .actions{
@@ -201,8 +190,22 @@ background:#fee4e2;
 color:#b42318;
 }
 
+.reactivate{
+background:#ecfdf3;
+color:#027a48;
+}
+
 .empty{
 display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.loading{
 background:white;
 padding:25px;
 border-radius:12px;
@@ -229,198 +232,546 @@ margin-top:25px;
 }
 
 @media(min-width:650px){
-
-.stats{
-grid-template-columns:repeat(4,1fr);
+.stats{grid-template-columns:repeat(4,1fr)}
 }
+</style>
+</head>
 
-}
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>Teacher Management 👨‍🏫</h1><p>
-Manage approved teachers, their status and teaching assignments.
-</p></div><!-- SEARCH --><input
+<body>
+
+<header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header>
+
+<div class="container">
+
+<div class="heading">
+<h1>Teacher Management 👨‍🏫</h1>
+<p>Manage teacher accounts, status and teaching information.</p>
+</div>
+
+<input
 type="search"
 id="search"
 class="search"
-placeholder="Search teacher by name or phone..."
+placeholder="Search teacher by name, phone or subject..."
 oninput="searchTeachers()"
+>
 
-«»
+<div class="stats">
 
-<!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-👨‍🏫
-</div><h3 id="total">
-0
-</h3><p>Total Teachers</p></div><div class="stat"><div class="stat-icon">
-🟢
-</div><h3 id="active">
-0
-</h3><p>Active</p></div><div class="stat"><div class="stat-icon">
-⏸️
-</div><h3 id="suspended">
-0
-</h3><p>Suspended</p></div><div class="stat"><div class="stat-icon">
-📚
-</div><h3 id="assigned">
-0</h3><p>Assigned</p></div></div><!-- TEACHER LIST --><div id="teacherList"><div
-class="teacher"
-data-search="teacher"><div class="top"><div class="identity"><div class="avatar">
-👨‍🏫
-</div><div><div class="name">
-Teacher
-</div><div class="phone">
-Phone: Not Available
-</div></div></div><span class="badge">
-ACTIVE
-</span></div><div class="details"><div class="row"><span class="label">
-Subjects
-</span><span class="value">
-Not Assigned
-</span></div><div class="row"><span class="label">
-Classes
-</span><span class="value">
-Not Assigned
-</span></div><div class="row"><span class="label">
-Account Status
-</span><span class="value">
-Approved
-</span></div></div><div class="actions"><button
-class="view"
-onclick="viewTeacher()">
+<div class="stat">
+<div class="stat-icon">👨‍🏫</div>
+<h3 id="total">0</h3>
+<p>Total Teachers</p>
+</div>
 
-👁 View
+<div class="stat">
+<div class="stat-icon">🟢</div>
+<h3 id="active">0</h3>
+<p>Active</p>
+</div>
 
-</button><button
-class="suspend"
-onclick="toggleTeacher(this)">
+<div class="stat">
+<div class="stat-icon">⏸️</div>
+<h3 id="suspended">0</h3>
+<p>Suspended</p>
+</div>
 
-⏸ Suspend
+<div class="stat">
+<div class="stat-icon">⏳</div>
+<h3 id="pending">0</h3>
+<p>Pending</p>
+</div>
 
-</button></div></div></div><div id="empty" class="empty">No teacher found.
+</div>
 
-</div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Teacher Control</strong>
+<div id="teacherList">
+<div class="loading">Loading teachers...</div>
+</div>
 
+<div id="empty" class="empty">
+No teachers found.
+</div>
+
+<div class="notice">
+<strong>🔐 CEO Teacher Control</strong>
 <br><br>
-
 Only the CEO can manage teacher accounts.
+<br><br>
+Approved teachers can access teaching features.
+Suspended teachers should not be able to access restricted teaching functions.
+</div>
 
-Teacher accounts must be approved before teachers
-can access teaching features.
-
-The CEO can suspend a teacher when necessary.
-A suspended teacher should not be able to conduct
-classes or access restricted teaching functions.
-
-</div><footer>Mule Learner Tuition<br>
+<footer>
+Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
+</footer>
 
-</footer></div><script>
+</div>
 
-const teachers=
-document.querySelectorAll(".teacher");
+<script src="../js/auth.js"></script>
 
-document.getElementById("total").textContent=
-teachers.length;
+<script>
 
-document.getElementById("active").textContent=
-teachers.length;
+const DB =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-document.getElementById("assigned").textContent=
-0;
+let allTeachers=[];
 
+
+/* FIREBASE */
+
+async function getFirebase(path){
+
+try{
+
+const response =
+await fetch(DB+"/"+path+".json");
+
+if(!response.ok)
+throw new Error("Firebase error");
+
+return await response.json();
+
+}catch(error){
+
+console.error(error);
+return null;
+
+}
+
+}
+
+
+/* CONVERT FIREBASE DATA */
+
+function toArray(data){
+
+if(!data) return [];
+
+if(Array.isArray(data))
+return data.filter(Boolean);
+
+return Object.entries(data).map(function(item){
+
+const id=item[0];
+const value=item[1] || {};
+
+return {
+...value,
+id:value.id || id
+};
+
+});
+
+}
+
+
+/* CHECK CEO */
+
+function checkCEO(){
+
+const user =
+typeof getLoggedInUser==="function"
+? getLoggedInUser()
+:null;
+
+if(!user || user.role!=="ceo"){
+
+window.location.href="../login.html";
+return false;
+
+}
+
+return true;
+
+}
+
+
+/* LOAD TEACHERS */
+
+async function loadTeachers(){
+
+if(!checkCEO()) return;
+
+const data =
+await getFirebase("users");
+
+const users =
+toArray(data);
+
+allTeachers =
+users.filter(function(user){
+
+return String(user.role || "")
+.toLowerCase()==="teacher";
+
+});
+
+updateStats();
+renderTeachers(allTeachers);
+
+}
+
+
+/* STATISTICS */
+
+function updateStats(){
+
+const total=allTeachers.length;
+
+const active=
+allTeachers.filter(function(t){
+return String(t.status||"").toLowerCase()==="active";
+}).length;
+
+const suspended=
+allTeachers.filter(function(t){
+return String(t.status||"").toLowerCase()==="suspended";
+}).length;
+
+const pending=
+allTeachers.filter(function(t){
+return String(t.status||"").toLowerCase()==="pending";
+}).length;
+
+document.getElementById("total").textContent=total;
+document.getElementById("active").textContent=active;
+document.getElementById("suspended").textContent=suspended;
+document.getElementById("pending").textContent=pending;
+
+}
+
+
+/* RENDER */
+
+function renderTeachers(list){
+
+const container =
+document.getElementById("teacherList");
+
+const empty =
+document.getElementById("empty");
+
+container.innerHTML="";
+
+if(list.length===0){
+
+empty.style.display="block";
+return;
+
+}
+
+empty.style.display="none";
+
+
+list.forEach(function(teacher){
+
+const card =
+document.createElement("div");
+
+card.className="teacher";
+
+const name =
+teacher.name || "Unnamed Teacher";
+
+const phone =
+teacher.phone || "Not Available";
+
+const subject =
+teacher.subject || "Not Assigned";
+
+const qualification =
+teacher.qualification || "Not Provided";
+
+const experience =
+teacher.experience || "Not Provided";
+
+const applicationId =
+teacher.applicationId || "Not Available";
+
+const status =
+String(teacher.status || "pending").toLowerCase();
+
+let badgeClass="pending";
+let badgeText="PENDING";
+
+if(status==="active"){
+badgeClass="active";
+badgeText="ACTIVE";
+}
+
+if(status==="suspended"){
+badgeClass="suspended";
+badgeText="SUSPENDED";
+}
+
+card.innerHTML=`
+
+<div class="top">
+
+<div class="identity">
+
+<div class="avatar">👨‍🏫</div>
+
+<div>
+
+<div class="name">
+${escapeHTML(name)}
+</div>
+
+<div class="phone">
+📱 ${escapeHTML(phone)}
+</div>
+
+</div>
+
+</div>
+
+<span class="badge ${badgeClass}">
+${badgeText}
+</span>
+
+</div>
+
+
+<div class="details">
+
+<div class="row">
+<span class="label">Subject</span>
+<span class="value">${escapeHTML(subject)}</span>
+</div>
+
+<div class="row">
+<span class="label">Qualification</span>
+<span class="value">${escapeHTML(qualification)}</span>
+</div>
+
+<div class="row">
+<span class="label">Experience</span>
+<span class="value">${escapeHTML(experience)}</span>
+</div>
+
+<div class="row">
+<span class="label">Application ID</span>
+<span class="value">${escapeHTML(applicationId)}</span>
+</div>
+
+<div class="row">
+<span class="label">Account Status</span>
+<span class="value">${escapeHTML(status)}</span>
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button class="view"
+onclick="viewTeacher('${teacher.id}')">
+👁 View
+</button>
+
+${
+status==="suspended"
+
+?
+
+`<button class="reactivate"
+onclick="changeStatus('${teacher.id}','active')">
+▶ Reactivate
+</button>`
+
+:
+
+status==="active"
+
+?
+
+`<button class="suspend"
+onclick="changeStatus('${teacher.id}','suspended')">
+⏸ Suspend
+</button>`
+
+:
+
+`<button class="view"
+onclick="changeStatus('${teacher.id}','active')">
+✓ Approve
+</button>`
+}
+
+</div>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+
+/* SEARCH */
 
 function searchTeachers(){
 
-const input=
+const input =
 document.getElementById("search")
 .value
 .toLowerCase()
 .trim();
 
-let found=0;
+const filtered =
+allTeachers.filter(function(teacher){
 
-teachers.forEach(function(teacher){
-
-const text=
-teacher.getAttribute("data-search")
+const text =
+[
+teacher.name,
+teacher.phone,
+teacher.subject,
+teacher.qualification,
+teacher.experience
+]
+.join(" ")
 .toLowerCase();
 
-if(text.includes(input)){
-
-teacher.style.display="block";
-found++;
-
-}else{
-
-teacher.style.display="none";
-
-}
+return text.includes(input);
 
 });
 
-document.getElementById("empty").style.display=
-found===0 ? "block" : "none";
+renderTeachers(filtered);
 
 }
 
 
-function viewTeacher(){
+/* VIEW */
+
+function viewTeacher(id){
+
+const teacher =
+allTeachers.find(function(t){
+return String(t.id)===String(id);
+});
+
+if(!teacher) return;
 
 alert(
-"Teacher details will appear here when the teacher database is connected."
+"TEACHER DETAILS\n\n"+
+"Name: "+(teacher.name||"Not Available")+"\n"+
+"Phone: "+(teacher.phone||"Not Available")+"\n"+
+"Email: "+(teacher.email||"Not Available")+"\n"+
+"Subject: "+(teacher.subject||"Not Assigned")+"\n"+
+"Qualification: "+(teacher.qualification||"Not Provided")+"\n"+
+"Experience: "+(teacher.experience||"Not Provided")+"\n"+
+"Status: "+(teacher.status||"Not Available")+"\n"+
+"Application ID: "+(teacher.applicationId||"Not Available")
 );
 
 }
 
 
-function toggleTeacher(button){
+/* CHANGE STATUS */
 
-const teacher=
-button.closest(".teacher");
+async function changeStatus(id,newStatus){
 
-const badge=
-teacher.querySelector(".badge");
+const teacher =
+allTeachers.find(function(t){
+return String(t.id)===String(id);
+});
 
-if(badge.textContent==="ACTIVE"){
+if(!teacher) return;
 
-const confirmSuspend=
-confirm("Suspend this teacher's account?");
+const action =
+newStatus==="suspended"
+? "Suspend"
+: newStatus==="active"
+? "Activate"
+: "Change";
 
-if(confirmSuspend){
 
-badge.textContent="SUSPENDED";
-badge.style.background="#fee4e2";
-badge.style.color="#b42318";
+if(!confirm(
+action+" "+(teacher.name||"this teacher")+"?"
+)) return;
 
-button.textContent="▶ Reactivate";
 
-}
+try{
+
+let result;
+
+if(typeof updateUserStatus==="function"){
+
+result =
+await updateUserStatus(id,newStatus);
 
 }else{
 
-const confirmReactivate=
-confirm("Reactivate this teacher's account?");
+const response =
+await fetch(
+DB+"/users/"+encodeURIComponent(id)+".json",
+{
+method:"PATCH",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+status:newStatus
+})
+}
+);
 
-if(confirmReactivate){
+result=response.ok;
 
-badge.textContent="ACTIVE";
-badge.style.background="#ecfdf3";
-badge.style.color="#027a48";
+}
 
-button.textContent="⏸ Suspend";
+
+if(result===false){
+
+alert("Unable to update teacher status.");
+return;
+
+}
+
+alert(
+"Teacher status updated successfully."
+);
+
+await loadTeachers();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not update teacher. Please try again."
+);
 
 }
 
 }
 
+
+/* SECURITY FOR DISPLAY */
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
+
+
+/* START */
+
+loadTeachers();
 
 </script>
 
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
 </body>
 </html>

@@ -1,367 +1,256 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Subjects | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b8f">
+<title>Subjects | Mule Learner Tuition</title>
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:900px;margin:auto;padding:20px 16px}
+.heading{margin-bottom:18px}
+.heading h1{font-size:23px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:12px;color:#667085;line-height:1.5}
+.add-box,.stat,.subject{background:white;border-radius:13px;box-shadow:0 4px 15px #14326412}
+.add-box{padding:16px;margin-bottom:18px}
+.add-box h2{font-size:15px;margin-bottom:11px}
+input{width:100%;padding:12px;border:1px solid #d8deea;border-radius:8px;font-size:13px;margin-bottom:9px}
+button{border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+.add-btn{width:100%;background:#173b8f;color:white;padding:12px;font-size:12px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.stat{padding:15px}
+.stat-icon{font-size:22px}
+.stat h3{font-size:19px;margin-top:6px}
+.stat p{font-size:11px;color:#667085;margin-top:3px}
+.subject{padding:16px;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.subject-left{display:flex;align-items:center;gap:11px}
+.subject-icon{width:42px;height:42px;border-radius:10px;background:#eef3ff;display:flex;align-items:center;justify-content:center;font-size:22px}
+.subject-name{font-size:14px;font-weight:800}
+.subject-status{font-size:10px;color:#027a48;margin-top:3px}
+.delete{background:#fee4e2;color:#b42318;padding:8px 10px;font-size:10px}
+.empty{display:none;background:white;padding:25px;border-radius:12px;text-align:center;font-size:12px;color:#667085}
+.notice{margin-top:18px;background:#eef3ff;padding:15px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
+</style>
+</head>
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
+<body>
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
+<header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header>
 
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
+<div class="container">
 
-.container{
-max-width:900px;
-margin:auto;
-padding:20px 16px;
-}
+<div class="heading">
+<h1>Subject Management 📚</h1>
+<p>Create and manage the subjects available for learners and teachers.</p>
+</div>
 
-.heading{
-margin-bottom:18px;
-}
+<div class="add-box">
+<h2>Add New Subject</h2>
+<input id="subjectInput" type="text"
+placeholder="Enter subject name" maxlength="50">
+<button class="add-btn" onclick="addSubject()">+ Add Subject</button>
+</div>
 
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
-}
+<div class="stats">
 
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
+<div class="stat">
+<div class="stat-icon">📚</div>
+<h3 id="totalSubjects">0</h3>
+<p>Total Subjects</p>
+</div>
 
-.add-box{
-background:white;
-padding:16px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:18px;
-}
+<div class="stat">
+<div class="stat-icon">🟢</div>
+<h3 id="activeSubjects">0</h3>
+<p>Active Subjects</p>
+</div>
 
-.add-box h2{
-font-size:15px;
-margin-bottom:11px;
-}
+</div>
 
-input{
-width:100%;
-padding:12px;
-border:1px solid #d8deea;
-border-radius:8px;
-font-size:13px;
-outline:none;
-margin-bottom:9px;
-}
+<div id="subjectList"></div>
 
-.add-btn{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:12px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-}
+<div id="empty" class="empty">
+No subjects available.
+</div>
 
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
-}
-
-.stat{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-}
-
-.stat-icon{
-font-size:22px;
-}
-
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
-
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.subject{
-background:white;
-padding:16px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:11px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-}
-
-.subject-left{
-display:flex;
-align-items:center;
-gap:11px;
-}
-
-.subject-icon{
-width:42px;
-height:42px;
-border-radius:10px;
-background:#eef3ff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-}
-
-.subject-name{
-font-size:14px;
-font-weight:800;
-}
-
-.subject-status{
-font-size:10px;
-color:#027a48;
-margin-top:3px;
-}
-
-.delete{
-border:0;
-background:#fee4e2;
-color:#b42318;
-padding:8px 10px;
-border-radius:7px;
-font-size:10px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.empty{
-display:none;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
-color:#667085;
-}
-
-.notice{
-margin-top:18px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-@media(min-width:650px){
-
-.stats{
-grid-template-columns:repeat(2,1fr);
-}
-
-}
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>Subject Management 📚</h1><p>
-Create and manage the subjects available for learners and teachers.
-</p></div><!-- ADD SUBJECT --><div class="add-box"><h2>
-Add New Subject
-</h2><input
-type="text"
-id="subjectInput"
-placeholder="Enter subject name"
-maxlength="50"
-
-«»
-
-<button
-class="add-btn"
-onclick="addSubject()">
-
-+ Add Subject
-
-</button></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-📚
-</div><h3 id="totalSubjects">
-4
-</h3><p>Total Subjects</p></div><div class="stat"><div class="stat-icon">
-🟢
-</div><h3 id="activeSubjects">
-4
-</h3><p>Active Subjects</p></div></div><!-- SUBJECT LIST --><div id="subjectList"><div class="subject"><div class="subject-left"><div class="subject-icon">
-🔢
-</div><div><div class="subject-name">
-Mathematics
-</div><div class="subject-status">
-● Active
-</div></div></div><button
-class="delete"
-onclick="deleteSubject(this)">
-
-Remove
-
-</button></div><div class="subject"><div class="subject-left"><div class="subject-icon">
-📖
-</div><div><div class="subject-name">
-English
-</div><div class="subject-status">
-● Active
-</div></div></div><button
-class="delete"
-onclick="deleteSubject(this)">
-
-Remove
-
-</button></div><div class="subject"><div class="subject-left"><div class="subject-icon">
-💻
-</div><div><div class="subject-name">
-ICT / Computer Studies
-</div><div class="subject-status">
-● Active
-</div></div></div><button
-class="delete"
-onclick="deleteSubject(this)">
-
-Remove
-
-</button></div><div class="subject"><div class="subject-left"><div class="subject-icon">
-🔬
-</div><div><div class="subject-name">
-Science
-</div><div class="subject-status">
-● Active
-</div></div></div><button
-class="delete"
-onclick="deleteSubject(this)">
-
-Remove
-
-</button></div></div><div id="empty" class="empty">No subjects available.
-
-</div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Subject Control</strong>
-
+<div class="notice">
+<strong>🔐 CEO Subject Control</strong><br><br>
+The CEO controls which subjects are available on Mule Learner Tuition.
 <br><br>
+Teachers can later be assigned to specific subjects, and learners will be able to choose from the subjects made available by the CEO.
+<br><br>
+Subjects added here are stored in the platform database.
+</div>
 
-The CEO controls which subjects are available on
-Mule Learner Tuition.
-
-Teachers can later be assigned to specific subjects,
-and learners will be able to choose from the subjects
-made available by the CEO.
-
-Subjects added here will eventually be stored in the
-platform database.
-
-</div><footer>Mule Learner Tuition<br>
+<footer>
+Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
+</footer>
 
-</footer></div><script>
+</div>
 
-function updateCounts(){
+<script src="../js/auth.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
 
-const subjects=
-document.querySelectorAll(".subject");
+<script>
 
-const count=subjects.length;
+const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-document.getElementById("totalSubjects").textContent=
-count;
+let subjects={};
+
+async function loadSubjects(){
+
+try{
+
+const r=await fetch(DB+"/subjects.json");
+const data=await r.json();
+
+if(data){
+subjects=data;
+}else{
+subjects={};
+}
+
+render();
+
+}catch(e){
+
+alert("Could not load subjects.");
+
+}
+
+}
+
+async function addSubject(){
+
+const input=document.getElementById("subjectInput");
+const name=input.value.trim();
+
+if(!name){
+alert("Please enter a subject name.");
+return;
+}
+
+const exists=Object.values(subjects).some(s=>
+String(s.name||"").toLowerCase()===name.toLowerCase()
+);
+
+if(exists){
+alert("This subject already exists.");
+return;
+}
+
+const id="SUB-"+Date.now();
+
+subjects[id]={
+id:id,
+name:name,
+status:"active",
+createdAt:new Date().toISOString(),
+createdBy:"CEO"
+};
+
+try{
+
+await saveSubjects();
+
+input.value="";
+render();
+
+alert("Subject added successfully.");
+
+}catch(e){
+
+delete subjects[id];
+alert("Could not save subject.");
+
+}
+
+}
+
+async function deleteSubject(id){
+
+if(!confirm("Remove this subject?"))return;
+
+const old=subjects[id];
+delete subjects[id];
+
+try{
+
+await saveSubjects();
+render();
+
+}catch(e){
+
+subjects[id]=old;
+alert("Could not remove subject.");
+
+}
+
+}
+
+async function saveSubjects(){
+
+const r=await fetch(DB+"/subjects.json",{
+method:"PUT",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(subjects)
+});
+
+if(!r.ok)throw new Error();
+
+}
+
+function render(){
+
+const list=document.getElementById("subjectList");
+const arr=Object.values(subjects);
+
+arr.sort((a,b)=>
+String(a.name||"").localeCompare(String(b.name||""))
+);
+
+document.getElementById("totalSubjects").textContent=arr.length;
 
 document.getElementById("activeSubjects").textContent=
-count;
+arr.filter(s=>String(s.status).toLowerCase()==="active").length;
 
-document.getElementById("empty").style.display=
-count===0 ? "block" : "none";
+if(!arr.length){
 
-}
-
-
-function addSubject(){
-
-const input=
-document.getElementById("subjectInput");
-
-const name=
-input.value.trim();
-
-if(name===""){
-
-alert("Please enter a subject name.");
-
+list.innerHTML="";
+document.getElementById("empty").style.display="block";
 return;
 
 }
 
-const subject=
-document.createElement("div");
+document.getElementById("empty").style.display="none";
 
-subject.className="subject";
+list.innerHTML=arr.map(s=>`
 
-subject.innerHTML=`
+<div class="subject">
 
 <div class="subject-left">
 
-<div class="subject-icon">
-📚
-</div>
+<div class="subject-icon">📚</div>
 
 <div>
 
 <div class="subject-name">
-${escapeHTML(name)}
+${escapeHTML(s.name||"")}
 </div>
 
 <div class="subject-status">
-● Active
+● ${String(s.status||"active").toUpperCase()}
 </div>
 
 </div>
@@ -369,59 +258,40 @@ ${escapeHTML(name)}
 </div>
 
 <button class="delete"
-onclick="deleteSubject(this)">
+onclick="deleteSubject('${safeJS(s.id)}')">
 Remove
 </button>
 
-`;
+</div>
 
-document
-.getElementById("subjectList")
-.appendChild(subject);
-
-input.value="";
-
-updateCounts();
+`).join("");
 
 }
-
-
-function deleteSubject(button){
-
-const confirmRemove=
-confirm("Remove this subject?");
-
-if(!confirmRemove){
-return;
-}
-
-button
-.closest(".subject")
-.remove();
-
-updateCounts();
-
-}
-
 
 function escapeHTML(text){
 
-const div=
-document.createElement("div");
-
-div.textContent=text;
-
-return div.innerHTML;
+return String(text)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
+function safeJS(text){
 
-updateCounts();
+return String(text).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+
+}
+
+if(typeof protectCEOPage==="function"){
+protectCEOPage();
+}
+
+loadSubjects();
 
 </script>
 
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
-  
 </body>
 </html>

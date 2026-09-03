@@ -1,599 +1,271 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Learning Materials | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
-
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
-
-.logo{
-font-size:18px;
-font-weight:800;
-}
-
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
-
-.container{
-max-width:900px;
-margin:auto;
-padding:20px 16px;
-}
-
-.heading{
-margin-bottom:18px;
-}
-
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
-}
-
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
-
-.form-box{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:18px;
-}
-
-.form-box h2{
-font-size:15px;
-margin-bottom:12px;
-}
-
-input,select,textarea{
-width:100%;
-padding:12px;
-border:1px solid #d8deea;
-border-radius:8px;
-font-size:12px;
-outline:none;
-margin-bottom:9px;
-background:white;
-font-family:Arial,sans-serif;
-}
-
-textarea{
-height:90px;
-resize:vertical;
-}
-
-.add-btn{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:12px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
-}
-
-.stat{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-}
-
-.stat-icon{
-font-size:22px;
-}
-
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
-
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.material{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
-}
-
-.material-top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:10px;
-}
-
-.material-icon{
-width:44px;
-height:44px;
-border-radius:10px;
-background:#eef3ff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-flex-shrink:0;
-}
-
-.identity{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
-.name{
-font-size:15px;
-font-weight:800;
-}
-
-.info{
-font-size:11px;
-color:#667085;
-margin-top:4px;
-}
-
-.badge{
-padding:6px 9px;
-border-radius:20px;
-font-size:9px;
-font-weight:bold;
-background:#ecfdf3;
-color:#027a48;
-white-space:nowrap;
-}
-
-.description{
-margin-top:13px;
-padding-top:12px;
-border-top:1px solid #edf0f5;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-.actions{
-display:flex;
-gap:8px;
-margin-top:13px;
-}
-
-button{
-flex:1;
-border:0;
-padding:10px;
-border-radius:8px;
-font-size:11px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.view{
-background:#eef3ff;
-color:#173b8f;
-}
-
-.remove{
-background:#fee4e2;
-color:#b42318;
-}
-
-.empty{
-display:none;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
-color:#667085;
-}
-
-.notice{
-margin-top:18px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-@media(min-width:650px){
-
-.stats{
-grid-template-columns:repeat(3,1fr);
-}
-
-}
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>
-Learning Materials 📖
-</h1><p>
-Manage notes, revision materials and study resources for learners.
-</p></div><!-- ADD MATERIAL --><div class="form-box"><h2>
-Add Learning Material
-</h2><input
-type="text"
-id="title"
-placeholder="Material title e.g. Grade 7 Mathematics Notes"
-maxlength="70"
-
-«»
-
-<input
-type="text"
-id="subject"
-placeholder="Subject e.g. Mathematics"
-maxlength="40"
-
-«»
-
-<select id="level"><option value="">
-Select class / level
-</option><option>
-Grade 7
-</option><option>
-Grade 8
-</option><option>
-Grade 9
-</option><option>
-Grade 10
-</option><option>
-Grade 11
-</option><option>
-Grade 12
-</option><option>
-General
-</option></select><textarea
-id="description"
-placeholder="Short description of the learning material..."
-maxlength="300"
-></textarea><input
-type="url"
-id="fileLink"
-placeholder="Material link (optional)"
-
-«»
-
-<button
-class="add-btn"
-onclick="addMaterial()">
-
-+ Add Material
-
-</button></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-📖
-</div><h3 id="total">
-0
-</h3><p>
-Total Materials
-</p></div><div class="stat"><div class="stat-icon">
-📚
-</div><h3 id="subjects">
-0
-</h3><p>
-Subjects
-</p></div><div class="stat"><div class="stat-icon">
-🎓
-</div><h3 id="levels">
-0
-</h3><p>
-Class Levels
-</p></div></div><!-- MATERIAL LIST --><div id="materialList"></div><div id="empty" class="empty">No learning materials have been added yet.
-
-</div><!-- NOTICE --><div class="notice"><strong>
-🔐 CEO Materials Control
-</strong><br><br>
-
-The CEO controls the learning resources available
-to learners.
-
-Materials can later be connected to subjects,
-classes and individual learner accounts.
-
-<br><br>
-
-Only approved learning resources should be published
-for learners.
-
-</div><footer>Mule Learner Tuition<br>
-CEO Administration • Learn • Practice • Succeed
-
-</footer></div><script>
-
-let materials=[];
-
-
-function addMaterial(){
-
-const title=
-document.getElementById("title")
-.value.trim();
-
-const subject=
-document.getElementById("subject")
-.value.trim();
-
-const level=
-document.getElementById("level")
-.value;
-
-const description=
-document.getElementById("description")
-.value.trim();
-
-const link=
-document.getElementById("fileLink")
-.value.trim();
-
-
-if(title===""){
-
-alert("Please enter the material title.");
-return;
-
-}
-
-if(subject===""){
-
-alert("Please enter the subject.");
-return;
-
-}
-
-if(level===""){
-
-alert("Please select the class or level.");
-return;
-
-}
-
-if(description===""){
-
-alert("Please enter a short description.");
-return;
-
-}
-
-
-materials.push({
-title:title,
-subject:subject,
-level:level,
-description:description,
-link:link
-});
-
-
-document.getElementById("title").value="";
-document.getElementById("subject").value="";
-document.getElementById("level").value="";
-document.getElementById("description").value="";
-document.getElementById("fileLink").value="";
-
-
-renderMaterials();
-
-}
-
-
-function renderMaterials(){
-
-const list=
-document.getElementById("materialList");
-
-list.innerHTML="";
-
-
-document.getElementById("total")
-.textContent=materials.length;
-
-
-const subjectSet=
-new Set(materials.map(item=>item.subject));
-
-const levelSet=
-new Set(materials.map(item=>item.level));
-
-
-document.getElementById("subjects")
-.textContent=subjectSet.size;
-
-document.getElementById("levels")
-.textContent=levelSet.size;
-
-
-if(materials.length===0){
-
-document.getElementById("empty")
-.style.display="block";
-
-return;
-
-}
-
-
-document.getElementById("empty")
-.style.display="none";
-
-
-materials.forEach(function(item,index){
-
-const card=
-document.createElement("div");
-
-card.className="material";
-
-
-card.innerHTML=`
-
-<div class="material-top">
-
-<div class="identity">
-
-<div class="material-icon">
-📖
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CEO Materials | Mule Learner Tuition</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:#173b8f;color:white;padding:18px;text-align:center}
+header h2{margin:0;font-size:20px}
+main{max-width:700px;margin:auto;padding:15px}
+.card{background:white;border-radius:14px;padding:15px;margin-bottom:15px;box-shadow:0 3px 12px #0001}
+input,select,textarea,button{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:9px;font-size:15px}
+textarea{min-height:80px;resize:vertical}
+button{background:#173b8f;color:white;border:0;font-weight:bold}
+button.danger{background:#c62828}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#eef3ff;padding:12px;text-align:center;border-radius:10px}
+.stat b{display:block;font-size:20px;color:#173b8f}
+.material{border:1px solid #e1e5ec;border-radius:10px;padding:12px;margin-top:10px}
+.material h3{margin:0 0 7px;color:#173b8f}
+.small{font-size:13px;color:#667085}
+.actions{display:flex;gap:8px}
+.actions button{flex:1}
+.empty{text-align:center;color:#777;padding:20px}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>📚 CEO Materials</h2>
+  <div class="small" style="color:#dce6ff">Mule Learner Tuition</div>
+</header>
+
+<main>
+
+<div class="card">
+  <h3>➕ Add Learning Material</h3>
+
+  <input id="title" placeholder="Material title" required>
+
+  <select id="subject" required>
+    <option value="">Select Subject</option>
+    <option>Mathematics</option>
+    <option>English</option>
+    <option>Science</option>
+    <option>Physics</option>
+    <option>Chemistry</option>
+    <option>Biology</option>
+    <option>ICT</option>
+    <option>Computer Studies</option>
+    <option>Other</option>
+  </select>
+
+  <select id="level" required>
+    <option value="">Select Level</option>
+    <option>Form 1</option>
+    <option>Form 2</option>
+    <option>Form 3</option>
+    <option>Form 4</option>
+    <option>Grade 10</option>
+    <option>Grade 11</option>
+    <option>Grade 12</option>
+    <option>Other</option>
+  </select>
+
+  <textarea id="description" placeholder="Short description"></textarea>
+
+  <input id="link" type="url" placeholder="Material link (optional)">
+
+  <button onclick="addMaterial()">Publish Material</button>
 </div>
 
-<div>
-
-<div class="name">
-${escapeHTML(item.title)}
+<div class="card">
+  <h3>📊 Material Overview</h3>
+  <div class="stats">
+    <div class="stat">
+      <b id="total">0</b>
+      Materials
+    </div>
+    <div class="stat">
+      <b id="subjects">0</b>
+      Subjects
+    </div>
+    <div class="stat">
+      <b id="levels">0</b>
+      Levels
+    </div>
+  </div>
 </div>
 
-<div class="info">
-${escapeHTML(item.subject)} • ${escapeHTML(item.level)}
+<div class="card">
+  <h3>📚 Published Materials</h3>
+  <div id="list">
+    <div class="empty">Loading materials...</div>
+  </div>
 </div>
 
-</div>
+</main>
 
-</div>
-
-<span class="badge">
-PUBLISHED
-</span>
-
-</div>
-
-
-<div class="description">
-
-${escapeHTML(item.description)}
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="view"
-onclick="viewMaterial(${index})">
-
-👁 View
-
-</button>
-
-<button
-class="remove"
-onclick="removeMaterial(${index})">
-
-Remove
-
-</button>
-
-</div>
-
-`;
-
-
-list.appendChild(card);
-
-});
-
-}
-
-
-function viewMaterial(index){
-
-const item=materials[index];
-
-if(item.link){
-
-window.open(item.link,"_blank");
-
-}else{
-
-alert(
-"Material: "+item.title+
-"\n\nNo material link has been added yet."
-);
-
-}
-
-}
-
-
-function removeMaterial(index){
-
-if(!confirm("Remove this learning material?")){
-return;
-}
-
-materials.splice(index,1);
-
-renderMaterials();
-
-}
-
-
-function escapeHTML(text){
-
-const div=
-document.createElement("div");
-
-div.textContent=text;
-
-return div.innerHTML;
-
-}
-
-
-renderMaterials();
-
-</script>
-  
+<script src="../js/auth.js"></script>
 <script src="../js/app.js"></script>
 <script src="../js/ceo.js"></script>
-  
+
+<script>
+const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+async function getMaterials(){
+  const r=await fetch(DB+"/materials.json");
+  if(!r.ok) throw new Error("Could not load materials");
+  const d=await r.json();
+  if(!d)return[];
+  return Object.values(d);
+}
+
+async function addMaterial(){
+  const title=document.getElementById("title").value.trim();
+  const subject=document.getElementById("subject").value;
+  const level=document.getElementById("level").value;
+  const description=document.getElementById("description").value.trim();
+  const link=document.getElementById("link").value.trim();
+
+  if(!title||!subject||!level){
+    alert("Please enter the title, subject and level.");
+    return;
+  }
+
+  const id="MAT-"+Date.now();
+
+  const material={
+    id:id,
+    title:title,
+    subject:subject,
+    level:level,
+    description:description,
+    link:link,
+    status:"PUBLISHED",
+    createdAt:new Date().toISOString(),
+    createdBy:"CEO"
+  };
+
+  try{
+    const r=await fetch(DB+"/materials/"+id+".json",{
+      method:"PUT",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(material)
+    });
+
+    if(!r.ok)throw new Error();
+
+    alert("Material published successfully.");
+
+    document.getElementById("title").value="";
+    document.getElementById("subject").value="";
+    document.getElementById("level").value="";
+    document.getElementById("description").value="";
+    document.getElementById("link").value="";
+
+    loadMaterials();
+
+  }catch(e){
+    alert("Failed to publish material.");
+  }
+}
+
+async function removeMaterial(id){
+  if(!confirm("Remove this material?"))return;
+
+  try{
+    const r=await fetch(DB+"/materials/"+id+".json",{
+      method:"DELETE"
+    });
+
+    if(!r.ok)throw new Error();
+
+    loadMaterials();
+
+  }catch(e){
+    alert("Could not remove material.");
+  }
+}
+
+function viewMaterial(link){
+  if(link){
+    window.open(link,"_blank");
+  }else{
+    alert("No material link was added.");
+  }
+}
+
+async function loadMaterials(){
+  const list=document.getElementById("list");
+
+  try{
+    let materials=await getMaterials();
+
+    materials.sort((a,b)=>
+      new Date(b.createdAt||0)-new Date(a.createdAt||0)
+    );
+
+    document.getElementById("total").textContent=materials.length;
+
+    document.getElementById("subjects").textContent=
+      new Set(materials.map(x=>x.subject).filter(Boolean)).size;
+
+    document.getElementById("levels").textContent=
+      new Set(materials.map(x=>x.level).filter(Boolean)).size;
+
+    if(!materials.length){
+      list.innerHTML='<div class="empty">No materials published yet.</div>';
+      return;
+    }
+
+    list.innerHTML=materials.map(m=>`
+      <div class="material">
+        <h3>${escapeHTML(m.title||"Untitled")}</h3>
+
+        <div class="small">
+          📘 ${escapeHTML(m.subject||"")} 
+          &nbsp; | &nbsp;
+          🎓 ${escapeHTML(m.level||"")}
+        </div>
+
+        <p>${escapeHTML(m.description||"No description")}</p>
+
+        <div class="actions">
+          <button onclick="viewMaterial('${safeJS(m.link||"")}')">
+            👁 View
+          </button>
+
+          <button class="danger"
+            onclick="removeMaterial('${safeJS(m.id)}')">
+            🗑 Remove
+          </button>
+        </div>
+      </div>
+    `).join("");
+
+  }catch(e){
+    list.innerHTML='<div class="empty">Unable to load materials.</div>';
+  }
+}
+
+function escapeHTML(value){
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function safeJS(value){
+  return String(value)
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/\n/g,"\\n")
+    .replace(/\r/g,"\\r");
+}
+
+if(typeof protectCEOPage==="function"){
+  protectCEOPage();
+}
+
+loadMaterials();
+</script>
+
 </body>
 </html>

@@ -1,252 +1,222 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Payment Accounts | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b8f">
+<title>Payment Accounts | Mule Learner Tuition</title>
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:750px;margin:auto;padding:20px 16px}
+h1{font-size:23px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:12px;color:#667085;line-height:1.5;margin-bottom:20px}
+.account{background:white;padding:18px;border-radius:14px;margin-bottom:12px;box-shadow:0 4px 15px #14326412}
+.top{display:flex;justify-content:space-between;align-items:center}
+.network{font-size:16px;font-weight:800}
+.status{font-size:10px;font-weight:bold;background:#ecfdf3;color:#027a48;padding:6px 9px;border-radius:20px}
+.number{font-size:21px;font-weight:800;color:#173b8f;margin-top:15px}
+.owner{font-size:11px;color:#667085;margin-top:4px}
+.actions{display:flex;gap:8px;margin-top:15px}
+button{flex:1;border:0;padding:11px;border-radius:8px;font-size:12px;font-weight:bold}
+.edit{background:#eef3ff;color:#173b8f}
+.disable{background:#fee4e2;color:#b42318}
+.notice{margin-top:18px;background:#eef3ff;padding:16px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
+</style>
+</head>
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
+<body>
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
+<header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header>
 
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
+<div class="container">
 
-.container{
-max-width:750px;
-margin:auto;
-padding:20px 16px;
-}
+<div class="heading">
+<h1>Payment Accounts 💳</h1>
+<p>Manage the mobile money accounts used by learners to make tuition payments.</p>
+</div>
 
-.heading{
-margin-bottom:20px;
-}
+<div id="accounts">Loading...</div>
 
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
-}
+<div class="notice">
+<strong>🔐 CEO Payment Control</strong><br><br>
+These accounts are displayed to learners on the payment page.<br><br>
+Only the CEO should be able to change or disable payment accounts.
+</div>
 
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
-
-.account{
-background:white;
-padding:18px;
-border-radius:14px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
-}
-
-.account-top{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-}
-
-.network{
-font-size:16px;
-font-weight:800;
-}
-
-.status{
-font-size:10px;
-font-weight:bold;
-background:#ecfdf3;
-color:#027a48;
-padding:6px 9px;
-border-radius:20px;
-}
-
-.number{
-font-size:21px;
-font-weight:800;
-color:#173b8f;
-margin-top:15px;
-letter-spacing:.5px;
-}
-
-.owner{
-font-size:11px;
-color:#667085;
-margin-top:4px;
-}
-
-.actions{
-display:flex;
-gap:8px;
-margin-top:15px;
-}
-
-button{
-flex:1;
-border:0;
-padding:11px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.edit{
-background:#eef3ff;
-color:#173b8f;
-}
-
-.disable{
-background:#fee4e2;
-color:#b42318;
-}
-
-.notice{
-margin-top:18px;
-background:#eef3ff;
-padding:16px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>Payment Accounts 💳</h1><p>
-Manage the mobile money accounts used by learners
-to make tuition payments.
-</p></div><!-- AIRTEL --><div class="account"><div class="account-top"><div class="network">
-📱 Airtel Money
-</div><div class="status" id="airtelStatus">
-ACTIVE
-</div></div><div class="number" id="airtelNumber">
-0978362800
-</div><div class="owner">
-Account Name: Owen Singogo
-</div><div class="actions"><button class="edit" onclick="editAccount('airtelNumber')">
-✏️ Edit
-</button><button class="disable" onclick="toggleAccount('airtelStatus')">
-Disable
-</button></div></div><!-- ZAMTEL --><div class="account"><div class="account-top"><div class="network">
-📱 Zamtel Money
-</div><div class="status" id="zamtelStatus">
-ACTIVE
-</div></div><div class="number" id="zamtelNumber">
-0750840210
-</div><div class="owner">
-Account Name: Owen Singogo
-</div><div class="actions"><button class="edit" onclick="editAccount('zamtelNumber')">
-✏️ Edit
-</button><button class="disable" onclick="toggleAccount('zamtelStatus')">
-Disable
-</button></div></div><!-- MTN --><div class="account"><div class="account-top"><div class="network">
-📱 MTN MoMo
-</div><div class="status" id="mtnStatus">
-ACTIVE
-</div></div><div class="number" id="mtnNumber">
-0768217115
-</div><div class="owner">
-Account Name: Owen Singogo
-</div><div class="actions"><button class="edit" onclick="editAccount('mtnNumber')">
-✏️ Edit
-</button><button class="disable" onclick="toggleAccount('mtnStatus')">
-Disable
-</button></div></div><div class="notice"><strong>🔐 CEO Payment Control</strong>
-
-<br><br>
-
-These accounts are displayed to learners on the
-payment page.
-
-Only the CEO should be able to change or disable
-payment accounts.
-
-Before changing an account, make sure the new
-number is correct so learners do not send money
-to the wrong account.
-
-</div><footer>Mule Learner Tuition<br>
+<footer>
+Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
+</footer>
 
-</footer></div><script>
+</div>
 
-function editAccount(id){
+<script src="../js/auth.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
 
-const current=document.getElementById(id).textContent.trim();
+<script>
+const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-const newNumber=prompt(
-"Enter the new payment account number:",
+const defaults={
+  airtel:{
+    name:"Airtel Money",
+    number:"0978362800",
+    owner:"Owen Singogo",
+    active:true
+  },
+  zamtel:{
+    name:"Zamtel Money",
+    number:"0750840210",
+    owner:"Owen Singogo",
+    active:true
+  },
+  mtn:{
+    name:"MTN MoMo",
+    number:"0768217115",
+    owner:"Owen Singogo",
+    active:true
+  }
+};
+
+let accounts={};
+
+async function loadAccounts(){
+
+try{
+const r=await fetch(DB+"/paymentAccounts.json");
+const data=await r.json();
+
+accounts=data||defaults;
+
+for(const k in defaults){
+if(!accounts[k])accounts[k]=defaults[k];
+}
+
+render();
+
+}catch(e){
+accounts=defaults;
+render();
+}
+
+}
+
+function render(){
+
+const box=document.getElementById("accounts");
+
+box.innerHTML=Object.entries(accounts).map(([key,a])=>`
+
+<div class="account">
+
+<div class="top">
+<div class="network">📱 ${a.name}</div>
+
+<div class="status"
+style="${a.active?
+'background:#ecfdf3;color:#027a48':
+'background:#fee4e2;color:#b42318'}">
+
+${a.active?"ACTIVE":"DISABLED"}
+
+</div>
+</div>
+
+<div class="number">${a.number}</div>
+
+<div class="owner">
+Account Name: ${a.owner}
+</div>
+
+<div class="actions">
+
+<button class="edit"
+onclick="editAccount('${key}')">
+✏️ Edit
+</button>
+
+<button class="disable"
+onclick="toggleAccount('${key}')">
+${a.active?"Disable":"Enable"}
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+async function save(){
+
+await fetch(DB+"/paymentAccounts.json",{
+method:"PUT",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(accounts)
+});
+
+}
+
+async function editAccount(key){
+
+const current=accounts[key].number;
+
+const number=prompt(
+"Enter the new "+accounts[key].name+" number:",
 current
 );
 
-if(newNumber && newNumber.trim()!==""){
+if(!number||!number.trim())return;
 
-document.getElementById(id).textContent=
-newNumber.trim();
+const clean=number.trim();
 
+if(!/^0[0-9]{9}$/.test(clean)){
+alert("Enter a valid 10-digit Zambian phone number.");
+return;
+}
+
+accounts[key].number=clean;
+
+try{
+await save();
+render();
+alert("Payment account updated successfully.");
+}catch(e){
+alert("Could not save the new number.");
 }
 
 }
 
+async function toggleAccount(key){
 
-function toggleAccount(id){
+accounts[key].active=!accounts[key].active;
 
-const status=document.getElementById(id);
-
-if(status.textContent==="ACTIVE"){
-
-status.textContent="DISABLED";
-status.style.background="#fee4e2";
-status.style.color="#b42318";
-
-}else{
-
-status.textContent="ACTIVE";
-status.style.background="#ecfdf3";
-status.style.color="#027a48";
-
+try{
+await save();
+render();
+}catch(e){
+accounts[key].active=!accounts[key].active;
+alert("Could not update account status.");
 }
 
 }
 
+if(typeof protectCEOPage==="function"){
+protectCEOPage();
+}
+
+loadAccounts();
 </script>
-  
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
+
 </body>
 </html>

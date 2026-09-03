@@ -1,654 +1,488 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
-
-<title>Classes | Mule Learner Tuition</title>
-
-<style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
+<title>Classes | Mule Learner Tuition</title><style>
+*{box-sizing:border-box}
 body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#222;
 }
-
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
+.header{
+  background:#173b8f;
+  color:white;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
-
-.logo{
-font-size:18px;
-font-weight:800;
-}
-
+.header h2{margin:0;font-size:20px}
 .back{
-color:white;
-text-decoration:none;
-font-size:13px;
+  color:white;
+  text-decoration:none;
+  font-size:14px;
 }
-
 .container{
-max-width:900px;
-margin:auto;
-padding:20px 16px;
+  max-width:600px;
+  margin:auto;
+  padding:15px;
 }
-
-.heading{
-margin-bottom:18px;
+.card{
+  background:white;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:14px;
+  box-shadow:0 2px 8px #0001;
 }
-
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
+.card h3{margin:0 0 8px;color:#173b8f}
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin:10px 0 5px;
 }
-
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
-
-.create{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:18px;
-}
-
-.create h2{
-font-size:15px;
-margin-bottom:12px;
-}
-
 input,select{
-width:100%;
-padding:12px;
-border:1px solid #d8deea;
-border-radius:8px;
-font-size:12px;
-outline:none;
-margin-bottom:9px;
-background:white;
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-size:14px;
 }
-
-.create-btn{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:12px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
-}
-
-.stat{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-}
-
-.stat-icon{
-font-size:22px;
-}
-
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
-
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.class-card{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
-}
-
-.top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:10px;
-}
-
-.class-name{
-font-size:15px;
-font-weight:800;
-}
-
-.subject{
-font-size:11px;
-color:#667085;
-margin-top:4px;
-}
-
-.badge{
-padding:6px 9px;
-border-radius:20px;
-font-size:9px;
-font-weight:bold;
-background:#ecfdf3;
-color:#027a48;
-white-space:nowrap;
-}
-
-.details{
-margin-top:13px;
-border-top:1px solid #edf0f5;
-padding-top:10px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-gap:10px;
-padding:6px 0;
-font-size:12px;
-}
-
-.label{
-color:#667085;
-}
-
-.value{
-font-weight:700;
-text-align:right;
-}
-
-.actions{
-display:flex;
-gap:8px;
-margin-top:13px;
-}
-
 button{
-flex:1;
-border:0;
-padding:10px;
-border-radius:8px;
-font-size:11px;
-font-weight:bold;
-cursor:pointer;
+  border:0;
+  border-radius:8px;
+  padding:11px 14px;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-.view{
-background:#eef3ff;
-color:#173b8f;
+.primary{
+  width:100%;
+  margin-top:14px;
+  background:#173b8f;
+  color:white;
 }
-
-.remove{
-background:#fee4e2;
-color:#b42318;
-}
-
-.empty{
-display:none;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
-color:#667085;
-}
-
-.notice{
-margin-top:18px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-@media(min-width:650px){
-
 .stats{
-grid-template-columns:repeat(3,1fr);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.stat{
+  background:#eef3ff;
+  border-radius:10px;
+  padding:12px 5px;
+  text-align:center;
+}
+.stat b{
+  display:block;
+  font-size:20px;
+  color:#173b8f;
+}
+.stat span{font-size:11px}
+.class-card{
+  border-left:4px solid #173b8f;
+}
+.class-row{
+  font-size:13px;
+  margin:5px 0;
+}
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  background:#e7f7ed;
+  color:#17823b;
+  font-size:11px;
+  font-weight:bold;
+}
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+.view{
+  background:#173b8f;
+  color:white;
+  flex:1;
+}
+.delete{
+  background:#ffe9e9;
+  color:#c62828;
+}
+.empty{
+  text-align:center;
+  color:#777;
+  padding:25px 10px;
+}
+.notice{
+  background:#fff4d6;
+  color:#7a5700;
+  padding:10px;
+  border-radius:8px;
+  font-size:12px;
+  margin-bottom:12px;
+}
+</style></head><body><div class="header">
+  <h2>📚 Classes</h2>
+  <a class="back" href="dashboard.html">← Dashboard</a>
+</div><div class="container">  <div class="notice">
+    Classes created here are saved in Firebase and can be accessed by authorised users.
+  </div>  <div class="card">
+    <h3>➕ Create New Class</h3><form onsubmit="createClass(event)">
+
+  <label>Class Name</label>
+  <input id="className" type="text"
+         placeholder="e.g. Grade 10 Mathematics"
+         required>
+
+  <label>Subject</label>
+  <input id="subject" type="text"
+         placeholder="e.g. Mathematics"
+         required>
+
+  <label>Teacher</label>
+  <input id="teacher" type="text"
+         placeholder="Teacher name"
+         required>
+
+  <label>Class Type</label>
+  <select id="classType">
+    <option value="Regular Class">Regular Class</option>
+    <option value="Live Class">Live Class</option>
+  </select>
+
+  <button class="primary" type="submit">
+    Create Class
+  </button>
+
+</form>
+
+  </div>  <div class="card">
+    <h3>📊 Class Overview</h3><div class="stats">
+  <div class="stat">
+    <b id="totalCount">0</b>
+    <span>Total</span>
+  </div>
+
+  <div class="stat">
+    <b id="activeCount">0</b>
+    <span>Active</span>
+  </div>
+
+  <div class="stat">
+    <b id="assignedCount">0</b>
+    <span>Assigned</span>
+  </div>
+</div>
+
+  </div>  <div class="card">
+    <h3>📚 All Classes</h3>
+    <div id="classesList">
+      <div class="empty">Loading classes...</div>
+    </div>
+  </div></div><script src="../js/app.js"></script><script src="../js/ceo.js"></script><script>
+const DB_URL =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+const CLASSES_PATH = "classes";
+
+function showMessage(message){
+  alert(message);
 }
 
-}
-</style>
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
-Mule Learner Tuition
-</div>
-
-<a href="dashboard.html" class="back">
-← CEO Dashboard
-</a>
-
-</header>
-
-<div class="container">
-
-<div class="heading">
-
-<h1>Class Management 🏫</h1>
-
-<p>
-Create classes and prepare them for teacher and learner access.
-</p>
-
-</div>
-
-<div class="create">
-
-<h2>Create New Class</h2>
-
-<input
-type="text"
-id="className"
-placeholder="Class name e.g. Grade 7 Mathematics"
-maxlength="60"
->
-
-<input
-type="text"
-id="subject"
-placeholder="Subject e.g. Mathematics"
-maxlength="40"
->
-
-<input
-type="text"
-id="teacher"
-placeholder="Assigned teacher"
-maxlength="50"
->
-
-<select id="classType">
-
-<option value="">
-Select class type
-</option>
-
-<option>Regular Class</option>
-<option>Live Class</option>
-
-</select>
-
-<button
-class="create-btn"
-onclick="createClass()"
->
-+ Create Class
-</button>
-
-</div>
-
-<div class="stats">
-
-<div class="stat">
-
-<div class="stat-icon">🏫</div>
-
-<h3 id="total">0</h3>
-
-<p>Total Classes</p>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">🟢</div>
-
-<h3 id="active">0</h3>
-
-<p>Active Classes</p>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">👨‍🏫</div>
-
-<h3 id="assigned">0</h3>
-
-<p>Assigned Teachers</p>
-
-</div>
-
-</div>
-
-<div id="classList">
-
-<div class="class-card">
-
-<div class="top">
-
-<div>
-
-<div class="class-name">
-No classes created
-</div>
-
-<div class="subject">
-Create your first class above.
-</div>
-
-</div>
-
-<span class="badge">
-READY
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="empty" class="empty">
-No classes available.
-</div>
-
-<div class="notice">
-
-<strong>🔐 CEO Class Control</strong>
-
-<br><br>
-
-The CEO controls the classes available on Mule Learner
-Tuition.
-
-Teachers can be assigned to classes by the CEO.
-Learners will later be able to see and join classes
-that are available to their accounts.
-
-Live classes will use the class information created
-here when the live-learning system is connected.
-
-</div>
-
-<footer>
-
-Mule Learner Tuition
-<br>
-CEO Administration • Learn • Practice • Succeed
-
-</footer>
-
-</div>
-
-<script>
-
-function updateCounts(){
-
-const cards=
-document.querySelectorAll(
-"#classList .class-card"
-);
-
-let realClasses=0;
-let assigned=0;
-
-cards.forEach(function(card){
-
-if(card.dataset.real==="true"){
-
-realClasses++;
-
-const teacher=
-card.dataset.teacher || "";
-
-if(teacher.trim()!==""){
-assigned++;
+async function firebaseGet(path){
+  const response = await fetch(
+    DB_URL + "/" + path + ".json"
+  );
+
+  if(!response.ok){
+    throw new Error("Firebase read failed");
+  }
+
+  return await response.json();
 }
 
+async function firebaseSet(path,data){
+  const response = await fetch(
+    DB_URL + "/" + path + ".json",
+    {
+      method:"PUT",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(data)
+    }
+  );
+
+  if(!response.ok){
+    throw new Error("Firebase write failed");
+  }
+
+  return await response.json();
 }
 
-});
+async function firebaseDelete(path){
+  const response = await fetch(
+    DB_URL + "/" + path + ".json",
+    {
+      method:"DELETE"
+    }
+  );
 
-document.getElementById("total").textContent=
-realClasses;
-
-document.getElementById("active").textContent=
-realClasses;
-
-document.getElementById("assigned").textContent=
-assigned;
-
-document.getElementById("empty").style.display=
-realClasses===0 ? "block" : "none";
-
+  if(!response.ok){
+    throw new Error("Firebase delete failed");
+  }
 }
 
-function createClass(){
-
-const name=
-document.getElementById("className")
-.value.trim();
-
-const subject=
-document.getElementById("subject")
-.value.trim();
-
-const teacher=
-document.getElementById("teacher")
-.value.trim();
-
-const type=
-document.getElementById("classType")
-.value;
-
-if(name===""){
-
-alert("Please enter a class name.");
-return;
-
+function createId(){
+  return "CLS-" + Date.now();
 }
 
-if(subject===""){
+async function createClass(event){
 
-alert("Please enter the subject.");
-return;
+  event.preventDefault();
 
+  const className =
+    document.getElementById("className").value.trim();
+
+  const subject =
+    document.getElementById("subject").value.trim();
+
+  const teacher =
+    document.getElementById("teacher").value.trim();
+
+  const classType =
+    document.getElementById("classType").value;
+
+  if(!className || !subject || !teacher){
+    showMessage("Please complete all fields.");
+    return;
+  }
+
+  const id = createId();
+
+  const classData = {
+    id:id,
+    className:className,
+    subject:subject,
+    teacher:teacher,
+    classType:classType,
+    status:"active",
+    createdAt:new Date().toISOString(),
+    createdBy:"CEO"
+  };
+
+  try{
+
+    await firebaseSet(
+      CLASSES_PATH + "/" + id,
+      classData
+    );
+
+    showMessage("✅ Class created successfully.");
+
+    document.getElementById("className").value="";
+    document.getElementById("subject").value="";
+    document.getElementById("teacher").value="";
+    document.getElementById("classType").value="Regular Class";
+
+    loadClasses();
+
+  }catch(error){
+
+    console.error(error);
+    showMessage("❌ Failed to create class. Check your Firebase connection.");
+
+  }
 }
 
-if(type===""){
+async function loadClasses(){
 
-alert("Please select a class type.");
-return;
+  const list =
+    document.getElementById("classesList");
 
+  list.innerHTML =
+    '<div class="empty">Loading classes...</div>';
+
+  try{
+
+    const data =
+      await firebaseGet(CLASSES_PATH);
+
+    const classes = data
+      ? Object.values(data)
+      : [];
+
+    updateStats(classes);
+
+    if(classes.length === 0){
+
+      list.innerHTML =
+        '<div class="empty">No classes created yet.</div>';
+
+      return;
+    }
+
+    classes.sort((a,b)=>{
+      return new Date(b.createdAt || 0) -
+             new Date(a.createdAt || 0);
+    });
+
+    list.innerHTML = classes.map(c => {
+
+      const status =
+        c.status || "active";
+
+      return `
+        <div class="card class-card">
+
+          <h3>${escapeHtml(c.className || "Unnamed Class")}</h3>
+
+          <div class="class-row">
+            <strong>Subject:</strong>
+            ${escapeHtml(c.subject || "-")}
+          </div>
+
+          <div class="class-row">
+            <strong>Teacher:</strong>
+            ${escapeHtml(c.teacher || "Not assigned")}
+          </div>
+
+          <div class="class-row">
+            <strong>Type:</strong>
+            ${escapeHtml(c.classType || "Regular Class")}
+          </div>
+
+          <div class="class-row">
+            <strong>Status:</strong>
+            <span class="badge">
+              ${escapeHtml(status)}
+            </span>
+          </div>
+
+          <div class="actions">
+            <button class="view"
+              onclick='viewClass(${JSON.stringify(c)})'>
+              View
+            </button>
+
+            <button class="delete"
+              onclick="removeClass('${c.id}')">
+              Delete
+            </button>
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+  }catch(error){
+
+    console.error(error);
+
+    list.innerHTML =
+      '<div class="empty">❌ Unable to load classes.</div>';
+
+  }
 }
 
-const list=
-document.getElementById("classList");
+function updateStats(classes){
 
-const first=
-list.querySelector(".class-card");
+  const total = classes.length;
 
-if(first && first.dataset.real!=="true"){
+  const active =
+    classes.filter(c =>
+      (c.status || "active") === "active"
+    ).length;
 
-first.remove();
+  const assigned =
+    classes.filter(c =>
+      c.teacher &&
+      c.teacher.trim() !== ""
+    ).length;
 
+  document.getElementById("totalCount").textContent =
+    total;
+
+  document.getElementById("activeCount").textContent =
+    active;
+
+  document.getElementById("assignedCount").textContent =
+    assigned;
 }
 
-const card=
-document.createElement("div");
+function viewClass(c){
 
-card.className="class-card";
-
-card.dataset.real="true";
-
-card.dataset.teacher=teacher;
-
-card.innerHTML=`
-
-<div class="top">
-
-<div>
-
-<div class="class-name">
-${escapeHTML(name)}
-</div>
-
-<div class="subject">
-${escapeHTML(subject)} • ${escapeHTML(type)}
-</div>
-
-</div>
-
-<span class="badge">
-ACTIVE
-</span>
-
-</div>
-
-<div class="details">
-
-<div class="row">
-
-<span class="label">
-Teacher
-</span>
-
-<span class="value">
-${teacher ? escapeHTML(teacher) : "Not Assigned"}
-</span>
-
-</div>
-
-<div class="row">
-
-<span class="label">
-Class Type
-</span>
-
-<span class="value">
-${escapeHTML(type)}
-</span>
-
-</div>
-
-</div>
-
-<div class="actions">
-
-<button
-class="view"
-onclick="viewClass(this)"
->
-👁 View
-</button>
-
-<button
-class="remove"
-onclick="removeClass(this)"
->
-Remove
-</button>
-
-</div>
-
-`;
-
-list.appendChild(card);
-
-document.getElementById("className").value="";
-document.getElementById("subject").value="";
-document.getElementById("teacher").value="";
-document.getElementById("classType").value="";
-
-updateCounts();
-
-}
-
-function viewClass(button){
-
-const card=
-button.closest(".class-card");
-
-const name=
-card.querySelector(".class-name")
-.textContent;
-
-alert(
-"Class: " + name +
-"\n\nFull class management will be available when the database is connected."
-);
+  alert(
+    "📚 CLASS DETAILS\n\n" +
+    "Class: " + (c.className || "-") + "\n" +
+    "Subject: " + (c.subject || "-") + "\n" +
+    "Teacher: " + (c.teacher || "-") + "\n" +
+    "Type: " + (c.classType || "-") + "\n" +
+    "Status: " + (c.status || "-")
+  );
 
 }
 
-function removeClass(button){
+async function removeClass(id){
 
-const confirmRemove=
-confirm("Remove this class?");
+  if(!id) return;
 
-if(!confirmRemove){
-return;
+  const confirmDelete =
+    confirm(
+      "Are you sure you want to delete this class?"
+    );
+
+  if(!confirmDelete) return;
+
+  try{
+
+    await firebaseDelete(
+      CLASSES_PATH + "/" + id
+    );
+
+    showMessage("✅ Class deleted.");
+
+    loadClasses();
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "❌ Could not delete the class."
+    );
+
+  }
 }
 
-button
-.closest(".class-card")
-.remove();
+function escapeHtml(value){
 
-updateCounts();
-
-}
-
-function escapeHTML(text){
-
-const div=
-document.createElement("div");
-
-div.textContent=text;
-
-return div.innerHTML;
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
-updateCounts();
+/* CEO protection */
+(function(){
 
-</script>
+  try{
 
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
+    if(typeof protectCEOPage === "function"){
+      protectCEOPage();
+    }
 
-</body>
+  }catch(error){
+    console.log("CEO protection handled by ceo.js");
+  }
+
+})();
+
+loadClasses();
+</script></body>
 </html>

@@ -1,586 +1,206 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!DOCTYPE html><html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
+<title>CEO Settings | Mule Learner Tuition</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:18px;font-weight:800}.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:700px;margin:auto;padding:20px 16px}
+h1{font-size:23px;color:#173b8f;margin-bottom:5px}.heading p{font-size:12px;color:#667085;margin-bottom:18px}
+.card{background:white;padding:17px;border-radius:13px;box-shadow:0 4px 15px rgba(20,50,100,.07);margin-bottom:13px}
+h2{font-size:15px;margin-bottom:14px}
+label{display:block;font-size:11px;font-weight:bold;color:#475467;margin-bottom:6px}
+input{width:100%;padding:12px;border:1px solid #d8deea;border-radius:8px;font-size:12px;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #edf0f5;font-size:12px}
+.row:last-child{border-bottom:0}
+button{border:0;cursor:pointer}
+.toggle{padding:7px 12px;border-radius:20px;font-size:10px;font-weight:bold}
+.on{background:#ecfdf3;color:#027a48}.off{background:#fef3f2;color:#b42318}
+.save{width:100%;background:#173b8f;color:white;padding:13px;border-radius:8px;font-size:12px;font-weight:bold}
+.status{font-size:9px;font-weight:bold;padding:6px 9px;border-radius:20px;background:#eef3ff;color:#173b8f}
+.note{margin-top:15px;background:#eef3ff;padding:14px;border-radius:10px;font-size:11px;line-height:1.6;color:#475467}
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
+</style></head><body><header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header><div class="container"><div class="heading">
+<h1>CEO Settings ⚙️</h1>
+<p>Edit and control the important Mule Learner Tuition platform settings.</p>
+</div><div class="card">
+<h2>🏫 Platform Information</h2><label>Platform Name</label>
+<input id="platformName">
 
-<title>CEO Settings | Mule Learner Tuition</title>
+<label>Tagline</label>
+<input id="tagline">
 
-<style>
+<label>Customer Support Number</label>
+<input id="support" type="tel">
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+</div><div class="card">
+<h2>💰 Tuition Plans</h2><label>6 Hours Price (K)</label>
+<input id="sixHours" type="number">
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
+<label>Daily Price (K)</label>
+<input id="daily" type="number">
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
+<label>Weekly Price (K)</label>
+<input id="weekly" type="number">
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
+<label>Monthly Price (K)</label>
+<input id="monthly" type="number">
 
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
-
-.container{
-max-width:900px;
-margin:auto;
-padding:20px 16px;
-}
-
-.heading{
-margin-bottom:18px;
-}
-
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
-}
-
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
-
-.card{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:13px;
-}
-
-.card h2{
-font-size:15px;
-margin-bottom:13px;
-}
-
-label{
-display:block;
-font-size:11px;
-font-weight:bold;
-color:#475467;
-margin-bottom:6px;
-}
-
-input,select{
-width:100%;
-padding:12px;
-border:1px solid #d8deea;
-border-radius:8px;
-font-size:12px;
-outline:none;
-margin-bottom:12px;
-background:white;
-}
-
-.plan{
-border:1px solid #e4e7ec;
-padding:12px;
-border-radius:9px;
-margin-bottom:9px;
-}
-
-.plan-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-}
-
-.plan-name{
-font-size:13px;
-font-weight:800;
-}
-
-.price{
-font-size:15px;
-font-weight:800;
-color:#173b8f;
-}
-
-.plan p{
-font-size:10px;
-color:#667085;
-margin-top:4px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-padding:12px 0;
-border-bottom:1px solid #edf0f5;
-font-size:12px;
-}
-
-.row:last-child{
-border-bottom:0;
-}
-
-.status{
-font-size:9px;
-font-weight:bold;
-padding:6px 9px;
-border-radius:20px;
-background:#ecfdf3;
-color:#027a48;
-}
-
-.save{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:12px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.notice{
-margin-top:18px;
-background:#fff4db;
-color:#7a4f00;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-line-height:1.6;
-}
-
-.security{
-margin-top:13px;
-background:#eef3ff;
-color:#475467;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-line-height:1.6;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
-Mule Learner Tuition
+</div><div class="card">
+<h2>🎛️ Platform Controls</h2><div class="row">
+<span>Learner Registration</span>
+<button id="learnerBtn" class="toggle" onclick="toggleSetting('learnerRegistration')">...</button>
+</div><div class="row">
+<span>Teacher Registration</span>
+<button id="teacherBtn" class="toggle" onclick="toggleSetting('teacherRegistration')">...</button>
+</div><div class="row">
+<span>Live Learning</span>
+<button id="liveBtn" class="toggle" onclick="toggleSetting('liveLearning')">...</button>
+</div><div class="row">
+<span>Payment Approval</span>
+<button id="paymentBtn" class="toggle" onclick="toggleSetting('paymentApproval')">...</button>
 </div>
-
-<a href="dashboard.html" class="back">
-← CEO Dashboard
-</a>
-
-</header>
-
-<div class="container">
-
-<div class="heading">
-
-<h1>
-CEO Settings ⚙️
-</h1>
-
-<p>
-Control important Mule Learner Tuition platform settings.
-</p>
-
+</div><div class="card">
+<h2>🔐 Access Rules</h2><div class="row">
+<span>Learners require payment approval</span>
+<span class="status">YES</span>
+</div><div class="row">
+<span>Teachers require CEO approval</span>
+<span class="status">YES</span>
+</div><div class="row">
+<span>CEO controls settings</span>
+<span class="status">YES</span>
 </div>
-
-
-<!-- PLATFORM INFORMATION -->
-
-<div class="card">
-
-<h2>
-🏫 Platform Information
-</h2>
-
-<label>
-Platform Name
-</label>
-
-<input
-type="text"
-id="platformName"
-value="Mule Learner Tuition"
->
-
-<label>
-Tagline
-</label>
-
-<input
-type="text"
-id="tagline"
-value="Learn • Practice • Succeed"
->
-
-<label>
-Customer Support WhatsApp
-</label>
-
-<input
-type="tel"
-id="support"
-value="0978362800"
->
-
-</div>
-
-
-<!-- TUITION PLANS -->
-
-<div class="card">
-
-<h2>
-💰 Tuition Plans
-</h2>
-
-<div class="plan">
-
-<div class="plan-top">
-
-<div class="plan-name">
-6 Hours
-</div>
-
-<div class="price">
-K5
-</div>
-
-</div>
-
-<p>
-Access learning for 6 hours.
-</p>
-
-</div>
-
-
-<div class="plan">
-
-<div class="plan-top">
-
-<div class="plan-name">
-Daily
-</div>
-
-<div class="price">
-K10
-</div>
-
-</div>
-
-<p>
-Daily learning access.
-</p>
-
-</div>
-
-
-<div class="plan">
-
-<div class="plan-top">
-
-<div class="plan-name">
-Weekly
-</div>
-
-<div class="price">
-K45
-</div>
-
-</div>
-
-<p>
-Weekly learning access.
-</p>
-
-</div>
-
-
-<div class="plan">
-
-<div class="plan-top">
-
-<div class="plan-name">
-Monthly
-</div>
-
-<div class="price">
-K180
-</div>
-
-</div>
-
-<p>
-Monthly learning access.
-</p>
-
-</div>
-
-</div>
-
-
-<!-- PLATFORM CONTROLS -->
-
-<div class="card">
-
-<h2>
-🎛️ Platform Controls
-</h2>
-
-<div class="row">
-
-<span>
-Learner Registration
-</span>
-
-<span class="status">
-ENABLED
-</span>
-
-</div>
-
-<div class="row">
-
-<span>
-Teacher Registration
-</span>
-
-<span class="status">
-ENABLED
-</span>
-
-</div>
-
-<div class="row">
-
-<span>
-Live Learning
-</span>
-
-<span class="status">
-ENABLED
-</span>
-
-</div>
-
-<div class="row">
-
-<span>
-Payment Approval
-</span>
-
-<span class="status">
-CEO CONTROLLED
-</span>
-
-</div>
-
-</div>
-
-
-<!-- ACCESS RULES -->
-
-<div class="card">
-
-<h2>
-🔐 Access Rules
-</h2>
-
-<div class="row">
-
-<span>
-Learners require payment approval
-</span>
-
-<span class="status">
-YES
-</span>
-
-</div>
-
-<div class="row">
-
-<span>
-Teachers require CEO approval
-</span>
-
-<span class="status">
-YES
-</span>
-
-</div>
-
-<div class="row">
-
-<span>
-CEO can suspend teachers
-</span>
-
-<span class="status">
-YES
-</span>
-
-</div>
-
-<div class="row">
-
-<span>
-CEO controls payment accounts
-</span>
-
-<span class="status">
-YES
-</span>
-
-</div>
-
-</div>
-
-
-<button
-class="save"
-onclick="saveSettings()"
->
-
-💾 Save Settings
-
-</button>
-
-
-<div class="notice">
-
-<strong>
-⚠️ Important
-</strong>
-
-<br><br>
-
-Payment accounts and tuition prices should only be
-changed by the authorized CEO.
-
-The settings shown here are currently stored only
-in this page until the platform database is connected.
-
-</div>
-
-
-<div class="security">
-
-<strong>
-🔐 CEO Security
-</strong>
-
-<br><br>
-
-CEO settings should never be accessible to ordinary
-learners or teachers.
-
-When the backend is connected, these controls will be
-protected by CEO authentication and database permissions.
-
-</div>
-
-
-<footer>
-
-Mule Learner Tuition
-<br>
+</div><button class="save" onclick="saveSettings()">💾 Save All Settings</button>
+
+<div class="note">
+<strong>🔒 CEO Only</strong><br><br>
+These settings are stored in Firebase and can only be changed from the CEO Settings page.
+</div><footer>
+Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
+</footer></div><script src="../js/auth.js"></script><script src="../js/app.js"></script><script src="../js/ceo.js"></script><script>
+const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+let settings={
+learnerRegistration:true,
+teacherRegistration:true,
+liveLearning:true,
+paymentApproval:true
+};
 
-</footer>
+async function getData(path){
+const r=await fetch(DB+"/"+path+".json");
+return r.json();
+}
 
-</div>
+async function setData(path,data){
+const r=await fetch(DB+"/"+path+".json",{
+method:"PUT",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(data)
+});
+return r.ok;
+}
 
+function showToggle(id,value){
+const b=document.getElementById(id);
+b.textContent=value?"ON":"OFF";
+b.className="toggle "+(value?"on":"off");
+}
 
-<script>
+function toggleSetting(key){
+settings[key]=!settings[key];
 
-function saveSettings(){
+if(key==="learnerRegistration")showToggle("learnerBtn",settings[key]);
+if(key==="teacherRegistration")showToggle("teacherBtn",settings[key]);
+if(key==="liveLearning")showToggle("liveBtn",settings[key]);
+if(key==="paymentApproval")showToggle("paymentBtn",settings[key]);
+}
 
-const name =
-document.getElementById("platformName").value.trim();
+async function loadSettings(){
 
-const tagline =
-document.getElementById("tagline").value.trim();
+try{
 
-const support =
-document.getElementById("support").value.trim();
+const data=await getData("settings");
 
+if(data){
+settings={...settings,...data};
+}
 
-if(name === ""){
+document.getElementById("platformName").value=
+settings.platformName||"Mule Learner Tuition";
 
-alert("Please enter the platform name.");
+document.getElementById("tagline").value=
+settings.tagline||"Learn • Practice • Succeed";
+
+document.getElementById("support").value=
+settings.support||"0978362800";
+
+document.getElementById("sixHours").value=
+settings.sixHours??5;
+
+document.getElementById("daily").value=
+settings.daily??10;
+
+document.getElementById("weekly").value=
+settings.weekly??45;
+
+document.getElementById("monthly").value=
+settings.monthly??180;
+
+showToggle("learnerBtn",settings.learnerRegistration);
+showToggle("teacherBtn",settings.teacherRegistration);
+showToggle("liveBtn",settings.liveLearning);
+showToggle("paymentBtn",settings.paymentApproval);
+
+}catch(e){
+alert("Could not load settings.");
+}
+}
+
+async function saveSettings(){
+
+const name=document.getElementById("platformName").value.trim();
+const tagline=document.getElementById("tagline").value.trim();
+const support=document.getElementById("support").value.trim();
+
+if(!name||!tagline||!support){
+alert("Please fill in all platform information.");
 return;
-
 }
 
-if(tagline === ""){
+settings.platformName=name;
+settings.tagline=tagline;
+settings.support=support;
+settings.sixHours=Number(document.getElementById("sixHours").value);
+settings.daily=Number(document.getElementById("daily").value);
+settings.weekly=Number(document.getElementById("weekly").value);
+settings.monthly=Number(document.getElementById("monthly").value);
+settings.updatedAt=new Date().toISOString();
+settings.updatedBy="CEO";
 
-alert("Please enter the tagline.");
-return;
+try{
 
+const ok=await setData("settings",settings);
+
+if(ok){
+alert("✅ Settings saved successfully.");
+}else{
+alert("❌ Settings could not be saved.");
 }
 
-if(support === ""){
-
-alert("Please enter the support WhatsApp number.");
-return;
-
+}catch(e){
+alert("❌ Database error.");
+}
 }
 
-
-alert(
-"Settings saved for this page.\n\nDatabase connection will make these changes permanent."
-);
-
-}
-
-</script>
-
-
-<!-- MAIN JAVASCRIPT -->
-
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
-
-</body>
+protectCEOPage();
+loadSettings();
+</script></body>
 </html>

@@ -1,293 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
-
-<title>Payment Management | Mule Learner Tuition</title>
-
-<style>
+<title>Payment Management | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
-
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
-
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:18px;font-weight:800}
-
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
-
-.container{
-max-width:900px;
-margin:auto;
-padding:20px 16px;
-}
-
+.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:900px;margin:auto;padding:20px 16px}
 .heading{margin-bottom:20px}
-
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
-}
-
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:20px;
-}
-
-.stat{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-}
-
+.heading h1{font-size:23px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:12px;color:#667085;line-height:1.5}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.stat{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 15px rgba(20,50,100,.06)}
 .stat-icon{font-size:22px}
-
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
-
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.refresh{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:13px;
-border-radius:9px;
-font-size:13px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-.payment{
-background:white;
-padding:18px;
-border-radius:14px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:13px;
-}
-
-.payment-top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:10px;
-}
-
-.name{
-font-size:16px;
-font-weight:800;
-}
-
-.phone{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.date{
-font-size:10px;
-color:#667085;
-margin-top:4px;
-}
-
-.badge{
-padding:6px 9px;
-border-radius:20px;
-font-size:10px;
-font-weight:bold;
-background:#fff4db;
-color:#9a6700;
-white-space:nowrap;
-}
-
-.details{
-margin-top:14px;
-border-top:1px solid #edf0f5;
-padding-top:12px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-padding:7px 0;
-font-size:12px;
-gap:10px;
-}
-
+.stat h3{font-size:19px;margin-top:6px}
+.stat p{font-size:11px;color:#667085;margin-top:3px}
+.refresh{width:100%;border:0;background:#173b8f;color:white;padding:13px;border-radius:9px;font-size:13px;font-weight:bold;margin-bottom:15px}
+.payment{background:white;padding:18px;border-radius:14px;box-shadow:0 4px 15px rgba(20,50,100,.07);margin-bottom:13px}
+.payment-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.name{font-size:16px;font-weight:800}
+.phone{font-size:11px;color:#667085;margin-top:3px}
+.date{font-size:10px;color:#667085;margin-top:4px}
+.badge{padding:6px 9px;border-radius:20px;font-size:10px;font-weight:bold;background:#fff4db;color:#9a6700;white-space:nowrap}
+.details{margin-top:14px;border-top:1px solid #edf0f5;padding-top:12px}
+.row{display:flex;justify-content:space-between;padding:7px 0;font-size:12px;gap:10px}
 .label{color:#667085}
-
-.value{
-font-weight:700;
-text-align:right;
-word-break:break-word;
-}
-
-.actions{
-display:flex;
-gap:8px;
-margin-top:15px;
-}
-
-.actions button{
-flex:1;
-border:0;
-padding:11px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.approve{
-background:#027a48;
-color:white;
-}
-
-.reject{
-background:#fee4e2;
-color:#b42318;
-}
-
-.empty{
-background:white;
-padding:30px 18px;
-border-radius:14px;
-text-align:center;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-}
-
-.empty-icon{
-font-size:40px;
-margin-bottom:10px;
-}
-
-.empty h3{
-font-size:17px;
-margin-bottom:6px;
-}
-
-.empty p{
-font-size:12px;
-color:#667085;
-}
-
-.notice{
-margin-top:18px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-@media(min-width:650px){
-.stats{grid-template-columns:repeat(4,1fr)}
-}
-</style>
-</head>
-
-<body>
-
-<header>
+.value{font-weight:700;text-align:right;word-break:break-word}
+.actions{display:flex;gap:8px;margin-top:15px}
+.actions button{flex:1;border:0;padding:11px;border-radius:8px;font-size:12px;font-weight:bold;cursor:pointer}
+.approve{background:#027a48;color:white}
+.reject{background:#fee4e2;color:#b42318}
+.empty{background:white;padding:30px 18px;border-radius:14px;text-align:center;box-shadow:0 4px 15px rgba(20,50,100,.06)}
+.empty-icon{font-size:40px;margin-bottom:10px}
+.empty h3{font-size:17px;margin-bottom:6px}
+.empty p{font-size:12px;color:#667085}
+.notice{margin-top:18px;background:#eef3ff;padding:15px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
+@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}}
+</style></head><body><header>
 <div class="logo">Mule Learner Tuition</div>
 <a href="dashboard.html" class="back">← CEO Dashboard</a>
-</header>
-
-<div class="container">
-
-<div class="heading">
+</header><div class="container"><div class="heading">
 <h1>Payment Management 💰</h1>
 <p>Review learner payments and control learning access.</p>
-</div>
-
-<div class="stats">
-
-<div class="stat">
+</div><div class="stats"><div class="stat">
 <div class="stat-icon">⏳</div>
 <h3 id="pendingCount">0</h3>
 <p>Pending</p>
-</div>
-
-<div class="stat">
+</div><div class="stat">
 <div class="stat-icon">✅</div>
 <h3 id="approvedCount">0</h3>
 <p>Approved</p>
-</div>
-
-<div class="stat">
+</div><div class="stat">
 <div class="stat-icon">❌</div>
 <h3 id="rejectedCount">0</h3>
 <p>Rejected</p>
-</div>
-
-<div class="stat">
+</div><div class="stat">
 <div class="stat-icon">💰</div>
 <h3 id="totalReceived">K0</h3>
 <p>Total Received</p>
-</div>
-
-</div>
-
-<button class="refresh" onclick="loadPayments()">
+</div></div><button class="refresh" onclick="loadPayments()">
 ↻ Refresh Payments
-</button>
-
-<div id="paymentList">
-
-<div class="empty">
+</button><div id="paymentList"><div class="empty">
 <div class="empty-icon">⏳</div>
 <h3>Loading payments...</h3>
 <p>Please wait.</p>
-</div>
-
-</div>
-
-<div class="notice">
-
-<strong>🔐 CEO Payment Control</strong>
+</div></div><div class="notice"><strong>🔐 CEO Payment Control</strong>
 
 <br><br>
 
@@ -303,26 +84,14 @@ will be activated according to the selected plan.
 Always confirm that the money has actually been received
 before approving a payment.
 
-</div>
-
-<footer>
+</div><footer>
 Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
-</footer>
-
-</div>
-
-<script>
+</footer></div><script>
 
 "use strict";
 
-const DATABASE_URL =
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
-
-
-/* ==============================
-   FIREBASE REQUEST
-============================== */
+const DATABASE_URL="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
 async function firebaseRequest(path,method="GET",data=null){
 
@@ -330,9 +99,7 @@ try{
 
 const options={
 method:method,
-headers:{
-"Content-Type":"application/json"
-}
+headers:{"Content-Type":"application/json"}
 };
 
 if(data!==null){
@@ -359,11 +126,6 @@ return null;
 
 }
 
-
-/* ==============================
-   FORMAT MONEY
-============================== */
-
 function formatKwacha(amount){
 
 return "K"+(Number(amount)||0).toLocaleString(
@@ -376,22 +138,11 @@ maximumFractionDigits:2
 
 }
 
-
-/* ==============================
-   FORMAT DATE
-============================== */
-
 function formatDate(value){
 
-if(!value) return "Not available";
+if(!value)return "Not available";
 
-let date;
-
-if(typeof value==="number"){
-date=new Date(value);
-}else{
-date=new Date(value);
-}
+const date=new Date(value);
 
 if(isNaN(date.getTime())){
 return "Not available";
@@ -410,80 +161,32 @@ minute:"2-digit"
 
 }
 
-
-/* ==============================
-   PLAN DURATION
-============================== */
-
 function getPlanDuration(plan){
 
 const text=String(plan||"").toLowerCase();
 
-
-/* Old 3 Hours plan */
-
-if(
-text.includes("3 hours") ||
-text.includes("3 hour")
-){
+if(text.includes("3 hours")||text.includes("3 hour"))
 return 3*60*60*1000;
-}
 
-
-/* Current 6 Hours plan */
-
-if(
-text.includes("6 hours") ||
-text.includes("6 hour")
-){
+if(text.includes("6 hours")||text.includes("6 hour"))
 return 6*60*60*1000;
-}
 
-
-/* Daily */
-
-if(
-text.includes("daily") ||
-text.includes("1 day")
-){
+if(text.includes("daily")||text.includes("1 day"))
 return 24*60*60*1000;
-}
 
-
-/* Weekly */
-
-if(
-text.includes("weekly") ||
-text.includes("7 days")
-){
+if(text.includes("weekly")||text.includes("7 days"))
 return 7*24*60*60*1000;
-}
 
-
-/* Monthly */
-
-if(
-text.includes("monthly") ||
-text.includes("30 days")
-){
+if(text.includes("monthly")||text.includes("30 days"))
 return 30*24*60*60*1000;
-}
-
 
 return 0;
 
 }
 
-
-/* ==============================
-   ESCAPE HTML
-============================== */
-
 function escapeHTML(value){
 
-if(value===null || value===undefined){
-return "";
-}
+if(value===null||value===undefined)return "";
 
 return String(value)
 .replace(/&/g,"&amp;")
@@ -494,12 +197,6 @@ return String(value)
 
 }
 
-
-/* ==============================
-   LOAD PAYMENTS
-   IMPORTANT: payments
-============================== */
-
 async function loadPayments(){
 
 const list=document.getElementById("paymentList");
@@ -509,12 +206,9 @@ list.innerHTML=`
 <div class="empty-icon">⏳</div>
 <h3>Loading Payments...</h3>
 <p>Checking Firebase.</p>
-</div>
-`;
-
+</div>`;
 
 const data=await firebaseRequest("payments");
-
 
 if(!data){
 
@@ -525,16 +219,13 @@ list.innerHTML=`
 <div class="empty-icon">💳</div>
 <h3>No Payments Found</h3>
 <p>No payment records were found in Firebase.</p>
-</div>
-`;
+</div>`;
 
 return;
 
 }
 
-
 let payments=[];
-
 
 if(Array.isArray(data)){
 
@@ -568,27 +259,17 @@ firebaseKey:key,
 
 }
 
-
-/* Newest first */
-
 payments.sort(function(a,b){
 
-return Number(b.createdAt||0)-
-Number(a.createdAt||0);
+return new Date(b.submittedAt||b.createdAt||0)-
+new Date(a.submittedAt||a.createdAt||0);
 
 });
 
-
 updateStats(payments);
-
 renderPayments(payments);
 
 }
-
-
-/* ==============================
-   STATS
-============================== */
 
 function updateStats(payments){
 
@@ -597,64 +278,39 @@ let approved=0;
 let rejected=0;
 let total=0;
 
-
 payments.forEach(function(payment){
 
-const status=
-String(payment.status||"")
-.toLowerCase();
+const status=String(payment.status||"").toLowerCase();
 
-
-if(status==="pending"){
-pending++;
-}
+if(status==="pending")pending++;
 
 if(status==="approved"){
 
 approved++;
-
 total+=Number(payment.amount)||0;
 
 }
 
-if(status==="rejected"){
-rejected++;
-}
+if(status==="rejected")rejected++;
 
 });
 
-
-document.getElementById("pendingCount")
-.textContent=pending;
-
-document.getElementById("approvedCount")
-.textContent=approved;
-
-document.getElementById("rejectedCount")
-.textContent=rejected;
-
-document.getElementById("totalReceived")
-.textContent=formatKwacha(total);
+document.getElementById("pendingCount").textContent=pending;
+document.getElementById("approvedCount").textContent=approved;
+document.getElementById("rejectedCount").textContent=rejected;
+document.getElementById("totalReceived").textContent=formatKwacha(total);
 
 }
-
-
-/* ==============================
-   DISPLAY PAYMENTS
-============================== */
 
 function renderPayments(payments){
 
 const list=document.getElementById("paymentList");
 
-
 const pendingPayments=payments.filter(function(payment){
 
-return String(payment.status||"")
-.toLowerCase()==="pending";
+return String(payment.status||"").toLowerCase()==="pending";
 
 });
-
 
 if(pendingPayments.length===0){
 
@@ -663,16 +319,13 @@ list.innerHTML=`
 <div class="empty-icon">✅</div>
 <h3>No Pending Payments</h3>
 <p>There are currently no payments waiting for approval.</p>
-</div>
-`;
+</div>`;
 
 return;
 
 }
 
-
 list.innerHTML="";
-
 
 pendingPayments.forEach(function(payment){
 
@@ -680,39 +333,33 @@ const card=document.createElement("div");
 
 card.className="payment";
 
+/* NAME ENTERED BY THE LEARNER */
 
 const learnerName=
-payment.learnerName ||
-payment.accountName ||
-"Learner";
-
+payment.learnerName||
+"Learner name not provided";
 
 const learnerPhone=
-payment.learnerPhone ||
-payment["payment Number"] ||
+payment.learnerPhone||
+payment["payment Number"]||
 "No phone";
 
-
 const network=
-payment.network ||
-payment.method ||
+payment.network||
+payment.method||
 "Not available";
-
 
 const plan=
-payment.plan ||
+payment.plan||
 "Not available";
 
-
 const amount=
-payment.amount ||
+payment.amount||
 0;
 
-
 const submitted=
-payment.submittedAt ||
+payment.submittedAt||
 payment.createdAt;
-
 
 card.innerHTML=`
 
@@ -734,14 +381,18 @@ Submitted: ${formatDate(submitted)}
 
 </div>
 
-<span class="badge">
-PENDING
-</span>
+<span class="badge">PENDING</span>
 
 </div>
 
-
 <div class="details">
+
+<div class="row">
+<span class="label">Learner Name</span>
+<span class="value">
+${escapeHTML(learnerName)}
+</span>
+</div>
 
 <div class="row">
 <span class="label">Learning Plan</span>
@@ -750,14 +401,12 @@ ${escapeHTML(plan)}
 </span>
 </div>
 
-
 <div class="row">
 <span class="label">Amount</span>
 <span class="value">
 ${formatKwacha(amount)}
 </span>
 </div>
-
 
 <div class="row">
 <span class="label">Network</span>
@@ -766,44 +415,39 @@ ${escapeHTML(network)}
 </span>
 </div>
 
-
 <div class="row">
 <span class="label">Payment Number</span>
 <span class="value">
 ${escapeHTML(
-payment["payment Number"] ||
-payment.learnerPhone ||
-"Not provided"
+payment["payment Number"]||
+payment.learnerPhone||
+"No number provided"
 )}
 </span>
 </div>
-
 
 <div class="row">
 <span class="label">Account Name</span>
 <span class="value">
 ${escapeHTML(
-payment.accountName ||
-payment.learnerName ||
+payment.accountName||
 "Not provided"
 )}
 </span>
 </div>
-
 
 <div class="row">
 <span class="label">Reference</span>
 <span class="value">
 ${escapeHTML(
-payment.reference ||
-payment.transactionId ||
+payment.reference||
+payment.transactionId||
 "Not provided"
 )}
 </span>
 </div>
 
 </div>
-
 
 <div class="actions">
 
@@ -828,190 +472,121 @@ list.appendChild(card);
 
 }
 
-
-/* ==============================
-   APPROVE
-============================== */
-
 async function approvePayment(firebaseKey){
 
-if(!firebaseKey) return;
-
+if(!firebaseKey)return;
 
 const confirmed=confirm(
 "Have you confirmed that this payment was actually received?"
 );
 
+if(!confirmed)return;
 
-if(!confirmed) return;
+const path="payments/"+encodeURIComponent(firebaseKey);
 
-
-const path=
-"payments/"+
-encodeURIComponent(firebaseKey);
-
-
-const payment=
-await firebaseRequest(path);
-
+const payment=await firebaseRequest(path);
 
 if(!payment){
 
 alert("Payment could not be found.");
-
 return;
 
 }
 
-
-if(
-String(payment.status||"").toLowerCase()!=="pending"
-){
+if(String(payment.status||"").toLowerCase()!=="pending"){
 
 alert("This payment has already been reviewed.");
-
 loadPayments();
-
 return;
 
 }
 
-
-const duration=
-getPlanDuration(payment.plan);
-
+const duration=getPlanDuration(payment.plan);
 
 if(!duration){
 
-alert(
-"Could not determine the learning period for this plan."
-);
-
+alert("Could not determine the learning period for this plan.");
 return;
 
 }
 
-
 const now=Date.now();
 
-const startAt=
-new Date(now).toISOString();
-
-const expiresAt=
-new Date(now+duration).toISOString();
-
+const startAt=new Date(now).toISOString();
+const expiresAt=new Date(now+duration).toISOString();
 
 const updatedPayment={
 ...payment,
-
 status:"approved",
-
 approvedAt:startAt,
-
 approvedBy:"CEO",
-
 startAt:startAt,
-
 expiresAt:expiresAt,
-
 rejectedAt:null,
-
 rejectionReason:"",
-
 isFreeTrial:false
-
 };
 
-
-const result=
-await firebaseRequest(
+const result=await firebaseRequest(
 path,
 "PUT",
 updatedPayment
 );
 
-
 if(!result){
 
-alert(
-"Approval could not be saved. Please try again."
-);
-
+alert("Approval could not be saved. Please try again.");
 return;
 
 }
 
-
 alert(
 "✅ Payment approved successfully!\n\n"+
-"Learning access is now active."
+"Learning access is now active for:\n"+
+(payment.learnerName||"Learner")
 );
-
 
 loadPayments();
 
 }
 
-
-/* ==============================
-   REJECT
-============================== */
-
 async function rejectPayment(firebaseKey){
 
-if(!firebaseKey) return;
-
+if(!firebaseKey)return;
 
 const reason=prompt(
 "Enter the reason for rejecting this payment:"
 );
 
-
-if(reason===null) return;
-
+if(reason===null)return;
 
 const cleanReason=reason.trim();
-
 
 if(!cleanReason){
 
 alert("Please enter a rejection reason.");
-
 return;
 
 }
 
+const path="payments/"+encodeURIComponent(firebaseKey);
 
-const path=
-"payments/"+
-encodeURIComponent(firebaseKey);
-
-
-const payment=
-await firebaseRequest(path);
-
+const payment=await firebaseRequest(path);
 
 if(!payment){
 
 alert("Payment could not be found.");
-
 return;
 
 }
 
-
-if(
-String(payment.status||"").toLowerCase()!=="pending"
-){
+if(String(payment.status||"").toLowerCase()!=="pending"){
 
 alert("This payment has already been reviewed.");
-
 loadPayments();
-
 return;
 
 }
-
 
 const updatedPayment={
 
@@ -1019,8 +594,7 @@ const updatedPayment={
 
 status:"rejected",
 
-rejectedAt:
-new Date().toISOString(),
+rejectedAt:new Date().toISOString(),
 
 approvedAt:null,
 
@@ -1036,45 +610,32 @@ rejectedBy:"CEO"
 
 };
 
-
-const result=
-await firebaseRequest(
+const result=await firebaseRequest(
 path,
 "PUT",
 updatedPayment
 );
 
-
 if(!result){
 
-alert(
-"Rejection could not be saved. Please try again."
-);
-
+alert("Rejection could not be saved. Please try again.");
 return;
 
 }
 
-
 alert(
 "Payment rejected.\n\n"+
-"The learner will remain without paid access."
+(payment.learnerName||"Learner")+
+" will remain without paid access."
 );
-
 
 loadPayments();
 
 }
 
-
-/* ==============================
-   CEO ACCESS
-============================== */
-
 function checkCEOAccess(){
 
 let user=null;
-
 
 try{
 
@@ -1088,80 +649,50 @@ user=null;
 
 }
 
-
 if(!user){
 
 window.location.href="../login.html";
-
 return false;
 
 }
 
+if(String(user.role||"").toLowerCase()!=="ceo"){
 
-if(
-String(user.role||"").toLowerCase()!=="ceo"
-){
-
-alert(
-"You do not have permission to access payment management."
-);
+alert("You do not have permission to access payment management.");
 
 window.location.href="../login.html";
-
 return false;
 
 }
 
-
-if(
-String(user.status||"").toLowerCase()==="suspended"
-){
+if(String(user.status||"").toLowerCase()==="suspended"){
 
 alert("Your CEO account has been suspended.");
 
 localStorage.removeItem("muleCurrentUser");
 
 window.location.href="../login.html";
-
 return false;
 
 }
-
 
 return true;
 
 }
 
-
-/* ==============================
-   START
-============================== */
-
 document.addEventListener(
 "DOMContentLoaded",
 function(){
 
-if(!checkCEOAccess()){
-return;
-}
+if(!checkCEOAccess())return;
 
 loadPayments();
-
-
-/* Auto refresh every 10 seconds */
 
 setInterval(function(){
-
 loadPayments();
-
 },10000);
 
 });
 
-</script>
-
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
-
-</body>
+</script><script src="../js/app.js"></script><script src="../js/ceo.js"></script></body>
 </html>

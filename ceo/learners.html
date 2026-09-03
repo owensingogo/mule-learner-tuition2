@@ -1,19 +1,19 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Learners | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="theme-color" content="#173b8f">
+<title>Learners | Mule Learner Tuition</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,sans-serif;
 background:#f4f7fc;
 color:#172033;
-padding-bottom:30px;
+padding-bottom:30px
 }
 
 header{
@@ -22,40 +22,28 @@ color:white;
 padding:15px 18px;
 display:flex;
 align-items:center;
-justify-content:space-between;
+justify-content:space-between
 }
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
-
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
 
 .container{
 max-width:900px;
 margin:auto;
-padding:20px 16px;
+padding:20px 16px
 }
 
-.heading{
-margin-bottom:18px;
-}
-
+.heading{margin-bottom:18px}
 .heading h1{
 font-size:23px;
 color:#173b8f;
-margin-bottom:5px;
+margin-bottom:5px
 }
-
 .heading p{
 font-size:12px;
 color:#667085;
-line-height:1.5;
+line-height:1.5
 }
 
 .search{
@@ -66,36 +54,29 @@ border-radius:9px;
 font-size:13px;
 outline:none;
 margin-bottom:15px;
-background:white;
+background:white
 }
 
 .stats{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .stat{
 background:white;
 padding:15px;
 border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
+box-shadow:0 4px 15px rgba(20,50,100,.06)
 }
 
-.stat-icon{
-font-size:22px;
-}
-
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
-
+.stat-icon{font-size:22px}
+.stat h3{font-size:19px;margin-top:6px}
 .stat p{
 font-size:11px;
 color:#667085;
-margin-top:3px;
+margin-top:3px
 }
 
 .learner{
@@ -103,14 +84,20 @@ background:white;
 padding:17px;
 border-radius:13px;
 box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
+margin-bottom:12px
 }
 
 .top{
 display:flex;
 justify-content:space-between;
 align-items:flex-start;
+gap:10px
+}
+
+.identity{
+display:flex;
 gap:10px;
+align-items:center
 }
 
 .avatar{
@@ -122,24 +109,18 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-size:21px;
-flex-shrink:0;
-}
-
-.identity{
-display:flex;
-gap:10px;
-align-items:center;
+flex-shrink:0
 }
 
 .name{
 font-size:15px;
-font-weight:800;
+font-weight:800
 }
 
 .phone{
 font-size:11px;
 color:#667085;
-margin-top:3px;
+margin-top:3px
 }
 
 .badge{
@@ -147,14 +128,23 @@ padding:6px 9px;
 border-radius:20px;
 font-size:9px;
 font-weight:bold;
+white-space:nowrap
+}
+
+.active{
 background:#ecfdf3;
-color:#027a48;
+color:#027a48
+}
+
+.suspended{
+background:#fee4e2;
+color:#b42318
 }
 
 .details{
 margin-top:14px;
 border-top:1px solid #edf0f5;
-padding-top:10px;
+padding-top:10px
 }
 
 .row{
@@ -162,22 +152,22 @@ display:flex;
 justify-content:space-between;
 gap:10px;
 padding:7px 0;
-font-size:12px;
+font-size:12px
 }
 
-.label{
-color:#667085;
-}
+.label{color:#667085}
 
 .value{
 font-weight:700;
 text-align:right;
+max-width:65%;
+word-break:break-word
 }
 
 .actions{
 display:flex;
 gap:8px;
-margin-top:13px;
+margin-top:13px
 }
 
 button{
@@ -187,27 +177,22 @@ padding:10px;
 border-radius:8px;
 font-size:11px;
 font-weight:bold;
-cursor:pointer;
+cursor:pointer
 }
 
 .view{
 background:#eef3ff;
-color:#173b8f;
+color:#173b8f
 }
 
 .suspend{
 background:#fee4e2;
-color:#b42318;
+color:#b42318
 }
 
-.notice{
-margin-top:18px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
+.reactivate{
+background:#ecfdf3;
+color:#027a48
 }
 
 .empty{
@@ -217,189 +202,595 @@ padding:25px;
 border-radius:12px;
 text-align:center;
 font-size:12px;
-color:#667085;
+color:#667085
+}
+
+.loading{
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085
+}
+
+.notice{
+margin-top:18px;
+background:#eef3ff;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6
 }
 
 footer{
 text-align:center;
 font-size:11px;
 color:#667085;
-margin-top:25px;
+margin-top:25px
 }
 
 @media(min-width:650px){
-
-.stats{
-grid-template-columns:repeat(4,1fr);
+.stats{grid-template-columns:repeat(4,1fr)}
 }
+</style>
+</head>
 
-}
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>Learner Management 👥</h1><p>
-View and manage learner accounts and learning access.
-</p></div><!-- SEARCH --><input
+<body>
+
+<header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header>
+
+<div class="container">
+
+<div class="heading">
+<h1>Learner Management 👥</h1>
+<p>View and manage learner accounts and learning access.</p>
+</div>
+
+<input
 type="search"
 id="search"
 class="search"
-placeholder="Search learner by name or phone..."
+placeholder="Search learner by name, phone or level..."
 oninput="searchLearners()"
+>
 
-«»
+<div class="stats">
 
-<!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-👥
-</div><h3 id="total">
-0
-</h3><p>Total Learners</p></div><div class="stat"><div class="stat-icon">
-🟢
-</div><h3 id="active">
-0
-</h3><p>Active</p></div><div class="stat"><div class="stat-icon">
-⏸️
-</div><h3 id="suspended">
-0
-</h3><p>Suspended</p></div><div class="stat"><div class="stat-icon">
-🎓
-</div><h3 id="learning">
-0
-</h3><p>Learning</p></div></div><!-- LEARNERS --><div id="learnerList"><!-- DEMO ACCOUNT --><div class="learner" data-search="learner"><div class="top"><div class="identity"><div class="avatar">
-👤
-</div><div><div class="name">
-Learner
-</div><div class="phone">
-Phone: Not Available
-</div></div></div><span class="badge">
-ACTIVE
-</span></div><div class="details"><div class="row"><span class="label">
-Account Type
-</span><span class="value">
-Learner
-</span></div><div class="row"><span class="label">
-Learning Access
-</span><span class="value">
-Not Activated
-</span></div><div class="row"><span class="label">
-Payment Status
-</span><span class="value">
-Pending
-</span></div></div><div class="actions"><button class="view" onclick="viewLearner()">
-👁 View
-</button><button class="suspend" onclick="suspendLearner(this)">
-⏸ Suspend
-</button></div></div></div><div id="empty" class="empty">No learner found.
+<div class="stat">
+<div class="stat-icon">👥</div>
+<h3 id="total">0</h3>
+<p>Total Learners</p>
+</div>
 
-</div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Learner Control</strong>
+<div class="stat">
+<div class="stat-icon">🟢</div>
+<h3 id="active">0</h3>
+<p>Active</p>
+</div>
 
+<div class="stat">
+<div class="stat-icon">⏸️</div>
+<h3 id="suspended">0</h3>
+<p>Suspended</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">🎓</div>
+<h3 id="learning">0</h3>
+<p>Learning</p>
+</div>
+
+</div>
+
+<div id="learnerList">
+<div class="loading">Loading learners...</div>
+</div>
+
+<div id="empty" class="empty">
+No learners found.
+</div>
+
+<div class="notice">
+<strong>🔐 CEO Learner Control</strong>
 <br><br>
+The CEO can manage learner accounts and control their access to the Mule Learner Tuition platform.
+<br><br>
+Learners should receive paid learning access only after their payment has been verified and approved.
+</div>
 
-The CEO can manage learner accounts and control
-their access to the Mule Learner Tuition platform.
-
-Learners should only receive paid learning access
-after their payment has been verified and approved.
-
-Suspending a learner should only be done when
-necessary and for a valid administrative reason.
-
-</div><footer>Mule Learner Tuition<br>
+<footer>
+Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
+</footer>
 
-</footer></div><script>
+</div>
 
-function searchLearners(){
+<script src="../js/auth.js"></script>
 
-const input=
-document.getElementById("search").value
-.toLowerCase()
-.trim();
+<script>
 
-const learners=
-document.querySelectorAll(".learner");
+const DB =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-let found=0;
+let allLearners=[];
 
-learners.forEach(function(learner){
 
-const text=
-learner.getAttribute("data-search")
-.toLowerCase();
+/* FIREBASE */
 
-if(text.includes(input)){
+async function getFirebase(path){
 
-learner.style.display="block";
-found++;
+try{
 
-}else{
+const response =
+await fetch(DB+"/"+path+".json");
 
-learner.style.display="none";
+if(!response.ok)
+throw new Error("Firebase error");
+
+return await response.json();
+
+}catch(error){
+
+console.error(error);
+return null;
 
 }
+
+}
+
+
+/* CONVERT FIREBASE DATA */
+
+function toArray(data){
+
+if(!data) return [];
+
+if(Array.isArray(data))
+return data.filter(Boolean);
+
+return Object.entries(data).map(function(item){
+
+const id=item[0];
+const value=item[1] || {};
+
+return {
+...value,
+id:value.id || id
+};
 
 });
 
-document.getElementById("empty").style.display=
-found===0 ? "block" : "none";
+}
+
+
+/* CEO CHECK */
+
+function checkCEO(){
+
+const user =
+typeof getLoggedInUser==="function"
+? getLoggedInUser()
+:null;
+
+if(!user || user.role!=="ceo"){
+
+window.location.href="../login.html";
+return false;
+
+}
+
+return true;
 
 }
 
 
-function viewLearner(){
+/* LOAD LEARNERS */
+
+async function loadLearners(){
+
+if(!checkCEO()) return;
+
+const data =
+await getFirebase("users");
+
+const users =
+toArray(data);
+
+allLearners =
+users.filter(function(user){
+
+return String(user.role || "")
+.toLowerCase()==="learner";
+
+});
+
+updateStats();
+renderLearners(allLearners);
+
+}
+
+
+/* STATISTICS */
+
+async function updateStats(){
+
+const total=allLearners.length;
+
+const active=
+allLearners.filter(function(l){
+return String(l.status||"").toLowerCase()==="active";
+}).length;
+
+const suspended=
+allLearners.filter(function(l){
+return String(l.status||"").toLowerCase()==="suspended";
+}).length;
+
+
+/* CHECK PAYMENT ACCESS */
+
+let learning=0;
+
+const payments =
+toArray(await getFirebase("payments"));
+
+allLearners.forEach(function(learner){
+
+const learnerPhone =
+String(learner.phone||"");
+
+const hasPaid =
+payments.some(function(payment){
+
+const paymentPhone =
+String(
+payment.phone ||
+payment.learnerPhone ||
+payment.userPhone ||
+""
+);
+
+const status =
+String(payment.status||"").toLowerCase();
+
+return (
+paymentPhone===learnerPhone &&
+(
+status==="approved" ||
+status==="active" ||
+status==="paid"
+)
+);
+
+});
+
+if(hasPaid) learning++;
+
+});
+
+
+document.getElementById("total").textContent=total;
+document.getElementById("active").textContent=active;
+document.getElementById("suspended").textContent=suspended;
+document.getElementById("learning").textContent=learning;
+
+}
+
+
+/* RENDER LEARNERS */
+
+function renderLearners(list){
+
+const container =
+document.getElementById("learnerList");
+
+const empty =
+document.getElementById("empty");
+
+container.innerHTML="";
+
+if(list.length===0){
+
+empty.style.display="block";
+return;
+
+}
+
+empty.style.display="none";
+
+
+list.forEach(function(learner){
+
+const card =
+document.createElement("div");
+
+card.className="learner";
+
+const name =
+learner.name || "Unnamed Learner";
+
+const phone =
+learner.phone || "Not Available";
+
+const level =
+learner.level || "Not Selected";
+
+const status =
+String(learner.status || "active")
+.toLowerCase();
+
+let badgeClass="active";
+let badgeText="ACTIVE";
+
+if(status==="suspended"){
+badgeClass="suspended";
+badgeText="SUSPENDED";
+}
+
+const created =
+learner.createdAt
+? new Date(learner.createdAt).toLocaleDateString()
+: "Not Available";
+
+
+card.innerHTML=`
+
+<div class="top">
+
+<div class="identity">
+
+<div class="avatar">👤</div>
+
+<div>
+
+<div class="name">
+${escapeHTML(name)}
+</div>
+
+<div class="phone">
+📱 ${escapeHTML(phone)}
+</div>
+
+</div>
+
+</div>
+
+<span class="badge ${badgeClass}">
+${badgeText}
+</span>
+
+</div>
+
+
+<div class="details">
+
+<div class="row">
+<span class="label">Level</span>
+<span class="value">
+${escapeHTML(level)}
+</span>
+</div>
+
+<div class="row">
+<span class="label">Account Type</span>
+<span class="value">Learner</span>
+</div>
+
+<div class="row">
+<span class="label">Registration Date</span>
+<span class="value">
+${escapeHTML(created)}
+</span>
+</div>
+
+<div class="row">
+<span class="label">Account Status</span>
+<span class="value">
+${escapeHTML(status)}
+</span>
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="view"
+onclick="viewLearner('${learner.id}')">
+👁 View
+</button>
+
+${
+status==="suspended"
+
+?
+
+`<button
+class="reactivate"
+onclick="changeStatus('${learner.id}','active')">
+▶ Reactivate
+</button>`
+
+:
+
+`<button
+class="suspend"
+onclick="changeStatus('${learner.id}','suspended')">
+⏸ Suspend
+</button>`
+}
+
+</div>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+
+/* SEARCH */
+
+function searchLearners(){
+
+const input =
+document.getElementById("search")
+.value
+.toLowerCase()
+.trim();
+
+const filtered =
+allLearners.filter(function(learner){
+
+const text =
+[
+learner.name,
+learner.phone,
+learner.level
+]
+.join(" ")
+.toLowerCase();
+
+return text.includes(input);
+
+});
+
+renderLearners(filtered);
+
+}
+
+
+/* VIEW LEARNER */
+
+function viewLearner(id){
+
+const learner =
+allLearners.find(function(l){
+return String(l.id)===String(id);
+});
+
+if(!learner) return;
 
 alert(
-"Learner details will appear here when the learner database is connected."
+"LEARNER DETAILS\n\n"+
+"Name: "+(learner.name||"Not Available")+"\n"+
+"Phone: "+(learner.phone||"Not Available")+"\n"+
+"Level: "+(learner.level||"Not Selected")+"\n"+
+"Status: "+(learner.status||"Not Available")+"\n"+
+"Registered: "+
+(
+learner.createdAt
+? new Date(learner.createdAt).toLocaleDateString()
+: "Not Available"
+)
 );
 
 }
 
 
-function suspendLearner(button){
+/* CHANGE STATUS */
 
-const learner=
-button.closest(".learner");
+async function changeStatus(id,newStatus){
 
-const badge=
-learner.querySelector(".badge");
+const learner =
+allLearners.find(function(l){
+return String(l.id)===String(id);
+});
 
-if(badge.textContent==="ACTIVE"){
+if(!learner) return;
 
-const confirmSuspend=
-confirm("Suspend this learner's account?");
+const action =
+newStatus==="suspended"
+? "Suspend"
+: "Reactivate";
 
-if(confirmSuspend){
 
-badge.textContent="SUSPENDED";
-badge.style.background="#fee4e2";
-badge.style.color="#b42318";
+if(!confirm(
+action+" "+(learner.name||"this learner")+"?"
+)) return;
 
-button.textContent="▶ Reactivate";
 
-}
+try{
+
+let result;
+
+if(typeof updateUserStatus==="function"){
+
+result =
+await updateUserStatus(id,newStatus);
 
 }else{
 
-const confirmReactivate=
-confirm("Reactivate this learner's account?");
+const response =
+await fetch(
+DB+"/users/"+encodeURIComponent(id)+".json",
+{
+method:"PATCH",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+status:newStatus
+})
+}
+);
 
-if(confirmReactivate){
+result=response.ok;
 
-badge.textContent="ACTIVE";
-badge.style.background="#ecfdf3";
-badge.style.color="#027a48";
+}
 
-button.textContent="⏸ Suspend";
+
+if(result===false){
+
+alert("Unable to update learner status.");
+return;
+
+}
+
+alert("Learner status updated successfully.");
+
+await loadLearners();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not update learner. Please try again."
+);
 
 }
 
 }
 
+
+/* SAFE DISPLAY */
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
+
+
+/* START */
+
+loadLearners();
 
 </script>
 
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
 </body>
 </html>

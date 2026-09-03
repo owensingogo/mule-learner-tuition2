@@ -1,367 +1,334 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Support | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b8f">
+<title>Support | Mule Learner Tuition</title>
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:900px;margin:auto;padding:20px 16px}
+.heading{margin-bottom:18px}
+.heading h1{font-size:23px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:12px;color:#667085;line-height:1.5}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+.stat{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 15px #1432640f}
+.stat-icon{font-size:22px}
+.stat h3{font-size:19px;margin-top:6px}
+.stat p{font-size:11px;color:#667085;margin-top:3px}
+.support-card{background:white;padding:17px;border-radius:13px;box-shadow:0 4px 15px #14326412;margin-bottom:12px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.identity{display:flex;gap:10px;align-items:center}
+.avatar{width:44px;height:44px;border-radius:50%;background:#eef3ff;display:flex;align-items:center;justify-content:center;font-size:22px}
+.name{font-size:15px;font-weight:800}
+.phone{font-size:11px;color:#667085;margin-top:3px}
+.badge{padding:6px 9px;border-radius:20px;font-size:9px;font-weight:bold;background:#fff4db;color:#9a6700}
+.message{margin-top:14px;border-top:1px solid #edf0f5;padding-top:12px;font-size:12px;line-height:1.6;color:#475467}
+.meta{margin-top:10px;font-size:10px;color:#98a2b3}
+.actions{display:flex;gap:8px;margin-top:13px}
+button{border:0;padding:10px;border-radius:8px;font-size:11px;font-weight:bold;cursor:pointer}
+.reply{background:#173b8f;color:white;flex:1}
+.resolve{background:#ecfdf3;color:#027a48;flex:1}
+.empty{display:none;background:white;padding:25px;border-radius:12px;text-align:center;font-size:12px;color:#667085}
+.whatsapp{margin-top:18px;background:#ecfdf3;padding:16px;border-radius:11px;font-size:12px;color:#027a48;line-height:1.6}
+.whatsapp button{margin-top:10px;background:#027a48;color:white;width:100%}
+.notice{margin-top:15px;background:#eef3ff;padding:15px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
+</style>
+</head>
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
+<body>
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
+<header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← CEO Dashboard</a>
+</header>
 
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
+<div class="container">
 
-.container{
-max-width:900px;
-margin:auto;
-padding:20px 16px;
-}
+<div class="heading">
+<h1>Customer Support 💬</h1>
+<p>Manage learner questions, payment problems and support requests.</p>
+</div>
 
-.heading{
-margin-bottom:18px;
-}
+<div class="stats">
 
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
-}
+<div class="stat">
+<div class="stat-icon">💬</div>
+<h3 id="total">0</h3>
+<p>Total Requests</p>
+</div>
 
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
+<div class="stat">
+<div class="stat-icon">⏳</div>
+<h3 id="pending">0</h3>
+<p>Pending</p>
+</div>
 
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
-}
+<div class="stat">
+<div class="stat-icon">✅</div>
+<h3 id="resolved">0</h3>
+<p>Resolved</p>
+</div>
 
-.stat{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-}
+</div>
 
-.stat-icon{
-font-size:22px;
-}
+<div id="supportList"></div>
 
-.stat h3{
-font-size:19px;
-margin-top:6px;
-}
+<div id="empty" class="empty">
+No support requests available.
+</div>
 
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.support-card{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
-}
-
-.top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:10px;
-}
-
-.identity{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
-.avatar{
-width:44px;
-height:44px;
-border-radius:50%;
-background:#eef3ff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-flex-shrink:0;
-}
-
-.name{
-font-size:15px;
-font-weight:800;
-}
-
-.phone{
-font-size:11px;
-color:#667085;
-margin-top:3px;
-}
-
-.badge{
-padding:6px 9px;
-border-radius:20px;
-font-size:9px;
-font-weight:bold;
-background:#fff4db;
-color:#9a6700;
-white-space:nowrap;
-}
-
-.message{
-margin-top:14px;
-border-top:1px solid #edf0f5;
-padding-top:12px;
-font-size:12px;
-line-height:1.6;
-color:#475467;
-}
-
-.meta{
-margin-top:10px;
-font-size:10px;
-color:#98a2b3;
-}
-
-.actions{
-display:flex;
-gap:8px;
-margin-top:13px;
-}
-
-button{
-flex:1;
-border:0;
-padding:10px;
-border-radius:8px;
-font-size:11px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.reply{
-background:#173b8f;
-color:white;
-}
-
-.resolve{
-background:#ecfdf3;
-color:#027a48;
-}
-
-.empty{
-display:none;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
-color:#667085;
-}
-
-.whatsapp{
-margin-top:18px;
-background:#ecfdf3;
-padding:16px;
-border-radius:11px;
-font-size:12px;
-color:#027a48;
-line-height:1.6;
-}
-
-.whatsapp button{
-margin-top:10px;
-background:#027a48;
-color:white;
-width:100%;
-}
-
-.notice{
-margin-top:15px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-@media(min-width:650px){
-
-.stats{
-grid-template-columns:repeat(3,1fr);
-}
-
-}
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← CEO Dashboard
-</a></header><div class="container"><div class="heading"><h1>Customer Support 💬</h1><p>
-Manage learner questions, payment problems and support requests.
-</p></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-💬
-</div><h3 id="total">
-1
-</h3><p>Total Requests</p></div><div class="stat"><div class="stat-icon">
-⏳
-</div><h3 id="pending">
-1
-</h3><p>Pending</p></div><div class="stat"><div class="stat-icon">
-✅
-</div><h3 id="resolved">
-0
-</h3><p>Resolved</p></div></div><!-- SUPPORT REQUEST --><div id="supportList"><div class="support-card"><div class="top"><div class="identity"><div class="avatar">
-👤
-</div><div><div class="name">
-Learner
-</div><div class="phone">
-Phone: Not Available
-</div></div></div><span class="badge">
-PENDING
-</span></div><div class="message"><strong>Support Request</strong>
-
+<div class="whatsapp">
+<strong>📱 CEO WhatsApp Support</strong>
 <br><br>
-
-No support request has been received yet.
-
-This is an example support ticket. Actual learner
-requests will appear here when the platform database
-is connected.
-
-</div><div class="meta">
-Category: General Support
-</div><div class="actions"><button
-class="reply"
-onclick="replySupport()">
-
-💬 Reply
-
-</button><button
-class="resolve"
-onclick="resolveSupport(this)">
-
-✓ Resolve
-
-</button></div></div></div><div id="empty" class="empty">No support requests available.
-
-</div><!-- WHATSAPP --><div class="whatsapp"><strong>📱 CEO WhatsApp Support</strong>
-
+Learners who need urgent assistance can contact Mule Learner Tuition through WhatsApp.
 <br><br>
-
-Learners who have paid but need urgent assistance
-can contact Mule Learner Tuition through WhatsApp.
-
-<br><br>
-
 <strong>0978 362 800</strong>
+<button onclick="openWhatsApp()">Open WhatsApp</button>
+</div>
 
-<button onclick="openWhatsApp()">Open WhatsApp
-
-</button></div><!-- NOTICE --><div class="notice"><strong>🔐 CEO Support Control</strong>
-
+<div class="notice">
+<strong>🔐 CEO Support Control</strong>
 <br><br>
+The CEO can monitor and respond to learner support requests.
+<br><br>
+Payment-related problems should be checked against payment records before learner access is approved.
+<br><br>
+Learners should never be asked to pay an unofficial account.
+</div>
 
-The CEO can monitor and respond to learner support
-requests.
-
-Payment-related problems should be checked against
-the payment records before learner access is approved.
-
-Learners should never be asked to pay an unofficial
-account.
-
-</div><footer>Mule Learner Tuition<br>
+<footer>
+Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
+</footer>
 
-</footer></div><script>
+</div>
 
-let resolved=0;
+<script src="../js/auth.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
 
+<script>
 
-function replySupport(){
+const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-alert(
-"Reply messaging will be connected to the support system later."
+let requests={};
+
+async function loadSupport(){
+
+try{
+
+const r=await fetch(DB+"/support.json");
+const data=await r.json();
+
+requests=data||{};
+render();
+
+}catch(e){
+
+document.getElementById("supportList").innerHTML=
+'<div class="empty" style="display:block">Unable to load support requests.</div>';
+
+}
+
+}
+
+function render(){
+
+const list=document.getElementById("supportList");
+const arr=Object.values(requests);
+
+arr.sort((a,b)=>
+new Date(b.createdAt||0)-new Date(a.createdAt||0)
 );
 
-}
+const pending=arr.filter(x=>
+String(x.status||"pending").toLowerCase()==="pending"
+).length;
 
+const resolved=arr.filter(x=>
+String(x.status||"").toLowerCase()==="resolved"
+).length;
 
-function resolveSupport(button){
+document.getElementById("total").textContent=arr.length;
+document.getElementById("pending").textContent=pending;
+document.getElementById("resolved").textContent=resolved;
 
-if(!confirm("Mark this support request as resolved?")){
+if(!arr.length){
+
+list.innerHTML="";
+document.getElementById("empty").style.display="block";
 return;
-}
-
-const card=
-button.closest(".support-card");
-
-const badge=
-card.querySelector(".badge");
-
-badge.textContent="RESOLVED";
-badge.style.background="#ecfdf3";
-badge.style.color="#027a48";
-
-button.textContent="✓ Resolved";
-button.disabled=true;
-
-const reply=
-card.querySelector(".reply");
-
-reply.style.display="none";
-
-resolved++;
-
-document.getElementById("resolved")
-.textContent=resolved;
-
-document.getElementById("pending")
-.textContent="0";
 
 }
 
+document.getElementById("empty").style.display="none";
+
+list.innerHTML=arr.map(x=>{
+
+const status=String(x.status||"pending").toUpperCase();
+const isResolved=status==="RESOLVED";
+
+return `
+
+<div class="support-card">
+
+<div class="top">
+
+<div class="identity">
+
+<div class="avatar">👤</div>
+
+<div>
+
+<div class="name">
+${escapeHTML(x.name||"Learner")}
+</div>
+
+<div class="phone">
+Phone: ${escapeHTML(x.phone||"Not Available")}
+</div>
+
+</div>
+
+</div>
+
+<span class="badge"
+style="${isResolved?
+'background:#ecfdf3;color:#027a48':
+'background:#fff4db;color:#9a6700'}">
+
+${status}
+
+</span>
+
+</div>
+
+<div class="message">
+
+<strong>${escapeHTML(x.subject||"Support Request")}</strong>
+
+<br><br>
+
+${escapeHTML(x.message||"No message provided.")}
+
+${x.reply?`
+
+<br><br>
+
+<strong>CEO Reply:</strong><br>
+${escapeHTML(x.reply)}
+
+`:''}
+
+</div>
+
+<div class="meta">
+Category: ${escapeHTML(x.category||"General Support")}
+<br>
+${formatDate(x.createdAt)}
+</div>
+
+${isResolved?"":`
+
+<div class="actions">
+
+<button class="reply"
+onclick="replySupport('${safeJS(x.id)}')">
+💬 Reply
+</button>
+
+<button class="resolve"
+onclick="resolveSupport('${safeJS(x.id)}')">
+✓ Resolve
+</button>
+
+</div>
+
+`}
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+async function replySupport(id){
+
+const request=requests[id];
+
+if(!request)return;
+
+const reply=prompt(
+"Enter your reply to the learner:",
+request.reply||""
+);
+
+if(reply===null||!reply.trim())return;
+
+request.reply=reply.trim();
+request.repliedAt=new Date().toISOString();
+request.repliedBy="CEO";
+
+try{
+
+await saveRequest(id,request);
+render();
+
+alert("Reply saved successfully.");
+
+}catch(e){
+
+alert("Could not save reply.");
+
+}
+
+}
+
+async function resolveSupport(id){
+
+const request=requests[id];
+
+if(!request)return;
+
+if(!confirm("Mark this support request as resolved?"))return;
+
+request.status="resolved";
+request.resolvedAt=new Date().toISOString();
+request.resolvedBy="CEO";
+
+try{
+
+await saveRequest(id,request);
+render();
+
+}catch(e){
+
+alert("Could not resolve request.");
+
+}
+
+}
+
+async function saveRequest(id,data){
+
+const r=await fetch(DB+"/support/"+id+".json",{
+method:"PUT",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(data)
+});
+
+if(!r.ok)throw new Error();
+
+}
 
 function openWhatsApp(){
 
@@ -372,10 +339,46 @@ window.open(
 
 }
 
+function formatDate(date){
+
+if(!date)return"";
+
+const d=new Date(date);
+
+if(isNaN(d))return"";
+
+return d.toLocaleString();
+
+}
+
+function escapeHTML(text){
+
+return String(text)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+function safeJS(text){
+
+return String(text)
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'");
+
+}
+
+if(typeof protectCEOPage==="function"){
+protectCEOPage();
+}
+
+loadSupport();
+
+setInterval(loadSupport,10000);
+
 </script>
-  
-<script src="../js/app.js"></script>
-<script src="../js/ceo.js"></script>
-  
+
 </body>
 </html>
