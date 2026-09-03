@@ -50,6 +50,13 @@ color:#667085;
 line-height:1.5
 }
 
+.status{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-bottom:12px
+}
+
 .filter,.stat,.report-card{
 background:white;
 border-radius:13px;
@@ -150,11 +157,14 @@ color:#667085;
 margin-top:25px
 }
 
-.status{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-bottom:12px
+.error{
+background:#fff1f1;
+color:#a40000;
+padding:14px;
+border-radius:10px;
+font-size:12px;
+margin-bottom:15px;
+display:none
 }
 
 @media(min-width:650px){
@@ -166,15 +176,16 @@ margin-bottom:12px
 </header><div class="container"><div class="heading">
 <h1>Platform Reports 📊</h1>
 <p>Monitor learners, teachers, payments and live learning.</p>
-</div><div class="status" id="status">
-Updating from Firebase...
+</div><div id="errorBox" class="error"></div><div class="status" id="status">
+Loading Firebase data...
 </div><div class="filter">
-<h2>Report Period</h2><select id="period" onchange="loadReport()">
+<h2>Report Period</h2><select id="period" onchange="loadReports()">
 <option value="today">Today</option>
 <option value="week">This Week</option>
 <option value="month">This Month</option>
 <option value="all" selected>All Time</option>
-</select></div><div class="stats"><div class="stat">
+</select>
+</div><div class="stats"><div class="stat">
 <div class="stat-icon">👥</div>
 <h3 id="learners">0</h3>
 <p>Learners</p>
@@ -214,63 +225,117 @@ Updating from Firebase...
 </div><div class="row">
 <span class="label">Approved Payments</span>
 <span class="value" id="approvedCount">0</span>
-</div></div><div class="report-card"><h2>Payment Plan Activity</h2><div class="row"><div style="width:100%">
-<span class="label">K5 • 6 Hours</span><div class="progress">
+</div></div><div class="report-card"><h2>Payment Plan Activity</h2><div class="row">
+<div style="width:100%">
+<span class="label">K5 • 6 Hours</span>
+<div class="progress">
 <div class="progress-bar" id="sixHours"></div>
-</div></div><span class="value" id="sixHoursCount">0</span>
-
-</div><div class="row"><div style="width:100%">
-<span class="label">K10 • Daily</span><div class="progress">
+</div>
+</div>
+<span class="value" id="sixHoursCount">0</span>
+</div><div class="row">
+<div style="width:100%">
+<span class="label">K10 • Daily</span>
+<div class="progress">
 <div class="progress-bar" id="daily"></div>
-</div></div><span class="value" id="dailyCount">0</span>
-
-</div><div class="row"><div style="width:100%">
-<span class="label">K45 • Weekly</span><div class="progress">
+</div>
+</div>
+<span class="value" id="dailyCount">0</span>
+</div><div class="row">
+<div style="width:100%">
+<span class="label">K45 • Weekly</span>
+<div class="progress">
 <div class="progress-bar" id="weekly"></div>
-</div></div><span class="value" id="weeklyCount">0</span>
-
-</div><div class="row"><div style="width:100%">
-<span class="label">K180 • Monthly</span><div class="progress">
+</div>
+</div>
+<span class="value" id="weeklyCount">0</span>
+</div><div class="row">
+<div style="width:100%">
+<span class="label">K180 • Monthly</span>
+<div class="progress">
 <div class="progress-bar" id="monthly"></div>
-</div></div><span class="value" id="monthlyCount">0</span>
-
+</div>
+</div>
+<span class="value" id="monthlyCount">0</span>
 </div></div><div class="notice"><strong>🔐 CEO Reports</strong>
 
 <br><br>
 
-These figures are connected directly to the Mule Learner
-Tuition Firebase database.
+Reports are connected directly to the Mule Learner Tuition
+Firebase database.
 
 <br><br>
 
 Learners and teachers show the current total accounts.
-The selected period is used for registrations and payment
-activity.
+Activity and payment figures follow the selected period.
 
 <br><br>
 
-Reports refresh automatically every 10 seconds.
+The report automatically refreshes every 10 seconds.
 
 </div><footer>
 Mule Learner Tuition<br>
 CEO Administration • Learn • Practice • Succeed
-</footer></div><script src="../js/auth.js"></script><script src="../js/app.js"></script><script src="../js/ceo.js"></script><script>
+</footer></div><script>
 
-const DB =
+(function(){
+
+"use strict";
+
+const REPORT_FIREBASE =
 "https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-let users=[];
-let payments=[];
-let liveClasses=[];
+let reportUsers=[];
+let reportPayments=[];
+let reportLiveClasses=[];
 
-async function getData(path){
+function getSession(){
+
+try{
+return JSON.parse(
+localStorage.getItem("muleCurrentUser") || "null"
+);
+}catch(e){
+return null;
+}
+
+}
+
+function checkCEO(){
+
+const user=getSession();
+
+if(!user){
+location.href="../login.html";
+return false;
+}
+
+const role=String(user.role||"").toLowerCase();
+
+if(role!=="ceo"){
+alert("CEO access required.");
+location.href="../login.html";
+return false;
+}
+
+return true;
+
+}
+
+async function firebaseGet(path){
 
 const response=await fetch(
-DB+"/"+path+".json?cache="+Date.now()
+REPORT_FIREBASE+
+"/"+
+path+
+".json?cache="+
+Date.now()
 );
 
 if(!response.ok){
-throw new Error("Firebase request failed");
+throw new Error(
+"Firebase error: "+response.status
+);
 }
 
 const data=await response.json();
@@ -283,7 +348,7 @@ return Object.values(data);
 
 }
 
-function startDate(period){
+function dateFromPeriod(period){
 
 const now=new Date();
 
@@ -323,112 +388,142 @@ return new Date(0);
 
 }
 
-function inPeriod(item,start){
+function createdInPeriod(item,start){
 
 if(!item.createdAt)return false;
 
-const date=new Date(item.createdAt);
+const d=new Date(item.createdAt);
 
-if(isNaN(date.getTime()))return false;
+if(isNaN(d.getTime()))return false;
 
-return date>=start;
+return d>=start;
 
 }
 
-async function loadReport(){
+function userRole(user){
 
-try{
+return String(
+user.role||
+""
+).trim().toLowerCase();
+
+}
+
+function userStatus(user){
+
+return String(
+user.status||
+""
+).trim().toLowerCase();
+
+}
+
+async function loadReports(){
+
+const errorBox=
+document.getElementById("errorBox");
+
+errorBox.style.display="none";
 
 document.getElementById("status").textContent=
 "Updating from Firebase...";
 
-/* Load the actual current Firebase data */
+try{
+
+/*
+ IMPORTANT:
+ We read the SAME users node used by the
+ working Teachers and Learners pages.
+*/
 
 const results=await Promise.all([
-getData("users"),
-getData("payments"),
-getData("liveClasses")
+
+firebaseGet("users"),
+
+firebaseGet("payments"),
+
+firebaseGet("liveClasses")
+
 ]);
 
-users=results[0];
-payments=results[1];
-liveClasses=results[2];
+reportUsers=results[0];
+reportPayments=results[1];
+reportLiveClasses=results[2];
 
-/* =========================
-CURRENT ACCOUNT TOTALS
-========================= */
+/* CURRENT USERS */
 
-const allLearners=users.filter(u=>
-String(u.role||"").toLowerCase()==="learner"
+const learners=reportUsers.filter(
+u=>userRole(u)==="learner"
 );
 
-const allTeachers=users.filter(u=>
-String(u.role||"").toLowerCase()==="teacher"
+const teachers=reportUsers.filter(
+u=>userRole(u)==="teacher"
 );
 
-const activeTeachers=allTeachers.filter(u=>
-String(u.status||"").toLowerCase()==="active"
+const activeTeachers=teachers.filter(
+u=>userStatus(u)==="active"
 );
 
-const pendingTeachers=allTeachers.filter(u=>
-String(u.status||"").toLowerCase()==="pending"
+const pendingTeachers=teachers.filter(
+u=>userStatus(u)==="pending"
 );
 
-/* =========================
-SELECTED PERIOD
-========================= */
+/* SELECTED PERIOD */
 
-const period=document.getElementById("period").value;
+const period=
+document.getElementById("period").value;
 
-const start=startDate(period);
+const start=dateFromPeriod(period);
 
-const learnerRegistrations=
-allLearners.filter(u=>inPeriod(u,start));
-
-const approvedTeachers=
-allTeachers.filter(u=>
-String(u.status||"").toLowerCase()==="active" &&
-inPeriod(u,start)
+const registrations=
+learners.filter(
+u=>createdInPeriod(u,start)
 );
 
-/* =========================
-PAYMENTS
-========================= */
+const approvedTeacherActivity=
+teachers.filter(
+u=>
+userStatus(u)==="active" &&
+createdInPeriod(u,start)
+);
 
-const approvedPayments=payments.filter(p=>{
+/* PAYMENTS */
 
-const status=
-String(
+const approvedPayments=
+reportPayments.filter(p=>{
+
+const status=String(
 p.status||
 p.paymentStatus||
 ""
-).toLowerCase();
+).trim().toLowerCase();
 
-return (
+return(
 status==="approved"||
 status==="active"||
 status==="paid"
-) && inPeriod(p,start);
+)&&
+createdInPeriod(p,start);
 
 });
 
-const pendingPayments=payments.filter(p=>{
+const pendingPayments=
+reportPayments.filter(p=>{
 
-const status=
-String(
+const status=String(
 p.status||
 p.paymentStatus||
 ""
-).toLowerCase();
+).trim().toLowerCase();
 
-return status==="pending" &&
-inPeriod(p,start);
+return(
+status==="pending"
+)&&
+createdInPeriod(p,start);
 
 });
 
-/* =========================
-PAYMENT TOTAL
-========================= */
+/* PAYMENT TOTAL */
 
 let total=0;
 
@@ -448,39 +543,36 @@ total+=amount;
 
 });
 
-/* =========================
-LIVE CLASSES
-========================= */
+/* LIVE CLASSES */
 
-const live=liveClasses.filter(c=>
-String(c.status||"").toLowerCase()==="live"
+const liveClasses=
+reportLiveClasses.filter(c=>
+String(c.status||"")
+.trim()
+.toLowerCase()==="live"
 );
 
-/* =========================
-DISPLAY
-========================= */
-
-/* Main cards show CURRENT totals */
+/* MAIN STATS */
 
 document.getElementById("learners").textContent=
-allLearners.length;
+learners.length;
 
 document.getElementById("teachers").textContent=
-allTeachers.length;
+teachers.length;
 
 document.getElementById("payments").textContent=
 "K"+total;
 
 document.getElementById("classes").textContent=
-live.length;
+liveClasses.length;
 
-/* Activity */
+/* ACTIVITY */
 
 document.getElementById("totalLearners").textContent=
-allLearners.length;
+learners.length;
 
 document.getElementById("totalTeachers").textContent=
-allTeachers.length;
+teachers.length;
 
 document.getElementById("activeTeachers").textContent=
 activeTeachers.length;
@@ -489,10 +581,10 @@ document.getElementById("pendingTeachers").textContent=
 pendingTeachers.length;
 
 document.getElementById("registrations").textContent=
-learnerRegistrations.length;
+registrations.length;
 
 document.getElementById("approvedTeachers").textContent=
-approvedTeachers.length;
+approvedTeacherActivity.length;
 
 document.getElementById("pendingPayments").textContent=
 pendingPayments.length;
@@ -505,20 +597,36 @@ showPlans(approvedPayments);
 document.getElementById("status").textContent=
 "✓ Updated just now";
 
+console.log(
+"REPORT USERS:",
+reportUsers
+);
+
+console.log(
+"LEARNERS:",
+learners.length,
+"TEACHERS:",
+teachers.length
+);
+
 }catch(error){
 
-console.error("REPORT ERROR:",error);
+console.error(
+"REPORT ERROR:",
+error
+);
 
 document.getElementById("status").textContent=
-"Unable to update report";
+"Report update failed";
+
+errorBox.textContent=
+"Could not load Firebase report data. Please check your Firebase connection.";
+
+errorBox.style.display="block";
 
 }
 
 }
-
-/* =========================
-PAYMENT PLANS
-========================= */
 
 function showPlans(list){
 
@@ -550,30 +658,25 @@ text.includes("6 hour")||
 text.includes("6hours")||
 amount===5
 ){
-
 six++;
-
-}else if(
+}
+else if(
 text.includes("daily")||
 amount===10
 ){
-
 daily++;
-
-}else if(
+}
+else if(
 text.includes("weekly")||
 amount===45
 ){
-
 weekly++;
-
-}else if(
+}
+else if(
 text.includes("monthly")||
 amount===180
 ){
-
 monthly++;
-
 }
 
 });
@@ -591,10 +694,21 @@ setPlan("daily",daily,max);
 setPlan("weekly",weekly,max);
 setPlan("monthly",monthly,max);
 
-document.getElementById("sixHoursCount").textContent=six;
-document.getElementById("dailyCount").textContent=daily;
-document.getElementById("weeklyCount").textContent=weekly;
-document.getElementById("monthlyCount").textContent=monthly;
+document.getElementById(
+"sixHoursCount"
+).textContent=six;
+
+document.getElementById(
+"dailyCount"
+).textContent=daily;
+
+document.getElementById(
+"weeklyCount"
+).textContent=weekly;
+
+document.getElementById(
+"monthlyCount"
+).textContent=monthly;
 
 }
 
@@ -605,19 +719,16 @@ document.getElementById(id).style.width=
 
 }
 
-/* CEO protection */
+if(!checkCEO())return;
 
-if(typeof protectCEOPage==="function"){
-protectCEOPage();
-}
+loadReports();
 
-/* Initial load */
+setInterval(
+loadReports,
+10000
+);
 
-loadReport();
-
-/* Automatic refresh */
-
-setInterval(loadReport,10000);
+})();
 
 </script></body>
 </html>
