@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport"
 content="width=device-width,initial-scale=1.0">
 
 <meta name="theme-color"
 content="#173b8f">
 
-<title>My Classes | Mule Learner Tuition</title>
-
-<style>
+<title>My Classes | Mule Learner Tuition</title><style>
 
 *{
 box-sizing:border-box;
@@ -96,6 +89,17 @@ padding:6px 9px;
 border-radius:20px;
 background:#ecfdf3;
 color:#027a48;
+white-space:nowrap;
+}
+
+.status.live{
+background:#fee4e2;
+color:#b42318;
+}
+
+.status.ended{
+background:#f2f4f7;
+color:#667085;
 }
 
 .info{
@@ -148,6 +152,35 @@ color:#475467;
 line-height:1.6;
 }
 
+.loading{
+background:white;
+padding:25px;
+border-radius:14px;
+text-align:center;
+font-size:13px;
+color:#667085;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.empty{
+background:white;
+padding:25px;
+border-radius:14px;
+text-align:center;
+font-size:13px;
+color:#667085;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.error{
+background:#fee4e2;
+color:#b42318;
+padding:15px;
+border-radius:11px;
+font-size:12px;
+line-height:1.5;
+}
+
 footer{
 text-align:center;
 font-size:11px;
@@ -155,168 +188,20 @@ color:#667085;
 margin-top:25px;
 }
 
-</style>
-
-</head>
-
-<body>
-
-
-<header>
-
-<div class="logo">
+</style></head><body><header><div class="logo">
 Mule Learner Tuition
-</div>
-
-<a href="dashboard.html"
+</div><a href="dashboard.html"
 class="back">
 ← Dashboard
 </a>
 
-</header>
-
-
-<div class="container">
-
-
-<div class="heading">
-
-<h1>
+</header><div class="container"><div class="heading"><h1>
 My Classes 🏫
-</h1>
-
-<p>
+</h1><p>
 View your enrolled classes, teachers and schedules.
-</p>
-
-</div>
-
-
-<!-- MATHEMATICS -->
-
-<div class="class-card">
-
-<div class="top">
-
-<div class="subject">
-Mathematics
-</div>
-
-<div class="status">
-ACTIVE
-</div>
-
-</div>
-
-
-<div class="info">
-
-<strong>👨‍🏫 Teacher:</strong>
-Assigned Teacher
-
-<br>
-
-<strong>📅 Schedule:</strong>
-Monday & Wednesday
-
-<br>
-
-<strong>⏰ Time:</strong>
-17:00 – 18:00
-
-<br>
-
-<strong>📚 Class:</strong>
-Mathematics Class
-
-</div>
-
-
-<div class="actions">
-
-<a href="live-class.html"
-class="button primary">
-
-🔴 Live Class
-
-</a>
-
-<a href="materials.html"
-class="button secondary">
-
-📖 Materials
-
-</a>
-
-</div>
-
-</div>
-
-
-<!-- ICT -->
-
-<div class="class-card">
-
-<div class="top">
-
-<div class="subject">
-ICT / Computer Studies
-</div>
-
-<div class="status">
-ACTIVE
-</div>
-
-</div>
-
-
-<div class="info">
-
-<strong>👨‍🏫 Teacher:</strong>
-Assigned Teacher
-
-<br>
-
-<strong>📅 Schedule:</strong>
-Tuesday & Thursday
-
-<br>
-
-<strong>⏰ Time:</strong>
-16:00 – 17:00
-
-<br>
-
-<strong>💻 Class:</strong>
-ICT Class
-
-</div>
-
-
-<div class="actions">
-
-<a href="live-class.html"
-class="button primary">
-
-🔴 Live Class
-
-</a>
-
-<a href="materials.html"
-class="button secondary">
-
-📖 Materials
-
-</a>
-
-</div>
-
-</div>
-
-
-<div class="note">
-
-<strong>💡 Important</strong>
+</p></div><div id="classesContainer"><div class="loading">
+Loading your classes...
+</div></div><div class="note"><strong>💡 Important</strong>
 
 <br><br>
 
@@ -333,61 +218,634 @@ your learning access until the plan expires.
 You will not be asked to pay again while the approved
 plan is still active.
 
-</div>
+</div><footer>Mule Learner Tuition
+
+<br>Learn • Practice • Succeed
+
+</footer></div><script src="../js/app.js"></script><script src="../js/learner.js"></script><script src="../js/classes.js"></script><script>
+
+"use strict";
 
 
-<footer>
-
-Mule Learner Tuition
-
-<br>
-
-Learn • Practice • Succeed
-
-</footer>
+const DB_URL =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
 
-</div>
+function getLearner(){
+
+try{
+
+const user =
+JSON.parse(
+localStorage.getItem(
+"muleCurrentUser"
+)
+);
+
+if(
+!user ||
+user.role!=="learner"
+){
+
+return null;
+
+}
+
+return user;
+
+}catch(error){
+
+return null;
+
+}
+
+}
 
 
-<!-- PROJECT JAVASCRIPT -->
+function escapeHTML(value){
 
-<script src="../js/app.js"></script>
+return String(value||"")
 
-<script src="../js/learner.js"></script>
+.replace(
+/&/g,
+"&amp;"
+)
 
-<script src="../js/classes.js"></script>
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
 
 
-<!-- LEARNING ACCESS CHECK -->
+function getStatus(status){
 
-<script>
+const value =
+String(
+status||
+"scheduled"
+).toLowerCase();
 
-document.addEventListener(
-"DOMContentLoaded",
-async function(){
 
-    if(
-        typeof protectLearnerPage === "function" &&
-        !protectLearnerPage()
-    ){
-        return;
-    }
+if(value==="live"){
 
-    if(
-        typeof requireLearningAccess === "function"
-    ){
+return{
+text:"🔴 LIVE",
+className:"live"
+};
 
-        await requireLearningAccess(
-            "payments.html"
-        );
+}
 
-    }
+
+if(value==="ended"){
+
+return{
+text:"ENDED",
+className:"ended"
+};
+
+}
+
+
+return{
+text:"SCHEDULED",
+className:""
+};
+
+}
+
+
+function formatDate(date){
+
+if(!date){
+
+return "Not scheduled";
+
+}
+
+
+const parsed =
+new Date(date);
+
+
+if(
+isNaN(
+parsed.getTime()
+)
+){
+
+return date;
+
+}
+
+
+return parsed.toLocaleDateString(
+undefined,
+{
+day:"2-digit",
+month:"short",
+year:"numeric"
+}
+);
+
+}
+
+
+function formatTime(time){
+
+if(!time){
+
+return "Not scheduled";
+
+}
+
+
+return time;
+
+}
+
+
+async function loadLearnerClasses(){
+
+const container =
+document.getElementById(
+"classesContainer"
+);
+
+
+const learner =
+getLearner();
+
+
+if(!learner){
+
+location.href="../login.html";
+
+return;
+
+}
+
+
+try{
+
+const response =
+await fetch(
+DB_URL+
+"/classes.json?cache="+
+Date.now()
+);
+
+
+if(!response.ok){
+
+throw new Error(
+"Could not load classes."
+);
+
+}
+
+
+const data =
+await response.json();
+
+
+if(!data){
+
+showEmpty();
+
+return;
+
+}
+
+
+let classes =
+Object.keys(data)
+.map(function(key){
+
+return{
+
+id:key,
+...(data[key]||{})
+
+};
 
 });
 
-</script>
+
+/*
+=========================================
+LEARNER CLASS FILTER
+=========================================
+
+If a class has assignedLearners,
+only those learners see it.
+
+If there is no assignedLearners list,
+the class is available to learners.
+
+This keeps compatibility with
+CEO-created classes.
+=========================================
+*/
 
 
-</body>
+classes =
+classes.filter(function(item){
+
+if(
+String(
+item.status||""
+).toLowerCase()==="ended"
+){
+
+return false;
+
+}
+
+
+if(
+Array.isArray(
+item.assignedLearners
+)
+){
+
+return item.assignedLearners
+.map(String)
+.includes(
+String(
+learner.id||""
+)
+);
+
+}
+
+
+if(
+item.assignedLearners &&
+typeof item.assignedLearners==="object"
+){
+
+return !!item.assignedLearners[
+learner.id
+];
+
+}
+
+
+return true;
+
+});
+
+
+/*
+=========================================
+SORT CLASSES
+=========================================
+*/
+
+classes.sort(function(a,b){
+
+const dateA =
+new Date(
+(a.date||"9999-12-31")+
+"T"+
+(a.time||"23:59")
+);
+
+const dateB =
+new Date(
+(b.date||"9999-12-31")+
+"T"+
+(b.time||"23:59")
+);
+
+return dateA-dateB;
+
+});
+
+
+if(!classes.length){
+
+showEmpty();
+
+return;
+
+}
+
+
+container.innerHTML="";
+
+
+classes.forEach(function(item){
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"class-card";
+
+
+const status =
+getStatus(
+item.status
+);
+
+
+const teacher =
+item.teacherName||
+"To be assigned";
+
+
+const className =
+item.name||
+item.className||
+"Class";
+
+
+const subject =
+item.subject||
+"Not specified";
+
+
+const classType =
+item.classType||
+"Regular Class";
+
+
+const liveClassId =
+item.liveClassId||
+item.id||
+"";
+
+
+let actions="";
+
+
+if(
+String(
+item.status||""
+).toLowerCase()==="live"
+){
+
+actions=`
+
+<a
+href="live-class.html?id=${encodeURIComponent(liveClassId)}"
+class="button primary">
+
+🔴 Join Live Class
+
+</a>
+
+`;
+
+}else{
+
+actions=`
+
+<a
+href="live-class.html?id=${encodeURIComponent(liveClassId)}"
+class="button primary">
+
+🔴 Live Class
+
+</a>
+
+`;
+
+}
+
+
+actions+=`
+
+<a
+href="materials.html"
+class="button secondary">
+
+📖 Materials
+
+</a>
+
+`;
+
+
+card.innerHTML=`
+
+<div class="top">
+
+<div class="subject">
+
+${escapeHTML(
+subject
+)}
+
+</div>
+
+<div class="status ${status.className}">
+
+${status.text}
+
+</div>
+
+</div>
+
+
+<div class="info">
+
+<strong>📚 Class:</strong>
+${escapeHTML(
+className
+)}
+
+<br>
+
+<strong>👨‍🏫 Teacher:</strong>
+${escapeHTML(
+teacher
+)}
+
+<br>
+
+<strong>🏷️ Type:</strong>
+${escapeHTML(
+classType
+)}
+
+<br>
+
+<strong>📅 Schedule:</strong>
+${escapeHTML(
+formatDate(item.date)
+)}
+
+<br>
+
+<strong>⏰ Time:</strong>
+${escapeHTML(
+formatTime(item.time)
+)}
+
+${item.duration?
+`
+<br>
+<strong>⏱️ Duration:</strong>
+${escapeHTML(item.duration)}
+`
+:""}
+
+</div>
+
+
+<div class="actions">
+
+${actions}
+
+</div>
+
+`;
+
+
+container.appendChild(
+card
+);
+
+});
+
+
+}catch(error){
+
+console.error(
+"Classes error:",
+error
+);
+
+
+container.innerHTML=`
+
+<div class="error">
+
+❌ Unable to load your classes.
+
+<br><br>
+
+Please check your internet connection
+and try again.
+
+</div>
+
+`;
+
+}
+
+}
+
+
+function showEmpty(){
+
+document.getElementById(
+"classesContainer"
+).innerHTML=`
+
+<div class="empty">
+
+🏫
+
+<br><br>
+
+<strong>
+No classes available
+</strong>
+
+<br><br>
+
+There are currently no classes
+available for you.
+
+</div>
+
+`;
+
+}
+
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+/*
+Protect learner page if
+the function exists.
+*/
+
+if(
+typeof protectLearnerPage===
+"function"
+){
+
+if(
+!protectLearnerPage()
+){
+
+return;
+
+}
+
+}
+
+
+/*
+Learning access remains required.
+*/
+
+if(
+typeof requireLearningAccess===
+"function"
+){
+
+requireLearningAccess(
+"payments.html"
+).then(function(){
+
+loadLearnerClasses();
+
+});
+
+}else{
+
+loadLearnerClasses();
+
+}
+
+});
+
+
+/*
+Refresh classes automatically
+every 10 seconds.
+*/
+
+setInterval(
+loadLearnerClasses,
+10000
+);
+
+</script></body>
 </html>
