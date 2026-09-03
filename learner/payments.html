@@ -91,7 +91,8 @@ Select a learning plan.
 <strong>📱 MTN MoMo</strong>
 <div class="number">0768217115</div>
 <div class="name">Account Name: Owen Singogo</div>
-</div></div><form onsubmit="confirmPayment(event)"><!-- LEARNER NAME --><label for="learnerName">Learner Name</label>
+</div></div><form onsubmit="confirmPayment(event)"><label for="learnerName">Learner Name</label>
+
 <input
 id="learnerName"
 type="text"
@@ -101,46 +102,53 @@ required>
 
 <label>Selected Learning Plan</label>
 
-<select id="plan" required>
-<option value="">Choose your plan</option>
+<select id="plan" required><option value="">Choose your plan</option>
 <option value="Free Trial - 6 Hours">Free Trial — 6 Hours FREE</option>
 <option value="6 Hours - K5">6 Hours — K5</option>
 <option value="Daily - K10">Daily — K10</option>
 <option value="Weekly - K45">Weekly — K45</option>
-<option value="Monthly - K180">Monthly — K180</option>
-</select><div id="methodArea"><label>Selected Payment Account</label>
+<option value="Monthly - K180">Monthly — K180</option></select><div id="methodArea"><label>Selected Payment Account</label>
 
-<select id="method">
-<option value="">Choose payment account</option>
+<select id="method"><option value="">Choose payment account</option>
 <option value="Airtel Money">Airtel Money</option>
 <option value="Zamtel Money">Zamtel Money</option>
-<option value="MTN MoMo">MTN MoMo</option>
-</select></div><button id="submitBtn" type="submit">Continue</button>
+<option value="MTN MoMo">MTN MoMo</option></select></div><button id="submitBtn" type="submit">Continue</button>
 
-</form><div id="success" class="success"></div><div class="notice">
-<strong>🔐 Payment & Learning Access</strong>
+</form><div id="success" class="success"></div><div class="notice"><strong>🔐 Payment & Learning Access</strong>
 <br><br>
+
 🆓 <strong>Free Trial:</strong>
 Every learner receives one 6-hour FREE trial. It activates automatically. No payment and no CEO approval are required.
+
 <br><br>
+
 🔒 <strong>One-time use:</strong>
 The FREE trial can only be activated once per learner.
+
 <br><br>
+
 💰 <strong>Paid Plans:</strong>
 Send the correct amount to the selected payment account before submitting your payment.
+
 <br><br>
+
 🟡 <strong>Waiting for Approval:</strong>
 Paid payments do NOT immediately activate learning access. The CEO must first verify and approve the payment.
+
 <br><br>
+
 ✅ <strong>After Approval:</strong>
 Your selected learning period starts automatically.
+
 <br><br>
+
 ⏱️ <strong>After Expiry:</strong>
 Your learning access automatically locks again.
-</div></div><div class="support">
-<h3>Need Payment Help?</h3>
-<p>If you have paid but your learning access has not been activated, contact Customer Support.</p>
-<a href="support.html">💬 Customer Support</a>
+
+</div></div><div class="support"><h3>Need Payment Help?</h3><p>
+If you have paid but your learning access has not been activated, contact Customer Support.
+</p><a href="support.html">💬 Customer Support</a>
+
 </div><footer>
 Mule Learner Tuition<br>
 Learn • Practice • Succeed
@@ -150,22 +158,48 @@ import {initializeApp,getApps}
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
-getDatabase,ref,push,get,query,orderByChild,equalTo
+getDatabase,
+ref,
+push,
+get,
+query,
+orderByChild,
+equalTo,
+set
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
+
 const firebaseConfig={
-apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+
+apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+
 authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
-databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
 projectId:"mule-learner-tuition-264fe",
-storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
 messagingSenderId:"656883565460",
+
 appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
 };
 
-const app=getApps().length?getApps()[0]:initializeApp(firebaseConfig);
+
+const app=
+getApps().length
+?
+getApps()[0]
+:
+initializeApp(firebaseConfig);
+
 const db=getDatabase(app);
+
 
 window.muleFirebaseDatabase=db;
 window.muleFirebaseRef=ref;
@@ -174,32 +208,47 @@ window.muleFirebaseGet=get;
 window.muleFirebaseQuery=query;
 window.muleFirebaseOrderByChild=orderByChild;
 window.muleFirebaseEqualTo=equalTo;
+window.muleFirebaseSet=set;
 
 </script><script>
 
 let selectedPlan="";
 let selectedMethod="";
 
+
 function choosePlan(plan,element){
 
 selectedPlan=plan;
+
 document.getElementById("plan").value=plan;
 
 document.querySelectorAll(".plan").forEach(function(item){
+
 item.classList.remove("selected");
+
 });
 
 element.classList.add("selected");
 
-const methodArea=document.getElementById("methodArea");
-const accounts=document.getElementById("paymentAccounts");
-const description=document.getElementById("paymentDescription");
-const methodSelect=document.getElementById("method");
+const methodArea=
+document.getElementById("methodArea");
+
+const accounts=
+document.getElementById("paymentAccounts");
+
+const description=
+document.getElementById("paymentDescription");
+
+const methodSelect=
+document.getElementById("method");
+
 
 if(plan==="Free Trial - 6 Hours"){
 
 methodArea.style.display="none";
+
 accounts.style.display="none";
+
 methodSelect.required=false;
 
 description.innerHTML=
@@ -209,7 +258,9 @@ description.innerHTML=
 }else{
 
 methodArea.style.display="block";
+
 accounts.style.display="block";
+
 methodSelect.required=true;
 
 description.innerHTML=
@@ -219,65 +270,89 @@ description.innerHTML=
 
 }
 
+
 function chooseMethod(method,element){
 
 selectedMethod=method;
+
 document.getElementById("method").value=method;
 
 document.querySelectorAll(".account").forEach(function(item){
+
 item.classList.remove("selected");
+
 });
 
 element.classList.add("selected");
 
 }
 
+
 function getLearnerInformation(){
 
 let user=null;
 
 try{
-user=JSON.parse(localStorage.getItem("muleCurrentUser"));
+
+user=
+JSON.parse(
+localStorage.getItem("muleCurrentUser")
+);
+
 }catch(error){
+
 user=null;
+
 }
 
 if(!user)return null;
 
 return{
+
 id:user.id||"",
 name:user.name||"",
 phone:user.phone||"",
 role:user.role||"learner"
+
 };
 
 }
 
+
 function getPlanAmount(plan){
 
 if(plan==="Free Trial - 6 Hours")return 0;
+
 if(plan==="6 Hours - K5")return 5;
+
 if(plan==="Daily - K10")return 10;
+
 if(plan==="Weekly - K45")return 45;
+
 if(plan==="Monthly - K180")return 180;
 
 return 0;
 
 }
 
+
 async function freeTrialAlreadyUsed(learnerId){
 
-const paymentsRef=window.muleFirebaseRef(
-window.muleFirebaseDatabase,"payments"
+const paymentsRef=
+window.muleFirebaseRef(
+window.muleFirebaseDatabase,
+"payments"
 );
 
-const learnerQuery=window.muleFirebaseQuery(
+const learnerQuery=
+window.muleFirebaseQuery(
 paymentsRef,
 window.muleFirebaseOrderByChild("learnerId"),
 window.muleFirebaseEqualTo(learnerId)
 );
 
-const snapshot=await window.muleFirebaseGet(learnerQuery);
+const snapshot=
+await window.muleFirebaseGet(learnerQuery);
 
 if(!snapshot.exists())return false;
 
@@ -287,8 +362,13 @@ snapshot.forEach(function(child){
 
 const payment=child.val();
 
-if(payment&&payment.plan==="Free Trial - 6 Hours"){
+if(
+payment &&
+payment.plan==="Free Trial - 6 Hours"
+){
+
 used=true;
+
 }
 
 });
@@ -297,21 +377,26 @@ return used;
 
 }
 
+
 async function hasActiveAccess(learnerId){
 
 try{
 
-const paymentsRef=window.muleFirebaseRef(
-window.muleFirebaseDatabase,"payments"
+const paymentsRef=
+window.muleFirebaseRef(
+window.muleFirebaseDatabase,
+"payments"
 );
 
-const learnerQuery=window.muleFirebaseQuery(
+const learnerQuery=
+window.muleFirebaseQuery(
 paymentsRef,
 window.muleFirebaseOrderByChild("learnerId"),
 window.muleFirebaseEqualTo(learnerId)
 );
 
-const snapshot=await window.muleFirebaseGet(learnerQuery);
+const snapshot=
+await window.muleFirebaseGet(learnerQuery);
 
 if(!snapshot.exists())return false;
 
@@ -327,7 +412,9 @@ payment.status==="approved" &&
 payment.expiresAt &&
 new Date(payment.expiresAt).getTime()>Date.now()
 ){
+
 active=true;
+
 }
 
 });
@@ -337,98 +424,213 @@ return active;
 }catch(error){
 
 console.error(error);
+
 return false;
 
 }
 
 }
 
+
+/* =========================
+   CEO PAYMENT NOTIFICATION
+========================= */
+
+async function notifyCEOPayment(
+learnerName,
+learnerPhone,
+plan,
+amount,
+method,
+paymentKey
+){
+
+const notificationId=
+"NOT-"+Date.now()+"-"+Math.random()
+.toString(36)
+.substring(2,7)
+.toUpperCase();
+
+
+const notification={
+
+id:notificationId,
+
+type:"payment",
+
+title:"💰 New Learner Payment",
+
+message:
+learnerName+
+" has submitted a payment of K"+
+amount+
+" for the "+
+plan+
+" plan using "+
+method+
+".",
+
+paymentId:paymentKey,
+
+learnerName:learnerName,
+
+learnerPhone:learnerPhone,
+
+plan:plan,
+
+amount:amount,
+
+method:method,
+
+read:false,
+
+createdAt:
+new Date().toISOString(),
+
+createdBy:"Learner Payment"
+
+};
+
+
+await window.muleFirebaseSet(
+
+window.muleFirebaseRef(
+window.muleFirebaseDatabase,
+"notifications/"+notificationId
+),
+
+notification
+
+);
+
+}
+
+
 async function confirmPayment(event){
 
 event.preventDefault();
 
-const plan=document.getElementById("plan").value;
-const method=document.getElementById("method").value;
-const enteredName=document.getElementById("learnerName").value.trim();
+const plan=
+document.getElementById("plan").value;
 
-const success=document.getElementById("success");
-const button=document.getElementById("submitBtn");
-const learner=getLearnerInformation();
+const method=
+document.getElementById("method").value;
+
+const enteredName=
+document.getElementById("learnerName").value.trim();
+
+const success=
+document.getElementById("success");
+
+const button=
+document.getElementById("submitBtn");
+
+const learner=
+getLearnerInformation();
+
 
 if(!learner){
 
 success.className="success error";
+
 success.innerHTML=
 "❌ <strong>Login Required</strong><br><br>"+
 "You must be logged in as a learner before continuing.";
+
 success.style.display="block";
+
 return;
 
 }
+
 
 if(!enteredName){
 
 document.getElementById("learnerName").focus();
+
 alert("Please enter the learner's full name.");
+
 return;
 
 }
+
 
 if(!plan){
 
 alert("Please select a learning plan.");
+
 return;
 
 }
 
+
 button.disabled=true;
+
 button.textContent="Checking...";
+
 
 try{
 
+
 if(plan==="Free Trial - 6 Hours"){
 
-const alreadyUsed=await freeTrialAlreadyUsed(learner.id);
+const alreadyUsed=
+await freeTrialAlreadyUsed(learner.id);
+
 
 if(alreadyUsed){
 
 success.className="success error";
+
 success.innerHTML=
 "❌ <strong>Free Trial Already Used</strong><br><br>"+
 "Your 6-hour FREE trial has already been used.<br><br>"+
 "Please choose a paid learning plan.";
+
 success.style.display="block";
 
 button.disabled=false;
+
 button.textContent="Continue";
+
 return;
 
 }
 
-const active=await hasActiveAccess(learner.id);
+
+const active=
+await hasActiveAccess(learner.id);
+
 
 if(active){
 
 success.className="success error";
+
 success.innerHTML=
 "⚠️ <strong>Learning Access Already Active</strong><br><br>"+
 "You already have active learning access.";
+
 success.style.display="block";
 
 button.disabled=false;
+
 button.textContent="Continue";
+
 return;
 
 }
 
+
 const now=Date.now();
-const expiresAt=now+(6*60*60*1000);
+
+const expiresAt=
+now+(6*60*60*1000);
+
 
 const paymentData={
 
 learnerId:learner.id,
 
-/* NAME ENTERED BY LEARNER */
 learnerName:enteredName,
 
 learnerPhone:learner.phone,
@@ -441,9 +643,11 @@ method:"FREE",
 
 status:"approved",
 
-submittedAt:new Date(now).toISOString(),
+submittedAt:
+new Date(now).toISOString(),
 
-approvedAt:new Date(now).toISOString(),
+approvedAt:
+new Date(now).toISOString(),
 
 approvedBy:"SYSTEM",
 
@@ -451,20 +655,28 @@ rejectedAt:null,
 
 rejectionReason:"",
 
-startAt:new Date(now).toISOString(),
+startAt:
+new Date(now).toISOString(),
 
-expiresAt:new Date(expiresAt).toISOString(),
+expiresAt:
+new Date(expiresAt).toISOString(),
 
 isFreeTrial:true
 
 };
 
+
 await window.muleFirebasePush(
+
 window.muleFirebaseRef(
-window.muleFirebaseDatabase,"payments"
+window.muleFirebaseDatabase,
+"payments"
 ),
+
 paymentData
+
 );
+
 
 success.className="success";
 
@@ -478,23 +690,30 @@ success.innerHTML=
 success.style.display="block";
 
 button.disabled=true;
+
 button.textContent="FREE Trial Active";
 
 return;
 
 }
 
+
 if(!method){
 
 alert("Please select the payment account.");
 
 button.disabled=false;
+
 button.textContent="Continue";
+
 return;
 
 }
 
-const active=await hasActiveAccess(learner.id);
+
+const active=
+await hasActiveAccess(learner.id);
+
 
 if(active){
 
@@ -507,18 +726,22 @@ success.innerHTML=
 success.style.display="block";
 
 button.disabled=false;
+
 button.textContent="Continue";
+
 return;
 
 }
 
-const amount=getPlanAmount(plan);
+
+const amount=
+getPlanAmount(plan);
+
 
 const paymentData={
 
 learnerId:learner.id,
 
-/* NAME ENTERED BY LEARNER */
 learnerName:enteredName,
 
 learnerPhone:learner.phone,
@@ -531,7 +754,8 @@ method:method,
 
 status:"pending",
 
-submittedAt:new Date().toISOString(),
+submittedAt:
+new Date().toISOString(),
 
 approvedAt:null,
 
@@ -547,12 +771,51 @@ isFreeTrial:false
 
 };
 
+
+const paymentKey=
 await window.muleFirebasePush(
+
 window.muleFirebaseRef(
-window.muleFirebaseDatabase,"payments"
+window.muleFirebaseDatabase,
+"payments"
 ),
+
 paymentData
+
 );
+
+
+/* =========================
+   CREATE CEO NOTIFICATION
+========================= */
+
+try{
+
+await notifyCEOPayment(
+
+enteredName,
+
+learner.phone,
+
+plan,
+
+amount,
+
+method,
+
+paymentKey.key
+
+);
+
+}catch(notificationError){
+
+console.error(
+"Payment notification failed:",
+notificationError
+);
+
+}
+
 
 success.className="success waiting";
 
@@ -568,7 +831,9 @@ success.innerHTML=
 success.style.display="block";
 
 button.disabled=true;
+
 button.textContent="Submitted";
+
 
 }catch(error){
 
@@ -583,6 +848,7 @@ success.innerHTML=
 success.style.display="block";
 
 button.disabled=false;
+
 button.textContent="Continue";
 
 }
