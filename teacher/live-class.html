@@ -2,1276 +2,509 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
-
 <title>Teacher Live Class | Mule Learner Tuition</title>
 
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f4f7fb;
-color:#172033;
-}
-
-.header{
-background:#173b8f;
-color:white;
-padding:18px;
-text-align:center;
-}
-
-.header h2{
-margin:0;
-font-size:20px;
-}
-
-.container{
-max-width:600px;
-margin:auto;
-padding:15px;
-}
-
-.card{
-background:white;
-border-radius:14px;
-padding:16px;
-margin-bottom:15px;
-box-shadow:0 4px 15px rgba(0,0,0,.08);
-}
-
-.title{
-font-size:17px;
-font-weight:bold;
-margin-bottom:8px;
-}
-
-.status{
-display:inline-block;
-padding:7px 12px;
-border-radius:20px;
-background:#eee;
-font-size:12px;
-font-weight:bold;
-}
-
-.live{
-background:#dcfce7;
-color:#15803d;
-}
-
-video{
-width:100%;
-height:250px;
-background:#111;
-border-radius:12px;
-object-fit:cover;
-margin-top:12px;
-}
-
-.remote-video{
-width:100%;
-height:180px;
-background:#111;
-border-radius:10px;
-object-fit:cover;
-margin-top:10px;
-display:none;
-}
-
-button{
-border:0;
-border-radius:10px;
-padding:12px;
-font-weight:bold;
-font-size:13px;
-cursor:pointer;
-}
-
-.start{
-background:#173b8f;
-color:white;
-width:100%;
-margin-top:12px;
-}
-
-.end{
-background:#dc2626;
-color:white;
-width:100%;
-margin-top:10px;
-}
-
-.controls{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:8px;
-margin-top:12px;
-}
-
-.control{
-background:#eef3ff;
-color:#173b8f;
-}
-
-.control.off{
-background:#fee2e2;
-color:#b91c1c;
-}
-
-.timer{
-text-align:center;
-font-size:24px;
-font-weight:bold;
-margin:12px;
-}
-
-.chat{
-height:150px;
-overflow-y:auto;
-background:#f7f8fa;
-padding:10px;
-border-radius:10px;
-font-size:13px;
-}
-
-.chat-input{
-display:flex;
-gap:7px;
-margin-top:8px;
-}
-
-.chat-input input{
-flex:1;
-padding:11px;
-border:1px solid #ddd;
-border-radius:9px;
-}
-
-.chat-input button{
-background:#173b8f;
-color:white;
-}
-
-.learner-box{
-border-top:1px solid #eee;
-padding-top:12px;
-margin-top:12px;
-}
-
-.learner-name{
-font-weight:bold;
-font-size:13px;
-margin-bottom:5px;
-}
-
-.audio-status{
-font-size:11px;
-color:#667085;
-margin-top:5px;
-}
-
-.back{
-display:block;
-text-align:center;
-margin:18px 0;
-color:#173b8f;
-text-decoration:none;
-font-weight:bold;
-}
+body{margin:0;font-family:Arial;background:#f4f7fc;color:#172033}
+header{background:#173b8f;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+header b{font-size:17px}
+button{border:0;border-radius:9px;padding:10px 13px;font-weight:bold}
+.back{background:#fff;color:#173b8f}
+.container{max-width:950px;margin:auto;padding:16px}
+.hero{background:#173b8f;color:white;border-radius:14px;padding:18px;margin-bottom:15px}
+.card{background:#fff;border-radius:14px;padding:15px;margin-bottom:14px;box-shadow:0 3px 12px #0001}
+video{width:100%;background:#111;border-radius:10px}
+.mainVideo{min-height:260px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.controls button{background:#173b8f;color:#fff}
+.controls .danger{background:#b00020}
+.status{padding:10px;border-radius:9px;background:#eef3ff;margin-bottom:12px}
+.person{padding:10px;border-bottom:1px solid #eee}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.remote{background:#111;border-radius:10px;overflow:hidden}
+.remote video{height:180px;object-fit:cover}
+.label{font-size:12px;color:#777;margin:7px}
+#messages{height:180px;overflow:auto;border:1px solid #ddd;border-radius:9px;padding:8px}
+.msg{font-size:13px;padding:6px;border-bottom:1px solid #eee}
+.chat{display:flex;gap:7px;margin-top:8px}
+.chat input{flex:1;padding:11px;border:1px solid #ddd;border-radius:9px}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-<h2>🎓 Mule Learner Tuition</h2>
-<p>Teacher Live Classroom</p>
-</div>
+<header>
+<b>🎓 Mule Learner Tuition</b>
+<button class="back" onclick="location.href='dashboard.html'">Dashboard</button>
+</header>
 
 <div class="container">
 
-<div class="card">
-
-<div class="title">📚 Grade 10 Mathematics</div>
-
-<p><b>Subject:</b> Mathematics</p>
-<p><b>Class:</b> Grade 10</p>
-<p><b>Teacher:</b> Teacher</p>
-
-<span id="status" class="status">OFFLINE</span>
-
-<button id="startBtn"
-class="start"
-type="button"
-onclick="startClass()">
-▶️ Start Live Class
-</button>
-
-<button id="endBtn"
-class="end"
-type="button"
-onclick="endClass()"
-style="display:none">
-⏹️ End Class
-</button>
-
+<div class="hero">
+<h2 id="title">Live Classroom</h2>
+<div id="info">Loading...</div>
 </div>
 
+<div class="status" id="status">Preparing classroom...</div>
+
 <div class="card">
-
-<div class="title">🎥 Teacher Camera</div>
-
-<video
-id="teacherVideo"
-autoplay
-playsinline
-muted>
-</video>
-
-<div id="timer" class="timer">
-00:00:00
-</div>
+<div class="label">Teacher Camera</div>
+<video id="localVideo" class="mainVideo" autoplay muted playsinline></video>
 
 <div class="controls">
-
-<button id="micBtn"
-class="control off"
-type="button"
-onclick="toggleMicrophone()">
-🎤 Mic OFF
-</button>
-
-<button id="cameraBtn"
-class="control off"
-type="button"
-onclick="toggleCamera()">
-📹 Camera OFF
-</button>
-
-<button id="speakerBtn"
-class="control"
-type="button"
-onclick="toggleSpeaker()">
-🔊 Speaker ON
-</button>
-
-<button class="control"
-type="button"
-onclick="toggleFullscreen()">
-⛶ Fullscreen
-</button>
-
+<button onclick="toggleMic()" id="micBtn">🎤 Mic On</button>
+<button onclick="toggleCamera()" id="camBtn">📷 Camera On</button>
+<button onclick="endClass()" class="danger">End Live Class</button>
 </div>
-
 </div>
 
 <div class="card">
-
-<div class="title">👥 Learners</div>
-
-<p>
-Learners in class:
-<b id="learnerCount">0</b>
-</p>
-
-<div id="learnersContainer"></div>
-
+<b>👥 Participants: <span id="count">0</span></b>
+<div id="participants"></div>
 </div>
 
 <div class="card">
-
-<div class="title">💬 Live Chat</div>
-
-<div id="chat" class="chat">
-No messages yet.
+<b>📹 Connected Participants</b>
+<div id="videos" class="grid"></div>
 </div>
 
-<div class="chat-input">
-
-<input
-id="chatInput"
-type="text"
-placeholder="Type a message..."
-onkeydown="handleChatKey(event)">
-
-<button
-type="button"
-onclick="sendMessage()">
-Send
-</button>
-
+<div class="card">
+<b>💬 Live Chat</b>
+<div id="messages"></div>
+<div class="chat">
+<input id="chatInput" placeholder="Type a message...">
+<button onclick="sendMessage()">Send</button>
+</div>
 </div>
 
 </div>
-
-<a href="dashboard.html" class="back">
-← Back to Teacher Dashboard
-</a>
-
-</div>
-
-<script src="../js/app.js"></script>
-<script src="../js/teacher.js"></script>
 
 <script type="module">
+import{initializeApp}from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-import {
-initializeApp,
-getApps
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-
-import {
-getDatabase,
-ref,
-set,
-update,
-onValue,
-push,
-onChildAdded,
-onDisconnect
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
-
-
-/* ==============================
-FIREBASE
-============================== */
+import{
+ getDatabase,ref,get,set,update,onValue,onChildAdded,
+ push,onDisconnect,remove
+}from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 const firebaseConfig={
-
-apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vmLF7M",
-
-authDomain:
-"mule-learner-tuition-264fe.firebaseapp.com",
-
-databaseURL:
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
-
-projectId:
-"mule-learner-tuition-264fe",
-
-storageBucket:
-"mule-learner-tuition-264fe.firebasestorage.app",
-
-messagingSenderId:
-"656883565460",
-
-appId:
-"1:656883565460:web:3aaa6a5b638a34a6d28581"
-
+ apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MGoN8Bd6u2t2vvmLF7M",
+ authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+ databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+ projectId:"mule-learner-tuition-264fe",
+ storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+ messagingSenderId:"656883565460",
+ appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
 };
 
-const app=getApps().length
-?getApps()[0]
-:initializeApp(firebaseConfig);
-
+const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
+const session=JSON.parse(localStorage.getItem("muleCurrentUser")||"null");
 
-/* ==============================
-CLASS
-============================== */
-
-const CLASS_ID="grade10-mathematics";
-
-
-/* ==============================
-VARIABLES
-============================== */
-
-let stream=null;
-let timerInterval=null;
-let seconds=0;
-
-let micOn=false;
-let cameraOn=false;
-let speakerOn=true;
-
-let classStarted=false;
-
-const peerConnections={};
-
-const configuration={
-
-iceServers:[
-
-{
-urls:"stun:stun.l.google.com:19302"
-},
-
-{
-urls:"stun:stun1.l.google.com:19302"
+if(!session||session.role!=="teacher"){
+ alert("Teacher login required.");
+ location.href="../login.html";
 }
 
-]
+const teacherId=session.id;
+const classId=new URLSearchParams(location.search).get("id");
 
+let classData=null;
+let liveId=null;
+let localStream=null;
+let mic=true;
+let camera=true;
+
+const peers={};
+const processedCandidates={};
+
+async function load(){
+
+ if(!classId){
+   setStatus("No class selected.");
+   return;
+ }
+
+ const classSnap=await get(ref(db,"classes/"+classId));
+
+ if(!classSnap.exists()){
+   setStatus("Class not found.");
+   return;
+ }
+
+ classData=classSnap.val();
+
+ liveId=classData.liveClassId||classId;
+
+ document.getElementById("title").textContent=
+   classData.className||classData.name||"Live Class";
+
+ document.getElementById("info").textContent=
+   (classData.subject||"")+
+   " • "+
+   (classData.level||classData.grade||"");
+
+ await startMedia();
+ await startLive();
+
+ listenParticipants();
+ listenChat();
+}
+
+function setStatus(t){
+ document.getElementById("status").textContent=t;
+}
+
+async function startMedia(){
+
+ try{
+
+   localStream=await navigator.mediaDevices.getUserMedia({
+     video:true,
+     audio:true
+   });
+
+   document.getElementById("localVideo").srcObject=localStream;
+
+ }catch(e){
+
+   console.error(e);
+
+   setStatus(
+     "Camera/microphone permission was not granted. You can still manage the class."
+   );
+ }
+}
+
+async function startLive(){
+
+ const startedAt=Date.now();
+
+ await set(ref(db,"liveClasses/"+liveId),{
+   id:liveId,
+   classId,
+   title:classData.className||classData.name||"Live Class",
+   subject:classData.subject||"",
+   level:classData.level||classData.grade||"",
+   grade:classData.level||classData.grade||"",
+   status:"live",
+   startedAt,
+   teacherId,
+   teacherName:session.name||"Teacher"
+ });
+
+ await update(ref(db,"classes/"+classId),{
+   liveClassId:liveId,
+   liveStatus:"live",
+   liveStartedAt:startedAt
+ });
+
+ const teacherRef=
+   ref(db,`liveClasses/${liveId}/participants/${teacherId}`);
+
+ await set(teacherRef,{
+   id:teacherId,
+   name:session.name||"Teacher",
+   role:"teacher",
+   mic:true,
+   camera:true,
+   joinedAt:startedAt
+ });
+
+ onDisconnect(teacherRef).remove();
+
+ setStatus("🔴 LIVE — waiting for learners");
+ await notifyCEO();
+}
+
+async function notifyCEO(){
+
+ const id="NOT-"+Date.now()+"-"+Math.random()
+ .toString(36).substring(2,7).toUpperCase();
+
+ await set(ref(db,"notifications/"+id),{
+   id,
+   type:"teacher_live_start",
+   title:"🔴 Teacher Started Live Class",
+   message:
+     (session.name||"Teacher")+
+     " has started "+(classData.className||"a live class")+".",
+   teacherId,
+   teacherName:session.name||"Teacher",
+   classId,
+   liveClassId:liveId,
+   subject:classData.subject||"",
+   level:classData.level||classData.grade||"",
+   read:false,
+   createdAt:new Date().toISOString(),
+   createdBy:"Teacher Live Class"
+ });
+}
+
+/* =========================
+   WEBRTC TEACHER HUB
+========================= */
+
+function listenParticipants(){
+
+ onValue(ref(db,`liveClasses/${liveId}/participants`),snap=>{
+
+   const data=snap.val()||{};
+   const people=Object.values(data)
+     .filter(p=>p.role!=="teacher");
+
+   document.getElementById("count").textContent=
+     people.length;
+
+   document.getElementById("participants").innerHTML=
+     people.map(p=>`
+       <div class="person">
+       👤 <b>${escapeHTML(p.name||"Participant")}</b>
+       <br>
+       <small>
+       ${p.role||""}
+       • Mic ${p.mic?"On":"Off"}
+       • Camera ${p.camera?"On":"Off"}
+       </small>
+       </div>
+     `).join("");
+
+   people.forEach(p=>createPeer(p.id,p));
+ });
+}
+
+async function createPeer(participantId,participant){
+
+ if(peers[participantId])return;
+
+ const pc=new RTCPeerConnection({
+   iceServers:[
+     {urls:"stun:stun.l.google.com:19302"},
+     {urls:"stun:stun1.l.google.com:19302"}
+   ]
+ });
+
+ peers[participantId]=pc;
+ processedCandidates[participantId]=new Set();
+
+ if(localStream){
+   localStream.getTracks().forEach(track=>{
+     pc.addTrack(track,localStream);
+   });
+ }
+
+ pc.ontrack=e=>{
+
+   if(!e.streams[0])return;
+
+   let box=document.getElementById(
+     "remote-"+participantId
+   );
+
+   if(!box){
+
+     box=document.createElement("div");
+     box.className="remote";
+     box.id="remote-"+participantId;
+
+     const video=document.createElement("video");
+     video.autoplay=true;
+     video.playsInline=true;
+     video.id="video-"+participantId;
+
+     const label=document.createElement("div");
+     label.className="label";
+     label.textContent=
+       (participant.name||"Participant")+
+       " • "+(participant.role||"");
+
+     box.appendChild(video);
+     box.appendChild(label);
+
+     document.getElementById("videos").appendChild(box);
+   }
+
+   document.getElementById(
+     "video-"+participantId
+   ).srcObject=e.streams[0];
+ };
+
+ pc.onicecandidate=e=>{
+
+   if(!e.candidate)return;
+
+   const key=push(ref(db,
+     `liveClasses/${liveId}/participants/${participantId}/teacherCandidates`
+   )).key;
+
+   set(ref(db,
+     `liveClasses/${liveId}/participants/${participantId}/teacherCandidates/${key}`
+   ),e.candidate.toJSON());
+ };
+
+ onValue(ref(db,
+   `liveClasses/${liveId}/participants/${participantId}/answer`
+ ),async snap=>{
+
+   if(!snap.exists())return;
+
+   try{
+     if(!pc.currentRemoteDescription)
+       await pc.setRemoteDescription(snap.val());
+   }catch(e){
+     console.log("Answer error",e);
+   }
+ });
+
+ onChildAdded(ref(db,
+   `liveClasses/${liveId}/participants/${participantId}/participantCandidates`
+ ),async snap=>{
+
+   if(processedCandidates[participantId]
+      .has(snap.key))return;
+
+   processedCandidates[participantId].add(snap.key);
+
+   try{
+     await pc.addIceCandidate(snap.val());
+   }catch(e){}
+ });
+
+ const offer=await pc.createOffer();
+
+ await pc.setLocalDescription(offer);
+
+ await set(ref(db,
+   `liveClasses/${liveId}/participants/${participantId}/offer`
+ ),{
+   type:offer.type,
+   sdp:offer.sdp
+ });
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+window.toggleMic=async function(){
+
+ if(!localStream)return;
+
+ mic=!mic;
+
+ localStream.getAudioTracks()
+ .forEach(t=>t.enabled=mic);
+
+ document.getElementById("micBtn").textContent=
+   mic?"🎤 Mic On":"🎤 Mic Off";
+
+ await update(ref(db,
+   `liveClasses/${liveId}/participants/${teacherId}`
+ ),{mic});
 };
 
+window.toggleCamera=async function(){
 
-/* =================================================
-CEO NOTIFICATION — TEACHER STARTED LIVE CLASS
-================================================= */
+ if(!localStream)return;
 
-async function notifyCEOClassStarted(){
+ camera=!camera;
 
-try{
+ localStream.getVideoTracks()
+ .forEach(t=>t.enabled=camera);
 
-const user=JSON.parse(
-localStorage.getItem("muleCurrentUser")||"{}"
-);
+ document.getElementById("camBtn").textContent=
+   camera?"📷 Camera On":"📷 Camera Off";
 
-const notificationId=
-"NOT-"+Date.now()+"-"+Math.random()
-.toString(36)
-.substring(2,7)
-.toUpperCase();
-
-const notification={
-
-id:notificationId,
-
-type:"teacher_live_start",
-
-title:"🔴 Teacher Started Live Class",
-
-message:
-(user.name||"Teacher")+
-" has started the Grade 10 Mathematics live class.",
-
-teacherId:user.id||"",
-
-teacherName:user.name||"Teacher",
-
-teacherPhone:user.phone||"",
-
-classId:CLASS_ID,
-
-subject:"Mathematics",
-
-level:"Grade 10",
-
-read:false,
-
-createdAt:new Date().toISOString(),
-
-createdBy:"Teacher Live Class"
-
+ await update(ref(db,
+   `liveClasses/${liveId}/participants/${teacherId}`
+ ),{camera});
 };
-
-await set(
-
-ref(
-db,
-"notifications/"+notificationId
-),
-
-notification
-
-);
-
-}catch(error){
-
-console.error(
-"Teacher live-class notification failed:",
-error
-);
-
-}
-
-}
-
-
-/* ==============================
-START CLASS
-============================== */
-
-window.startClass=async function(){
-
-if(classStarted)return;
-
-try{
-
-stream=
-await navigator.mediaDevices.getUserMedia({
-
-video:true,
-audio:true
-
-});
-
-const video=
-document.getElementById("teacherVideo");
-
-video.srcObject=stream;
-
-
-/* Start camera and microphone OFF */
-
-stream.getVideoTracks()
-.forEach(track=>{
-track.enabled=false;
-});
-
-stream.getAudioTracks()
-.forEach(track=>{
-track.enabled=false;
-});
-
-micOn=false;
-cameraOn=false;
-
-classStarted=true;
-
-
-/* UI */
-
-document.getElementById("status")
-.textContent="LIVE";
-
-document.getElementById("status")
-.className="status live";
-
-document.getElementById("startBtn")
-.style.display="none";
-
-document.getElementById("endBtn")
-.style.display="block";
-
-updateButtons();
-
-
-/* Firebase class status */
-
-const classRef=
-ref(db,"liveClasses/"+CLASS_ID);
-
-await set(classRef,{
-
-classId:CLASS_ID,
-title:"Grade 10 Mathematics",
-subject:"Mathematics",
-grade:"Grade 10",
-status:"live",
-startedAt:Date.now()
-
-});
-
-
-/* Teacher status */
-
-const teacherRef=
-ref(db,
-"liveClasses/"+CLASS_ID+"/teacher"
-);
-
-await set(teacherRef,{
-
-status:"live",
-startedAt:Date.now()
-
-});
-
-
-/*
-If teacher disconnects unexpectedly,
-Firebase will automatically mark
-the teacher offline.
-*/
-
-onDisconnect(teacherRef)
-.set({
-
-status:"offline",
-endedAt:Date.now()
-
-});
-
-onDisconnect(classRef)
-.update({
-
-status:"offline"
-
-});
-
-
-/* =================================================
-SEND CEO NOTIFICATION
-Only after class has successfully started
-================================================= */
-
-await notifyCEOClassStarted();
-
-
-/* Timer */
-
-seconds=0;
-
-timerInterval=
-setInterval(updateTimer,1000);
-
-
-/* Listen for learners */
-
-listenForLearners();
-
-
-/* Chat */
-
-listenForChat();
-
-
-alert("🎥 Live Class Started Successfully!");
-
-}catch(error){
-
-console.error(error);
-
-alert(
-"Camera or microphone could not start.\n\n"+
-"Please allow camera and microphone permission."
-);
-
-}
-
-};
-
-
-/* ==============================
-LEARNERS
-============================== */
-
-function listenForLearners(){
-
-onValue(
-
-ref(
-db,
-"liveClasses/"+CLASS_ID+"/learners"
-),
-
-snapshot=>{
-
-const learners=
-snapshot.val()||{};
-
-const ids=
-Object.keys(learners);
-
-document.getElementById("learnerCount")
-.textContent=ids.length;
-
-const container=
-document.getElementById("learnersContainer");
-
-container.innerHTML="";
-
-
-ids.forEach(id=>{
-
-const learner=learners[id];
-
-const box=
-document.createElement("div");
-
-box.className="learner-box";
-
-box.id="learner-"+id;
-
-box.innerHTML=`
-
-<div class="learner-name">
-👤 ${escapeHtml(learner.name||"Learner")}
-</div>
-
-<video
-id="remote-${id}"
-class="remote-video"
-autoplay
-playsinline>
-</video>
-
-<div
-class="audio-status"
-id="audio-${id}">
-🎤 Connecting...
-</div>
-
-`;
-
-container.appendChild(box);
-
-
-/* Create WebRTC connection */
-
-if(!peerConnections[id]){
-
-createPeerConnection(
-id,
-learner
-);
-
-}
-
-});
-
-});
-
-}
-
-
-/* ==============================
-WEBRTC
-============================== */
-
-async function createPeerConnection(id,learner){
-
-if(!stream)return;
-
-const pc=
-new RTCPeerConnection(configuration);
-
-peerConnections[id]=pc;
-
-
-/* Teacher audio/video */
-
-stream.getTracks().forEach(track=>{
-
-pc.addTrack(
-track,
-stream
-);
-
-});
-
-
-/* Receive learner audio/video */
-
-pc.ontrack=function(event){
-
-const video=
-document.getElementById("remote-"+id);
-
-if(video){
-
-video.srcObject=
-event.streams[0];
-
-video.style.display="block";
-
-}
-
-const audio=
-document.getElementById("audio-"+id);
-
-if(audio){
-
-audio.textContent=
-"🎤 Learner audio/video connected";
-
-}
-
-};
-
-
-/* Teacher ICE */
-
-pc.onicecandidate=function(event){
-
-if(event.candidate){
-
-push(
-
-ref(
-db,
-"liveClasses/"+CLASS_ID+
-"/learners/"+id+
-"/teacherCandidates"
-),
-
-event.candidate.toJSON()
-
-);
-
-}
-
-};
-
-
-/* Create offer */
-
-const offer=
-await pc.createOffer();
-
-await pc.setLocalDescription(offer);
-
-
-/* Send offer to learner */
-
-await set(
-
-ref(
-db,
-"liveClasses/"+CLASS_ID+
-"/learners/"+id+
-"/offer"
-),
-
-offer.toJSON()
-
-);
-
-
-/* Listen for learner answer */
-
-onValue(
-
-ref(
-db,
-"liveClasses/"+CLASS_ID+
-"/learners/"+id+
-"/answer"
-),
-
-async snapshot=>{
-
-const answer=
-snapshot.val();
-
-if(
-answer &&
-pc.signalingState!=="stable"
-){
-
-try{
-
-await pc.setRemoteDescription(
-new RTCSessionDescription(answer)
-);
-
-}catch(error){
-
-console.log(
-"Answer error:",
-error
-);
-
-}
-
-}
-
-});
-
-
-/* Listen for learner ICE */
-
-onChildAdded(
-
-ref(
-db,
-"liveClasses/"+CLASS_ID+
-"/learners/"+id+
-"/learnerCandidates"
-),
-
-async snapshot=>{
-
-try{
-
-await pc.addIceCandidate(
-
-new RTCIceCandidate(
-snapshot.val()
-)
-
-);
-
-}catch(error){
-
-console.log(
-"ICE error:",
-error
-);
-
-}
-
-});
-
-}
-
-
-/* ==============================
-END CLASS
-============================== */
 
 window.endClass=async function(){
 
-if(
-!confirm("End this live class?")
-)return;
+ if(!confirm("End this live class?"))return;
 
+ await update(ref(db,"liveClasses/"+liveId),{
+   status:"ended",
+   endedAt:Date.now()
+ });
 
-/* Close connections */
+ await update(ref(db,"classes/"+classId),{
+   liveStatus:"ended"
+ });
 
-Object.keys(peerConnections)
-.forEach(id=>{
+ Object.values(peers).forEach(pc=>pc.close());
 
-try{
+ if(localStream)
+   localStream.getTracks().forEach(t=>t.stop());
 
-peerConnections[id].close();
+ location.href="dashboard.html";
+};
 
-}catch(e){}
+/* =========================
+   CHAT
+========================= */
 
-delete peerConnections[id];
+function listenChat(){
 
+ onChildAdded(ref(db,`liveClasses/${liveId}/chat`),snap=>{
+
+   const m=snap.val();
+
+   const div=document.createElement("div");
+   div.className="msg";
+   div.textContent=
+     (m.name||"User")+": "+(m.message||"");
+
+   document.getElementById("messages").appendChild(div);
+
+   const box=document.getElementById("messages");
+   box.scrollTop=box.scrollHeight;
+ });
+}
+
+window.sendMessage=async function(){
+
+ const input=document.getElementById("chatInput");
+ const message=input.value.trim();
+
+ if(!message)return;
+
+ const key=push(ref(db,
+   `liveClasses/${liveId}/chat`
+ )).key;
+
+ await set(ref(db,
+   `liveClasses/${liveId}/chat/${key}`
+ ),{
+   name:session.name||"Teacher",
+   role:"teacher",
+   message,
+   createdAt:Date.now()
+ });
+
+ input.value="";
+};
+
+function escapeHTML(v){
+ return String(v??"")
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+}
+
+load().catch(e=>{
+ console.error(e);
+ setStatus("Unable to start live class.");
 });
-
-
-/* Stop camera */
-
-if(stream){
-
-stream.getTracks()
-.forEach(track=>track.stop());
-
-stream=null;
-
-}
-
-
-/* Stop timer */
-
-if(timerInterval){
-
-clearInterval(timerInterval);
-
-timerInterval=null;
-
-}
-
-
-/* Update Firebase */
-
-await update(
-
-ref(db,"liveClasses/"+CLASS_ID),
-
-{
-
-status:"ended",
-endedAt:Date.now()
-
-}
-
-);
-
-await update(
-
-ref(
-db,
-"liveClasses/"+CLASS_ID+"/teacher"
-),
-
-{
-
-status:"offline",
-endedAt:Date.now()
-
-}
-
-);
-
-
-/* Reset UI */
-
-document.getElementById("teacherVideo")
-.srcObject=null;
-
-document.getElementById("status")
-.textContent="OFFLINE";
-
-document.getElementById("status")
-.className="status";
-
-document.getElementById("startBtn")
-.style.display="block";
-
-document.getElementById("endBtn")
-.style.display="none";
-
-document.getElementById("timer")
-.textContent="00:00:00";
-
-document.getElementById("learnersContainer")
-.innerHTML="";
-
-document.getElementById("learnerCount")
-.textContent="0";
-
-classStarted=false;
-
-};
-
-
-/* ==============================
-MIC
-============================== */
-
-window.toggleMicrophone=function(){
-
-if(!stream){
-
-alert("Start the live class first.");
-
-return;
-
-}
-
-micOn=!micOn;
-
-stream.getAudioTracks()
-.forEach(track=>{
-track.enabled=micOn;
-});
-
-updateButtons();
-
-};
-
-
-/* ==============================
-CAMERA
-============================== */
-
-window.toggleCamera=function(){
-
-if(!stream){
-
-alert("Start the live class first.");
-
-return;
-
-}
-
-cameraOn=!cameraOn;
-
-stream.getVideoTracks()
-.forEach(track=>{
-track.enabled=cameraOn;
-});
-
-updateButtons();
-
-};
-
-
-/* ==============================
-SPEAKER
-============================== */
-
-window.toggleSpeaker=function(){
-
-speakerOn=!speakerOn;
-
-document.querySelectorAll(".remote-video")
-.forEach(video=>{
-
-video.muted=!speakerOn;
-
-});
-
-document.getElementById("speakerBtn")
-.textContent=
-speakerOn
-?"🔊 Speaker ON"
-:"🔇 Speaker OFF";
-
-};
-
-
-/* ==============================
-BUTTONS
-============================== */
-
-function updateButtons(){
-
-document.getElementById("micBtn")
-.textContent=
-micOn
-?"🎤 Mic ON"
-:"🎤 Mic OFF";
-
-document.getElementById("cameraBtn")
-.textContent=
-cameraOn
-?"📹 Camera ON"
-:"📹 Camera OFF";
-
-}
-
-
-/* ==============================
-TIMER
-============================== */
-
-function updateTimer(){
-
-seconds++;
-
-const h=
-Math.floor(seconds/3600);
-
-const m=
-Math.floor((seconds%3600)/60);
-
-const s=
-seconds%60;
-
-document.getElementById("timer")
-.textContent=
-
-String(h).padStart(2,"0")+":"+
-String(m).padStart(2,"0")+":"+
-String(s).padStart(2,"0");
-
-}
-
-
-/* ==============================
-FULLSCREEN
-============================== */
-
-window.toggleFullscreen=function(){
-
-const card=
-document.querySelectorAll(".card")[1];
-
-if(!document.fullscreenElement){
-
-card.requestFullscreen?.();
-
-}else{
-
-document.exitFullscreen?.();
-
-}
-
-};
-
-
-/* ==============================
-CHAT
-============================== */
-
-window.sendMessage=function(){
-
-const input=
-document.getElementById("chatInput");
-
-const message=
-input.value.trim();
-
-if(!message)return;
-
-push(
-
-ref(
-db,
-"liveClasses/"+CLASS_ID+"/chat"
-),
-
-{
-
-sender:"Teacher",
-message:message,
-time:Date.now()
-
-}
-
-);
-
-input.value="";
-
-};
-
-
-function listenForChat(){
-
-onValue(
-
-ref(
-db,
-"liveClasses/"+CLASS_ID+"/chat"
-),
-
-snapshot=>{
-
-const data=
-snapshot.val()||{};
-
-const chat=
-document.getElementById("chat");
-
-chat.innerHTML="";
-
-Object.values(data)
-.sort((a,b)=>
-(a.time||0)-(b.time||0)
-)
-.forEach(msg=>{
-
-const item=
-document.createElement("div");
-
-item.style.padding="6px 0";
-
-item.textContent=
-"👤 "+(msg.sender||"User")+
-": "+(msg.message||"");
-
-chat.appendChild(item);
-
-});
-
-chat.scrollTop=
-chat.scrollHeight;
-
-});
-
-}
-
-
-window.handleChatKey=function(event){
-
-if(event.key==="Enter"){
-
-event.preventDefault();
-
-sendMessage();
-
-}
-
-};
-
-
-/* ==============================
-HELPER
-============================== */
-
-function escapeHtml(text){
-
-const div=
-document.createElement("div");
-
-div.textContent=text;
-
-return div.innerHTML;
-
-}
-
 </script>
 
 </body>

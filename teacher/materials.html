@@ -1,402 +1,450 @@
 <!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Learning Materials | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b8f">
+<title>Learning Materials | Mule Learner Tuition</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:#fff;padding:15px 18px;display:flex;justify-content:space-between}
+.logo{font-size:17px;font-weight:bold}
+.back{color:#fff;text-decoration:none;font-size:13px}
+.container{max-width:850px;margin:auto;padding:18px 15px}
+.heading{margin-bottom:16px}
+.heading h1{font-size:22px;color:#173b8f;margin-bottom:5px}
+.heading p,.card p{font-size:11px;color:#667085;line-height:1.5}
+.card{background:#fff;padding:16px;border-radius:13px;margin-bottom:13px;box-shadow:0 3px 12px #0001}
+h2{font-size:16px;margin-bottom:5px}
+label{display:block;font-size:11px;font-weight:bold;margin:12px 0 5px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #d0d5dd;border-radius:8px;font-size:12px}
+textarea{height:75px;resize:none}
+.btn{width:100%;margin-top:13px;padding:12px;border:0;border-radius:8px;background:#173b8f;color:#fff;font-weight:bold}
+.material{border:1px solid #eaecf0;padding:13px;border-radius:10px;margin-top:10px}
+.material h3{font-size:14px;margin-bottom:5px}
+.material p{font-size:10px;color:#667085}
+.badge{display:inline-block;margin-top:7px;background:#ecfdf3;color:#027a48;padding:5px 8px;border-radius:20px;font-size:9px;font-weight:bold}
+.open{display:inline-block;margin-top:9px;background:#173b8f;color:#fff;padding:7px 10px;border-radius:7px;text-decoration:none;font-size:10px}
+.delete{float:right;background:#fff1f2;color:#b42318;border:0;padding:6px 8px;border-radius:6px;font-size:10px}
+.success{display:none;background:#ecfdf3;color:#027a48;padding:10px;border-radius:8px;margin-top:10px;font-size:11px}
+.notice{background:#eef3ff;padding:13px;border-radius:10px;font-size:11px;line-height:1.5;margin-top:15px}
+.empty{text-align:center;color:#777;font-size:11px;padding:15px}
+footer{text-align:center;color:#667085;font-size:10px;margin-top:22px}
+</style></head><body><header>
+<div class="logo">🎓 Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← Dashboard</a>
+</header><div class="container"><div class="heading">
+<h1>Learning Materials 📖</h1>
+<p>Upload and manage learning resources for your assigned learners.</p>
+</div><div class="card"><h2>Add Learning Material</h2>
+<p>Upload a resource for one of your assigned classes.</p><form id="form"><label>Material Title</label>
+<input id="title" placeholder="e.g. Algebra Revision Notes" required>
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
+<label>Subject</label>
+<select id="subject" required>
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
+<option value="">Select subject</option>
+</select><label>Class</label>
+<select id="className" required>
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
+<option value="">Select class</option>
+</select><label>Description</label>
 
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
-
-.container{
-max-width:900px;
-margin:auto;
-padding:20px 16px;
-}
-
-.heading{
-margin-bottom:18px;
-}
-
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
-}
-
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
-
-.card{
-background:white;
-padding:18px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:14px;
-}
-
-.card h2{
-font-size:16px;
-margin-bottom:5px;
-}
-
-.card p{
-font-size:11px;
-color:#667085;
-line-height:1.5;
-margin-bottom:14px;
-}
-
-label{
-display:block;
-font-size:11px;
-font-weight:bold;
-color:#344054;
-margin-bottom:6px;
-}
-
-input,
-select,
-textarea{
-width:100%;
-padding:11px;
-border:1px solid #d0d5dd;
-border-radius:8px;
-font-size:12px;
-outline:none;
-background:white;
-margin-bottom:13px;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#173b8f;
-}
-
-textarea{
-height:80px;
-resize:vertical;
-}
-
-.file{
-padding:9px;
-}
-
-.btn{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:12px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.material{
-border:1px solid #eaecf0;
-border-radius:11px;
-padding:14px;
-margin-top:10px;
-}
-
-.material-top{
-display:flex;
-align-items:flex-start;
-gap:10px;
-}
-
-.material-icon{
-font-size:27px;
-}
-
-.material h3{
-font-size:14px;
-margin-bottom:4px;
-}
-
-.material p{
-font-size:10px;
-color:#667085;
-margin:0;
-line-height:1.5;
-}
-
-.badge{
-display:inline-block;
-margin-top:8px;
-background:#ecfdf3;
-color:#027a48;
-padding:5px 8px;
-border-radius:20px;
-font-size:9px;
-font-weight:bold;
-}
-
-.delete{
-float:right;
-border:0;
-background:#fff1f2;
-color:#b42318;
-padding:7px 9px;
-border-radius:7px;
-font-size:10px;
-cursor:pointer;
-}
-
-.success{
-display:none;
-background:#ecfdf3;
-color:#027a48;
-padding:13px;
-border-radius:9px;
-font-size:11px;
-line-height:1.5;
-margin-top:12px;
-}
-
-.notice{
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-margin-top:18px;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← Dashboard
-</a></header><div class="container"><div class="heading"><h1>
-Learning Materials 📖
-</h1><p>
-Prepare and share approved learning resources with your learners.
-</p></div><!-- ADD MATERIAL --><div class="card"><h2>
-Add Learning Material
-</h2><p>
-Upload notes, assignments or other resources for a class.
-</p><form id="materialForm"><label>
-Material Title
-</label><input
-type="text"
-id="title"
-placeholder="e.g. Algebra Revision Notes"
-required>
-
-<label>
-Subject
-</label><select id="subject" required><option value="">
-Select subject
-</option><option>
-Mathematics
-</option><option>
-Computer Studies
-</option><option>
-Science
-</option></select><label>
-Class
-</label><select id="className" required><option value="">
-Select class
-</option><option>
-Grade 10 Mathematics
-</option><option>
-Grade 9 Mathematics
-</option></select><label>
-Description
-</label><textarea
-id="description"
-placeholder="Briefly describe this material..."
-></textarea><label>
-Select File
-</label><input
-class="file"
-type="file"
-id="file"
+<textarea id="description" placeholder="Brief description"></textarea><label>File</label>
+<input id="file" type="file"
 accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png"
 required>
 
-<button
-type="submit"
-class="btn">
+<button class="btn" type="submit">📤 Upload Material</button>
 
-📤 Upload Material
-
-</button></form><div class="success" id="success"><strong>✅ Material Added</strong><br>
-
-The learning material has been added to your teaching
-materials list.
-
-</div></div><!-- MATERIALS --><div class="card"><h2>
-My Materials
-</h2><p>
-Resources you have prepared for your assigned learners.
-</p><div id="materials"><div class="material"><button
-class="delete"
-onclick="deleteMaterial(this)">
-
-Delete
-
-</button><div class="material-top"><div class="material-icon">
-📄
-</div><div><h3>
-Mathematics Revision Notes
-</h3><p>
-Grade 10 Mathematics • Algebra revision material
-</p><span class="badge">
-AVAILABLE TO LEARNERS
-</span></div></div></div></div></div><!-- NOTICE --><div class="notice"><strong>
-🔐 Teacher Permission
-</strong><br><br>
-
-Teachers can upload materials only for subjects and
-classes assigned to them.
-
-Materials are intended for educational use. Platform
-access and learner visibility may be controlled by the
-CEO and the learner's approved learning access.
-
-</div><footer>Mule Learner Tuition<br>
-
+</form><div id="success" class="success">
+✅ Material uploaded successfully.
+</div></div><div class="card"><h2>My Materials</h2>
+<p>Materials uploaded by you.</p><div id="materials">
+<div class="empty">Loading materials...</div>
+</div></div><div class="notice">
+<strong>🔐 Teacher Permission</strong><br><br>
+You can upload materials only for subjects and classes assigned to you.
+The CEO controls platform access and learner visibility.
+</div><footer>
+Mule Learner Tuition<br>
 Teacher Centre • Learn • Practice • Succeed
+</footer></div><script type="module">
 
-</footer></div><script>
+import{initializeApp,getApps,getApp}
+from"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-document.getElementById("materialForm")
-.addEventListener("submit",function(e){
+import{
+getDatabase,ref,get,set,remove
+}from"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-e.preventDefault();
+import{
+getStorage,ref as storageRef,uploadBytes,getDownloadURL,deleteObject
+}from"https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js";
 
-const title =
-document.getElementById("title").value;
 
-const subject =
-document.getElementById("subject").value;
+const config={
+apiKey:"AIzaSyCRUQWJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+projectId:"mule-learner-tuition-264fe",
+storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+messagingSenderId:"656883565460",
+appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+};
 
-const className =
-document.getElementById("className").value;
+const app=getApps().length?getApp():initializeApp(config);
+const db=getDatabase(app);
+const storage=getStorage(app);
 
-const description =
-document.getElementById("description").value;
+const user=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"null"
+);
 
-const file =
-document.getElementById("file").files[0];
+if(!user||user.role!=="teacher"){
+location.href="../login.html";
+throw Error("Teacher only");
+}
 
-if(!file){
+let teacher;
+let classes={};
+let subjects={};
+
+
+/* LOAD TEACHER */
+
+async function loadTeacher(){
+
+const snap=await get(ref(db,"users/"+user.id));
+
+if(!snap.exists())throw Error("Teacher account not found.");
+
+teacher=snap.val();
+
+if(teacher.status==="suspended"){
+alert("Your teacher account is suspended.");
+location.href="dashboard.html";
 return;
 }
 
-const material =
-document.createElement("div");
+}
 
-material.className="material";
 
-material.innerHTML=`
+/* LOAD SUBJECTS */
+
+async function loadSubjects(){
+
+const snap=await get(ref(db,"subjects"));
+subjects=snap.val()||{};
+
+let assigned=teacher.assignedSubjects||[];
+
+if(!Array.isArray(assigned))
+assigned=Object.values(assigned);
+
+let list=Object.values(subjects)
+.filter(x=>x.status!=="DISABLED"&&x.status!=="disabled");
+
+if(assigned.length){
+
+list=list.filter(x=>
+assigned.includes(x.id)||
+assigned.includes(x.name)
+);
+
+}
+
+if(!list.length&&teacher.subject){
+
+list=[{id:"fallback",name:teacher.subject}];
+
+}
+
+const select=document.getElementById("subject");
+
+select.innerHTML=
+'<option value="">Select subject</option>'+
+list.map(x=>
+`<option value="${esc(x.name)}">${esc(x.name)}</option>`
+).join("");
+
+}
+
+
+/* LOAD CLASSES */
+
+async function loadClasses(){
+
+const snap=await get(ref(db,"classes"));
+classes=snap.val()||{};
+
+let assigned=teacher.assignedClasses||[];
+
+if(!Array.isArray(assigned))
+assigned=Object.values(assigned);
+
+let list=Object.values(classes)
+.filter(x=>x.status!=="ENDED"&&x.status!=="ended");
+
+if(assigned.length){
+
+list=list.filter(x=>
+assigned.includes("ALL")||
+assigned.includes("All Classes")||
+assigned.includes(x.id)||
+assigned.includes(x.className)||
+assigned.includes(x.name)||
+assigned.includes(x.level)||
+assigned.includes(x.grade)
+);
+
+}else{
+
+list=list.filter(x=>
+x.teacherId===teacher.id||
+x.teacher===teacher.id||
+x.teacher===teacher.name
+);
+
+}
+
+const select=document.getElementById("className");
+
+select.innerHTML=
+'<option value="">Select class</option>'+
+list.map(x=>{
+
+let name=x.className||x.name||x.level||"Class";
+
+return `<option value="${esc(name)}">${esc(name)}</option>`;
+
+}).join("");
+
+}
+
+
+/* LOAD MATERIALS */
+
+async function loadMaterials(){
+
+const snap=await get(ref(db,"materials"));
+
+const data=snap.val()||{};
+
+let list=Object.values(data)
+.filter(x=>
+x.teacherId===teacher.id||
+x.createdById===teacher.id||
+x.teacher===teacher.name
+);
+
+const box=document.getElementById("materials");
+
+if(!list.length){
+
+box.innerHTML=
+'<div class="empty">No materials uploaded yet.</div>';
+
+return;
+}
+
+list.sort(
+(a,b)=>
+new Date(b.createdAt||0)-
+new Date(a.createdAt||0)
+);
+
+box.innerHTML=list.map(x=>`
+
+<div class="material">
 
 <button class="delete"
-onclick="deleteMaterial(this)">
+onclick="deleteMaterial('${x.id}','${x.filePath||""}')">
 Delete
 </button>
 
-<div class="material-top">
-
-<div class="material-icon">
-📄
-</div>
-
-<div>
-
-<h3>${escapeHTML(title)}</h3>
+<h3>📄 ${esc(x.title)}</h3>
 
 <p>
-${escapeHTML(subject)} •
-${escapeHTML(className)}
-${description ? " • "+escapeHTML(description) : ""}
+${esc(x.subject||"")} •
+${esc(x.className||x.level||"")}
 </p>
 
-<span class="badge">
-AVAILABLE TO LEARNERS
-</span>
+${x.description?
+`<p>${esc(x.description)}</p>`:""}
+
+<span class="badge">AVAILABLE TO LEARNERS</span>
+
+${x.url?
+`<br><a class="open"
+href="${esc(x.url)}"
+target="_blank">
+📖 Open Material
+</a>`:""}
 
 </div>
 
-</div>
-`;
+`).join("");
 
-document.getElementById("materials")
-.appendChild(material);
+}
+
+
+/* UPLOAD */
+
+document.getElementById("form")
+.addEventListener("submit",async e=>{
+
+e.preventDefault();
+
+const title=document.getElementById("title").value.trim();
+const subject=document.getElementById("subject").value;
+const className=document.getElementById("className").value;
+const description=document.getElementById("description").value.trim();
+const file=document.getElementById("file").files[0];
+
+if(!file)return;
+
+if(file.size>50*1024*1024){
+alert("File is too large. Maximum size is 50MB.");
+return;
+}
+
+const btn=document.querySelector(".btn");
+
+btn.disabled=true;
+btn.textContent="Uploading...";
+
+try{
+
+const id=
+"MAT-"+Date.now()+"-"+Math.random()
+.toString(36).slice(2,7).toUpperCase();
+
+const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+
+const path=
+"learning-materials/teachers/"+
+teacher.id+"/"+Date.now()+"_"+safe;
+
+const sref=storageRef(storage,path);
+
+await uploadBytes(sref,file);
+
+const url=await getDownloadURL(sref);
+
+const material={
+id,
+title,
+subject,
+className,
+description,
+fileName:file.name,
+filePath:path,
+url,
+teacherId:teacher.id,
+teacherName:teacher.name||"Teacher",
+status:"PUBLISHED",
+createdAt:new Date().toISOString(),
+createdBy:"Teacher"
+};
+
+await set(
+ref(db,"materials/"+id),
+material
+);
 
 document.getElementById("success")
 .style.display="block";
 
-this.reset();
+document.getElementById("form").reset();
+
+await loadMaterials();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Upload failed: "+
+(error.message||"Please try again.")
+);
+
+}finally{
+
+btn.disabled=false;
+btn.textContent="📤 Upload Material";
+
+}
 
 });
 
 
-function deleteMaterial(button){
+/* DELETE */
 
-if(confirm("Delete this learning material?")){
+window.deleteMaterial=async function(id,path){
 
-button.parentElement.remove();
+if(!confirm("Delete this learning material?"))
+return;
 
+try{
+
+await remove(ref(db,"materials/"+id));
+
+if(path){
+
+try{
+await deleteObject(storageRef(storage,path));
+}catch(e){
+console.log("Storage file already removed.");
 }
 
 }
 
+await loadMaterials();
 
-function escapeHTML(text){
+}catch(error){
 
-const div=document.createElement("div");
-
-div.textContent=text;
-
-return div.innerHTML;
+alert("Could not delete material.");
 
 }
 
-  <script src="../js/app.js"></script>
-<script src="../js/teacher.js"></script>
-  
-</body>
+};
+
+
+/* ESCAPE */
+
+function esc(x){
+
+return String(x||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* START */
+
+(async()=>{
+
+try{
+
+await loadTeacher();
+await loadSubjects();
+await loadClasses();
+await loadMaterials();
+
+}catch(error){
+
+console.error(error);
+
+document.getElementById("materials").innerHTML=
+'<div class="empty">Unable to load materials.</div>';
+
+}
+
+})();
+
+</script></body>
 </html>

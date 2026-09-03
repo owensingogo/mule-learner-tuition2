@@ -1,274 +1,451 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Schedule Class | Mule Learner Tuition</title><style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b8f">
+<title>Schedule Class | Mule Learner Tuition</title>
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:#fff;padding:15px 18px;display:flex;justify-content:space-between}
+.logo{font-size:17px;font-weight:bold}
+.back{color:#fff;text-decoration:none;font-size:13px}
+.container{max-width:700px;margin:auto;padding:18px 15px}
+.heading{margin-bottom:16px}
+.heading h1{font-size:22px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:11px;color:#667085;line-height:1.5}
+.card{background:#fff;padding:17px;border-radius:13px;box-shadow:0 3px 12px #0001}
+label{display:block;font-size:11px;font-weight:bold;margin:11px 0 5px;color:#344054}
+input,select,textarea{width:100%;padding:11px;border:1px solid #d0d5dd;border-radius:8px;font-size:12px;background:#fff}
+textarea{height:80px;resize:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;border:0;background:#173b8f;color:#fff;padding:12px;border-radius:8px;font-size:12px;font-weight:bold;margin-top:14px}
+.success{display:none;margin-top:12px;background:#ecfdf3;color:#027a48;padding:11px;border-radius:8px;font-size:11px}
+.notice{margin-top:15px;background:#eef3ff;padding:14px;border-radius:10px;font-size:11px;color:#475467;line-height:1.6}
+.empty{text-align:center;color:#777;font-size:11px;padding:12px}
+footer{text-align:center;color:#667085;font-size:10px;margin-top:22px}
+@media(max-width:420px){.row{grid-template-columns:1fr}}
+</style>
+</head>
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
+<body>
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
+<header>
+<div class="logo">🎓 Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← Dashboard</a>
+</header>
 
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
+<div class="container">
 
-.container{
-max-width:700px;
-margin:auto;
-padding:20px 16px;
-}
+<div class="heading">
+<h1>Schedule a Class 📅</h1>
+<p>Create a lesson schedule for a class assigned to you.</p>
+</div>
 
-.heading{
-margin-bottom:18px;
-}
+<div class="card">
 
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
-}
+<form id="scheduleForm">
 
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
-}
+<label>Select Class</label>
+<select id="classId" required>
+<option value="">Loading classes...</option>
+</select>
 
-.card{
-background:white;
-padding:18px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-}
-
-label{
-display:block;
-font-size:11px;
-font-weight:bold;
-margin-bottom:6px;
-color:#344054;
-}
-
-input,
-select,
-textarea{
-width:100%;
-padding:11px;
-border:1px solid #d0d5dd;
-border-radius:8px;
-font-size:12px;
-outline:none;
-background:white;
-margin-bottom:14px;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#173b8f;
-}
-
-textarea{
-height:85px;
-resize:vertical;
-}
-
-.row{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-.btn{
-width:100%;
-border:0;
-background:#173b8f;
-color:white;
-padding:12px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-cursor:pointer;
-margin-top:3px;
-}
-
-.btn:active{
-transform:scale(.98);
-}
-
-.notice{
-margin-top:16px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-.success{
-display:none;
-margin-top:15px;
-background:#ecfdf3;
-color:#027a48;
-padding:14px;
-border-radius:10px;
-font-size:12px;
-line-height:1.5;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-@media(max-width:420px){
-
-.row{
-grid-template-columns:1fr;
-}
-
-}
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← Dashboard
-</a></header><div class="container"><div class="heading"><h1>
-Schedule a Class 📅
-</h1><p>
-Create a lesson schedule for a class assigned to you.
-</p></div><div class="card"><form id="scheduleForm"><label>
-Select Class
-</label><select id="className" required><option value="">
-Choose your class
-</option><option>
-Grade 10 Mathematics
-</option><option>
-Grade 9 Mathematics
-</option></select><label>
-Lesson Title
-</label><input
-type="text"
-id="title"
+<label>Lesson Title</label>
+<input id="title"
 placeholder="e.g. Introduction to Algebra"
 required>
 
-<div class="row"><div><label>
-Date
-</label><input
-type="date"
-id="date"
-required>
+<div class="row">
 
-</div><div><label>
-Start Time
-</label><input
-type="time"
-id="time"
-required>
+<div>
+<label>Date</label>
+<input id="date" type="date" required>
+</div>
 
-</div></div><label>
-Lesson Duration
-</label><select id="duration" required><option value="">
-Choose duration
-</option><option>
-30 minutes
-</option><option>
-45 minutes
-</option><option>
-1 hour
-</option><option>
-1 hour 30 minutes
-</option><option>
-2 hours
-</option></select><label>
-Lesson Type
-</label><select id="type" required><option value="">
-Choose lesson type
-</option><option>
-Live Class
-</option><option>
-Online Lesson
-</option><option>
-Revision Class
-</option></select><label>
-Lesson Description
-</label><textarea
-id="description"
-placeholder="Enter a short description or instructions for learners..."
-></textarea><button
-type="submit"
-class="btn">
+<div>
+<label>Start Time</label>
+<input id="time" type="time" required>
+</div>
 
+</div>
+
+<label>Lesson Duration</label>
+<select id="duration" required>
+<option value="">Choose duration</option>
+<option value="30 minutes">30 minutes</option>
+<option value="45 minutes">45 minutes</option>
+<option value="1 hour">1 hour</option>
+<option value="1 hour 30 minutes">1 hour 30 minutes</option>
+<option value="2 hours">2 hours</option>
+</select>
+
+<label>Lesson Type</label>
+<select id="type" required>
+<option value="">Choose lesson type</option>
+<option value="Live Class">Live Class</option>
+<option value="Online Lesson">Online Lesson</option>
+<option value="Revision Class">Revision Class</option>
+</select>
+
+<label>Lesson Description</label>
+<textarea id="description"
+placeholder="Enter a short description or instructions for learners..."></textarea>
+
+<button class="btn" id="saveBtn" type="submit">
 📅 Schedule Class
+</button>
 
-</button></form><div class="success" id="success"><strong>✅ Class Scheduled</strong>
+</form>
 
-<br>Your lesson has been scheduled successfully.
-The class information can be made available to
-eligible learners after the platform confirms it.
+<div class="success" id="success">
+<strong>✅ Class Scheduled</strong><br>
+Your lesson has been scheduled successfully.
+</div>
 
-</div></div><div class="notice"><strong>
-🔐 Teacher Permission
-</strong><br><br>
+</div>
 
-Teachers can schedule lessons only for classes
-assigned to them by the CEO.
+<div class="notice">
+<strong>🔐 Teacher Permission</strong><br><br>
+You can schedule classes only for classes assigned to you by
+the CEO. Scheduled lessons are saved in Firebase and can
+be displayed to eligible learners.
+</div>
 
-The final live-class access and learner permissions
-are controlled by the Mule Learner Tuition platform.
-
-</div><footer>Mule Learner Tuition<br>
-
+<footer>
+Mule Learner Tuition<br>
 Teacher Centre • Learn • Practice • Succeed
+</footer>
 
-</footer></div><script>
+</div>
+
+<script type="module">
+
+import{initializeApp,getApps,getApp}
+from"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import{
+getDatabase,ref,get,set
+}from"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+const config={
+apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+projectId:"mule-learner-tuition-264fe",
+storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+messagingSenderId:"656883565460",
+appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+};
+
+const app=getApps().length?getApp():initializeApp(config);
+const db=getDatabase(app);
+
+const session=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"null"
+);
+
+if(!session||session.role!=="teacher"){
+location.href="../login.html";
+throw Error("Teacher only");
+}
+
+let teacher;
+let classes={};
+
+function assignedToTeacher(c){
+
+let assigned=teacher.assignedClasses||[];
+
+if(!Array.isArray(assigned))
+assigned=Object.values(assigned);
+
+if(
+assigned.includes("ALL")||
+assigned.includes("All Classes")
+)return true;
+
+return(
+c.teacherId===teacher.id||
+c.teacher===teacher.id||
+c.teacher===teacher.name||
+assigned.includes(c.id)||
+assigned.includes(c.className)||
+assigned.includes(c.name)||
+assigned.includes(c.level)||
+assigned.includes(c.grade)
+);
+}
+
+async function loadTeacher(){
+
+const snap=await get(
+ref(db,"users/"+session.id)
+);
+
+if(!snap.exists())
+throw Error("Teacher account not found.");
+
+teacher=snap.val();
+
+if(teacher.status==="suspended"){
+alert("Your teacher account is suspended.");
+location.href="dashboard.html";
+return;
+}
+}
+
+async function loadClasses(){
+
+const snap=await get(ref(db,"classes"));
+
+classes=snap.val()||{};
+
+const list=Object.values(classes)
+.filter(c=>c.status!=="ENDED"&&
+c.status!=="ended")
+.filter(assignedToTeacher);
+
+const select=document.getElementById("classId");
+
+if(!list.length){
+
+select.innerHTML=
+'<option value="">No assigned classes available</option>';
+
+return;
+}
+
+select.innerHTML=
+'<option value="">Choose your class</option>'+
+list.map(c=>{
+
+const name=
+c.className||
+c.name||
+c.level||
+"Class";
+
+return`
+<option value="${esc(c.id)}">
+${esc(name)}${c.subject?" • "+esc(c.subject):""}
+</option>`;
+
+}).join("");
+}
 
 document.getElementById("scheduleForm")
-.addEventListener("submit",function(e){
+.addEventListener("submit",async e=>{
 
 e.preventDefault();
 
-document.getElementById("success").style.display="block";
+const classId=
+document.getElementById("classId").value;
 
-this.reset();
+const c=classes[classId];
+
+if(!c){
+alert("Please select a valid assigned class.");
+return;
+}
+
+const title=
+document.getElementById("title").value.trim();
+
+const date=
+document.getElementById("date").value;
+
+const time=
+document.getElementById("time").value;
+
+const duration=
+document.getElementById("duration").value;
+
+const type=
+document.getElementById("type").value;
+
+const description=
+document.getElementById("description").value.trim();
+
+if(!title||!date||!time||!duration||!type){
+alert("Please complete all required fields.");
+return;
+}
+
+const btn=document.getElementById("saveBtn");
+
+btn.disabled=true;
+btn.textContent="Saving...";
+
+try{
+
+const id=
+"CLS-"+Date.now()+"-"+
+Math.random().toString(36)
+.substring(2,7).toUpperCase();
+
+const className=
+c.className||
+c.name||
+c.level||
+"Class";
+
+const subject=
+c.subject||
+teacher.subject||
+"";
+
+const level=
+c.level||
+c.grade||
+"";
+
+const data={
+
+id,
+
+className,
+
+name:className,
+
+subject,
+
+level,
+
+grade:level,
+
+teacherId:teacher.id,
+
+teacherName:teacher.name||"Teacher",
+
+teacher:teacher.name||teacher.id,
+
+title,
+
+date,
+
+time,
+
+duration,
+
+classType:type,
+
+type,
+
+description,
+
+status:"SCHEDULED",
+
+createdAt:new Date().toISOString(),
+
+createdBy:"Teacher",
+
+createdById:teacher.id
+
+};
+
+await set(
+ref(db,"classes/"+id),
+data
+);
+
+/*
+Create a liveClassId for Live Class lessons.
+This allows the teacher and learner pages
+to open the same live classroom.
+*/
+
+if(type==="Live Class"){
+
+const liveId="LIVE-"+id;
+
+await set(
+ref(db,"liveClasses/"+liveId),
+{
+id:liveId,
+classId:id,
+title:title,
+subject:subject,
+level:level,
+grade:level,
+teacherId:teacher.id,
+teacherName:teacher.name||"Teacher",
+status:"SCHEDULED",
+scheduledDate:date,
+scheduledTime:time,
+createdAt:new Date().toISOString()
+}
+);
+
+await set(
+ref(db,"classes/"+id+"/liveClassId"),
+liveId
+);
+
+}
+
+document.getElementById("success")
+.style.display="block";
+
+document.getElementById("scheduleForm").reset();
 
 window.scrollTo({
 top:document.body.scrollHeight,
 behavior:"smooth"
 });
 
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not schedule class: "+
+(error.message||"Please try again.")
+);
+
+}finally{
+
+btn.disabled=false;
+btn.textContent="📅 Schedule Class";
+
+}
+
 });
 
-  <script src="../js/app.js"></script>
-<script src="../js/teacher.js"></script>
-<script src="../js/classes.js"></script>
-  
+function esc(x){
+
+return String(x||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+(async()=>{
+
+try{
+
+await loadTeacher();
+await loadClasses();
+
+}catch(error){
+
+console.error(error);
+
+document.getElementById("classId").innerHTML=
+'<option value="">Unable to load classes</option>';
+
+alert("Unable to load your assigned classes.");
+
+}
+
+})();
+
+</script>
+
 </body>
 </html>

@@ -148,41 +148,485 @@ Only subjects assigned and approved by the CEO will
 appear here. Teachers cannot assign subjects to
 themselves.
 
-</div><div class="subjects" id="subjectList"><!-- DEMONSTRATION SUBJECTS --><div class="subject"><div class="icon">
-📐
-</div><h2>
-Mathematics
-</h2><p>
-Numbers, algebra, geometry, statistics and
-problem-solving.
-</p><span class="badge">
-ASSIGNED
-</span></div><div class="subject"><div class="icon">
-💻
-</div><h2>
-Computer Studies
-</h2><p>
-Computer fundamentals, applications, programming
-and ICT skills.
-</p><span class="badge">
-ASSIGNED
-</span></div><div class="subject"><div class="icon">
-🔬
-</div><h2>
-Science
-</h2><p>
-Scientific concepts, experiments and practical
-learning.
-</p><span class="badge">
-ASSIGNED
-</span></div></div><div class="empty" id="empty">No subjects have been assigned to your teacher account yet.
-
+</div><div class="subjects" id="subjectList"></div><div class="empty" id="empty">
+No subjects have been assigned to your teacher account yet.
 </div><footer>Mule Learner Tuition<br>
 
 Teacher Centre • Learn • Practice • Succeed
 
-  <script src="../js/app.js"></script>
-<script src="../js/teacher.js"></script>
-<script src="../js/subjects.js"></script>
-</footer></div></body>
+</footer></div><script src="../js/app.js"></script><script src="../js/teacher.js"></script><script src="../js/subjects.js"></script><script type="module">
+
+import {
+initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+get
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const db=getDatabase(app);
+
+
+const icons={
+
+"Mathematics":"📐",
+"English":"📖",
+"Science":"🔬",
+"Physics":"⚡",
+"Chemistry":"⚗️",
+"Biology":"🧬",
+"ICT":"💻",
+"Computer Studies":"💻",
+"Civic Education":"🏛️",
+"Social Studies":"🌍"
+
+};
+
+
+const descriptions={
+
+"Mathematics":
+"Numbers, algebra, geometry, statistics and problem-solving.",
+
+"English":
+"Reading, writing, grammar and communication skills.",
+
+"Science":
+"Scientific concepts, experiments and practical learning.",
+
+"Physics":
+"Energy, motion, forces and the universe.",
+
+"Chemistry":
+"Matter, reactions and chemical processes.",
+
+"Biology":
+"Living organisms and biological systems.",
+
+"ICT":
+"Computer fundamentals, applications, programming and ICT skills.",
+
+"Computer Studies":
+"Computer fundamentals, applications, programming and ICT skills.",
+
+"Civic Education":
+"Citizenship, society and responsibilities.",
+
+"Social Studies":
+"People, society, history and geography."
+
+};
+
+
+function getIcon(name){
+
+if(icons[name]) return icons[name];
+
+const value=String(name).toLowerCase();
+
+if(value.includes("math")) return "📐";
+if(value.includes("english")) return "📖";
+if(value.includes("science")) return "🔬";
+if(value.includes("physics")) return "⚡";
+if(value.includes("chem")) return "⚗️";
+if(value.includes("biology")) return "🧬";
+if(value.includes("computer") || value.includes("ict"))
+return "💻";
+if(value.includes("civic")) return "🏛️";
+if(value.includes("social")) return "🌍";
+
+return "📚";
+
+}
+
+
+function getDescription(name){
+
+if(descriptions[name])
+return descriptions[name];
+
+return "Subject learning and teaching resources.";
+
+}
+
+
+function escapeHTML(value){
+
+return String(value||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+async function loadTeacherSubjects(){
+
+const list=
+document.getElementById("subjectList");
+
+const empty=
+document.getElementById("empty");
+
+
+try{
+
+const session=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"null"
+);
+
+
+if(!session || !session.id){
+
+window.location.href="../login.html";
+return;
+
+}
+
+
+/* Get teacher account */
+
+const teacherSnapshot=
+await get(
+ref(db,"users/"+session.id)
+);
+
+
+if(!teacherSnapshot.exists()){
+
+alert("Teacher account not found.");
+
+localStorage.removeItem("muleCurrentUser");
+
+window.location.href="../login.html";
+return;
+
+}
+
+
+const teacher=
+teacherSnapshot.val();
+
+
+/* Security */
+
+if(
+String(teacher.role||"").toLowerCase()!=="teacher"
+){
+
+alert("Teacher access required.");
+
+window.location.href="../login.html";
+return;
+
+}
+
+
+if(
+String(teacher.status||"").toLowerCase()==="suspended"
+){
+
+alert("Your teacher account has been suspended.");
+
+localStorage.removeItem("muleCurrentUser");
+
+window.location.href="../login.html";
+return;
+
+}
+
+
+/*
+Get subjects assigned by CEO.
+
+Expected teacher record:
+
+assignedSubjects: [
+  "Mathematics",
+  "Physics"
+]
+
+or
+
+assignedSubjects: {
+  "Mathematics": true,
+  "Physics": true
+}
+*/
+
+
+let assignedSubjects=
+teacher.assignedSubjects||[];
+
+
+if(
+!Array.isArray(assignedSubjects)
+){
+
+if(
+typeof assignedSubjects==="object"
+){
+
+assignedSubjects=
+Object.keys(assignedSubjects)
+.filter(
+key=>assignedSubjects[key]===true
+);
+
+}else{
+
+assignedSubjects=[
+assignedSubjects
+];
+
+}
+
+}
+
+
+assignedSubjects=
+assignedSubjects
+.map(item=>String(item).trim())
+.filter(Boolean);
+
+
+/*
+Compatibility with the current teacher record,
+which contains a main "subject" field.
+*/
+
+if(
+assignedSubjects.length===0 &&
+teacher.subject
+){
+
+assignedSubjects=[
+String(teacher.subject).trim()
+];
+
+}
+
+
+if(assignedSubjects.length===0){
+
+list.innerHTML="";
+
+empty.style.display="block";
+
+return;
+
+}
+
+
+/* Load CEO subject list */
+
+const subjectsSnapshot=
+await get(
+ref(db,"subjects")
+);
+
+
+let availableSubjects=[];
+
+
+if(subjectsSnapshot.exists()){
+
+const subjectsData=
+subjectsSnapshot.val();
+
+
+Object.keys(subjectsData).forEach(id=>{
+
+const item=subjectsData[id];
+
+if(!item) return;
+
+
+/* Disabled subjects should not appear */
+
+const active=
+item.active===true ||
+String(item.status||"").toUpperCase()==="ACTIVE";
+
+
+if(!active) return;
+
+
+const subjectName=
+String(
+item.name||
+item.subject||
+""
+).trim();
+
+
+if(!subjectName) return;
+
+
+/*
+Match CEO subject with teacher assignment.
+*/
+
+const assigned=
+assignedSubjects.some(
+assignedName=>
+String(assignedName).toLowerCase()===
+subjectName.toLowerCase()
+);
+
+
+if(assigned){
+
+availableSubjects.push({
+
+id,
+name:subjectName,
+description:
+item.description||
+getDescription(subjectName)
+
+});
+
+}
+
+});
+
+}
+
+
+/*
+Compatibility:
+If the CEO subject database is empty,
+still display the teacher's assignedSubjects.
+*/
+
+if(
+availableSubjects.length===0 &&
+assignedSubjects.length>0 &&
+!subjectsSnapshot.exists()
+){
+
+availableSubjects=
+assignedSubjects.map(name=>({
+
+id:name,
+name,
+description:getDescription(name)
+
+}));
+
+}
+
+
+if(availableSubjects.length===0){
+
+list.innerHTML="";
+
+empty.style.display="block";
+
+return;
+
+}
+
+
+availableSubjects.sort(
+(a,b)=>
+a.name.localeCompare(b.name)
+);
+
+
+empty.style.display="none";
+
+
+list.innerHTML=
+availableSubjects.map(subject=>`
+
+<div class="subject">
+
+<div class="icon">
+${getIcon(subject.name)}
+</div>
+
+<h2>
+${escapeHTML(subject.name)}
+</h2>
+
+<p>
+${escapeHTML(subject.description)}
+</p>
+
+<span class="badge">
+ASSIGNED
+</span>
+
+</div>
+
+`).join("");
+
+
+}catch(error){
+
+console.error(
+"Teacher subjects error:",
+error
+);
+
+list.innerHTML="";
+
+empty.textContent=
+"Unable to load your subjects. Please try again.";
+
+empty.style.display="block";
+
+}
+
+}
+
+
+document.addEventListener(
+"DOMContentLoaded",
+loadTeacherSubjects
+);
+
+
+/* Refresh every 10 seconds */
+
+setInterval(
+loadTeacherSubjects,
+10000
+);
+
+</script></body>
 </html>
