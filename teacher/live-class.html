@@ -342,7 +342,7 @@ FIREBASE
 
 const firebaseConfig={
 
-apiKey:"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -409,6 +409,79 @@ urls:"stun:stun1.l.google.com:19302"
 ]
 
 };
+
+
+/* =================================================
+CEO NOTIFICATION — TEACHER STARTED LIVE CLASS
+================================================= */
+
+async function notifyCEOClassStarted(){
+
+try{
+
+const user=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"{}"
+);
+
+const notificationId=
+"NOT-"+Date.now()+"-"+Math.random()
+.toString(36)
+.substring(2,7)
+.toUpperCase();
+
+const notification={
+
+id:notificationId,
+
+type:"teacher_live_start",
+
+title:"🔴 Teacher Started Live Class",
+
+message:
+(user.name||"Teacher")+
+" has started the Grade 10 Mathematics live class.",
+
+teacherId:user.id||"",
+
+teacherName:user.name||"Teacher",
+
+teacherPhone:user.phone||"",
+
+classId:CLASS_ID,
+
+subject:"Mathematics",
+
+level:"Grade 10",
+
+read:false,
+
+createdAt:new Date().toISOString(),
+
+createdBy:"Teacher Live Class"
+
+};
+
+await set(
+
+ref(
+db,
+"notifications/"+notificationId
+),
+
+notification
+
+);
+
+}catch(error){
+
+console.error(
+"Teacher live-class notification failed:",
+error
+);
+
+}
+
+}
 
 
 /* ==============================
@@ -522,6 +595,14 @@ onDisconnect(classRef)
 status:"offline"
 
 });
+
+
+/* =================================================
+SEND CEO NOTIFICATION
+Only after class has successfully started
+================================================= */
+
+await notifyCEOClassStarted();
 
 
 /* Timer */
