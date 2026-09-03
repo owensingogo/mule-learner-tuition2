@@ -1,9 +1,12 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
-<title>Payments | Mule Learner Tuition</title><style>
+<title>Payments | Mule Learner Tuition</title>
+
+<style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
 header{background:#173b8f;color:white;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
@@ -41,80 +44,141 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .support p{font-size:12px;opacity:.9;margin:7px 0 13px}
 .support a{display:inline-block;background:white;color:#173b8f;text-decoration:none;padding:11px 16px;border-radius:8px;font-size:12px;font-weight:bold}
 footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
-</style></head><body><header>
+</style>
+</head>
+
+<body>
+
+<header>
 <div class="logo">Mule Learner Tuition</div>
 <a href="dashboard.html" class="back">← Dashboard</a>
-</header><div class="container"><div class="heading">
+</header>
+
+<div class="container">
+
+<div class="heading">
 <h1>Learning Payments 💰</h1>
 <p>Choose your learning plan.</p>
-</div><div class="plan" onclick="choosePlan('Free Trial - 6 Hours',this)">
+</div>
+
+<div class="plan" onclick="choosePlan('Free Trial - 6 Hours',this)">
 <div>
 <div class="plan-name">🆓 Free Trial</div>
 <div class="plan-info">6 hours FREE — available once</div>
 </div>
 <div class="price free">FREE</div>
-</div><div class="plan" onclick="choosePlan('6 Hours - K5',this)">
+</div>
+
+<div class="plan" onclick="choosePlan('6 Hours - K5',this)">
 <div>
 <div class="plan-name">⏱️ 6 Hours</div>
 <div class="plan-info">Learning access for 6 hours</div>
 </div>
 <div class="price">K5</div>
-</div><div class="plan" onclick="choosePlan('Daily - K10',this)">
+</div>
+
+<div class="plan" onclick="choosePlan('Daily - K10',this)">
 <div>
 <div class="plan-name">📅 Daily</div>
 <div class="plan-info">1 day learning access</div>
 </div>
 <div class="price">K10</div>
-</div><div class="plan" onclick="choosePlan('Weekly - K45',this)">
+</div>
+
+<div class="plan" onclick="choosePlan('Weekly - K45',this)">
 <div>
 <div class="plan-name">📆 Weekly</div>
 <div class="plan-info">7 days learning access</div>
 </div>
 <div class="price">K45</div>
-</div><div class="plan" onclick="choosePlan('Monthly - K180',this)">
+</div>
+
+<div class="plan" onclick="choosePlan('Monthly - K180',this)">
 <div>
 <div class="plan-name">🗓️ Monthly</div>
 <div class="plan-info">30 days learning access</div>
 </div>
 <div class="price">K180</div>
-</div><div class="payment-box"><h2>Payment Information</h2><p id="paymentDescription">
+</div>
+
+<div class="payment-box">
+
+<h2>Payment Information</h2>
+
+<p id="paymentDescription">
 Select a learning plan.
-</p><div id="paymentAccounts"><div class="account" onclick="chooseMethod('Airtel Money',this)">
+</p>
+
+<div id="paymentAccounts">
+
+<div class="account" onclick="chooseMethod('Airtel Money',this)">
 <strong>📱 Airtel Money</strong>
 <div class="number">0978362800</div>
 <div class="name">Account Name: Owen Singogo</div>
-</div><div class="account" onclick="chooseMethod('Zamtel Money',this)">
+</div>
+
+<div class="account" onclick="chooseMethod('Zamtel Money',this)">
 <strong>📱 Zamtel Money</strong>
 <div class="number">0750840210</div>
 <div class="name">Account Name: Owen Singogo</div>
-</div><div class="account" onclick="chooseMethod('MTN MoMo',this)">
+</div>
+
+<div class="account" onclick="chooseMethod('MTN MoMo',this)">
 <strong>📱 MTN MoMo</strong>
 <div class="number">0768217115</div>
 <div class="name">Account Name: Owen Singogo</div>
-</div></div><form onsubmit="confirmPayment(event)"><label for="learnerName">Learner Name</label>
+</div>
+
+</div>
+
+<form onsubmit="confirmPayment(event)">
+
+<label for="learnerName">Learner Name</label>
 
 <input
 id="learnerName"
 type="text"
 placeholder="Tap here and enter your full name"
 autocomplete="name"
-required>
+required
+>
 
 <label>Selected Learning Plan</label>
 
-<select id="plan" required><option value="">Choose your plan</option>
+<select id="plan" required>
+<option value="">Choose your plan</option>
 <option value="Free Trial - 6 Hours">Free Trial — 6 Hours FREE</option>
 <option value="6 Hours - K5">6 Hours — K5</option>
 <option value="Daily - K10">Daily — K10</option>
 <option value="Weekly - K45">Weekly — K45</option>
-<option value="Monthly - K180">Monthly — K180</option></select><div id="methodArea"><label>Selected Payment Account</label>
+<option value="Monthly - K180">Monthly — K180</option>
+</select>
 
-<select id="method"><option value="">Choose payment account</option>
+<div id="methodArea">
+
+<label>Selected Payment Account</label>
+
+<select id="method">
+<option value="">Choose payment account</option>
 <option value="Airtel Money">Airtel Money</option>
 <option value="Zamtel Money">Zamtel Money</option>
-<option value="MTN MoMo">MTN MoMo</option></select></div><button id="submitBtn" type="submit">Continue</button>
+<option value="MTN MoMo">MTN MoMo</option>
+</select>
 
-</form><div id="success" class="success"></div><div class="notice"><strong>🔐 Payment & Learning Access</strong>
+</div>
+
+<button id="submitBtn" type="submit">
+Continue
+</button>
+
+</form>
+
+<div id="success" class="success"></div>
+
+<div class="notice">
+
+<strong>🔐 Payment & Learning Access</strong>
+
 <br><br>
 
 🆓 <strong>Free Trial:</strong>
@@ -145,14 +209,30 @@ Your selected learning period starts automatically.
 ⏱️ <strong>After Expiry:</strong>
 Your learning access automatically locks again.
 
-</div></div><div class="support"><h3>Need Payment Help?</h3><p>
-If you have paid but your learning access has not been activated, contact Customer Support.
-</p><a href="support.html">💬 Customer Support</a>
+</div>
 
-</div><footer>
+</div>
+
+<div class="support">
+
+<h3>Need Payment Help?</h3>
+
+<p>
+If you have paid but your learning access has not been activated, contact Customer Support.
+</p>
+
+<a href="support.html">💬 Customer Support</a>
+
+</div>
+
+<footer>
 Mule Learner Tuition<br>
 Learn • Practice • Succeed
-</footer></div><script type="module">
+</footer>
+
+</div>
+
+<script type="module">
 
 import {initializeApp,getApps}
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
@@ -170,9 +250,13 @@ set
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
+/* =========================
+   CORRECT FIREBASE CONFIG
+========================= */
+
 const firebaseConfig={
 
-apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
 
 authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
 
@@ -201,32 +285,22 @@ initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
 
-window.muleFirebaseDatabase=db;
-window.muleFirebaseRef=ref;
-window.muleFirebasePush=push;
-window.muleFirebaseGet=get;
-window.muleFirebaseQuery=query;
-window.muleFirebaseOrderByChild=orderByChild;
-window.muleFirebaseEqualTo=equalTo;
-window.muleFirebaseSet=set;
-
-</script><script>
+/* =========================
+   PLAN
+========================= */
 
 let selectedPlan="";
 let selectedMethod="";
 
 
-function choosePlan(plan,element){
+window.choosePlan=function(plan,element){
 
 selectedPlan=plan;
 
 document.getElementById("plan").value=plan;
 
-document.querySelectorAll(".plan").forEach(function(item){
-
-item.classList.remove("selected");
-
-});
+document.querySelectorAll(".plan")
+.forEach(item=>item.classList.remove("selected"));
 
 element.classList.add("selected");
 
@@ -246,9 +320,7 @@ document.getElementById("method");
 if(plan==="Free Trial - 6 Hours"){
 
 methodArea.style.display="none";
-
 accounts.style.display="none";
-
 methodSelect.required=false;
 
 description.innerHTML=
@@ -258,9 +330,7 @@ description.innerHTML=
 }else{
 
 methodArea.style.display="block";
-
 accounts.style.display="block";
-
 methodSelect.required=true;
 
 description.innerHTML=
@@ -268,67 +338,69 @@ description.innerHTML=
 
 }
 
-}
+};
 
 
-function chooseMethod(method,element){
+/* =========================
+   PAYMENT METHOD
+========================= */
+
+window.chooseMethod=function(method,element){
 
 selectedMethod=method;
 
 document.getElementById("method").value=method;
 
-document.querySelectorAll(".account").forEach(function(item){
-
-item.classList.remove("selected");
-
-});
+document.querySelectorAll(".account")
+.forEach(item=>item.classList.remove("selected"));
 
 element.classList.add("selected");
 
-}
+};
 
+
+/* =========================
+   SESSION
+========================= */
 
 function getLearnerInformation(){
 
-let user=null;
-
 try{
 
-user=
+const user=
 JSON.parse(
-localStorage.getItem("muleCurrentUser")
+localStorage.getItem("muleCurrentUser")||"null"
 );
-
-}catch(error){
-
-user=null;
-
-}
 
 if(!user)return null;
 
 return{
-
 id:user.id||"",
 name:user.name||"",
 phone:user.phone||"",
 role:user.role||"learner"
-
 };
+
+}catch(error){
+
+console.error(error);
+return null;
+
+}
 
 }
 
 
+/* =========================
+   PLAN AMOUNT
+========================= */
+
 function getPlanAmount(plan){
 
 if(plan==="Free Trial - 6 Hours")return 0;
-
 if(plan==="6 Hours - K5")return 5;
-
 if(plan==="Daily - K10")return 10;
-
 if(plan==="Weekly - K45")return 45;
-
 if(plan==="Monthly - K180")return 180;
 
 return 0;
@@ -336,35 +408,39 @@ return 0;
 }
 
 
+/* =========================
+   CHECK FREE TRIAL
+========================= */
+
 async function freeTrialAlreadyUsed(learnerId){
 
 const paymentsRef=
-window.muleFirebaseRef(
-window.muleFirebaseDatabase,
-"payments"
-);
+ref(db,"payments");
 
 const learnerQuery=
-window.muleFirebaseQuery(
+query(
 paymentsRef,
-window.muleFirebaseOrderByChild("learnerId"),
-window.muleFirebaseEqualTo(learnerId)
+orderByChild("learnerId"),
+equalTo(learnerId)
 );
 
 const snapshot=
-await window.muleFirebaseGet(learnerQuery);
+await get(learnerQuery);
 
 if(!snapshot.exists())return false;
 
 let used=false;
 
-snapshot.forEach(function(child){
+snapshot.forEach(child=>{
 
 const payment=child.val();
 
 if(
 payment &&
-payment.plan==="Free Trial - 6 Hours"
+(
+payment.plan==="Free Trial - 6 Hours" ||
+payment.isFreeTrial===true
+)
 ){
 
 used=true;
@@ -378,38 +454,43 @@ return used;
 }
 
 
+/* =========================
+   CHECK ACTIVE ACCESS
+========================= */
+
 async function hasActiveAccess(learnerId){
 
-try{
-
 const paymentsRef=
-window.muleFirebaseRef(
-window.muleFirebaseDatabase,
-"payments"
-);
+ref(db,"payments");
 
 const learnerQuery=
-window.muleFirebaseQuery(
+query(
 paymentsRef,
-window.muleFirebaseOrderByChild("learnerId"),
-window.muleFirebaseEqualTo(learnerId)
+orderByChild("learnerId"),
+equalTo(learnerId)
 );
 
 const snapshot=
-await window.muleFirebaseGet(learnerQuery);
+await get(learnerQuery);
 
 if(!snapshot.exists())return false;
 
 let active=false;
 
-snapshot.forEach(function(child){
+snapshot.forEach(child=>{
 
 const payment=child.val();
 
+if(!payment)return;
+
 if(
-payment &&
-payment.status==="approved" &&
-payment.expiresAt &&
+(
+payment.status==="approved" ||
+payment.status==="APPROVED"
+)
+&&
+payment.expiresAt
+&&
 new Date(payment.expiresAt).getTime()>Date.now()
 ){
 
@@ -421,19 +502,11 @@ active=true;
 
 return active;
 
-}catch(error){
-
-console.error(error);
-
-return false;
-
-}
-
 }
 
 
 /* =========================
-   CEO PAYMENT NOTIFICATION
+   CEO NOTIFICATION
 ========================= */
 
 async function notifyCEOPayment(
@@ -452,7 +525,9 @@ const notificationId=
 .toUpperCase();
 
 
-const notification={
+await set(
+ref(db,"notifications/"+notificationId),
+{
 
 id:notificationId,
 
@@ -472,15 +547,15 @@ method+
 
 paymentId:paymentKey,
 
-learnerName:learnerName,
+learnerName,
 
-learnerPhone:learnerPhone,
+learnerPhone,
 
-plan:plan,
+plan,
 
-amount:amount,
+amount,
 
-method:method,
+method,
 
 read:false,
 
@@ -489,24 +564,18 @@ new Date().toISOString(),
 
 createdBy:"Learner Payment"
 
-};
-
-
-await window.muleFirebaseSet(
-
-window.muleFirebaseRef(
-window.muleFirebaseDatabase,
-"notifications/"+notificationId
-),
-
-notification
+}
 
 );
 
 }
 
 
-async function confirmPayment(event){
+/* =========================
+   MAIN PAYMENT FUNCTION
+========================= */
+
+window.confirmPayment=async function(event){
 
 event.preventDefault();
 
@@ -529,6 +598,9 @@ const learner=
 getLearnerInformation();
 
 
+success.style.display="none";
+
+
 if(!learner){
 
 success.className="success error";
@@ -544,11 +616,45 @@ return;
 }
 
 
+if(learner.role!=="learner"){
+
+success.className="success error";
+
+success.innerHTML=
+"❌ <strong>Invalid Account</strong><br><br>"+
+"Please login using a learner account.";
+
+success.style.display="block";
+
+return;
+
+}
+
+
+if(!learner.id){
+
+success.className="success error";
+
+success.innerHTML=
+"❌ <strong>Account Error</strong><br><br>"+
+"Your learner account ID could not be found.";
+
+success.style.display="block";
+
+return;
+
+}
+
+
 if(!enteredName){
 
-document.getElementById("learnerName").focus();
+success.className="success error";
 
-alert("Please enter the learner's full name.");
+success.innerHTML=
+"❌ <strong>Name Required</strong><br><br>"+
+"Please enter the learner's full name.";
+
+success.style.display="block";
 
 return;
 
@@ -557,7 +663,13 @@ return;
 
 if(!plan){
 
-alert("Please select a learning plan.");
+success.className="success error";
+
+success.innerHTML=
+"❌ <strong>Select a Plan</strong><br><br>"+
+"Please select a learning plan.";
+
+success.style.display="block";
 
 return;
 
@@ -565,12 +677,14 @@ return;
 
 
 button.disabled=true;
-
 button.textContent="Checking...";
 
 
 try{
 
+/* =========================
+   FREE TRIAL
+========================= */
 
 if(plan==="Free Trial - 6 Hours"){
 
@@ -590,7 +704,6 @@ success.innerHTML=
 success.style.display="block";
 
 button.disabled=false;
-
 button.textContent="Continue";
 
 return;
@@ -613,7 +726,6 @@ success.innerHTML=
 success.style.display="block";
 
 button.disabled=false;
-
 button.textContent="Continue";
 
 return;
@@ -666,23 +778,20 @@ isFreeTrial:true
 };
 
 
-await window.muleFirebasePush(
+const paymentRef=
+push(ref(db,"payments"));
 
-window.muleFirebaseRef(
-window.muleFirebaseDatabase,
-"payments"
-),
 
-paymentData
-
-);
+await set(paymentRef,paymentData);
 
 
 success.className="success";
 
 success.innerHTML=
 "🎉 <strong>FREE Trial Activated!</strong><br><br>"+
-"Welcome, <strong>"+enteredName+"</strong>!<br><br>"+
+"Welcome, <strong>"+
+escapeHTML(enteredName)+
+"</strong>!<br><br>"+
 "Your 6-hour FREE learning access is now active.<br><br>"+
 "⏱️ Your 6 hours started now.<br><br>"+
 "Go to your dashboard and start learning.";
@@ -690,7 +799,6 @@ success.innerHTML=
 success.style.display="block";
 
 button.disabled=true;
-
 button.textContent="FREE Trial Active";
 
 return;
@@ -698,12 +806,21 @@ return;
 }
 
 
+/* =========================
+   PAID PLAN
+========================= */
+
 if(!method){
 
-alert("Please select the payment account.");
+success.className="success error";
+
+success.innerHTML=
+"❌ <strong>Payment Account Required</strong><br><br>"+
+"Please select the payment account you used.";
+
+success.style.display="block";
 
 button.disabled=false;
-
 button.textContent="Continue";
 
 return;
@@ -726,7 +843,6 @@ success.innerHTML=
 success.style.display="block";
 
 button.disabled=false;
-
 button.textContent="Continue";
 
 return;
@@ -746,11 +862,11 @@ learnerName:enteredName,
 
 learnerPhone:learner.phone,
 
-plan:plan,
+plan,
 
-amount:amount,
+amount,
 
-method:method,
+method,
 
 status:"pending",
 
@@ -772,88 +888,125 @@ isFreeTrial:false
 };
 
 
-const paymentKey=
-await window.muleFirebasePush(
+const paymentRef=
+push(ref(db,"payments"));
 
-window.muleFirebaseRef(
-window.muleFirebaseDatabase,
-"payments"
-),
-
-paymentData
-
-);
+await set(paymentRef,paymentData);
 
 
 /* =========================
-   CREATE CEO NOTIFICATION
+   NOTIFY CEO
 ========================= */
 
 try{
 
 await notifyCEOPayment(
-
 enteredName,
-
 learner.phone,
-
 plan,
-
 amount,
-
 method,
-
-paymentKey.key
-
+paymentRef.key
 );
 
 }catch(notificationError){
 
 console.error(
-"Payment notification failed:",
+"CEO notification failed:",
 notificationError
 );
 
 }
 
 
+/* =========================
+   SUCCESS
+========================= */
+
 success.className="success waiting";
 
 success.innerHTML=
 "🟡 <strong>Payment Submitted — Waiting for Approval</strong><br><br>"+
-"Learner Name: <strong>"+enteredName+"</strong><br>"+
-"Selected Plan: <strong>"+plan+"</strong><br>"+
-"Payment Account: <strong>"+method+"</strong><br>"+
-"Amount: <strong>K"+amount+"</strong><br><br>"+
+"Learner Name: <strong>"+
+escapeHTML(enteredName)+
+"</strong><br>"+
+"Selected Plan: <strong>"+
+escapeHTML(plan)+
+"</strong><br>"+
+"Payment Account: <strong>"+
+escapeHTML(method)+
+"</strong><br>"+
+"Amount: <strong>K"+
+amount+
+"</strong><br><br>"+
 "Your payment has been submitted successfully.<br><br>"+
 "🔒 Your learning access will remain locked until the CEO approves your payment.";
 
 success.style.display="block";
 
 button.disabled=true;
-
 button.textContent="Submitted";
 
 
 }catch(error){
 
-console.error(error);
+console.error(
+"PAYMENT ERROR:",
+error
+);
 
 success.className="success error";
 
 success.innerHTML=
-"❌ <strong>Something went wrong</strong><br><br>"+
-"We could not process your request. Please check your internet connection and try again.";
+"❌ <strong>Could not process your request</strong><br><br>"+
+escapeHTML(
+error?.message||
+"Firebase could not complete the request."
+)+
+"<br><br>"+
+"Please try again.";
 
 success.style.display="block";
 
 button.disabled=false;
-
 button.textContent="Continue";
 
 }
 
+};
+
+
+/* =========================
+   SAFE TEXT
+========================= */
+
+function escapeHTML(value){
+
+return String(value??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
 }
 
-</script><script src="../js/app.js"></script><script src="../js/learner.js"></script><script src="../js/payments.js"></script></body>
+
+/* =========================
+   AUTO FILL LEARNER NAME
+========================= */
+
+const currentLearner=
+getLearnerInformation();
+
+if(currentLearner){
+
+document.getElementById("learnerName").value=
+currentLearner.name||"";
+
+}
+
+</script>
+
+</body>
 </html>
