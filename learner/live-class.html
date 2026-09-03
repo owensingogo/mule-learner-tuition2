@@ -2,872 +2,400 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
-
-<title>Live Learning | Mule Learner Tuition</title>
+<title>Live Class | Mule Learner Tuition</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
-header{background:#173b8f;color:white;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:18px;font-weight:800}.back{color:white;text-decoration:none;font-size:13px}
-.container{max-width:800px;margin:auto;padding:18px 14px}
-.heading h1{font-size:23px;color:#173b8f;margin-bottom:5px}
-.heading p{font-size:13px;color:#667085;margin-bottom:16px}
-.live-card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(20,50,100,.08);margin-bottom:15px}
-.video-area{height:220px;background:#111827;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-video{width:100%;height:100%;object-fit:cover;display:none}
-.camera-off{color:white;text-align:center;font-size:13px}.camera-off div{font-size:45px;margin-bottom:8px}
-.live-status{position:absolute;top:10px;left:10px;background:#e53935;color:white;padding:6px 9px;border-radius:20px;font-size:10px;font-weight:bold;display:none}
-.timer{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:white;padding:6px 9px;border-radius:6px;font-size:11px;display:none}
-.live-content{padding:17px}.live-title{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.live-title h2{font-size:18px}.badge{background:#fee2e2;color:#b42318;padding:6px 9px;border-radius:20px;font-size:10px;font-weight:bold}
-.details{margin-top:11px;font-size:13px;color:#596579;line-height:1.8}
-.join{width:100%;border:0;background:#173b8f;color:white;padding:13px;border-radius:9px;font-size:14px;font-weight:bold;margin-top:15px;cursor:pointer}
-.join.disabled{background:#98a2b3;cursor:not-allowed}
-.leave{width:100%;border:0;background:#d92d20;color:white;padding:12px;border-radius:9px;font-size:13px;font-weight:bold;margin-top:10px;display:none}
-.controls{display:none;grid-template-columns:repeat(5,1fr);gap:6px;background:#171717;padding:9px}
-.control{border:0;background:#292929;color:white;border-radius:8px;padding:9px 3px;font-size:17px;cursor:pointer}
-.control span{display:block;font-size:8px;margin-top:3px}.control.active{background:#173b8f}.control.off{background:#8e1c1c}
-.chat{display:none;background:#171717;border-top:1px solid #333}
-.chat-header{color:white;padding:11px 12px;font-size:14px;font-weight:bold}
-.chat-messages{height:170px;overflow-y:auto;background:#101010;padding:9px}
-.message{background:#292929;color:white;padding:8px 10px;border-radius:9px;margin-bottom:7px;font-size:12px;max-width:90%}
-.message.me{background:#173b8f;margin-left:auto}.message small{display:block;font-size:9px;opacity:.65;margin-bottom:3px}
-.chat-input{display:flex;gap:6px;padding:8px;background:#202020}
-.chat-input input{flex:1;border:0;border-radius:8px;padding:10px;font-size:12px;outline:none}
-.chat-input button{border:0;background:#173b8f;color:white;border-radius:8px;padding:10px 13px;font-weight:bold}
-.count{background:#eef3ff;padding:12px;border-radius:10px;font-size:12px;margin-top:12px;color:#475467}
-.schedule{background:white;padding:17px;border-radius:14px;box-shadow:0 4px 15px rgba(20,50,100,.07);margin-bottom:13px}
-.schedule h3{font-size:16px;margin-bottom:10px}
-.lesson{border-top:1px solid #edf0f5;padding:12px 0;display:flex;justify-content:space-between;gap:10px}
-.lesson:first-of-type{border-top:0}.lesson strong{font-size:13px}
-.lesson p{font-size:11px;color:#667085;margin-top:3px}.time{font-size:11px;font-weight:bold;color:#173b8f;white-space:nowrap}
-.info{margin-top:15px;background:#eef3ff;padding:14px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
-.support{margin-top:16px;background:#173b8f;color:white;padding:19px;border-radius:13px;text-align:center}
-.support p{font-size:12px;opacity:.9;margin:7px 0 13px}
-.whatsapp{display:inline-block;background:#25d366;color:white;text-decoration:none;padding:11px 16px;border-radius:8px;font-size:12px;font-weight:bold}
-footer{text-align:center;font-size:11px;color:#667085;margin-top:24px}
-.remote-video{display:none;width:100%;height:220px;object-fit:cover;background:#000}
-@media(max-width:420px){
-.container{padding:15px 10px}.video-area{height:205px}.control{font-size:15px;padding:8px 2px}.remote-video{height:205px}
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f4f7fc;color:#172033}
+header{background:#173b8f;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+header b{font-size:17px}
+button{border:0;border-radius:9px;padding:10px 14px;font-weight:bold;cursor:pointer}
+.back{background:#fff;color:#173b8f}
+.container{max-width:900px;margin:auto;padding:16px}
+.hero{background:#173b8f;color:#fff;border-radius:14px;padding:18px;margin-bottom:15px}
+.hero h2{margin:0 0 6px}
+.card{background:#fff;border-radius:14px;padding:15px;margin-bottom:14px;box-shadow:0 3px 12px #0000000d}
+.videoBox{background:#111;border-radius:12px;overflow:hidden;position:relative;min-height:240px}
+video{width:100%;display:block;background:#111}
+#remoteVideo{min-height:240px;object-fit:contain}
+.label{font-size:12px;color:#777;margin:8px 0}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.controls button{background:#173b8f;color:#fff}
+.controls button.off{background:#777}
+.status{padding:10px;border-radius:9px;background:#eef3ff;margin-bottom:12px}
+#messages{height:180px;overflow:auto;border:1px solid #ddd;border-radius:9px;padding:9px}
+.msg{padding:6px 0;border-bottom:1px solid #eee;font-size:13px}
+.chat{display:flex;gap:7px;margin-top:8px}
+.chat input{flex:1;padding:11px;border:1px solid #ddd;border-radius:9px}
+.small{font-size:12px;color:#777}
+.error{color:#b00020}
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo">Mule Learner Tuition</div>
-<a href="dashboard.html" class="back">← Dashboard</a>
+<b>🎓 Mule Learner Tuition</b>
+<button class="back" onclick="location.href='dashboard.html'">Dashboard</button>
 </header>
 
 <div class="container">
 
-<div class="heading">
-<h1>Live Learning 🔴</h1>
-<p>Join your scheduled live lessons and learn directly with your teacher.</p>
+<div class="hero">
+<h2 id="classTitle">Live Class</h2>
+<div id="classInfo">Connecting...</div>
 </div>
 
-<div class="live-card">
+<div class="status" id="status">Connecting to live class...</div>
 
-<div class="video-area">
-
-<video id="teacherVideo" autoplay playsinline></video>
-<video id="learnerVideo" autoplay playsinline muted></video>
-
-<div class="camera-off" id="cameraOff">
-<div>🎥</div>
-Waiting for your teacher to start the live class
+<div class="card">
+<div class="label">Teacher / Classroom</div>
+<div class="videoBox">
+<video id="remoteVideo" autoplay playsinline></video>
+</div>
+<div class="small" id="remoteName">Waiting for teacher...</div>
 </div>
 
-<div class="live-status" id="liveStatus">🔴 LIVE</div>
-<div class="timer" id="timer">00:00:00</div>
-
+<div class="card">
+<div class="label">Your Camera</div>
+<div class="videoBox">
+<video id="localVideo" autoplay muted playsinline></video>
 </div>
 
-<div class="controls" id="controls">
-
-<button class="control off" id="micBtn" onclick="toggleMicrophone()">🎤<span>Mic Off</span></button>
-<button class="control off" id="cameraBtn" onclick="toggleCamera()">📹<span>Cam Off</span></button>
-<button class="control active" id="speakerBtn" onclick="toggleSpeaker()">🔊<span>Speaker</span></button>
-<button class="control" onclick="toggleFullscreen()">⛶<span>Full</span></button>
-<button class="control" onclick="leaveClass()">⛔<span>Leave</span></button>
-
-</div>
-
-<div class="live-content">
-
-<div class="live-title">
-<h2>Mathematics</h2>
-<span class="badge" id="classBadge">OFFLINE</span>
-</div>
-
-<div class="details">
-<strong>👨‍🏫 Teacher:</strong> Assigned Teacher
-<br>
-<strong>📚 Class:</strong> Mathematics
-<br>
-<strong>⏰ Lesson:</strong> 17:00 – 18:00
-</div>
-
-<div class="count">
-👥 Learners in class:
-<strong id="learnerCount">0</strong>
-</div>
-
-<button class="join disabled" id="joinBtn" onclick="joinClass()" disabled>
-⏳ Waiting for Teacher
-</button>
-
-<button class="leave" id="leaveBtn" onclick="leaveClass()">
-⛔ Leave Live Class
-</button>
-
-</div>
-
-<div class="chat" id="chat">
-
-<div class="chat-header">💬 Live Chat — Ask Your Teacher</div>
-
-<div class="chat-messages" id="chatMessages">
-<div class="message">
-<small>System</small>
-Welcome to the live class.
+<div class="controls">
+<button id="micBtn" onclick="toggleMic()">🎤 Mic Off</button>
+<button id="camBtn" onclick="toggleCamera()">📷 Camera Off</button>
+<button onclick="leaveClass()" style="background:#b00020">Leave</button>
 </div>
 </div>
 
-<div class="chat-input">
-<input type="text" id="chatInput" placeholder="Ask your teacher..." onkeydown="handleChatKey(event)">
+<div class="card">
+<b>👥 Participants: <span id="count">0</span></b>
+</div>
+
+<div class="card">
+<b>💬 Live Chat</b>
+<div id="messages"></div>
+<div class="chat">
+<input id="chatInput" placeholder="Type a message...">
 <button onclick="sendMessage()">Send</button>
 </div>
-
 </div>
 
 </div>
-
-<div class="schedule">
-
-<h3>Upcoming Lessons 📅</h3>
-
-<div class="lesson">
-<div><strong>ICT / Computer Studies</strong><p>With your assigned teacher</p></div>
-<div class="time">Tomorrow<br>16:00</div>
-</div>
-
-<div class="lesson">
-<div><strong>English</strong><p>Live learning session</p></div>
-<div class="time">Friday<br>17:00</div>
-</div>
-
-<div class="lesson">
-<div><strong>Science</strong><p>Live learning session</p></div>
-<div class="time">Saturday<br>10:00</div>
-</div>
-
-</div>
-
-<div class="info">
-<strong>💡 Before joining a live class</strong>
-<br><br>
-Make sure you have a stable internet connection,
-enough data and your device microphone/camera
-permissions are ready when required.
-<br><br>
-Only learners with valid learning access can join
-paid live classes.
-</div>
-
-<div class="support">
-
-<h3>Having trouble joining?</h3>
-
-<p>
-If you have paid and cannot access your live class,
-contact Mule Learner Tuition support.
-</p>
-
-<a href="https://wa.me/260978362800" class="whatsapp">
-💬 WhatsApp Support
-</a>
-
-</div>
-
-<footer>
-Mule Learner Tuition<br>
-Learn • Practice • Succeed
-</footer>
-
-</div>
-
-<script src="../js/app.js"></script>
-<script src="../js/learner.js"></script>
 
 <script type="module">
+import{initializeApp}from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-import {
-initializeApp,
-getApps
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-
-import {
-getDatabase,
-ref,
-set,
-update,
-onValue,
-push,
-onDisconnect,
-remove
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+import{
+ getDatabase,ref,get,set,update,onValue,onChildAdded,
+ push,onDisconnect,remove
+}from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 const firebaseConfig={
-apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vmLF7M",
-authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
-databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
-projectId:"mule-learner-tuition-264fe",
-storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
-messagingSenderId:"656883565460",
-appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+ apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MGoN8Bd6u2t2vvmLF7M",
+ authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+ databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+ projectId:"mule-learner-tuition-264fe",
+ storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+ messagingSenderId:"656883565460",
+ appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
 };
 
-const app=getApps().length?getApps()[0]:initializeApp(firebaseConfig);
+const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
-const CLASS_ID="grade10-mathematics";
+const session=JSON.parse(localStorage.getItem("muleCurrentUser")||"null");
 
-let stream=null;
-let joined=false;
-let micOn=false;
-let cameraOn=false;
-let speakerOn=true;
+if(!session||session.role!=="learner"){
+ alert("Please login as a learner.");
+ location.href="../login.html";
+}
 
-let seconds=0;
-let timerInterval=null;
+const learnerId=session.id;
+const liveId=new URLSearchParams(location.search).get("id");
 
-let learnerId="learner-"+Date.now()+"-"+Math.random().toString(36).slice(2,8);
+let liveData=null;
+let classData=null;
+let pc=null;
+let localStream=null;
+let mic=false;
+let camera=false;
+let processedCandidates=new Set();
 
-let teacherIsLive=false;
-let peerConnections={};
+async function loadClass(){
 
-const configuration={
-iceServers:[
-{urls:"stun:stun.l.google.com:19302"},
-{urls:"stun:stun1.l.google.com:19302"}
-]
+ if(!liveId){
+   statusText("No live class selected.");
+   return;
+ }
+
+ const liveSnap=await get(ref(db,"liveClasses/"+liveId));
+
+ if(!liveSnap.exists()){
+   statusText("Live class not found.");
+   return;
+ }
+
+ liveData=liveSnap.val();
+
+ if(liveData.status!=="live"){
+   statusText("This class is not currently live.");
+   return;
+ }
+
+ const classId=liveData.classId||liveId;
+ const classSnap=await get(ref(db,"classes/"+classId));
+
+ if(classSnap.exists()) classData=classSnap.val();
+
+ document.getElementById("classTitle").textContent=
+   liveData.title||classData?.className||"Live Class";
+
+ document.getElementById("classInfo").textContent=
+   (liveData.subject||classData?.subject||"")+
+   " • "+
+   (liveData.level||classData?.level||classData?.grade||"");
+
+ await joinWebRTC();
+ listenChat();
+ listenParticipants();
+}
+
+function statusText(t){
+ document.getElementById("status").textContent=t;
+}
+
+async function joinWebRTC(){
+
+ const participantRef=
+   ref(db,`liveClasses/${liveId}/participants/${learnerId}`);
+
+ await set(participantRef,{
+   id:learnerId,
+   name:session.name||"Learner",
+   role:"learner",
+   mic:false,
+   camera:false,
+   joinedAt:Date.now()
+ });
+
+ onDisconnect(participantRef).remove();
+
+ try{
+   localStream=await navigator.mediaDevices.getUserMedia({
+     video:true,
+     audio:true
+   });
+
+   localStream.getVideoTracks().forEach(t=>t.enabled=false);
+   localStream.getAudioTracks().forEach(t=>t.enabled=false);
+
+   document.getElementById("localVideo").srcObject=localStream;
+ }catch(e){
+   console.log("Media permission:",e);
+ }
+
+ pc=new RTCPeerConnection({
+   iceServers:[
+     {urls:"stun:stun.l.google.com:19302"},
+     {urls:"stun:stun1.l.google.com:19302"}
+   ]
+ });
+
+ if(localStream){
+   localStream.getTracks().forEach(track=>{
+     pc.addTrack(track,localStream);
+   });
+ }
+
+ pc.ontrack=e=>{
+   if(e.streams[0]){
+     document.getElementById("remoteVideo").srcObject=e.streams[0];
+     document.getElementById("remoteName").textContent=
+       "🔴 Teacher is connected";
+   }
+ };
+
+ pc.onicecandidate=e=>{
+   if(e.candidate){
+     const key=push(ref(db,
+       `liveClasses/${liveId}/participants/${learnerId}/participantCandidates`
+     )).key;
+
+     set(ref(db,
+       `liveClasses/${liveId}/participants/${learnerId}/participantCandidates/${key}`
+     ),e.candidate.toJSON());
+   }
+ };
+
+ onValue(ref(db,
+   `liveClasses/${liveId}/participants/${learnerId}/offer`
+ ),async snap=>{
+
+   if(!snap.exists())return;
+
+   const offer=snap.val();
+
+   if(pc.currentRemoteDescription)return;
+
+   await pc.setRemoteDescription(offer);
+
+   const answer=await pc.createAnswer();
+
+   await pc.setLocalDescription(answer);
+
+   await set(ref(db,
+     `liveClasses/${liveId}/participants/${learnerId}/answer`
+   ),{
+     type:answer.type,
+     sdp:answer.sdp
+   });
+
+   statusText("🟢 Connected to teacher");
+ });
+
+ onChildAdded(ref(db,
+   `liveClasses/${liveId}/participants/${learnerId}/teacherCandidates`
+ ),async snap=>{
+
+   if(processedCandidates.has(snap.key))return;
+   processedCandidates.add(snap.key);
+
+   try{
+     await pc.addIceCandidate(snap.val());
+   }catch(e){}
+ });
+
+ statusText("Waiting for teacher...");
+ await notifyJoined();
+}
+
+async function notifyJoined(){
+
+ const id="NOT-"+Date.now()+"-"+Math.random()
+ .toString(36).substring(2,7).toUpperCase();
+
+ await set(ref(db,"notifications/"+id),{
+   id,
+   type:"live_class_join",
+   title:"👨‍🎓 Learner Joined Live Class",
+   message:(session.name||"Learner")+
+     " has joined "+(liveData.title||"a live class")+".",
+   learnerId,
+   learnerName:session.name||"Learner",
+   learnerPhone:session.phone||"",
+   classId:liveData.classId||liveId,
+   liveClassId:liveId,
+   subject:liveData.subject||"",
+   read:false,
+   createdAt:new Date().toISOString(),
+   createdBy:"Learner Live Class"
+ });
+}
+
+function listenParticipants(){
+
+ onValue(ref(db,`liveClasses/${liveId}/participants`),snap=>{
+   let n=0;
+
+   snap.forEach(x=>{
+     if(x.val()?.role)n++;
+   });
+
+   document.getElementById("count").textContent=n;
+ });
+}
+
+window.toggleMic=async function(){
+
+ if(!localStream)return;
+
+ mic=!mic;
+
+ localStream.getAudioTracks().forEach(t=>t.enabled=mic);
+
+ await update(ref(db,
+   `liveClasses/${liveId}/participants/${learnerId}`
+ ),{mic});
+
+ document.getElementById("micBtn").textContent=
+   mic?"🎤 Mic On":"🎤 Mic Off";
 };
 
-function learnerName(){
+window.toggleCamera=async function(){
 
-try{
-const user=JSON.parse(localStorage.getItem("muleCurrentUser")||"{}");
-return user.name||"Learner";
-}catch(e){
-return "Learner";
-}
+ if(!localStream)return;
 
-}
+ camera=!camera;
 
-/* =====================================================
-   CEO NOTIFICATION — LEARNER JOINED LIVE CLASS
-   ===================================================== */
+ localStream.getVideoTracks().forEach(t=>t.enabled=camera);
 
-async function notifyCEOJoinedLiveClass(){
+ await update(ref(db,
+   `liveClasses/${liveId}/participants/${learnerId}`
+ ),{camera});
 
-try{
-
-const user=JSON.parse(
-localStorage.getItem("muleCurrentUser")||"{}"
-);
-
-const notificationId=
-"NOT-"+Date.now()+"-"+Math.random()
-.toString(36).substring(2,7).toUpperCase();
-
-const notification={
-
-id:notificationId,
-
-type:"live_class_join",
-
-title:"👨‍🎓 Learner Joined Live Class",
-
-message:
-(user.name||"Learner")+
-" has joined the live Mathematics class.",
-
-learnerId:user.id||learnerId,
-
-learnerName:user.name||"Learner",
-
-learnerPhone:user.phone||"",
-
-classId:CLASS_ID,
-
-subject:"Mathematics",
-
-read:false,
-
-createdAt:new Date().toISOString(),
-
-createdBy:"Learner Live Class"
-
+ document.getElementById("camBtn").textContent=
+   camera?"📷 Camera On":"📷 Camera Off";
 };
-
-await set(
-ref(db,"notifications/"+notificationId),
-notification
-);
-
-}catch(error){
-
-console.error(
-"Learner live-class notification failed:",
-error
-);
-
-}
-
-}
-
-function setTeacherStatus(isLive){
-
-teacherIsLive=isLive;
-
-const badge=document.getElementById("classBadge");
-const joinBtn=document.getElementById("joinBtn");
-const liveStatus=document.getElementById("liveStatus");
-const cameraOff=document.getElementById("cameraOff");
-
-if(isLive){
-
-badge.textContent="LIVE NOW";
-badge.style.background="#dcfce7";
-badge.style.color="#027a48";
-
-joinBtn.disabled=false;
-joinBtn.classList.remove("disabled");
-joinBtn.textContent="🔴 Join Live Class";
-
-liveStatus.style.display="block";
-
-if(!joined){
-cameraOff.innerHTML=
-"<div>🎥</div>Teacher is online — tap Join Live Class";
-}
-
-}else{
-
-badge.textContent="OFFLINE";
-badge.style.background="#fee2e2";
-badge.style.color="#b42318";
-
-joinBtn.disabled=true;
-joinBtn.classList.add("disabled");
-joinBtn.textContent="⏳ Waiting for Teacher";
-
-liveStatus.style.display="none";
-
-if(!joined){
-cameraOff.innerHTML=
-"<div>🎥</div>Waiting for your teacher to start the live class";
-}
-
-}
-
-}
-
-window.joinClass=async function(){
-
-if(joined)return;
-
-if(!teacherIsLive){
-
-alert("The teacher is not online yet.");
-return;
-
-}
-
-try{
-
-stream=await navigator.mediaDevices.getUserMedia({
-video:true,
-audio:true
-});
-
-stream.getVideoTracks().forEach(t=>t.enabled=false);
-stream.getAudioTracks().forEach(t=>t.enabled=false);
-
-document.getElementById("learnerVideo").srcObject=stream;
-
-joined=true;
-
-document.getElementById("joinBtn").style.display="none";
-document.getElementById("leaveBtn").style.display="block";
-document.getElementById("controls").style.display="grid";
-document.getElementById("chat").style.display="block";
-document.getElementById("liveStatus").style.display="block";
-document.getElementById("timer").style.display="block";
-
-startTimer();
-
-const learnerRef=ref(
-db,
-"liveClasses/"+CLASS_ID+"/learners/"+learnerId
-);
-
-await set(learnerRef,{
-name:learnerName(),
-joinedAt:Date.now(),
-mic:false,
-camera:false
-});
-
-onDisconnect(learnerRef).remove();
-
-/* SEND CEO NOTIFICATION AFTER SUCCESSFUL JOIN */
-await notifyCEOJoinedLiveClass();
-
-listenTeacherConnection();
-listenLearners();
-listenChat();
-
-alert("🎥 You have joined the live class.");
-
-}catch(error){
-
-console.error(error);
-
-alert(
-"Unable to join the live class.\n\nPlease allow camera and microphone permission and try again."
-);
-
-}
-
-};
-
-function listenTeacherConnection(){
-
-const myRef=ref(
-db,
-"liveClasses/"+CLASS_ID+"/learners/"+learnerId
-);
-
-onValue(myRef,async snapshot=>{
-
-const data=snapshot.val();
-
-if(!data)return;
-
-if(data.offer){
-await createTeacherConnection(data.offer);
-}
-
-});
-
-}
-
-async function createTeacherConnection(offer){
-
-let pc=peerConnections.teacher;
-
-if(!pc){
-
-pc=new RTCPeerConnection(configuration);
-
-peerConnections.teacher=pc;
-
-if(stream){
-stream.getTracks().forEach(track=>{
-pc.addTrack(track,stream);
-});
-}
-
-pc.ontrack=function(event){
-
-const video=document.getElementById("teacherVideo");
-
-video.srcObject=event.streams[0];
-video.style.display="block";
-
-document.getElementById("cameraOff").style.display="none";
-
-};
-
-pc.onicecandidate=function(event){
-
-if(event.candidate){
-
-push(
-ref(
-db,
-"liveClasses/"+CLASS_ID+
-"/learners/"+learnerId+
-"/learnerCandidates"
-),
-event.candidate.toJSON()
-);
-
-}
-
-};
-
-onValue(
-ref(
-db,
-"liveClasses/"+CLASS_ID+
-"/learners/"+learnerId+
-"/teacherCandidates"
-),
-snapshot=>{
-
-snapshot.forEach(child=>{
-
-try{
-
-pc.addIceCandidate(
-new RTCIceCandidate(child.val())
-);
-
-}catch(e){
-
-console.error(e);
-
-}
-
-});
-
-});
-
-}
-
-try{
-
-await pc.setRemoteDescription(
-new RTCSessionDescription(offer)
-);
-
-const answer=await pc.createAnswer();
-
-await pc.setLocalDescription(answer);
-
-await set(
-ref(
-db,
-"liveClasses/"+CLASS_ID+
-"/learners/"+learnerId+
-"/answer"
-),
-answer.toJSON()
-);
-
-}catch(error){
-
-console.error("WebRTC error:",error);
-
-}
-
-}
-
-function listenLearners(){
-
-onValue(
-ref(db,"liveClasses/"+CLASS_ID+"/learners"),
-snapshot=>{
-
-const data=snapshot.val()||{};
-
-document.getElementById("learnerCount").textContent=
-Object.keys(data).length;
-
-});
-
-}
 
 function listenChat(){
 
-onValue(
-ref(db,"liveClasses/"+CLASS_ID+"/chat"),
-snapshot=>{
+ onChildAdded(ref(db,`liveClasses/${liveId}/chat`),snap=>{
+   const m=snap.val();
+   const div=document.createElement("div");
+   div.className="msg";
+   div.textContent=(m.name||"User")+": "+(m.message||"");
+   document.getElementById("messages").appendChild(div);
 
-const messages=snapshot.val()||{};
-
-const box=document.getElementById("chatMessages");
-
-box.innerHTML="";
-
-Object.values(messages)
-.sort((a,b)=>(a.time||0)-(b.time||0))
-.forEach(msg=>{
-
-const item=document.createElement("div");
-
-item.className=
-msg.sender===learnerName()
-?"message me"
-:"message";
-
-item.innerHTML=
-"<small>"+escapeHtml(msg.sender||"User")+
-"</small>"+
-escapeHtml(msg.message||"");
-
-box.appendChild(item);
-
-});
-
-box.scrollTop=box.scrollHeight;
-
-});
-
+   const box=document.getElementById("messages");
+   box.scrollTop=box.scrollHeight;
+ });
 }
 
-window.toggleMicrophone=function(){
+window.sendMessage=async function(){
 
-if(!stream)return;
+ const input=document.getElementById("chatInput");
+ const message=input.value.trim();
 
-micOn=!micOn;
+ if(!message)return;
 
-stream.getAudioTracks().forEach(t=>{
-t.enabled=micOn;
-});
+ const key=push(ref(db,`liveClasses/${liveId}/chat`)).key;
 
-updateButtons();
+ await set(ref(db,`liveClasses/${liveId}/chat/${key}`),{
+   name:session.name||"Learner",
+   role:"learner",
+   message,
+   createdAt:Date.now()
+ });
 
+ input.value="";
 };
-
-window.toggleCamera=function(){
-
-if(!stream)return;
-
-cameraOn=!cameraOn;
-
-stream.getVideoTracks().forEach(t=>{
-t.enabled=cameraOn;
-});
-
-const video=document.getElementById("learnerVideo");
-const off=document.getElementById("cameraOff");
-
-if(cameraOn){
-
-video.style.display="block";
-
-if(document.getElementById("teacherVideo").srcObject){
-document.getElementById("teacherVideo").style.display="block";
-}
-
-off.style.display="none";
-
-}else{
-
-video.style.display="none";
-
-if(!document.getElementById("teacherVideo").srcObject){
-off.style.display="block";
-}
-
-}
-
-updateButtons();
-
-};
-
-window.toggleSpeaker=function(){
-
-speakerOn=!speakerOn;
-
-const teacherVideo=
-document.getElementById("teacherVideo");
-
-teacherVideo.muted=!speakerOn;
-
-updateButtons();
-
-};
-
-window.toggleFullscreen=function(){
-
-const card=document.querySelector(".live-card");
-
-if(!document.fullscreenElement){
-card.requestFullscreen?.();
-}else{
-document.exitFullscreen?.();
-}
-
-};
-
-function updateButtons(){
-
-const mic=document.getElementById("micBtn");
-const cam=document.getElementById("cameraBtn");
-const speaker=document.getElementById("speakerBtn");
-
-mic.className="control "+(micOn?"active":"off");
-cam.className="control "+(cameraOn?"active":"off");
-speaker.className="control "+(speakerOn?"active":"off");
-
-mic.querySelector("span").textContent=
-micOn?"Mic On":"Mic Off";
-
-cam.querySelector("span").textContent=
-cameraOn?"Cam On":"Cam Off";
-
-speaker.querySelector("span").textContent=
-speakerOn?"Speaker":"Muted";
-
-}
-
-function startTimer(){
-
-clearInterval(timerInterval);
-
-timerInterval=setInterval(()=>{
-
-seconds++;
-
-const h=Math.floor(seconds/3600);
-const m=Math.floor((seconds%3600)/60);
-const s=seconds%60;
-
-document.getElementById("timer").textContent=
-String(h).padStart(2,"0")+":"+
-String(m).padStart(2,"0")+":"+
-String(s).padStart(2,"0");
-
-},1000);
-
-}
 
 window.leaveClass=async function(){
 
-if(!joined)return;
+ try{
+   if(pc)pc.close();
 
-if(!confirm("Are you sure you want to leave the live class?"))
-return;
+   if(localStream)
+     localStream.getTracks().forEach(t=>t.stop());
 
-Object.values(peerConnections).forEach(pc=>{
-try{pc.close();}catch(e){}
-});
+   await remove(ref(db,
+     `liveClasses/${liveId}/participants/${learnerId}`
+   ));
+ }catch(e){}
 
-peerConnections={};
-
-if(stream){
-
-stream.getTracks().forEach(t=>t.stop());
-stream=null;
-
-}
-
-try{
-
-await remove(
-ref(
-db,
-"liveClasses/"+CLASS_ID+
-"/learners/"+learnerId
-)
-);
-
-}catch(e){
-
-console.error(e);
-
-}
-
-clearInterval(timerInterval);
-
-joined=false;
-
-document.getElementById("joinBtn").style.display="block";
-document.getElementById("leaveBtn").style.display="none";
-document.getElementById("controls").style.display="none";
-document.getElementById("chat").style.display="none";
-document.getElementById("timer").style.display="none";
-
-document.getElementById("teacherVideo").srcObject=null;
-document.getElementById("learnerVideo").srcObject=null;
-
-document.getElementById("teacherVideo").style.display="none";
-document.getElementById("learnerVideo").style.display="none";
-
-document.getElementById("cameraOff").style.display="block";
-
-setTeacherStatus(teacherIsLive);
-
+ location.href="dashboard.html";
 };
 
-window.sendMessage=function(){
-
-const input=document.getElementById("chatInput");
-const message=input.value.trim();
-
-if(!message)return;
-
-push(
-ref(db,"liveClasses/"+CLASS_ID+"/chat"),
-{
-sender:learnerName(),
-message:message,
-time:Date.now()
-}
-);
-
-input.value="";
-
-};
-
-window.handleChatKey=function(event){
-
-if(event.key==="Enter"){
-event.preventDefault();
-sendMessage();
-}
-
-};
-
-function escapeHtml(text){
-
-const div=document.createElement("div");
-div.textContent=text;
-return div.innerHTML;
-
-}
-
-document.addEventListener("DOMContentLoaded",async()=>{
-
-if(
-typeof protectLearnerPage==="function" &&
-!protectLearnerPage()
-)return;
-
-if(typeof requireLearningAccess==="function"){
-
-const access=
-await requireLearningAccess("payments.html");
-
-if(!access)return;
-
-}
-
-onValue(
-ref(db,"liveClasses/"+CLASS_ID),
-snapshot=>{
-
-const data=snapshot.val();
-
-if(data && data.status==="live"){
-setTeacherStatus(true);
-}else{
-setTeacherStatus(false);
-}
-
+loadClass().catch(e=>{
+ console.error(e);
+ statusText("Unable to connect to live class.");
 });
-
-});
-
 </script>
 
 </body>

@@ -1,307 +1,177 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
-<title>Learner Dashboard | Mule Learner Tuition</title><style>
+<title>Learner Dashboard | Mule Learner Tuition</title>
+
+<style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:25px
-}
-
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between
-}
-
-.logo{font-weight:800;font-size:18px}
-
-.logout{
-background:rgba(255,255,255,.14);
-color:white;
-border:1px solid rgba(255,255,255,.3);
-padding:8px 11px;
-border-radius:7px;
-font-size:12px
-}
-
-.welcome{
-background:#173b8f;
-color:white;
-padding:10px 18px 25px
-}
-
-.welcome h2{font-size:23px;margin-bottom:4px}
-.welcome p{font-size:13px;opacity:.9}
-
-.container{
-max-width:800px;
-margin:auto;
-padding:18px
-}
-
-.status{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:18px
-}
-
-.status-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px
-}
-
-.status h3{font-size:16px}
-
-.badge{
-background:#fff4db;
-color:#9a6700;
-padding:6px 9px;
-border-radius:20px;
-font-size:11px;
-font-weight:bold
-}
-
-.status p{
-font-size:12px;
-color:#667085;
-margin-top:8px;
-line-height:1.5
-}
-
-.time{
-font-size:11px;
-font-weight:bold;
-color:#173b8f;
-margin-top:8px
-}
-
-.payBtn{
-display:inline-block;
-margin-top:12px;
-background:#173b8f;
-color:white;
-text-decoration:none;
-padding:10px 14px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px
-}
-
-.card{
-background:white;
-padding:18px 14px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-text-decoration:none;
-color:#172033
-}
-
-.icon{font-size:27px;margin-bottom:8px}
-
-.card h3{font-size:15px;margin-bottom:4px}
-
-.card p{
-font-size:12px;
-color:#667085;
-line-height:1.4
-}
-
-.live{
-grid-column:1/-1;
-border:1px solid #ffd4d4
-}
-
+body{font-family:Arial;background:#f4f7fc;color:#172033;padding-bottom:25px}
+header{background:#173b8f;color:#fff;padding:15px 18px;display:flex;justify-content:space-between}
+.logo{font-weight:800;font-size:17px}
+.logout{background:#ffffff22;color:#fff;border:1px solid #ffffff55;padding:8px 11px;border-radius:7px;font-size:12px}
+.welcome{background:#173b8f;color:#fff;padding:10px 18px 24px}
+.welcome h2{font-size:22px;margin-bottom:4px}
+.welcome p{font-size:12px;opacity:.9}
+.container{max-width:800px;margin:auto;padding:17px}
+.status{background:#fff;padding:16px;border-radius:13px;box-shadow:0 3px 12px #0001;margin-bottom:17px}
+.status-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.status h3{font-size:15px}
+.badge{background:#fff4db;color:#9a6700;padding:6px 9px;border-radius:20px;font-size:10px;font-weight:bold}
+.status p{font-size:11px;color:#667085;margin-top:8px;line-height:1.5}
+.time{font-size:10px;font-weight:bold;color:#173b8f;margin-top:7px}
+.payBtn{display:inline-block;margin-top:11px;background:#173b8f;color:#fff;text-decoration:none;padding:10px 13px;border-radius:8px;font-size:11px;font-weight:bold}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.card{background:#fff;padding:16px 13px;border-radius:13px;box-shadow:0 3px 12px #0001;text-decoration:none;color:#172033}
+.icon{font-size:25px;margin-bottom:7px}
+.card h3{font-size:14px;margin-bottom:4px}
+.card p{font-size:11px;color:#667085;line-height:1.4}
+.live{grid-column:1/-1;border:1px solid #ffd4d4}
 .live h3{color:#b42318}
-
-.locked{opacity:.6}
-
-.support{
-margin-top:18px;
-background:#173b8f;
-color:white;
-border-radius:13px;
-padding:20px;
-text-align:center
-}
-
-.support h3{font-size:18px}
-
-.support p{
-font-size:12px;
-opacity:.9;
-margin:7px 0 14px
-}
-
-.whatsapp{
-display:inline-block;
-background:#25d366;
-color:white;
-text-decoration:none;
-padding:11px 16px;
-border-radius:8px;
-font-size:13px;
-font-weight:bold
-}
-
-footer{
-text-align:center;
-color:#667085;
-font-size:11px;
-margin-top:25px
-}
-
+.locked{opacity:.55}
+.support{margin-top:17px;background:#173b8f;color:#fff;border-radius:13px;padding:18px;text-align:center}
+.support h3{font-size:17px}
+.support p{font-size:11px;opacity:.9;margin:6px 0 13px}
+.whatsapp{display:inline-block;background:#25d366;color:#fff;text-decoration:none;padding:10px 15px;border-radius:8px;font-size:12px;font-weight:bold}
+footer{text-align:center;color:#667085;font-size:10px;margin-top:23px}
 @media(min-width:650px){
 .grid{grid-template-columns:repeat(3,1fr)}
 .live{grid-column:auto}
 }
-</style></head><body><header>
-<div class="logo">Mule Learner Tuition</div><button class="logout" type="button" onclick="logout()">
-Logout
-</button>
-</header><div class="welcome">
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">🎓 Mule Learner Tuition</div>
+<button class="logout" onclick="logout()">Logout</button>
+</header>
+
+<div class="welcome">
 <h2 id="welcomeName">Welcome, Learner 👋</h2>
 <p>Your learning journey starts here.</p>
-</div><div class="container"><div class="status"><div class="status-top">
+</div>
+
+<div class="container">
+
+<div class="status">
+
+<div class="status-top">
 <h3>Learning Access</h3>
 <span class="badge" id="status">CHECKING...</span>
-</div><p id="statusText">
+</div>
+
+<p id="statusText">
 Checking your learning access...
-</p><div class="time" id="timeLeft"></div><a href="payments.html"
+</p>
+
+<div class="time" id="timeLeft"></div>
+
+<a href="payments.html"
 class="payBtn"
 id="payButton"
 style="display:none">
 💰 Choose Learning Plan
 </a>
 
-</div><div class="grid"><a href="subjects.html" class="card" id="subjectsCard">
+</div>
+
+<div class="grid">
+
+<a href="subjects.html" class="card lockedCard" id="subjectsCard">
 <div class="icon">📚</div>
 <h3>My Subjects</h3>
 <p>View and choose your subjects.</p>
-</a><a href="classes.html" class="card" id="classesCard">
+</a>
+
+<a href="classes.html" class="card lockedCard" id="classesCard">
 <div class="icon">🏫</div>
 <h3>My Classes</h3>
 <p>View your enrolled classes.</p>
-</a><a href="live-class.html" class="card live" id="liveCard">
+</a>
+
+<a href="live-class.html" class="card live lockedCard" id="liveCard">
 <div class="icon">🔴</div>
 <h3>Join Live Class</h3>
 <p>Check for live lessons and join your teacher.</p>
-</a><a href="materials.html" class="card" id="materialsCard">
+</a>
+
+<a href="materials.html" class="card lockedCard" id="materialsCard">
 <div class="icon">📖</div>
 <h3>Learning Materials</h3>
 <p>Access notes and study resources.</p>
-</a><!-- TESTS --><a href="test.html" class="card" id="testsCard">
+</a>
+
+<a href="test.html" class="card lockedCard" id="testsCard">
 <div class="icon">📝</div>
 <h3>Tests</h3>
 <p>Take tests and submit your answers.</p>
-</a><!-- RESULTS --><a href="results.html" class="card" id="resultsCard">
+</a>
+
+<a href="results.html" class="card lockedCard" id="resultsCard">
 <div class="icon">📊</div>
 <h3>Results</h3>
 <p>View your test scores and results.</p>
-</a><a href="payments.html" class="card">
+</a>
+
+<a href="payments.html" class="card">
 <div class="icon">💰</div>
 <h3>Payments</h3>
 <p>View plans and make a payment.</p>
-</a><a href="payment-status.html" class="card">
+</a>
+
+<a href="payment-status.html" class="card">
 <div class="icon">🧾</div>
 <h3>Payment Status</h3>
 <p>Check your payment approval.</p>
-</a><a href="support.html" class="card">
+</a>
+
+<a href="support.html" class="card">
 <div class="icon">📞</div>
 <h3>Customer Support</h3>
 <p>Get help with your account or payment.</p>
-</a><a href="profile.html" class="card">
+</a>
+
+<a href="profile.html" class="card">
 <div class="icon">👤</div>
 <h3>My Profile</h3>
 <p>View and manage your account.</p>
-</a></div><div class="support"><h3>Need Help?</h3><p>
+</a>
+
+</div>
+
+<div class="support">
+
+<h3>Need Help?</h3>
+
+<p>
 If you have paid and your account has not been activated,
 contact us on WhatsApp.
-</p><a href="https://wa.me/260978362800"
+</p>
+
+<a href="https://wa.me/260978362800"
 class="whatsapp">
 💬 WhatsApp Support
 </a>
 
-</div><footer>
+</div>
+
+<footer>
 Mule Learner Tuition<br>
 Learn • Practice • Succeed
-</footer></div><script>
+</footer>
 
-function getLearnerSession(){
+</div>
 
-try{
-
-const saved=
-localStorage.getItem("muleCurrentUser");
-
-if(!saved)return null;
-
-const user=JSON.parse(saved);
-
-if(!user || user.role!=="learner"){
-return null;
-}
-
-return user;
-
-}catch(error){
-
-return null;
-
-}
-
-}
-
-function logout(){
-
-if(confirm("Are you sure you want to logout?")){
-
-localStorage.removeItem("muleCurrentUser");
-
-window.location.href="../login.html";
-
-}
-
-}
-
-const learner=getLearnerSession();
-
-if(learner){
-
-document.getElementById("welcomeName").textContent=
-"Welcome, "+
-(learner.name||"Learner")+
-" 👋";
-
-}else{
-
-document.getElementById("welcomeName").textContent=
-"Welcome, Learner 👋";
-
-}
-
-</script><script type="module">
+<script type="module">
 
 import{
-initializeApp
+initializeApp,
+getApps,
+getApp
 }
 from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
@@ -314,352 +184,190 @@ get
 from
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-
 const firebaseConfig={
-
-apiKey:
-"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
-
-authDomain:
-"mule-learner-tuition-264fe.firebaseapp.com",
-
-databaseURL:
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
-
-projectId:
-"mule-learner-tuition-264fe",
-
-storageBucket:
-"mule-learner-tuition-264fe.firebasestorage.app",
-
-messagingSenderId:
-"656883565460",
-
-appId:
-"1:656883565460:web:3aaa6a5b638a34a6d28581"
-
+apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+projectId:"mule-learner-tuition-264fe",
+storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+messagingSenderId:"656883565460",
+appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
 };
 
-const app=initializeApp(firebaseConfig);
+const app=getApps().length?
+getApp():
+initializeApp(firebaseConfig);
 
 const db=getDatabase(app);
 
+let learner=null;
 
-async function checkAccess(){
-
-const badge=
-document.getElementById("status");
-
-const text=
-document.getElementById("statusText");
-
-const time=
-document.getElementById("timeLeft");
-
-const payButton=
-document.getElementById("payButton");
-
-
-if(!learner){
-
-badge.textContent="LOGIN";
-
-text.textContent=
-"Please login to access your learner account.";
-
-payButton.style.display="inline-block";
-
-lockLearning();
-
-return;
-
-}
-
+function getSession(){
 
 try{
 
-const snapshot=
-await get(ref(db,"payments"));
+const saved=
+localStorage.getItem("muleCurrentUser");
 
-if(!snapshot.exists()){
+if(!saved)return null;
 
-showLocked(
-"NO PLAN",
-"No active learning plan was found. Choose a learning plan to continue."
-);
+const user=JSON.parse(saved);
 
-return;
+if(!user||user.role!=="learner")
+return null;
 
-}
-
-
-const data=snapshot.val();
-
-const learnerPayments=
-Object.keys(data)
-.map(function(key){
-
-return{
-id:key,
-...data[key]
-};
-
-})
-.filter(function(payment){
-
-return String(payment.learnerId||"")===
-String(learner.id||"");
-
-});
-
-
-if(!learnerPayments.length){
-
-showLocked(
-"NO PLAN",
-"No learning plan is currently active. Choose a plan to start learning."
-);
-
-return;
-
-}
-
-
-/* APPROVED PAYMENTS */
-
-const approved=
-learnerPayments
-.filter(function(payment){
-
-return(
-payment.status==="approved" ||
-payment.paymentStatus==="approved" ||
-payment.status==="active" ||
-payment.paymentStatus==="active"
-);
-
-})
-.sort(function(a,b){
-
-return new Date(
-b.approvedAt||
-b.activatedAt||
-b.createdAt||
-0
-)-
-new Date(
-a.approvedAt||
-a.activatedAt||
-a.createdAt||
-0
-);
-
-});
-
-
-if(approved.length){
-
-const payment=approved[0];
-
-const expiryValue=
-payment.expiresAt||
-payment.expiryDate||
-payment.expirationDate;
-
-
-if(expiryValue){
-
-const expires=
-new Date(expiryValue).getTime();
-
-if(expires>Date.now()){
-
-showActive(payment);
-
-return;
-
-}
-
-}else{
-
-showActive(payment);
-
-return;
-
-}
-
-}
-
-
-/* PENDING */
-
-const pending=
-learnerPayments.filter(function(payment){
-
-return(
-payment.status==="pending" ||
-payment.paymentStatus==="pending"
-);
-
-});
-
-
-if(pending.length){
-
-badge.textContent="PENDING";
-
-badge.style.background="#fff4db";
-badge.style.color="#9a6700";
-
-text.textContent=
-"🟡 Payment Submitted — Waiting for Approval.";
-
-time.textContent="";
-
-payButton.style.display="none";
-
-lockLearning();
-
-return;
-
-}
-
-
-/* REJECTED */
-
-const rejected=
-learnerPayments.filter(function(payment){
-
-return(
-payment.status==="rejected" ||
-payment.paymentStatus==="rejected"
-);
-
-});
-
-
-if(rejected.length){
-
-const payment=
-rejected[rejected.length-1];
-
-badge.textContent="REJECTED";
-
-badge.style.background="#fee4e2";
-badge.style.color="#b42318";
-
-text.textContent=
-"❌ Payment Rejected. "+
-(payment.rejectionReason||
-"Please submit another payment.");
-
-time.textContent="";
-
-payButton.style.display="inline-block";
-
-lockLearning();
-
-return;
-
-}
-
-
-showLocked(
-"EXPIRED",
-"Your learning access has expired. Please choose a new learning plan."
-);
-
+return user;
 
 }catch(error){
 
-console.error(
-"Firebase access check error:",
-error
+return null;
+
+}
+
+}
+
+function setStatus(text,bg,color){
+
+const badge=document.getElementById("status");
+
+badge.textContent=text;
+badge.style.background=bg;
+badge.style.color=color;
+
+}
+
+function lockLearning(){
+
+[
+"subjectsCard",
+"classesCard",
+"liveCard",
+"materialsCard",
+"testsCard",
+"resultsCard"
+].forEach(id=>{
+
+const card=document.getElementById(id);
+
+if(!card)return;
+
+card.classList.add("locked");
+
+card.onclick=function(e){
+
+e.preventDefault();
+
+alert(
+"🔒 This lesson requires an active learning plan to start learning."
 );
 
-badge.textContent="ERROR";
+};
 
-badge.style.background="#fee4e2";
-badge.style.color="#b42318";
+});
 
-text.textContent=
-"Unable to check learning access. Please check your internet connection.";
+}
+
+function unlockLearning(){
+
+[
+"subjectsCard",
+"classesCard",
+"liveCard",
+"materialsCard",
+"testsCard",
+"resultsCard"
+].forEach(id=>{
+
+const card=document.getElementById(id);
+
+if(!card)return;
+
+card.classList.remove("locked");
+
+card.onclick=null;
+
+});
+
+}
+
+function showLocked(label,message){
+
+setStatus(
+label,
+"#fff4db",
+"#9a6700"
+);
+
+document.getElementById("statusText")
+.textContent="🔒 "+message;
+
+document.getElementById("payButton")
+.style.display="inline-block";
+
+document.getElementById("timeLeft")
+.textContent="";
 
 lockLearning();
 
 }
 
-}
-
-
 function showActive(payment){
 
-const badge=
-document.getElementById("status");
+setStatus(
+"ACTIVE",
+"#ecfdf3",
+"#027a48"
+);
 
-const text=
-document.getElementById("statusText");
-
-const payButton=
-document.getElementById("payButton");
-
-badge.textContent="ACTIVE";
-
-badge.style.background="#ecfdf3";
-badge.style.color="#027a48";
-
-text.textContent=
+document.getElementById("statusText")
+.textContent=
 "✅ Your "+
 (payment.plan||"learning")+
 " learning access is active.";
 
-payButton.style.display="none";
+document.getElementById("payButton")
+.style.display="none";
 
 unlockLearning();
 
-if(
+const expiry=
 payment.expiresAt||
 payment.expiryDate||
-payment.expirationDate
-){
+payment.expirationDate;
 
-updateTime(
-payment.expiresAt||
-payment.expiryDate||
-payment.expirationDate
-);
+if(expiry){
+
+startTimer(expiry);
 
 }else{
 
-document.getElementById("timeLeft").textContent=
+document.getElementById("timeLeft")
+.textContent=
 "✅ Learning access is active.";
 
 }
 
 }
 
+function startTimer(expiry){
 
-function updateTime(expiresAt){
-
-const time=
-document.getElementById("timeLeft");
+const time=document.getElementById("timeLeft");
 
 function update(){
 
 const difference=
-new Date(expiresAt).getTime()-
+new Date(expiry).getTime()-
 Date.now();
 
 if(difference<=0){
 
 time.textContent=
-"⛔ Your learning access has expired.";
+"⛔ Learning access has expired.";
 
-setTimeout(function(){
-
-location.reload();
-
-},1000);
+showLocked(
+"EXPIRED",
+"Your learning access has expired. Please choose a new learning plan."
+);
 
 return;
 
@@ -692,91 +400,273 @@ setInterval(update,1000);
 
 }
 
+async function loadLearner(){
 
-function showLocked(status,bigText){
+if(!learner){
 
-const badge=
-document.getElementById("status");
+setStatus("LOGIN","#fee4e2","#b42318");
 
-const text=
-document.getElementById("statusText");
+document.getElementById("statusText")
+.textContent=
+"Please login to access your learner account.";
 
-const payButton=
-document.getElementById("payButton");
+document.getElementById("payButton")
+.style.display="inline-block";
 
-badge.textContent=status;
+lockLearning();
 
-badge.style.background="#fff4e6";
-badge.style.color="#9a6700";
+return false;
 
-text.textContent="🔒 "+bigText;
+}
 
-payButton.style.display="inline-block";
+const snap=
+await get(
+ref(db,"users/"+learner.id)
+);
+
+if(!snap.exists()){
+
+alert("Learner account not found.");
+
+localStorage.removeItem("muleCurrentUser");
+location.href="../login.html";
+
+return false;
+
+}
+
+const user=snap.val();
+
+if(user.role!=="learner"){
+
+localStorage.removeItem("muleCurrentUser");
+location.href="../login.html";
+
+return false;
+
+}
+
+learner={
+...learner,
+...user
+};
+
+localStorage.setItem(
+"muleCurrentUser",
+JSON.stringify(learner)
+);
+
+document.getElementById("welcomeName")
+.textContent=
+"Welcome, "+
+(learner.name||"Learner")+
+" 👋";
+
+return true;
+
+}
+
+async function checkAccess(){
+
+const ok=await loadLearner();
+
+if(!ok)return;
+
+try{
+
+const snap=
+await get(ref(db,"payments"));
+
+if(!snap.exists()){
+
+showLocked(
+"NO PLAN",
+"No active learning plan was found. Choose a learning plan to continue."
+);
+
+return;
+
+}
+
+const data=snap.val();
+
+const payments=
+Object.keys(data)
+.map(key=>({
+id:key,
+...(data[key]||{})
+}))
+.filter(p=>
+String(p.learnerId||"")===
+String(learner.id||"")
+);
+
+if(!payments.length){
+
+showLocked(
+"NO PLAN",
+"No learning plan is currently active. Choose a plan to start learning."
+);
+
+return;
+
+}
+
+const approved=
+payments
+.filter(p=>
+[
+"approved",
+"active"
+].includes(
+String(
+p.status||
+p.paymentStatus||
+""
+).toLowerCase()
+)
+)
+.sort((a,b)=>
+new Date(
+b.approvedAt||
+b.activatedAt||
+b.createdAt||
+0
+)-
+new Date(
+a.approvedAt||
+a.activatedAt||
+a.createdAt||
+0
+)
+);
+
+if(approved.length){
+
+const payment=approved[0];
+
+const expiry=
+payment.expiresAt||
+payment.expiryDate||
+payment.expirationDate;
+
+if(expiry){
+
+if(new Date(expiry).getTime()>Date.now()){
+
+showActive(payment);
+
+return;
+
+}
+
+}else{
+
+showActive(payment);
+
+return;
+
+}
+
+}
+
+const pending=
+payments.some(p=>
+String(
+p.status||
+p.paymentStatus||
+""
+).toLowerCase()==="pending"
+);
+
+if(pending){
+
+setStatus("PENDING","#fff4db","#9a6700");
+
+document.getElementById("statusText")
+.textContent=
+"🟡 Payment submitted — waiting for CEO approval.";
+
+document.getElementById("payButton")
+.style.display="none";
+
+document.getElementById("timeLeft")
+.textContent="";
+
+lockLearning();
+
+return;
+
+}
+
+const rejected=
+payments.find(p=>
+String(
+p.status||
+p.paymentStatus||
+""
+).toLowerCase()==="rejected"
+);
+
+if(rejected){
+
+setStatus("REJECTED","#fee4e2","#b42318");
+
+document.getElementById("statusText")
+.textContent=
+"❌ Payment rejected. "+
+(rejected.rejectionReason||
+"Please submit another payment.");
+
+document.getElementById("payButton")
+.style.display="inline-block";
+
+lockLearning();
+
+return;
+
+}
+
+showLocked(
+"EXPIRED",
+"Your learning access has expired. Please choose a new learning plan."
+);
+
+}catch(error){
+
+console.error(error);
+
+setStatus("ERROR","#fee4e2","#b42318");
+
+document.getElementById("statusText")
+.textContent=
+"Unable to check learning access. Please check your internet connection.";
 
 lockLearning();
 
 }
 
+}
 
-function lockLearning(){
+function logout(){
 
-[
-"subjectsCard",
-"classesCard",
-"liveCard",
-"materialsCard",
-"testsCard",
-"resultsCard"
-].forEach(function(id){
+if(confirm("Are you sure you want to logout?")){
 
-const card=
-document.getElementById(id);
+localStorage.removeItem("muleCurrentUser");
 
-if(!card)return;
-
-card.classList.add("locked");
-
-card.onclick=function(event){
-
-event.preventDefault();
-
-alert(
-"🔒 This lesson requires an active learning plan to start learning."
-);
-
-};
-
-});
+location.href="../login.html";
 
 }
 
-
-function unlockLearning(){
-
-[
-"subjectsCard",
-"classesCard",
-"liveCard",
-"materialsCard",
-"testsCard",
-"resultsCard"
-].forEach(function(id){
-
-const card=
-document.getElementById(id);
-
-if(!card)return;
-
-card.classList.remove("locked");
-
-card.onclick=null;
-
-});
-
 }
 
+window.logout=logout;
+
+learner=getSession();
 
 checkAccess();
 
-</script></body>
+</script>
+
+</body>
 </html>
