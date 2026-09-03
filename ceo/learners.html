@@ -26,7 +26,12 @@ justify-content:space-between
 }
 
 .logo{font-size:18px;font-weight:800}
-.back{color:white;text-decoration:none;font-size:13px}
+
+.back{
+color:white;
+text-decoration:none;
+font-size:13px
+}
 
 .container{
 max-width:900px;
@@ -35,11 +40,13 @@ padding:20px 16px
 }
 
 .heading{margin-bottom:18px}
+
 .heading h1{
 font-size:23px;
 color:#173b8f;
 margin-bottom:5px
 }
+
 .heading p{
 font-size:12px;
 color:#667085;
@@ -72,7 +79,12 @@ box-shadow:0 4px 15px rgba(20,50,100,.06)
 }
 
 .stat-icon{font-size:22px}
-.stat h3{font-size:19px;margin-top:6px}
+
+.stat h3{
+font-size:19px;
+margin-top:6px
+}
+
 .stat p{
 font-size:11px;
 color:#667085;
@@ -256,8 +268,7 @@ type="search"
 id="search"
 class="search"
 placeholder="Search learner by name, phone or level..."
-oninput="searchLearners()"
->
+autocomplete="off">
 
 <div class="stats">
 
@@ -288,7 +299,9 @@ oninput="searchLearners()"
 </div>
 
 <div id="learnerList">
-<div class="loading">Loading learners...</div>
+<div class="loading" id="loading">
+Loading learners...
+</div>
 </div>
 
 <div id="empty" class="empty">
@@ -310,8 +323,6 @@ CEO Administration • Learn • Practice • Succeed
 
 </div>
 
-<script src="../js/auth.js"></script>
-
 <script>
 
 const DB =
@@ -320,64 +331,23 @@ const DB =
 let allLearners=[];
 
 
-/* FIREBASE */
-
-async function getFirebase(path){
-
-try{
-
-const response =
-await fetch(DB+"/"+path+".json");
-
-if(!response.ok)
-throw new Error("Firebase error");
-
-return await response.json();
-
-}catch(error){
-
-console.error(error);
-return null;
-
-}
-
-}
-
-
-/* CONVERT FIREBASE DATA */
-
-function toArray(data){
-
-if(!data) return [];
-
-if(Array.isArray(data))
-return data.filter(Boolean);
-
-return Object.entries(data).map(function(item){
-
-const id=item[0];
-const value=item[1] || {};
-
-return {
-...value,
-id:value.id || id
-};
-
-});
-
-}
-
-
-/* CEO CHECK */
+/* =========================
+   CEO SECURITY
+========================= */
 
 function checkCEO(){
 
-const user =
-typeof getLoggedInUser==="function"
-? getLoggedInUser()
-:null;
+try{
 
-if(!user || user.role!=="ceo"){
+const user =
+JSON.parse(
+localStorage.getItem("muleCurrentUser")
+);
+
+if(
+!user ||
+String(user.role||"").toLowerCase()!=="ceo"
+){
 
 window.location.href="../login.html";
 return false;
@@ -386,66 +356,196 @@ return false;
 
 return true;
 
+}catch(error){
+
+window.location.href="../login.html";
+return false;
+
+}
+
 }
 
 
-/* LOAD LEARNERS */
+/* =========================
+   FIREBASE
+========================= */
+
+async function getFirebase(path){
+
+const response =
+await fetch(
+DB+"/"+path+".json?cache="+Date.now(),
+{
+method:"GET",
+cache:"no-store"
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+"Firebase error: "+response.status
+);
+
+}
+
+return await response.json();
+
+}
+
+
+/* =========================
+   LOAD LEARNERS
+========================= */
 
 async function loadLearners(){
 
 if(!checkCEO()) return;
 
+const loading =
+document.getElementById("loading");
+
+try{
+
+loading.style.display="block";
+loading.textContent="Loading learners...";
+
+
 const data =
 await getFirebase("users");
 
-const users =
-toArray(data);
 
-allLearners =
-users.filter(function(user){
+console.log("Firebase users:",data);
 
-return String(user.role || "")
-.toLowerCase()==="learner";
+
+allLearners=[];
+
+
+/*
+   Read every Firebase user.
+   Only users with role = learner
+   are added.
+*/
+
+if(
+data &&
+typeof data==="object"
+){
+
+Object.keys(data).forEach(function(key){
+
+const user=data[key];
+
+if(!user || typeof user!=="object"){
+return;
+}
+
+const role =
+String(user.role||"")
+.trim()
+.toLowerCase();
+
+
+if(role==="learner"){
+
+if(!user.id){
+user.id=key;
+}
+
+allLearners.push(user);
+
+}
 
 });
-
-updateStats();
-renderLearners(allLearners);
 
 }
 
 
-/* STATISTICS */
+console.log(
+"Learners found:",
+allLearners
+);
+
+
+updateStats();
+renderLearners(allLearners);
+
+
+loading.textContent=
+"✓ Learners updated";
+
+setTimeout(function(){
+
+loading.style.display="none";
+
+},800);
+
+
+}catch(error){
+
+console.error(
+"LOAD LEARNERS ERROR:",
+error
+);
+
+loading.textContent=
+"Unable to load learners.";
+
+document.getElementById(
+"learnerList"
+).innerHTML=
+'<div class="loading">Unable to connect to Firebase.<br><br>Please check your internet connection.</div>';
+
+}
+
+}
+
+
+/* =========================
+   STATISTICS
+========================= */
 
 async function updateStats(){
 
-const total=allLearners.length;
+const total =
+allLearners.length;
 
-const active=
-allLearners.filter(function(l){
-return String(l.status||"").toLowerCase()==="active";
+
+const active =
+allLearners.filter(function(learner){
+
+return String(
+learner.status||""
+).trim().toLowerCase()==="active";
+
 }).length;
 
-const suspended=
-allLearners.filter(function(l){
-return String(l.status||"").toLowerCase()==="suspended";
+
+const suspended =
+allLearners.filter(function(learner){
+
+return String(
+learner.status||""
+).trim().toLowerCase()==="suspended";
+
 }).length;
 
 
-/* CHECK PAYMENT ACCESS */
+/*
+   Check approved payments.
+*/
 
 let learning=0;
 
-const payments =
-toArray(await getFirebase("payments"));
+try{
 
-allLearners.forEach(function(learner){
+const paymentData =
+await getFirebase("payments");
 
-const learnerPhone =
-String(learner.phone||"");
 
-const hasPaid =
-payments.some(function(payment){
+if(paymentData){
+
+Object.values(paymentData).forEach(function(payment){
 
 const paymentPhone =
 String(
@@ -453,36 +553,71 @@ payment.phone ||
 payment.learnerPhone ||
 payment.userPhone ||
 ""
-);
+).trim();
+
 
 const status =
-String(payment.status||"").toLowerCase();
+String(
+payment.status||""
+).trim().toLowerCase();
 
-return (
-paymentPhone===learnerPhone &&
+
+if(
 (
 status==="approved" ||
 status==="active" ||
 status==="paid"
 )
+){
+
+const learnerExists =
+allLearners.some(function(learner){
+
+return String(
+learner.phone||""
+).trim()===paymentPhone;
+
+});
+
+
+if(learnerExists){
+learning++;
+}
+
+}
+
+});
+
+}
+
+}catch(error){
+
+console.log(
+"Payment check unavailable:",
+error
 );
-
-});
-
-if(hasPaid) learning++;
-
-});
-
-
-document.getElementById("total").textContent=total;
-document.getElementById("active").textContent=active;
-document.getElementById("suspended").textContent=suspended;
-document.getElementById("learning").textContent=learning;
 
 }
 
 
-/* RENDER LEARNERS */
+document.getElementById("total")
+.textContent=total;
+
+document.getElementById("active")
+.textContent=active;
+
+document.getElementById("suspended")
+.textContent=suspended;
+
+document.getElementById("learning")
+.textContent=learning;
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
 
 function renderLearners(list){
 
@@ -492,14 +627,17 @@ document.getElementById("learnerList");
 const empty =
 document.getElementById("empty");
 
+
 container.innerHTML="";
 
-if(list.length===0){
+
+if(!list.length){
 
 empty.style.display="block";
 return;
 
 }
+
 
 empty.style.display="none";
 
@@ -511,31 +649,55 @@ document.createElement("div");
 
 card.className="learner";
 
+
 const name =
-learner.name || "Unnamed Learner";
+learner.name ||
+"Unnamed Learner";
+
 
 const phone =
-learner.phone || "Not Available";
+learner.phone ||
+"Not Available";
+
 
 const level =
-learner.level || "Not Selected";
+learner.level ||
+"Not Selected";
+
 
 const status =
-String(learner.status || "active")
-.toLowerCase();
+String(
+learner.status||"active"
+).trim().toLowerCase();
+
 
 let badgeClass="active";
 let badgeText="ACTIVE";
 
+
 if(status==="suspended"){
+
 badgeClass="suspended";
 badgeText="SUSPENDED";
+
 }
+
+else if(status==="pending"){
+
+badgeClass="active";
+badgeText="PENDING";
+
+}
+
 
 const created =
 learner.createdAt
-? new Date(learner.createdAt).toLocaleDateString()
-: "Not Available";
+?
+new Date(
+learner.createdAt
+).toLocaleDateString()
+:
+"Not Available";
 
 
 card.innerHTML=`
@@ -578,7 +740,9 @@ ${escapeHTML(level)}
 
 <div class="row">
 <span class="label">Account Type</span>
-<span class="value">Learner</span>
+<span class="value">
+Learner
+</span>
 </div>
 
 <div class="row">
@@ -591,7 +755,7 @@ ${escapeHTML(created)}
 <div class="row">
 <span class="label">Account Status</span>
 <span class="value">
-${escapeHTML(status)}
+${escapeHTML(status.toUpperCase())}
 </span>
 </div>
 
@@ -600,9 +764,7 @@ ${escapeHTML(status)}
 
 <div class="actions">
 
-<button
-class="view"
-onclick="viewLearner('${learner.id}')">
+<button class="view">
 👁 View
 </button>
 
@@ -611,24 +773,67 @@ status==="suspended"
 
 ?
 
-`<button
-class="reactivate"
-onclick="changeStatus('${learner.id}','active')">
-▶ Reactivate
-</button>`
+'<button class="reactivate">▶ Reactivate</button>'
 
 :
 
-`<button
-class="suspend"
-onclick="changeStatus('${learner.id}','suspended')">
-⏸ Suspend
-</button>`
+'<button class="suspend">⏸ Suspend</button>'
 }
 
 </div>
 
 `;
+
+
+card.querySelector(".view")
+.addEventListener("click",function(){
+
+viewLearner(learner);
+
+});
+
+
+const suspendButton =
+card.querySelector(".suspend");
+
+
+if(suspendButton){
+
+suspendButton.addEventListener(
+"click",
+function(){
+
+changeStatus(
+learner.id,
+"suspended"
+);
+
+}
+);
+
+}
+
+
+const reactivateButton =
+card.querySelector(".reactivate");
+
+
+if(reactivateButton){
+
+reactivateButton.addEventListener(
+"click",
+function(){
+
+changeStatus(
+learner.id,
+"active"
+);
+
+}
+);
+
+}
+
 
 container.appendChild(card);
 
@@ -637,15 +842,18 @@ container.appendChild(card);
 }
 
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
 
-function searchLearners(){
-
-const input =
 document.getElementById("search")
-.value
-.toLowerCase()
-.trim();
+.addEventListener("input",function(){
+
+const term =
+this.value
+.trim()
+.toLowerCase();
+
 
 const filtered =
 allLearners.filter(function(learner){
@@ -659,105 +867,133 @@ learner.level
 .join(" ")
 .toLowerCase();
 
-return text.includes(input);
+
+return text.includes(term);
 
 });
+
 
 renderLearners(filtered);
 
-}
-
-
-/* VIEW LEARNER */
-
-function viewLearner(id){
-
-const learner =
-allLearners.find(function(l){
-return String(l.id)===String(id);
 });
 
-if(!learner) return;
+
+/* =========================
+   VIEW LEARNER
+========================= */
+
+function viewLearner(learner){
 
 alert(
 "LEARNER DETAILS\n\n"+
-"Name: "+(learner.name||"Not Available")+"\n"+
-"Phone: "+(learner.phone||"Not Available")+"\n"+
-"Level: "+(learner.level||"Not Selected")+"\n"+
-"Status: "+(learner.status||"Not Available")+"\n"+
-"Registered: "+
+"Name: "+
+(learner.name||"Not Available")+
+"\nPhone: "+
+(learner.phone||"Not Available")+
+"\nLevel: "+
+(learner.level||"Not Selected")+
+"\nStatus: "+
+(learner.status||"Not Available")+
+"\nRegistered: "+
 (
 learner.createdAt
-? new Date(learner.createdAt).toLocaleDateString()
-: "Not Available"
+?
+new Date(
+learner.createdAt
+).toLocaleDateString()
+:
+"Not Available"
 )
 );
 
 }
 
 
-/* CHANGE STATUS */
+/* =========================
+   CHANGE STATUS
+========================= */
 
 async function changeStatus(id,newStatus){
 
 const learner =
-allLearners.find(function(l){
-return String(l.id)===String(id);
+allLearners.find(function(item){
+
+return String(item.id)===String(id);
+
 });
 
-if(!learner) return;
+
+if(!learner){
+
+alert("Learner not found.");
+return;
+
+}
+
 
 const action =
 newStatus==="suspended"
-? "Suspend"
-: "Reactivate";
+?
+"Suspend"
+:
+"Reactivate";
 
 
 if(!confirm(
-action+" "+(learner.name||"this learner")+"?"
-)) return;
+action+
+" "+
+(learner.name||"this learner")+
+"?"
+)){
+
+return;
+
+}
 
 
 try{
 
-let result;
-
-if(typeof updateUserStatus==="function"){
-
-result =
-await updateUserStatus(id,newStatus);
-
-}else{
-
 const response =
 await fetch(
-DB+"/users/"+encodeURIComponent(id)+".json",
+DB+
+"/users/"+
+encodeURIComponent(id)+
+".json",
 {
 method:"PATCH",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-status:newStatus
+
+status:newStatus,
+
+updatedAt:
+new Date().toISOString(),
+
+updatedBy:"CEO"
+
 })
 }
 );
 
-result=response.ok;
+
+if(!response.ok){
+
+throw new Error(
+"Update failed"
+);
 
 }
 
 
-if(result===false){
+alert(
+"Learner status updated successfully."
+);
 
-alert("Unable to update learner status.");
-return;
-
-}
-
-alert("Learner status updated successfully.");
 
 await loadLearners();
+
 
 }catch(error){
 
@@ -772,7 +1008,9 @@ alert(
 }
 
 
-/* SAFE DISPLAY */
+/* =========================
+   ESCAPE HTML
+========================= */
 
 function escapeHTML(value){
 
@@ -786,9 +1024,20 @@ return String(value ?? "")
 }
 
 
-/* START */
+/* =========================
+   START
+========================= */
+
+if(checkCEO()){
 
 loadLearners();
+
+setInterval(
+loadLearners,
+10000
+);
+
+}
 
 </script>
 
