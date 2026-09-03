@@ -11,16 +11,17 @@
 body{margin:0;font-family:Arial;background:#f4f7fc;color:#172033}
 header{background:#173b8f;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
 header b{font-size:17px}
-button{border:0;border-radius:9px;padding:10px 13px;font-weight:bold}
+button{border:0;border-radius:9px;padding:10px 13px;font-weight:bold;cursor:pointer}
 .back{background:#fff;color:#173b8f}
 .container{max-width:950px;margin:auto;padding:16px}
-.hero{background:#173b8f;color:white;border-radius:14px;padding:18px;margin-bottom:15px}
+.hero{background:#173b8f;color:#fff;border-radius:14px;padding:18px;margin-bottom:15px}
 .card{background:#fff;border-radius:14px;padding:15px;margin-bottom:14px;box-shadow:0 3px 12px #0001}
 video{width:100%;background:#111;border-radius:10px}
 .mainVideo{min-height:260px}
 .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .controls button{background:#173b8f;color:#fff}
 .controls .danger{background:#b00020}
+.controls .off{background:#777}
 .status{padding:10px;border-radius:9px;background:#eef3ff;margin-bottom:12px}
 .person{padding:10px;border-bottom:1px solid #eee}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
@@ -57,6 +58,7 @@ video{width:100%;background:#111;border-radius:10px}
 <div class="controls">
 <button onclick="toggleMic()" id="micBtn">🎤 Mic On</button>
 <button onclick="toggleCamera()" id="camBtn">📷 Camera On</button>
+<button onclick="toggleTorch()" id="torchBtn">🔦 Flashlight</button>
 <button onclick="endClass()" class="danger">End Live Class</button>
 </div>
 </div>
@@ -93,7 +95,7 @@ import{
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 const firebaseConfig={
- apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MGoN8Bd6u2t2vvmLF7M",
+ apiKey:"AIzaSyCRUQWJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
  authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
  databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
  projectId:"mule-learner-tuition-264fe",
@@ -105,11 +107,14 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
-const session=JSON.parse(localStorage.getItem("muleCurrentUser")||"null");
+const session=JSON.parse(
+ localStorage.getItem("muleCurrentUser")||"null"
+);
 
 if(!session||session.role!=="teacher"){
  alert("Teacher login required.");
  location.href="../login.html";
+ throw new Error("Teacher login required");
 }
 
 const teacherId=session.id;
@@ -120,9 +125,12 @@ let liveId=null;
 let localStream=null;
 let mic=true;
 let camera=true;
+let torch=false;
 
 const peers={};
-const processedCandidates={};
+const candidateQueues={};
+const remoteCandidateListeners={};
+const answerListeners={};
 
 async function load(){
 
@@ -139,20 +147,17 @@ async function load(){
  }
 
  classData=classSnap.val();
-
  liveId=classData.liveClassId||classId;
 
  document.getElementById("title").textContent=
    classData.className||classData.name||"Live Class";
 
  document.getElementById("info").textContent=
-   (classData.subject||"")+
-   " • "+
+   (classData.subject||"")+" • "+
    (classData.level||classData.grade||"");
 
  await startMedia();
  await startLive();
-
  listenParticipants();
  listenChat();
 }
@@ -166,18 +171,27 @@ async function startMedia(){
  try{
 
    localStream=await navigator.mediaDevices.getUserMedia({
-     video:true,
-     audio:true
+     video:{
+       facingMode:"user"
+     },
+     audio:{
+       echoCancellation:true,
+       noiseSuppression:true,
+       autoGainControl:true
+     }
    });
 
    document.getElementById("localVideo").srcObject=localStream;
 
+   localStream.getAudioTracks().forEach(t=>t.enabled=true);
+   localStream.getVideoTracks().forEach(t=>t.enabled=true);
+
  }catch(e){
 
-   console.error(e);
+   console.error("Media error:",e);
 
    setStatus(
-     "Camera/microphone permission was not granted. You can still manage the class."
+     "⚠️ Camera/microphone permission is required for full live teaching."
    );
  }
 }
@@ -199,12 +213,6 @@ async function startLive(){
    teacherName:session.name||"Teacher"
  });
 
- await update(ref(db,"classes/"+classId),{
-   liveClassId:liveId,
-   liveStatus:"live",
-   liveStartedAt:startedAt
- });
-
  const teacherRef=
    ref(db,`liveClasses/${liveId}/participants/${teacherId}`);
 
@@ -219,64 +227,93 @@ async function startLive(){
 
  onDisconnect(teacherRef).remove();
 
+ await update(ref(db,"classes/"+classId),{
+   liveClassId:liveId,
+   liveStatus:"live",
+   liveStartedAt:startedAt
+ });
+
  setStatus("🔴 LIVE — waiting for learners");
  await notifyCEO();
 }
 
 async function notifyCEO(){
 
- const id="NOT-"+Date.now()+"-"+Math.random()
- .toString(36).substring(2,7).toUpperCase();
+ try{
 
- await set(ref(db,"notifications/"+id),{
-   id,
-   type:"teacher_live_start",
-   title:"🔴 Teacher Started Live Class",
-   message:
-     (session.name||"Teacher")+
-     " has started "+(classData.className||"a live class")+".",
-   teacherId,
-   teacherName:session.name||"Teacher",
-   classId,
-   liveClassId:liveId,
-   subject:classData.subject||"",
-   level:classData.level||classData.grade||"",
-   read:false,
-   createdAt:new Date().toISOString(),
-   createdBy:"Teacher Live Class"
- });
+   const id="NOT-"+Date.now()+"-"+Math.random()
+    .toString(36).substring(2,7).toUpperCase();
+
+   await set(ref(db,"notifications/"+id),{
+     id,
+     type:"teacher_live_start",
+     title:"🔴 Teacher Started Live Class",
+     message:
+       (session.name||"Teacher")+
+       " has started "+
+       (classData.className||"a live class")+".",
+     teacherId,
+     teacherName:session.name||"Teacher",
+     classId,
+     liveClassId:liveId,
+     subject:classData.subject||"",
+     level:classData.level||classData.grade||"",
+     read:false,
+     createdAt:new Date().toISOString(),
+     createdBy:"Teacher Live Class"
+   });
+
+ }catch(e){
+   console.log("Notification error:",e);
+ }
 }
 
 /* =========================
-   WEBRTC TEACHER HUB
+   WEBRTC
 ========================= */
 
 function listenParticipants(){
 
- onValue(ref(db,`liveClasses/${liveId}/participants`),snap=>{
+ onValue(
+   ref(db,`liveClasses/${liveId}/participants`),
+   snap=>{
 
-   const data=snap.val()||{};
-   const people=Object.values(data)
-     .filter(p=>p.role!=="teacher");
+     const data=snap.val()||{};
 
-   document.getElementById("count").textContent=
-     people.length;
+     const people=Object.values(data)
+       .filter(p=>p.role!=="teacher");
 
-   document.getElementById("participants").innerHTML=
-     people.map(p=>`
+     document.getElementById("count").textContent=
+       people.length;
+
+     document.getElementById("participants").innerHTML=
+       people.map(p=>`
        <div class="person">
        👤 <b>${escapeHTML(p.name||"Participant")}</b>
        <br>
        <small>
-       ${p.role||""}
+       ${escapeHTML(p.role||"participant")}
        • Mic ${p.mic?"On":"Off"}
        • Camera ${p.camera?"On":"Off"}
        </small>
        </div>
-     `).join("");
+       `).join("");
 
-   people.forEach(p=>createPeer(p.id,p));
- });
+     people.forEach(p=>{
+       createPeer(p.id,p);
+     });
+
+     Object.keys(peers).forEach(id=>{
+       if(!data[id]){
+         peers[id].close();
+         delete peers[id];
+
+         const box=document.getElementById("remote-"+id);
+         if(box)box.remove();
+       }
+     });
+   }
+ );
 }
 
 async function createPeer(participantId,participant){
@@ -291,9 +328,10 @@ async function createPeer(participantId,participant){
  });
 
  peers[participantId]=pc;
- processedCandidates[participantId]=new Set();
+ candidateQueues[participantId]=[];
 
  if(localStream){
+
    localStream.getTracks().forEach(track=>{
      pc.addTrack(track,localStream);
    });
@@ -301,7 +339,7 @@ async function createPeer(participantId,participant){
 
  pc.ontrack=e=>{
 
-   if(!e.streams[0])return;
+   if(!e.streams||!e.streams[0])return;
 
    let box=document.getElementById(
      "remote-"+participantId
@@ -314,9 +352,13 @@ async function createPeer(participantId,participant){
      box.id="remote-"+participantId;
 
      const video=document.createElement("video");
+
      video.autoplay=true;
      video.playsInline=true;
+     video.controls=false;
      video.id="video-"+participantId;
+
+     box.appendChild(video);
 
      const label=document.createElement("div");
      label.className="label";
@@ -324,15 +366,19 @@ async function createPeer(participantId,participant){
        (participant.name||"Participant")+
        " • "+(participant.role||"");
 
-     box.appendChild(video);
      box.appendChild(label);
 
-     document.getElementById("videos").appendChild(box);
+     document.getElementById("videos")
+       .appendChild(box);
    }
 
-   document.getElementById(
+   const video=document.getElementById(
      "video-"+participantId
-   ).srcObject=e.streams[0];
+   );
+
+   video.srcObject=e.streams[0];
+
+   video.play().catch(()=>{});
  };
 
  pc.onicecandidate=e=>{
@@ -345,51 +391,104 @@ async function createPeer(participantId,participant){
 
    set(ref(db,
      `liveClasses/${liveId}/participants/${participantId}/teacherCandidates/${key}`
-   ),e.candidate.toJSON());
+   ),e.candidate.toJSON()).catch(console.error);
  };
 
- onValue(ref(db,
-   `liveClasses/${liveId}/participants/${participantId}/answer`
- ),async snap=>{
+ answerListeners[participantId]=onValue(
+   ref(db,
+     `liveClasses/${liveId}/participants/${participantId}/answer`
+   ),
+   async snap=>{
 
-   if(!snap.exists())return;
+     if(!snap.exists())return;
 
-   try{
-     if(!pc.currentRemoteDescription)
-       await pc.setRemoteDescription(snap.val());
-   }catch(e){
-     console.log("Answer error",e);
+     try{
+
+       if(
+         !pc.currentRemoteDescription||
+         pc.currentRemoteDescription.type!=="answer"
+       ){
+
+         await pc.setRemoteDescription(snap.val());
+
+         await flushCandidates(participantId);
+       }
+
+     }catch(e){
+       console.log("Remote answer error:",e);
+     }
    }
- });
+ );
 
- onChildAdded(ref(db,
-   `liveClasses/${liveId}/participants/${participantId}/participantCandidates`
- ),async snap=>{
+ remoteCandidateListeners[participantId]=onChildAdded(
+   ref(db,
+     `liveClasses/${liveId}/participants/${participantId}/participantCandidates`
+   ),
+   async snap=>{
 
-   if(processedCandidates[participantId]
-      .has(snap.key))return;
+     const candidate=snap.val();
 
-   processedCandidates[participantId].add(snap.key);
+     if(!candidate)return;
+
+     if(pc.remoteDescription){
+
+       try{
+         await pc.addIceCandidate(candidate);
+       }catch(e){
+         console.log("ICE error:",e);
+       }
+
+     }else{
+
+       candidateQueues[participantId].push(candidate);
+     }
+   }
+ );
+
+ try{
+
+   const offer=await pc.createOffer({
+     offerToReceiveAudio:true,
+     offerToReceiveVideo:true
+   });
+
+   await pc.setLocalDescription(offer);
+
+   await set(ref(db,
+     `liveClasses/${liveId}/participants/${participantId}/offer`
+   ),{
+     type:offer.type,
+     sdp:offer.sdp
+   });
+
+ }catch(e){
+
+   console.error("Offer error:",e);
+ }
+}
+
+async function flushCandidates(participantId){
+
+ const pc=peers[participantId];
+
+ if(!pc||!pc.remoteDescription)return;
+
+ const queue=candidateQueues[participantId]||[];
+
+ candidateQueues[participantId]=[];
+
+ for(const candidate of queue){
 
    try{
-     await pc.addIceCandidate(snap.val());
-   }catch(e){}
- });
-
- const offer=await pc.createOffer();
-
- await pc.setLocalDescription(offer);
-
- await set(ref(db,
-   `liveClasses/${liveId}/participants/${participantId}/offer`
- ),{
-   type:offer.type,
-   sdp:offer.sdp
- });
+     await pc.addIceCandidate(candidate);
+   }catch(e){
+     console.log("Queued ICE error:",e);
+   }
+ }
 }
 
 /* =========================
-   CONTROLS
+   MIC / CAMERA / TORCH
 ========================= */
 
 window.toggleMic=async function(){
@@ -399,7 +498,7 @@ window.toggleMic=async function(){
  mic=!mic;
 
  localStream.getAudioTracks()
- .forEach(t=>t.enabled=mic);
+  .forEach(t=>t.enabled=mic);
 
  document.getElementById("micBtn").textContent=
    mic?"🎤 Mic On":"🎤 Mic Off";
@@ -416,7 +515,7 @@ window.toggleCamera=async function(){
  camera=!camera;
 
  localStream.getVideoTracks()
- .forEach(t=>t.enabled=camera);
+  .forEach(t=>t.enabled=camera);
 
  document.getElementById("camBtn").textContent=
    camera?"📷 Camera On":"📷 Camera Off";
@@ -426,25 +525,82 @@ window.toggleCamera=async function(){
  ),{camera});
 };
 
+window.toggleTorch=async function(){
+
+ if(!localStream){
+
+   alert("Camera is not available.");
+   return;
+ }
+
+ const track=localStream.getVideoTracks()[0];
+
+ if(!track){
+
+   alert("Camera is not available.");
+   return;
+ }
+
+ const capabilities=
+   track.getCapabilities?track.getCapabilities():{};
+
+ if(!capabilities.torch){
+
+   alert("🔦 Flashlight is not supported by this camera/browser.");
+   return;
+ }
+
+ torch=!torch;
+
+ try{
+
+   await track.applyConstraints({
+     advanced:[{torch}]
+   });
+
+   document.getElementById("torchBtn").textContent=
+     torch?"🔦 Flashlight On":"🔦 Flashlight";
+
+ }catch(e){
+
+   torch=!torch;
+
+   alert("Unable to control the flashlight on this device.");
+ }
+};
+
+/* =========================
+   END CLASS
+========================= */
+
 window.endClass=async function(){
 
  if(!confirm("End this live class?"))return;
 
- await update(ref(db,"liveClasses/"+liveId),{
-   status:"ended",
-   endedAt:Date.now()
- });
+ try{
 
- await update(ref(db,"classes/"+classId),{
-   liveStatus:"ended"
- });
+   await update(ref(db,"liveClasses/"+liveId),{
+     status:"ended",
+     endedAt:Date.now()
+   });
 
- Object.values(peers).forEach(pc=>pc.close());
+   await update(ref(db,"classes/"+classId),{
+     liveStatus:"ended"
+   });
 
- if(localStream)
-   localStream.getTracks().forEach(t=>t.stop());
+   Object.values(peers).forEach(pc=>pc.close());
 
- location.href="dashboard.html";
+   if(localStream){
+     localStream.getTracks().forEach(t=>t.stop());
+   }
+
+   location.href="dashboard.html";
+
+ }catch(e){
+
+   console.error(e);
+   alert("Unable to end class.");
+ }
 };
 
 /* =========================
@@ -453,20 +609,24 @@ window.endClass=async function(){
 
 function listenChat(){
 
- onChildAdded(ref(db,`liveClasses/${liveId}/chat`),snap=>{
+ onChildAdded(
+   ref(db,`liveClasses/${liveId}/chat`),
+   snap=>{
 
-   const m=snap.val();
+     const m=snap.val();
 
-   const div=document.createElement("div");
-   div.className="msg";
-   div.textContent=
-     (m.name||"User")+": "+(m.message||"");
+     const div=document.createElement("div");
+     div.className="msg";
+     div.textContent=
+       (m.name||"User")+": "+(m.message||"");
 
-   document.getElementById("messages").appendChild(div);
+     document.getElementById("messages")
+       .appendChild(div);
 
-   const box=document.getElementById("messages");
-   box.scrollTop=box.scrollHeight;
- });
+     const box=document.getElementById("messages");
+     box.scrollTop=box.scrollHeight;
+   }
+ );
 }
 
 window.sendMessage=async function(){
@@ -493,6 +653,7 @@ window.sendMessage=async function(){
 };
 
 function escapeHTML(v){
+
  return String(v??"")
  .replaceAll("&","&amp;")
  .replaceAll("<","&lt;")
