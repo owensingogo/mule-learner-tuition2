@@ -1,914 +1,787 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
-<title>Live Class | Mule Learner Tuition</title>
-
-<style>
+<title>Live Class | Mule Learner Tuition</title><style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial;background:#f4f7fc;color:#172033}
-header{background:#173b8f;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-header b{font-size:17px}
-button{border:0;border-radius:9px;padding:10px 14px;font-weight:bold;cursor:pointer}
-.back{background:#fff;color:#173b8f}
-.container{max-width:900px;margin:auto;padding:16px}
-.hero{background:#173b8f;color:#fff;border-radius:14px;padding:18px;margin-bottom:15px}
-.hero h2{margin:0 0 6px}
-.card{background:#fff;border-radius:14px;padding:15px;margin-bottom:14px;box-shadow:0 3px 12px #0000000d}
-.videoBox{background:#111;border-radius:12px;overflow:hidden;min-height:240px}
-video{width:100%;display:block;background:#111}
-#remoteVideo{min-height:240px;object-fit:contain}
-.label{font-size:12px;color:#777;margin:8px 0}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.controls button{background:#173b8f;color:#fff}
-.status{padding:10px;border-radius:9px;background:#eef3ff;margin-bottom:12px}
-#messages{height:180px;overflow:auto;border:1px solid #ddd;border-radius:9px;padding:9px}
-.msg{padding:6px 0;border-bottom:1px solid #eee;font-size:13px}
-.chat{display:flex;gap:7px;margin-top:8px}
-.chat input{flex:1;padding:11px;border:1px solid #ddd;border-radius:9px}
-.small{font-size:12px;color:#777}
-.soundBtn{background:#0b7a3b!important}
-.leaveBtn{background:#b00020!important}
-</style>
-</head>
+header{background:#173b8f;color:white;padding:14px 15px;display:flex;justify-content:space-between;font-weight:bold}
+.container{max-width:850px;margin:auto;padding:12px}
+.card{background:white;border-radius:14px;padding:12px;margin-bottom:12px;box-shadow:0 3px 12px #0001}
+h2{font-size:19px;margin:4px 0}
+.sub{font-size:12px;color:#667085;margin-bottom:12px}
+.status{background:#eef4ff;color:#173b8f;padding:9px;border-radius:8px;font-size:12px;margin-bottom:12px}
 
-<body>
+/* TEACHER MAIN VIDEO */
+.teacher-box{position:relative;background:#111;border-radius:13px;overflow:hidden}
+#remoteVideo{width:100%;height:420px;display:block;object-fit:cover;background:#111}
+.teacher-label{position:absolute;bottom:10px;left:10px;background:#000b;color:white;padding:7px 10px;border-radius:7px;font-size:12px}
 
-<header>
-<b>🎓 Mule Learner Tuition</b>
-<button class="back" onclick="location.href='dashboard.html'">Dashboard</button>
-</header>
+/* SMALL LEARNER CAMERA */
+.my-camera{
+position:absolute;
+top:10px;
+right:10px;
+width:105px;
+height:78px;
+background:#111;
+border:2px solid white;
+border-radius:9px;
+overflow:hidden;
+z-index:5;
+box-shadow:0 3px 10px #0008;
+}
+#localVideo{width:100%;height:100%;object-fit:cover;display:block}
 
-<div class="container">
+.sound{width:100%;background:#173b8f;color:white;border:0;border-radius:8px;padding:11px;margin-top:9px;font-weight:bold}
+.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+button{border:0;border-radius:8px;padding:11px;font-weight:bold;background:#e9efff;color:#173b8f}
+.end{background:#e53935;color:white}
 
-<div class="hero">
-<h2 id="classTitle">Live Class</h2>
-<div id="classInfo">Connecting...</div>
-</div>
+.info{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info div{background:#f7f9fc;padding:10px;border-radius:8px;font-size:12px}
 
-<div class="status" id="status">
+.chat{height:210px;overflow:auto;background:#f7f9fc;padding:8px;border-radius:9px}
+.msg{background:white;padding:7px;border-radius:8px;margin-bottom:6px;font-size:13px}
+.msg b{color:#173b8f}
+form{display:flex;gap:6px;margin-top:7px}
+input{flex:1;padding:10px;border:1px solid #ccd3df;border-radius:8px}
+form button{background:#173b8f;color:white}
+
+@media(max-width:600px){
+#remoteVideo{height:330px}
+.my-camera{width:90px;height:68px}
+}
+
+@media(min-width:700px){
+#remoteVideo{height:520px}
+.my-camera{width:125px;height:92px}
+}
+</style></head><body><header>
+<span>📚 Mule Learner Tuition</span>
+<span>🔴 LIVE</span>
+</header><div class="container"><h2>Live Class</h2>
+<div class="sub">Learn • Practice • Succeed</div><div id="status" class="status">
 Connecting to teacher...
-</div>
+</div><div class="card"><div class="teacher-box"><!-- TEACHER VIDEO --><video id="remoteVideo" autoplay playsinline></video>
 
-<div class="card">
-
-<div class="label">👨‍🏫 Teacher / Classroom</div>
-
-<div class="videoBox">
-<video id="remoteVideo"
-       autoplay
-       playsinline
-       controls>
-</video>
-</div>
-
-<div class="controls">
-<button id="soundBtn"
-        class="soundBtn"
-        onclick="enableSound()">
-🔊 Enable Sound
-</button>
-</div>
-
-<div class="small" id="remoteName">
-Waiting for teacher...
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="label">Your Camera</div>
-
-<div class="videoBox">
-<video id="localVideo"
-       autoplay
-       muted
-       playsinline></video>
-</div>
-
-<div class="controls">
-<button id="micBtn"
-        onclick="toggleMic()">
-🎤 Mic Off
-</button>
-
-<button id="camBtn"
-        onclick="toggleCamera()">
-📷 Camera Off
-</button>
-
-<button id="torchBtn"
-        onclick="toggleTorch()">
+<div class="teacher-label">
+👨‍🏫 Teacher
+</div><!-- LEARNER SMALL CAMERA --><div class="my-camera">
+<video id="localVideo" autoplay muted playsinline></video>
+</div></div><button class="sound" onclick="enableSound()">
+🔊 Enable Teacher Sound
+</button><div class="controls"><button id="micBtn" onclick="toggleMic()">
+🎤 Mic ON
+</button><button id="cameraBtn" onclick="toggleCamera()">
+📹 Camera ON
+</button><button onclick="toggleTorch()">
 🔦 Flashlight
-</button>
+</button><button class="end" onclick="leaveClass()">
+🚪 Leave Class
+</button></div></div><div class="card"><div style="font-weight:bold;margin-bottom:9px">
+Class Information
+</div><div class="info"><div>
+Subject<br>
+<b id="subject">Mathematics</b>
+</div><div>
+Level<br>
+<b id="level">Grade 10</b>
+</div><div>
+Teacher<br>
+<b id="teacher">Teacher</b>
+</div><div>
+Participants<br>
+<b id="participants">0</b>
+</div></div></div><div class="card"><div style="font-weight:bold;margin-bottom:9px">
+💬 Live Chat
+</div><div id="chat" class="chat"></div><form onsubmit="sendMessage(event)">
+<input id="message" placeholder="Type a message...">
+<button>Send</button>
+</form></div></div><script type="module">
 
-<button class="leaveBtn"
-        onclick="leaveClass()">
-Leave
-</button>
-</div>
-
-</div>
-
-<div class="card">
-<b>👥 Participants: <span id="count">0</span></b>
-</div>
-
-<div class="card">
-
-<b>💬 Live Chat</b>
-
-<div id="messages"></div>
-
-<div class="chat">
-<input id="chatInput"
-       placeholder="Type a message...">
-<button onclick="sendMessage()">Send</button>
-</div>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import{initializeApp}from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import{
- getDatabase,ref,get,set,update,onValue,onChildAdded,
- push,onDisconnect,remove
-}from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+getDatabase,ref,get,set,update,remove,
+onValue,onChildAdded,push
+}from"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
 
 const firebaseConfig={
- apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
- authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
- databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
- projectId:"mule-learner-tuition-264fe",
- storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
- messagingSenderId:"656883565460",
- appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+apiKey:"AIzaSyCRUQW0JTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
+databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+projectId:"mule-learner-tuition-264fe",
+storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
+messagingSenderId:"656883565460",
+appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
 };
 
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
-const session=JSON.parse(
- localStorage.getItem("muleCurrentUser")||"null"
+const user=JSON.parse(
+localStorage.getItem("muleCurrentUser")||"{}"
 );
 
-if(!session||session.role!=="learner"){
- alert("Please login as a learner.");
- location.href="../login.html";
- throw new Error("Learner login required");
-}
+const ID=
+new URLSearchParams(location.search).get("id");
 
-const learnerId=session.id;
+const base="liveClasses/"+ID;
 
-const liveId=
- new URLSearchParams(location.search).get("id");
+const rtc={
+iceServers:[
+{urls:"stun:stun.l.google.com:19302"},
+{urls:"stun:stun1.l.google.com:19302"}
+],
+iceCandidatePoolSize:10
+};
 
-let liveData=null;
-let classData=null;
+let stream=null;
 let pc=null;
-let localStream=null;
+let micOn=true;
+let camOn=true;
+let torchOn=false;
+let remoteReady=false;
+let queued=[];
 
-let mic=false;
-let camera=false;
-let torch=false;
 
-let remoteDescriptionReady=false;
-let candidateQueue=[];
-
-function statusText(text){
- document.getElementById("status").textContent=text;
+if(!user.id||user.role!=="learner"){
+location.href="../login.html";
 }
+
+if(!ID){
+alert("No live class selected");
+throw Error("No class ID");
+}
+
+
+const $=id=>document.getElementById(id);
+
+const esc=x=>String(x||"").replace(
+/[&<>"']/g,
+m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[m])
+);
+
+
+/* LOAD CLASS */
 
 async function loadClass(){
 
- if(!liveId){
-   statusText("❌ No live class selected.");
-   return;
- }
+let s=await get(ref(db,"classes/"+ID));
 
- const liveSnap=
-   await get(ref(db,"liveClasses/"+liveId));
+if(s.exists()){
 
- if(!liveSnap.exists()){
-   statusText("❌ Live class not found.");
-   return;
- }
+let c=s.val();
 
- liveData=liveSnap.val();
+$("subject").textContent=
+c.subject||"Mathematics";
 
- if(liveData.status!=="live"){
-   statusText("This class is not currently live.");
-   return;
- }
+$("level").textContent=
+c.level||c.className||"Grade 10";
 
- const classId=
-   liveData.classId||liveId;
+$("teacher").textContent=
+c.teacher||"Teacher";
 
- const classSnap=
-   await get(ref(db,"classes/"+classId));
-
- if(classSnap.exists()){
-   classData=classSnap.val();
- }
-
- document.getElementById("classTitle")
-  .textContent=
-   liveData.title||
-   classData?.className||
-   "Live Class";
-
- document.getElementById("classInfo")
-  .textContent=
-   (liveData.subject||
-    classData?.subject||
-    "")+
-   " • "+
-   (liveData.level||
-    classData?.level||
-    classData?.grade||
-    "");
-
- await joinWebRTC();
-
- listenChat();
- listenParticipants();
 }
 
-/* =========================
-   WEBRTC
-========================= */
-
-async function joinWebRTC(){
-
- const participantRef=
-   ref(db,
-   `liveClasses/${liveId}/participants/${learnerId}`);
-
- /*
-   IMPORTANT:
-   Create a fresh joinedAt value so the teacher
-   knows this is a new connection.
- */
- const joinedAt=Date.now();
-
- await set(participantRef,{
-   id:learnerId,
-   name:session.name||"Learner",
-   role:"learner",
-   mic:false,
-   camera:false,
-   joinedAt
- });
-
- onDisconnect(participantRef).remove();
-
- /*
-   Try to obtain camera/microphone.
-   Even if this fails, the learner can still
-   receive the teacher's media.
- */
- try{
-
-   localStream=
-     await navigator.mediaDevices.getUserMedia({
-       video:{
-         facingMode:"user",
-         width:{ideal:1280},
-         height:{ideal:720}
-       },
-       audio:{
-         echoCancellation:true,
-         noiseSuppression:true,
-         autoGainControl:true
-       }
-     });
-
-   localStream.getVideoTracks()
-    .forEach(t=>t.enabled=false);
-
-   localStream.getAudioTracks()
-    .forEach(t=>t.enabled=false);
-
-   document.getElementById("localVideo")
-    .srcObject=localStream;
-
- }catch(error){
-
-   console.log(
-     "Learner camera/mic unavailable:",
-     error
-   );
- }
-
- pc=new RTCPeerConnection({
-   iceServers:[
-     {urls:"stun:stun.l.google.com:19302"},
-     {urls:"stun:stun1.l.google.com:19302"}
-   ],
-   iceCandidatePoolSize:10
- });
-
- /*
-   If local media exists, add it.
-   If it doesn't exist, explicitly create
-   receive-only transceivers so the learner
-   can still receive teacher audio/video.
- */
- if(localStream){
-
-   localStream.getTracks()
-    .forEach(track=>{
-      pc.addTrack(track,localStream);
-    });
-
- }else{
-
-   pc.addTransceiver(
-     "audio",
-     {direction:"recvonly"}
-   );
-
-   pc.addTransceiver(
-     "video",
-     {direction:"recvonly"}
-   );
- }
-
- pc.onconnectionstatechange=()=>{
-
-   console.log(
-     "Learner connection:",
-     pc.connectionState
-   );
-
-   if(pc.connectionState==="connected"){
-
-     statusText(
-       "🟢 Connected — teacher video/audio link active."
-     );
-
-   }else if(pc.connectionState==="connecting"){
-
-     statusText(
-       "🟡 Connecting teacher media..."
-     );
-
-   }else if(
-     pc.connectionState==="failed"
-   ){
-
-     statusText(
-       "🔴 WebRTC media connection failed."
-     );
-
-   }else if(
-     pc.connectionState==="disconnected"
-   ){
-
-     statusText(
-       "🟠 Teacher media temporarily disconnected."
-     );
-   }
- };
-
- pc.oniceconnectionstatechange=()=>{
-
-   console.log(
-     "Learner ICE:",
-     pc.iceConnectionState
-   );
- };
-
- /*
-   Receive teacher tracks.
- */
- pc.ontrack=e=>{
-
-   console.log(
-     "Teacher track received:",
-     e.track.kind
-   );
-
-   const video=
-     document.getElementById("remoteVideo");
-
-   let stream=video.srcObject;
-
-   if(!stream){
-
-     stream=new MediaStream();
-
-     video.srcObject=stream;
-   }
-
-   if(
-     e.track &&
-     !stream.getTracks().includes(e.track)
-   ){
-
-     stream.addTrack(e.track);
-   }
-
-   document.getElementById("remoteName")
-    .textContent=
-     "🔴 Teacher is connected";
-
-   statusText(
-     "🟢 Teacher media received."
-   );
-
-   video.play().catch(()=>{
-
-     statusText(
-       "🟢 Teacher connected. Tap 🔊 Enable Sound."
-     );
-   });
- };
-
- /*
-   Send learner ICE candidates to teacher.
- */
- pc.onicecandidate=e=>{
-
-   if(!e.candidate)return;
-
-   const key=
-     push(ref(db,
-     `liveClasses/${liveId}/participants/${learnerId}/participantCandidates`
-     )).key;
-
-   set(ref(db,
-     `liveClasses/${liveId}/participants/${learnerId}/participantCandidates/${key}`
-   ),e.candidate.toJSON())
-   .catch(console.error);
- };
-
- /*
-   Listen for teacher offer.
- */
- onValue(
-   ref(db,
-   `liveClasses/${liveId}/participants/${learnerId}/offer`),
-   async snap=>{
-
-     if(!snap.exists())return;
-
-     const offer=snap.val();
-
-     try{
-
-       /*
-         Ignore the same offer once already negotiated.
-       */
-       if(
-         pc.currentRemoteDescription
-       ){
-
-         return;
-       }
-
-       await pc.setRemoteDescription(
-         offer
-       );
-
-       remoteDescriptionReady=true;
-
-       await flushCandidates();
-
-       const answer=
-         await pc.createAnswer();
-
-       await pc.setLocalDescription(
-         answer
-       );
-
-       await set(ref(db,
-         `liveClasses/${liveId}/participants/${learnerId}/answer`
-       ),{
-         type:pc.localDescription.type,
-         sdp:pc.localDescription.sdp,
-         createdAt:Date.now()
-       });
-
-       statusText(
-         "🟡 Teacher offer received. Connecting media..."
-       );
-
-     }catch(error){
-
-       console.error(
-         "Learner offer error:",
-         error
-       );
-
-       statusText(
-         "❌ WebRTC negotiation failed."
-       );
-     }
-   }
- );
-
- /*
-   Receive teacher ICE candidates.
- */
- onChildAdded(
-   ref(db,
-   `liveClasses/${liveId}/participants/${learnerId}/teacherCandidates`
-   ),
-   async snap=>{
-
-     const candidate=snap.val();
-
-     if(!candidate)return;
-
-     if(remoteDescriptionReady){
-
-       try{
-
-         await pc.addIceCandidate(
-           candidate
-         );
-
-       }catch(error){
-
-         console.log(
-           "Teacher ICE error:",
-           error
-         );
-       }
-
-     }else{
-
-       candidateQueue.push(candidate);
-     }
-   }
- );
-
- statusText(
-   "🟡 Waiting for teacher media..."
- );
-
- await notifyJoined();
 }
 
-async function flushCandidates(){
 
- if(!pc||!remoteDescriptionReady)return;
+/* START */
 
- const queue=[...candidateQueue];
+async function start(){
 
- candidateQueue=[];
+await loadClass();
 
- for(
-   const candidate of queue
- ){
+try{
 
-   try{
+stream=
+await navigator.mediaDevices.getUserMedia({
 
-     await pc.addIceCandidate(
-       candidate
-     );
+video:{
+facingMode:"user",
+width:{ideal:640},
+height:{ideal:480}
+},
 
-   }catch(error){
-
-     console.log(
-       "Queued ICE error:",
-       error
-     );
-   }
- }
+audio:{
+echoCancellation:true,
+noiseSuppression:true,
+autoGainControl:true
 }
 
-/* =========================
-   ENABLE SOUND
-========================= */
+});
 
-window.enableSound=async function(){
+}catch(e){
 
- const video=
-   document.getElementById("remoteVideo");
+try{
 
- try{
+stream=
+await navigator.mediaDevices.getUserMedia({
+audio:true
+});
 
-   video.muted=false;
+}catch(x){
 
-   await video.play();
+stream=null;
 
-   document.getElementById("soundBtn")
-    .textContent=
-     "🔊 Sound Enabled";
+}
 
-   statusText(
-     "🟢 Teacher video and sound enabled."
-   );
+}
 
- }catch(error){
 
-   console.log(
-     "Sound error:",
-     error
-   );
+if(stream){
 
-   alert(
-     "Tap the teacher video once to enable sound."
-   );
- }
+$("localVideo").srcObject=stream;
+
+}
+
+
+await set(
+ref(db,base+"/participants/"+user.id),
+{
+role:"learner",
+name:user.name||"Learner",
+phone:user.phone||"",
+joinedAt:new Date().toISOString()
+}
+);
+
+
+listenClass();
+
+listenOffer();
+
+listenTeacherCandidates();
+
+listenChat();
+
+notifyCEOJoined();
+
+}
+
+
+/* CLASS LISTENER */
+
+function listenClass(){
+
+onValue(
+ref(db,base),
+s=>{
+
+let c=s.val();
+
+if(!c)return;
+
+$("participants").textContent=
+Object.keys(c.participants||{}).length;
+
+if(c.status==="ended"){
+
+$("status").textContent=
+"Class has ended.";
+
+$("status").style.background=
+"#fee2e2";
+
+}
+
+else{
+
+$("status").textContent=
+"🔴 Connected to live class";
+
+}
+
+}
+);
+
+}
+
+
+/* CREATE PEER */
+
+function createPeer(){
+
+if(pc)return;
+
+pc=new RTCPeerConnection(rtc);
+
+if(stream){
+
+stream.getTracks().forEach(
+track=>pc.addTrack(track,stream)
+);
+
+}else{
+
+pc.addTransceiver(
+"audio",
+{direction:"recvonly"}
+);
+
+pc.addTransceiver(
+"video",
+{direction:"recvonly"}
+);
+
+}
+
+
+pc.ontrack=e=>{
+
+let v=$("remoteVideo");
+
+if(!v.srcObject){
+
+v.srcObject=
+new MediaStream();
+
+}
+
+e.streams[0].getTracks().forEach(t=>{
+
+if(
+!v.srcObject
+.getTracks()
+.some(x=>x.id===t.id)
+){
+
+v.srcObject.addTrack(t);
+
+}
+
+});
+
+v.play().catch(()=>{});
+
 };
 
-/* =========================
-   TORCH
-========================= */
 
-window.toggleTorch=async function(){
+pc.onicecandidate=e=>{
 
- if(!localStream){
+if(!e.candidate)return;
 
-   alert("Camera is not available.");
-   return;
- }
+let r=push(
+ref(
+db,
+base+
+"/participants/"+
+user.id+
+"/participantCandidates"
+)
+);
 
- const track=
-   localStream.getVideoTracks()[0];
+set(
+r,
+e.candidate.toJSON()
+);
 
- if(!track){
-
-   alert("Camera is not available.");
-   return;
- }
-
- const capabilities=
-   track.getCapabilities?
-   track.getCapabilities():{};
-
- if(!capabilities.torch){
-
-   alert(
-     "🔦 Flashlight is not supported by this camera/browser."
-   );
-
-   return;
- }
-
- torch=!torch;
-
- try{
-
-   await track.applyConstraints({
-     advanced:[{torch}]
-   });
-
-   document.getElementById("torchBtn")
-    .textContent=
-     torch?
-     "🔦 Flashlight On":
-     "🔦 Flashlight";
-
- }catch(error){
-
-   torch=!torch;
-
-   alert(
-     "Unable to control the flashlight."
-   );
- }
 };
 
-/* =========================
-   MIC
-========================= */
 
-window.toggleMic=async function(){
+pc.onconnectionstatechange=()=>{
 
- if(!localStream)return;
+console.log(
+"Learner connection:",
+pc.connectionState
+);
 
- mic=!mic;
-
- localStream.getAudioTracks()
-  .forEach(t=>t.enabled=mic);
-
- document.getElementById("micBtn")
-  .textContent=
-   mic?
-   "🎤 Mic On":
-   "🎤 Mic Off";
-
- await update(ref(db,
-   `liveClasses/${liveId}/participants/${learnerId}`
- ),{mic});
 };
 
-/* =========================
-   CAMERA
-========================= */
-
-window.toggleCamera=async function(){
-
- if(!localStream)return;
-
- camera=!camera;
-
- localStream.getVideoTracks()
-  .forEach(t=>t.enabled=camera);
-
- document.getElementById("camBtn")
-  .textContent=
-   camera?
-   "📷 Camera On":
-   "📷 Camera Off";
-
- await update(ref(db,
-   `liveClasses/${liveId}/participants/${learnerId}`
- ),{camera});
-};
-
-/* =========================
-   NOTIFICATION
-========================= */
-
-async function notifyJoined(){
-
- try{
-
-   const id=
-     "NOT-"+Date.now()+"-"+Math.random()
-      .toString(36)
-      .substring(2,7)
-      .toUpperCase();
-
-   await set(ref(db,
-     "notifications/"+id),{
-       id,
-       type:"live_class_join",
-       title:"👨‍🎓 Learner Joined Live Class",
-       message:
-         (session.name||"Learner")+
-         " has joined "+
-         (liveData.title||"a live class")+".",
-       learnerId,
-       learnerName:
-         session.name||"Learner",
-       learnerPhone:
-         session.phone||"",
-       classId:
-         liveData.classId||liveId,
-       liveClassId:liveId,
-       subject:
-         liveData.subject||"",
-       read:false,
-       createdAt:
-         new Date().toISOString(),
-       createdBy:
-         "Learner Live Class"
-   });
-
- }catch(error){
-
-   console.log(
-     "Notification error:",
-     error
-   );
- }
 }
 
-/* =========================
-   PARTICIPANTS
-========================= */
 
-function listenParticipants(){
+/* TEACHER OFFER */
 
- onValue(
-   ref(db,
-   `liveClasses/${liveId}/participants`),
-   snap=>{
+function listenOffer(){
 
-     let count=0;
+createPeer();
 
-     snap.forEach(child=>{
+onValue(
+ref(
+db,
+base+
+"/participants/"+
+user.id+
+"/offer"
+),
+async s=>{
 
-       if(child.val()?.role){
-         count++;
-       }
-     });
+let offer=s.val();
 
-     document.getElementById("count")
-      .textContent=count;
-   }
- );
+if(!offer)return;
+
+try{
+
+await pc.setRemoteDescription(
+new RTCSessionDescription(offer)
+);
+
+remoteReady=true;
+
+for(let c of queued){
+
+await pc.addIceCandidate(
+new RTCIceCandidate(c)
+);
+
 }
 
-/* =========================
-   CHAT
-========================= */
+queued=[];
+
+let answer=
+await pc.createAnswer();
+
+await pc.setLocalDescription(answer);
+
+await set(
+ref(
+db,
+base+
+"/participants/"+
+user.id+
+"/answer"
+),
+{
+type:answer.type,
+sdp:answer.sdp
+}
+);
+
+}catch(e){
+
+console.error(
+"Offer error:",
+e
+);
+
+}
+
+}
+);
+
+}
+
+
+/* TEACHER ICE */
+
+function listenTeacherCandidates(){
+
+onChildAdded(
+ref(
+db,
+base+
+"/participants/"+
+user.id+
+"/teacherCandidates"
+),
+async s=>{
+
+let c=s.val();
+
+if(!c)return;
+
+if(remoteReady){
+
+try{
+
+await pc.addIceCandidate(
+new RTCIceCandidate(c)
+);
+
+}catch(e){
+
+console.warn(e);
+
+}
+
+}else{
+
+queued.push(c);
+
+}
+
+}
+);
+
+}
+
+
+/* SOUND */
+
+window.enableSound=()=>{
+
+let v=$("remoteVideo");
+
+v.muted=false;
+
+v.play().catch(()=>{});
+
+$("status").textContent=
+"🔊 Teacher sound enabled";
+
+};
+
+
+/* MIC */
+
+window.toggleMic=()=>{
+
+if(!stream)return;
+
+micOn=!micOn;
+
+stream
+.getAudioTracks()
+.forEach(t=>t.enabled=micOn);
+
+$("micBtn").textContent=
+micOn?"🎤 Mic ON":"🔇 Mic OFF";
+
+};
+
+
+/* CAMERA */
+
+window.toggleCamera=()=>{
+
+if(!stream)return;
+
+camOn=!camOn;
+
+stream
+.getVideoTracks()
+.forEach(t=>t.enabled=camOn);
+
+$("cameraBtn").textContent=
+camOn?"📹 Camera ON":"📷 Camera OFF";
+
+};
+
+
+/* TORCH */
+
+window.toggleTorch=async()=>{
+
+if(!stream){
+
+alert("Camera is not available");
+return;
+
+}
+
+let t=
+stream.getVideoTracks()[0];
+
+let c=t.getCapabilities?.();
+
+if(!c?.torch){
+
+alert(
+"Flashlight is not supported by this camera."
+);
+
+return;
+
+}
+
+torchOn=!torchOn;
+
+try{
+
+await t.applyConstraints({
+advanced:[
+{torch:torchOn}
+]
+});
+
+}catch(e){
+
+torchOn=!torchOn;
+
+}
+
+};
+
+
+/* CHAT */
 
 function listenChat(){
 
- onChildAdded(
-   ref(db,
-   `liveClasses/${liveId}/chat`),
-   snap=>{
+onChildAdded(
+ref(db,base+"/chat"),
+s=>{
 
-     const m=snap.val();
+let m=s.val();
 
-     const div=
-       document.createElement("div");
+$("chat").insertAdjacentHTML(
+"beforeend",
 
-     div.className="msg";
+`<div class="msg">
+<b>${esc(m.name||"User")}</b><br>
+${esc(m.message||"")}
+</div>`
 
-     div.textContent=
-       (m.name||"User")+
-       ": "+
-       (m.message||"");
+);
 
-     document.getElementById("messages")
-      .appendChild(div);
+$("chat").scrollTop=
+$("chat").scrollHeight;
 
-     const box=
-       document.getElementById("messages");
+}
+);
 
-     box.scrollTop=
-       box.scrollHeight;
-   }
- );
 }
 
-window.sendMessage=async function(){
 
- const input=
-   document.getElementById("chatInput");
+window.sendMessage=async e=>{
 
- const message=
-   input.value.trim();
+e.preventDefault();
 
- if(!message)return;
+let input=$("message");
 
- const key=
-   push(ref(db,
-   `liveClasses/${liveId}/chat`
-   )).key;
+let text=input.value.trim();
 
- await set(ref(db,
-   `liveClasses/${liveId}/chat/${key}`
- ),{
-   name:session.name||"Learner",
-   role:"learner",
-   message,
-   createdAt:Date.now()
- });
+if(!text)return;
 
- input.value="";
-};
+let r=push(
+ref(db,base+"/chat")
+);
 
-/* =========================
-   LEAVE
-========================= */
+await set(r,{
 
-window.leaveClass=async function(){
+name:user.name||"Learner",
+userId:user.id,
+role:"learner",
+message:text,
+createdAt:new Date().toISOString()
 
- try{
-
-   if(pc){
-
-     pc.close();
-     pc=null;
-   }
-
-   if(localStream){
-
-     localStream.getTracks()
-      .forEach(t=>t.stop());
-   }
-
-   await remove(ref(db,
-     `liveClasses/${liveId}/participants/${learnerId}`
-   ));
-
- }catch(error){
-
-   console.log(error);
- }
-
- location.href="dashboard.html";
-};
-
-loadClass().catch(error=>{
-
- console.error(error);
-
- statusText(
-   "❌ Unable to connect to live class."
- );
 });
 
-</script>
+input.value="";
 
-</body>
+};
+
+
+/* CEO NOTIFICATION */
+
+async function notifyCEOJoined(){
+
+try{
+
+let nid=
+"NOT-"+Date.now()+"-"+
+Math.random()
+.toString(36)
+.substring(2,7)
+.toUpperCase();
+
+await set(
+ref(db,"notifications/"+nid),
+{
+
+id:nid,
+
+type:"live_class_join",
+
+title:
+"👨‍🎓 Learner Joined Live Class",
+
+message:
+(user.name||"Learner")+
+" has joined the live Mathematics class.",
+
+learnerId:user.id,
+
+learnerName:user.name||"Learner",
+
+learnerPhone:user.phone||"",
+
+classId:ID,
+
+subject:
+$("subject").textContent,
+
+read:false,
+
+createdAt:
+new Date().toISOString(),
+
+createdBy:
+"Learner Live Class"
+
+}
+
+);
+
+}catch(e){
+
+console.warn(
+"Notification failed:",
+e
+);
+
+}
+
+}
+
+
+/* LEAVE */
+
+window.leaveClass=async()=>{
+
+if(
+!confirm(
+"Are you sure you want to leave the class?"
+)
+)return;
+
+try{
+
+await remove(
+ref(
+db,
+base+
+"/participants/"+
+user.id
+)
+);
+
+if(pc)pc.close();
+
+if(stream){
+
+stream
+.getTracks()
+.forEach(t=>t.stop());
+
+}
+
+location.href=
+"dashboard.html";
+
+}catch(e){
+
+console.error(e);
+
+location.href=
+"dashboard.html";
+
+}
+
+};
+
+
+start();
+
+</script></body>
 </html>
