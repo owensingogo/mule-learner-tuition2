@@ -1,7 +1,9 @@
 <!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Teacher Application | Mule Learner Tuition</title><style>
+<meta name="theme-color" content="#173b8f">
+<title>Teacher Application | Mule Learner Tuition</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
@@ -220,7 +222,8 @@ autocomplete="email">
 
 <label>Subject You Teach</label>
 
-<select id="subject" required><option value="">Select subject</option>
+<select id="subject" required>
+<option value="">Select subject</option>
 <option value="Mathematics">Mathematics</option>
 <option value="English">English</option>
 <option value="Science">Science</option>
@@ -230,7 +233,8 @@ autocomplete="email">
 <option value="Biology">Biology</option>
 <option value="Chemistry">Chemistry</option>
 <option value="Physics">Physics</option>
-<option value="Other">Other</option></select><label>Highest Qualification</label>
+<option value="Other">Other</option>
+</select><label>Highest Qualification</label>
 
 <input
 type="text"
@@ -322,14 +326,10 @@ getApps
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 
-/* =========================
-   FIREBASE CONFIG
-========================= */
-
 const firebaseConfig = {
 
 apiKey:
-"AIzaSyCRW0JTsN5kQ5De-MgoN8Bd6u2t2VvmLF7M",
+"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2VvmLFM7",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -352,10 +352,6 @@ appId:
 };
 
 
-/* =========================
-   FIREBASE INITIALIZE
-========================= */
-
 const app =
 getApps().length
 ?
@@ -365,10 +361,6 @@ initializeApp(firebaseConfig);
 
 const db=getDatabase(app);
 
-
-/* =========================
-   PASSWORD TOGGLE
-========================= */
 
 window.togglePassword=function(id,button){
 
@@ -388,10 +380,6 @@ button.textContent="Show";
 
 };
 
-
-/* =========================
-   NORMALIZE PHONE
-========================= */
 
 function normalizeTeacherPhone(phone){
 
@@ -417,8 +405,55 @@ return phone;
 
 
 /* =========================
-   SUBMIT APPLICATION
-========================= */
+   CEO NOTIFICATION
+   ========================= */
+
+async function notifyCEO(name,phone,subject,applicationId){
+
+const notificationId=
+"NOT-"+Date.now()+"-"+Math.random()
+.toString(36)
+.substring(2,7)
+.toUpperCase();
+
+const notification={
+
+id:notificationId,
+
+type:"teacher",
+
+title:"👨‍🏫 New Teacher Application",
+
+message:
+name+
+" has submitted a teacher application for "+
+subject+
+". Phone: "+
+phone,
+
+applicationId:applicationId,
+
+teacherName:name,
+
+teacherPhone:phone,
+
+subject:subject,
+
+read:false,
+
+createdAt:new Date().toISOString(),
+
+createdBy:"Teacher Application"
+
+};
+
+await set(
+ref(db,"notifications/"+notificationId),
+notification
+);
+
+}
+
 
 window.submitApplication=async function(event){
 
@@ -462,10 +497,6 @@ document.getElementById("submitBtn");
 error.style.display="none";
 success.style.display="none";
 
-
-/* =========================
-   VALIDATION
-========================= */
 
 if(name.length<2){
 
@@ -551,20 +582,11 @@ return;
 }
 
 
-/* =========================
-   DISABLE BUTTON
-========================= */
-
 submitBtn.disabled=true;
 submitBtn.textContent="Submitting...";
 
 
 try{
-
-
-/* =========================
-   CHECK FIREBASE USERS
-========================= */
 
 const usersSnap=
 await get(ref(db,"users"));
@@ -600,10 +622,6 @@ throw new Error(
 
 }
 
-
-/* =========================
-   CHECK FIREBASE APPLICATIONS
-========================= */
 
 const appsSnap=
 await get(ref(db,"teacherApplications"));
@@ -641,20 +659,12 @@ throw new Error(
 }
 
 
-/* =========================
-   CREATE IDS
-========================= */
-
 const applicationId=
 "APP-"+Date.now();
 
 const teacherId=
 "TCH-"+Date.now().toString(36).toUpperCase();
 
-
-/* =========================
-   CREATE APPLICATION
-========================= */
 
 const application={
 
@@ -692,10 +702,6 @@ teacherAccountStatus:"pending"
 };
 
 
-/* =========================
-   CREATE TEACHER ACCOUNT
-========================= */
-
 const teacher={
 
 id:teacherId,
@@ -726,10 +732,6 @@ new Date().toISOString()
 };
 
 
-/* =========================
-   SAVE TO FIREBASE
-========================= */
-
 await set(
 ref(db,"teacherApplications/"+applicationId),
 application
@@ -742,9 +744,31 @@ teacher
 
 
 /* =========================
-   ALSO KEEP LOCAL COPY
-   FOR COMPATIBILITY
-========================= */
+   CREATE CEO NOTIFICATION
+   ========================= */
+
+try{
+
+await notifyCEO(
+name,
+phone,
+subject,
+applicationId
+);
+
+}catch(notificationError){
+
+console.error(
+"Notification could not be created:",
+notificationError
+);
+
+}
+
+
+/* =========================
+   LOCAL COMPATIBILITY
+   ========================= */
 
 try{
 
@@ -781,10 +805,6 @@ e
 
 }
 
-
-/* =========================
-   SUCCESS
-========================= */
 
 success.innerHTML=
 
@@ -829,10 +849,6 @@ submitBtn.textContent=
 
 };
 
-
-/* =========================
-   ESCAPE HTML
-========================= */
 
 function escapeHTML(text){
 
