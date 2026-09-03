@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f">
-<title>Learner Dashboard | Mule Learner Tuition</title>
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+<meta name="theme-color" content="#173b8f"><title>CEO Dashboard | Mule Learner Tuition</title><style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
 body{
 font-family:Arial,sans-serif;
 background:#f4f7fc;
 color:#172033;
-padding-bottom:25px;
+padding-bottom:30px;
 }
 
 header{
@@ -26,366 +26,623 @@ justify-content:space-between;
 }
 
 .logo{
-font-weight:800;
 font-size:18px;
+font-weight:800;
 }
 
 .logout{
-background:rgba(255,255,255,.14);
-color:white;
 border:1px solid rgba(255,255,255,.3);
+background:rgba(255,255,255,.12);
+color:white;
 padding:8px 11px;
 border-radius:7px;
 font-size:12px;
 }
 
-.welcome{
+.hero{
 background:#173b8f;
 color:white;
 padding:10px 18px 25px;
 }
 
-.welcome h2{
+.hero h1{
 font-size:23px;
-margin-bottom:4px;
+margin-bottom:5px;
 }
 
-.welcome p{
-font-size:13px;
+.hero p{
+font-size:12px;
 opacity:.9;
 }
 
 .container{
-max-width:800px;
+max-width:900px;
 margin:auto;
 padding:18px;
 }
 
-.status{
-background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:18px;
-}
-
-.status-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.status h3{
+.section-title{
 font-size:16px;
+margin:4px 0 12px;
 }
 
-.badge{
-background:#fff4db;
-color:#9a6700;
-padding:6px 9px;
-border-radius:20px;
-font-size:11px;
-font-weight:bold;
-}
-
-.status p{
-font-size:12px;
-color:#667085;
-margin-top:8px;
-}
-
-.grid{
+.stats{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:12px;
+gap:10px;
+margin-bottom:22px;
+}
+
+.stat{
+background:white;
+padding:16px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+}
+
+.stat-icon{
+font-size:23px;
+}
+
+.stat h3{
+font-size:20px;
+margin-top:7px;
+}
+
+.stat p{
+font-size:11px;
+color:#667085;
+margin-top:3px;
+}
+
+.menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:11px;
 }
 
 .card{
 background:white;
-padding:18px 14px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
+padding:17px 13px;
+border-radius:12px;
 text-decoration:none;
 color:#172033;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
 }
 
-.icon{
+.card-icon{
 font-size:27px;
 margin-bottom:8px;
 }
 
 .card h3{
-font-size:15px;
+font-size:14px;
 margin-bottom:4px;
 }
 
 .card p{
-font-size:12px;
+font-size:11px;
 color:#667085;
+line-height:1.4;
 }
 
-.live{
-grid-column:1/-1;
-background:#fff;
-border:1px solid #ffd4d4;
-}
-
-.live h3{
-color:#b42318;
-}
-
-.support{
-margin-top:18px;
+.teach{
+grid-column:1 / -1;
 background:#173b8f;
 color:white;
-border-radius:13px;
-padding:20px;
-text-align:center;
+border:2px solid #173b8f;
 }
 
-.support h3{
-font-size:18px;
+.teach p{
+color:rgba(255,255,255,.85);
 }
 
-.support p{
+.teach .card-icon{
+font-size:30px;
+}
+
+.alert{
+margin-top:20px;
+background:#fff4db;
+color:#7a4f00;
+padding:15px;
+border-radius:11px;
 font-size:12px;
-opacity:.9;
-margin:7px 0 14px;
+line-height:1.6;
 }
 
-.whatsapp{
-display:inline-block;
-background:#25d366;
-color:white;
-text-decoration:none;
-padding:11px 16px;
-border-radius:8px;
-font-size:13px;
-font-weight:bold;
+.security{
+margin-top:15px;
+background:white;
+padding:16px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+font-size:12px;
+color:#475467;
+line-height:1.6;
 }
 
 footer{
 text-align:center;
-color:#667085;
 font-size:11px;
+color:#667085;
 margin-top:25px;
 }
 
+.loading{
+font-size:11px;
+color:#667085;
+margin-bottom:15px;
+text-align:center;
+}
+
 @media(min-width:650px){
-.grid{
+
+.stats{
+grid-template-columns:repeat(4,1fr);
+}
+
+.menu{
 grid-template-columns:repeat(3,1fr);
 }
 
-.live{
+.teach{
 grid-column:auto;
 }
+
 }
-</style>
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
+</style></head><body><header><div class="logo">
 Mule Learner Tuition
-</div>
-
-<button class="logout" onclick="logout()">
+</div><button class="logout" onclick="logout()">
 Logout
-</button>
+</button></header><div class="hero"><h1>
+CEO Control Centre 👑
+</h1><p>
+Manage the platform and step in as a teacher whenever necessary.
+</p></div><div class="container"><div id="loading" class="loading">
+Connecting to platform database...
+</div><h2 class="section-title">
+Overview
+</h2><div class="stats"><div class="stat">
+<div class="stat-icon">👥</div>
+<h3 id="learnerCount">0</h3>
+<p>Total Learners</p>
+</div><div class="stat">
+<div class="stat-icon">👨‍🏫</div>
+<h3 id="teacherCount">0</h3>
+<p>Teachers</p>
+</div><div class="stat">
+<div class="stat-icon">💰</div>
+<h3 id="pendingCount">0</h3>
+<p>Pending Payments</p>
+</div><div class="stat">
+<div class="stat-icon">🔴</div>
+<h3 id="liveCount">0</h3>
+<p>Live Classes</p>
+</div></div><h2 class="section-title">
+Teaching
+</h2><div class="menu"><a href="live-classes.html" class="card teach"><div class="card-icon">
+👑📚
+</div><h3>
+Teach Learners
+</h3><p>
+Enter teaching mode as CEO. Teach learners, start live classes,
+communicate with learners and take over a class when a teacher
+is unavailable.
+</p></a></div><h2 class="section-title" style="margin-top:22px;">
+Management
+</h2><div class="menu"><a href="payments.html" class="card"><div class="card-icon">
+💰
+</div><h3>
+Payments
+</h3><p>
+Review, approve or reject learner payments.
+</p></a><a href="payment-accounts.html" class="card"><div class="card-icon">
+💳
+</div><h3>
+Payment Accounts
+</h3><p>
+Manage Airtel Money, Zamtel Money and MTN MoMo accounts.
+</p></a><a href="learners.html" class="card"><div class="card-icon">
+👥
+</div><h3>
+Learners
+</h3><p>
+View and manage registered learners.
+</p></a><a href="teachers.html" class="card"><div class="card-icon">
+👨‍🏫
+</div><h3>
+Teachers
+</h3><p>
+Manage teachers and their accounts.
+</p></a><a href="teacher-applications.html" class="card"><div class="card-icon">
+📋
+</div><h3>
+Teacher Applications
+</h3><p>
+Review applications and hire teachers.
+</p></a><a href="subjects.html" class="card"><div class="card-icon">
+📚
+</div><h3>
+Subjects
+</h3><p>
+Add, edit and manage learning subjects.
+</p></a><a href="classes.html" class="card"><div class="card-icon">
+🏫
+</div><h3>
+Classes
+</h3><p>
+Create classes and assign teachers.
+</p></a><a href="live-classes.html" class="card"><div class="card-icon">
+🔴
+</div><h3>
+Live Classes
+</h3><p>
+Control scheduled live learning sessions.
+</p></a><a href="materials.html" class="card"><div class="card-icon">
+📖
+</div><h3>
+Learning Materials
+</h3><p>
+Manage notes and study resources.
+</p></a><a href="support.html" class="card"><div class="card-icon">
+💬
+</div><h3>
+Customer Support
+</h3><p>
+Manage learner questions and support requests.
+</p></a><a href="reports.html" class="card"><div class="card-icon">
+📊
+</div><h3>
+Reports
+</h3><p>
+View platform activity and payment reports.
+</p></a><a href="settings.html" class="card"><div class="card-icon">
+⚙️
+</div><h3>
+Settings
+</h3><p>
+Manage platform information and CEO controls.
+</p></a></div><div class="alert"><strong>
+⚠️ Administration & Teaching Notice
+</strong><br><br>
 
-</header>
+The CEO has the highest level of access.
 
-<div class="welcome">
+<br><br>
 
-<h2>Welcome, Learner 👋</h2>
+The CEO may teach learners when necessary, especially when an
+approved teacher is unavailable, absent or unable to conduct a
+scheduled class.
 
-<p>
-Your learning journey starts here.
-</p>
+<br><br>
 
-</div>
+Teacher hiring, payment approvals, suspensions and learner access
+remain under CEO control.
 
-<div class="container">
+</div><div class="security"><strong>
+🔐 CEO Security
+</strong><br><br>
 
-<!-- SUBSCRIPTION STATUS -->
+The CEO account has higher permissions than teacher and learner
+accounts.
 
-<div class="status">
+<br><br>
 
-<div class="status-top">
+Teachers cannot approve their own applications, approve payments
+or manage other teachers.
 
-<h3>Learning Access</h3>
+<br><br>
 
-<span class="badge" id="status">
-TRIAL
-</span>
+Learners only have access to their own learning account.
 
-</div>
+<br><br>
 
-<p id="statusText">
-Your free 6-hour learning trial is available.
-</p>
+The CEO can act as a backup teacher without needing teacher
+approval.
 
-</div>
+</div><footer>Mule Learner Tuition
 
+<br>CEO Administration • Learn • Practice • Succeed
 
-<!-- MAIN FEATURES -->
+</footer></div><script src="../js/app.js"></script><script src="../js/auth.js"></script><script src="../js/payments.js"></script><script src="../js/ceo.js"></script><script>
 
-<div class="grid">
+/* =========================================
+   FIREBASE DATABASE
+========================================= */
 
-<a href="subjects.html" class="card">
+const CEO_DATABASE_URL =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-<div class="icon">📚</div>
 
-<h3>My Subjects</h3>
+/* =========================================
+   FIREBASE GET
+========================================= */
 
-<p>
-View and choose your subjects.
-</p>
+async function ceoFirebaseGet(path){
 
-</a>
+const response=await fetch(
+CEO_DATABASE_URL+"/"+path+".json",
+{cache:"no-store"}
+);
 
+if(!response.ok){
+throw new Error("Firebase request failed.");
+}
 
-<a href="classes.html" class="card">
+return await response.json();
 
-<div class="icon">🏫</div>
+}
 
-<h3>My Classes</h3>
 
-<p>
-View your enrolled classes.
-</p>
+/* =========================================
+   FIREBASE OBJECT TO ARRAY
+========================================= */
 
-</a>
+function firebaseToArray(data){
 
+if(!data){
+return [];
+}
 
-<a href="live-class.html" class="card live">
+if(Array.isArray(data)){
+return data.filter(Boolean);
+}
 
-<div class="icon">🔴</div>
+return Object.keys(data)
+.map(function(key){
 
-<h3>Join Live Class</h3>
+const item=data[key];
 
-<p>
-Check for live lessons and join your teacher.
-</p>
+if(item && !item.id){
+item.id=key;
+}
 
-</a>
+return item;
 
+})
+.filter(Boolean);
 
-<a href="materials.html" class="card">
+}
 
-<div class="icon">📖</div>
 
-<h3>Learning Materials</h3>
+/* =========================================
+   LOAD CEO STATISTICS
+========================================= */
 
-<p>
-Access notes and study resources.
-</p>
+async function loadCEOStatistics(){
 
-</a>
+const loading=document.getElementById("loading");
 
+try{
 
-<a href="payments.html" class="card">
+const usersData=await ceoFirebaseGet("users");
+const paymentsData=await ceoFirebaseGet("payments");
+const liveData=await ceoFirebaseGet("liveClasses");
 
-<div class="icon">💰</div>
 
-<h3>Payments</h3>
+/* USERS */
 
-<p>
-View plans and make a payment.
-</p>
+const users=firebaseToArray(usersData);
 
-</a>
 
+/* PAYMENTS */
 
-<a href="payment-status.html" class="card">
+const payments=firebaseToArray(paymentsData);
 
-<div class="icon">🧾</div>
 
-<h3>Payment Status</h3>
+/* LEARNERS */
 
-<p>
-Check your payment approval.
-</p>
+const learners=users.filter(function(user){
 
-</a>
+return String(user.role||"")
+.toLowerCase()==="learner";
 
+});
 
-<a href="support.html" class="card">
 
-<div class="icon">📞</div>
+/* TEACHERS */
 
-<h3>Customer Support</h3>
+const teachers=users.filter(function(user){
 
-<p>
-Get help with your account or payment.
-</p>
+return String(user.role||"")
+.toLowerCase()==="teacher";
 
-</a>
+});
 
 
-<a href="profile.html" class="card">
+/* PENDING PAYMENTS */
 
-<div class="icon">👤</div>
+const pendingPayments=payments.filter(function(payment){
 
-<h3>My Profile</h3>
+return String(payment.status||"")
+.toLowerCase()==="pending";
 
-<p>
-View and manage your account.
-</p>
+});
 
-</a>
 
-</div>
+/* LIVE CLASSES */
 
+const liveClasses=firebaseToArray(liveData);
 
-<!-- SUPPORT -->
+const activeLiveClasses=liveClasses.filter(function(item){
 
-<div class="support">
+const status=String(item.status||"")
+.toLowerCase();
 
-<h3>Need Help?</h3>
+return status==="live" ||
+status==="active" ||
+status==="started";
 
-<p>
-If you have paid and your account has not been activated,
-contact us on WhatsApp.
-</p>
+});
 
-<a
-href="https://wa.me/260978362800"
-class="whatsapp">
 
-💬 WhatsApp Support
+/* DISPLAY COUNTS */
 
-</a>
+document.getElementById("learnerCount").textContent=
+learners.length;
 
-</div>
+document.getElementById("teacherCount").textContent=
+teachers.length;
 
-<footer>
+document.getElementById("pendingCount").textContent=
+pendingPayments.length;
 
-Mule Learner Tuition<br>
-Learn • Practice • Succeed
+document.getElementById("liveCount").textContent=
+activeLiveClasses.length;
 
-</footer>
 
-</div>
+/* CONNECTION STATUS */
 
+if(loading){
 
-<script>
+loading.textContent=
+"✓ Platform information updated";
+
+setTimeout(function(){
+
+loading.style.display="none";
+
+},1200);
+
+}
+
+}catch(error){
+
+console.error("CEO dashboard error:",error);
+
+if(loading){
+
+loading.textContent=
+"Unable to load platform information.";
+
+}
+
+}
+
+}
+
+
+/* =========================================
+   CHECK CEO ACCESS
+========================================= */
+
+function checkCEOAccess(){
+
+let user=null;
+
+try{
+
+user=JSON.parse(
+localStorage.getItem("muleCurrentUser")
+);
+
+}catch(error){
+
+user=null;
+
+}
+
+
+if(!user){
+
+window.location.href="../login.html";
+return false;
+
+}
+
+
+if(
+String(user.role||"").toLowerCase()!=="ceo"
+){
+
+alert(
+"You do not have permission to access the CEO dashboard."
+);
+
+window.location.href="../login.html";
+
+return false;
+
+}
+
+
+if(
+String(user.status||"").toLowerCase()==="suspended"
+){
+
+alert(
+"Your CEO account has been suspended."
+);
+
+localStorage.removeItem("muleCurrentUser");
+
+window.location.href="../login.html";
+
+return false;
+
+}
+
+return true;
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
 
 function logout(){
 
-const confirmLogout =
-confirm("Are you sure you want to logout?");
+const confirmLogout=confirm(
+"Are you sure you want to logout?"
+);
 
-if(confirmLogout){
+if(!confirmLogout){
+return;
+}
 
+if(typeof logoutUser==="function"){
+
+logoutUser();
+
+}else{
+
+localStorage.removeItem("muleCurrentUser");
 window.location.href="../login.html";
 
 }
 
 }
 
-<script src="../js/app.js"></script>
-<script src="../js/learner.js"></script></body>
+
+/* =========================================
+   START DASHBOARD
+========================================= */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+if(!checkCEOAccess()){
+return;
+}
+
+
+/* Load immediately */
+
+loadCEOStatistics();
+
+
+/* Refresh every 10 seconds */
+
+setInterval(function(){
+
+loadCEOStatistics();
+
+},10000);
+
+});
+
+</script></body>
 </html>
