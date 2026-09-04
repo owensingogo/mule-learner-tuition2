@@ -89,25 +89,67 @@ appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
 const db=getDatabase(app);
 
 const session=JSON.parse(localStorage.getItem("muleCurrentUser")||"null");
-if(!session||session.role!=="teacher"){location.href="../login.html";throw Error("Teacher login required")}
 
-const teacherId=session.id,teacherName=session.name||"Teacher";
-const ID=new URLSearchParams(location.search).get("id");
-if(!ID){document.getElementById("status").textContent="No live class selected.";throw Error("Missing class ID")}
+if(!session||session.role!=="teacher"){
+location.href="../login.html";
+throw Error("Teacher login required");
+}
 
-const liveRef=ref(db,"liveClasses/"+ID);
-const partRef=ref(db,"liveClasses/"+ID+"/participants");
+const teacherId=session.id;
+const teacherName=session.name||"Teacher";
+const classId=new URLSearchParams(location.search).get("id");
 
-document.getElementById("teacherName").textContent=teacherName;
+if(!classId){
+status.textContent="No live class selected.";
+throw Error("Missing class ID");
+}
 
-let localStream=null,peers={},queues={},remoteStreams={},heartbeat=null;
+let liveId=classId;
+let liveRef=null;
+let partRef=null;
+let localStream=null;
+let peers={};
+let queues={};
+let remoteStreams={};
+let heartbeat=null;
 
-const config={iceServers:[
+const config={
+iceServers:[
 {urls:"stun:stun.l.google.com:19302"},
 {urls:"stun:stun1.l.google.com:19302"}
-]};
+],
+iceCandidatePoolSize:10
+};
 
 const now=()=>Date.now();
+
+teacherNameEl().textContent=teacherName;
+
+function teacherNameEl(){
+return document.getElementById("teacherName");
+}
+
+/* FIND THE REAL LIVE CLASS ID */
+async function resolveLiveClass(){
+try{
+const snap=await get(ref(db,"classes/"+classId));
+
+if(snap.exists()){
+const c=snap.val();
+
+liveId=c.liveClassId||classId;
+
+document.getElementById("subjectName").textContent=c.subject||"Mathematics";
+document.getElementById("levelName").textContent=c.level||c.grade||"Grade 10";
+}
+
+}catch(e){
+console.warn("Class lookup:",e);
+}
+
+liveRef=ref(db,"liveClasses/"+liveId);
+partRef=ref(db,"liveClasses/"+liveId+"/participants");
+}
 
 /* CAMERA */
 async function startCamera(){
@@ -116,8 +158,10 @@ localStream=await navigator.mediaDevices.getUserMedia({
 video:{facingMode:"user",width:{ideal:1280},height:{ideal:720}},
 audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}
 });
+
 localVideo.srcObject=localStream;
 return true;
+
 }catch(e){
 console.error(e);
 status.textContent="Camera/microphone unavailable. Continuing receive-only.";
@@ -127,47 +171,72 @@ return false;
 
 /* PRESENCE */
 async function startPresence(){
-const onlineRef=ref(db,"liveClasses/"+ID+"/teacherOnline");
-const seenRef=ref(db,"liveClasses/"+ID+"/lastSeen");
+const onlineRef=ref(db,"liveClasses/"+liveId+"/teacherOnline");
+const seenRef=ref(db,"liveClasses/"+liveId+"/lastSeen");
 
 await onDisconnect(onlineRef).set(false);
 await onDisconnect(seenRef).set(0);
 
-await update(liveRef,{teacherOnline:true,lastSeen:now()});
+await update(liveRef,{
+teacherOnline:true,
+lastSeen:now()
+});
 
 heartbeat=setInterval(async()=>{
 try{
-await update(liveRef,{teacherOnline:true,lastSeen:now()});
-}catch(e){console.error("Heartbeat:",e)}
+await update(liveRef,{
+teacherOnline:true,
+lastSeen:now()
+});
+}catch(e){
+console.error("Heartbeat:",e);
+}
 },15000);
 }
 
 function stopPresence(){
-if(heartbeat){clearInterval(heartbeat);heartbeat=null}
+if(heartbeat){
+clearInterval(heartbeat);
+heartbeat=null;
+}
 }
 
 /* START */
 async function startClass(){
+
+await resolveLiveClass();
+
 await startCamera();
+
+const subject=document.getElementById("subjectName").textContent||"Mathematics";
+const level=document.getElementById("levelName").textContent||"Grade 10";
 
 await update(liveRef,{
 status:"live",
 teacherId,
 teacherName,
-subject:"Mathematics",
-level:"Grade 10",
+subject,
+level,
+grade:level,
 startedAt:new Date().toISOString(),
 teacherOnline:true,
 lastSeen:now()
 });
 
-await set(ref(db,"liveClasses/"+ID+"/participants/"+teacherId),{
-role:"teacher",name:teacherName,joinedAt:new Date().toISOString()
-});
+await set(
+ref(db,"liveClasses/"+liveId+"/participants/"+teacherId),
+{
+id:teacherId,
+role:"teacher",
+name:teacherName,
+joinedAt:new Date().toISOString()
+}
+);
 
 await startPresence();
 
 status.textContent="🟢 Live — waiting for learners...";
+
 listenParticipants();
 listenChat();
 notifyCEO();
@@ -175,46 +244,83 @@ notifyCEO();
 
 /* LEARNERS */
 function listenParticipants(){
+
 onValue(partRef,s=>{
+
 const data=s.val()||{};
-const learners=Object.entries(data).filter(([id,p])=>id!==teacherId&&p&&p.role==="learner");
+
+const learners=Object.entries(data)
+.filter(([id,p])=>
+id!==teacherId&&p&&p.role==="learner"
+);
 
 renderLearners(learners);
+
 participantCount.textContent=Object.keys(data).length;
 
-learners.forEach(([id])=>{if(!peers[id])createPeer(id)});
+learners.forEach(([id])=>{
+if(!peers[id])createPeer(id);
+});
 
 Object.keys(peers).forEach(id=>{
-if(!data[id]){peers[id].close();delete peers[id]}
+if(!data[id]){
+peers[id].close();
+delete peers[id];
+delete queues[id];
+delete remoteStreams[id];
+}
 });
 });
 }
 
 function renderLearners(list){
+
 const box=document.getElementById("learners");
-if(!list.length){box.innerHTML='<div class="empty">No learners connected yet.</div>';return}
+
+if(!list.length){
+box.innerHTML='<div class="empty">No learners connected yet.</div>';
+return;
+}
+
 box.innerHTML="";
+
 list.forEach(([id,p])=>{
+
 const d=document.createElement("div");
 d.className="learner";
+
 const v=document.createElement("video");
-v.autoplay=true;v.playsInline=true;v.id="video-"+id;
+v.autoplay=true;
+v.playsInline=true;
+v.muted=true;
+v.id="video-"+id;
+
 const n=document.createElement("div");
-n.className="name";n.textContent=p.name||"Learner";
-d.append(v,n);box.appendChild(d);
+n.className="name";
+n.textContent=p.name||"Learner";
+
+d.append(v,n);
+box.appendChild(d);
+
 if(remoteStreams[id])v.srcObject=remoteStreams[id];
 });
 }
 
 /* WEBRTC */
 async function createPeer(id){
+
 if(peers[id])return;
 
 const pc=new RTCPeerConnection(config);
-peers[id]=pc;queues[id]=[];
 
-if(localStream)localStream.getTracks().forEach(t=>pc.addTrack(t,localStream));
-else{
+peers[id]=pc;
+queues[id]=[];
+
+if(localStream){
+localStream.getTracks().forEach(track=>{
+pc.addTrack(track,localStream);
+});
+}else{
 pc.addTransceiver("audio",{direction:"recvonly"});
 pc.addTransceiver("video",{direction:"recvonly"});
 }
@@ -223,174 +329,430 @@ const stream=new MediaStream();
 remoteStreams[id]=stream;
 
 pc.ontrack=e=>{
-if(e.streams[0])e.streams[0].getTracks().forEach(t=>{
-if(!stream.getTrackById(t.id))stream.addTrack(t);
-});
-const v=document.getElementById("video-"+id);
-if(v)v.srcObject=stream;
-};
 
-pc.onicecandidate=async e=>{
-if(e.candidate){
-const r=ref(db,"liveClasses/"+ID+"/participants/"+id+"/teacherCandidates");
-const key=push(r).key;
-await set(ref(db,r.toString()+"/"+key),e.candidate.toJSON());
+const tracks=e.streams[0]
+?e.streams[0].getTracks()
+:[e.track];
+
+tracks.forEach(track=>{
+if(!stream.getTracks().some(t=>t.id===track.id)){
+stream.addTrack(track);
+}
+});
+
+const v=document.getElementById("video-"+id);
+
+if(v){
+v.srcObject=stream;
+v.play().catch(()=>{});
 }
 };
 
-const pRef=ref(db,"liveClasses/"+ID+"/participants/"+id);
-const snap=await get(pRef);
-if(!snap.exists())return;
+/* TEACHER ICE */
+pc.onicecandidate=e=>{
 
-/* ANSWER */
-onValue(ref(db,"liveClasses/"+ID+"/participants/"+id+"/answer"),async s=>{
-const a=s.val();
-if(!a||pc.signalingState!=="have-local-offer")return;
+if(!e.candidate)return;
+
+const r=push(
+ref(
+db,
+"liveClasses/"+liveId+
+"/participants/"+id+
+"/teacherCandidates"
+)
+);
+
+set(r,e.candidate.toJSON()).catch(console.error);
+};
+
+pc.onconnectionstatechange=()=>{
+console.log("Teacher peer",id,pc.connectionState);
+
+if(pc.connectionState==="connected"){
+status.textContent="🟢 Teacher connected to learner";
+}
+
+if(pc.connectionState==="failed"){
+console.warn("Peer failed:",id);
+}
+};
+
+pc.oniceconnectionstatechange=()=>{
+console.log(
+"Teacher ICE",
+id,
+pc.iceConnectionState
+);
+};
+
+const pRef=ref(
+db,
+"liveClasses/"+liveId+
+"/participants/"+id
+);
+
+const snap=await get(pRef);
+
+if(!snap.exists()){
+console.warn("Learner disappeared:",id);
+return;
+}
+
+/* LEARNER ANSWER */
+onValue(
+ref(
+db,
+"liveClasses/"+liveId+
+"/participants/"+id+
+"/answer"
+),
+async s=>{
+
+const answer=s.val();
+
+if(!answer)return;
+
+if(
+pc.signalingState!=="have-local-offer"||
+pc.currentRemoteDescription
+)return;
+
 try{
-await pc.setRemoteDescription(new RTCSessionDescription(a));
-for(const c of queues[id])await pc.addIceCandidate(new RTCIceCandidate(c));
+
+await pc.setRemoteDescription(
+new RTCSessionDescription({
+type:answer.type,
+sdp:answer.sdp
+})
+);
+
+for(const c of queues[id]){
+
+try{
+await pc.addIceCandidate(
+new RTCIceCandidate(c)
+);
+}catch(e){
+console.warn("Queued learner ICE:",e);
+}
+}
+
 queues[id]=[];
-}catch(e){console.error(e)}
+
+}catch(e){
+console.error("Answer error:",e);
+}
 });
 
 /* LEARNER ICE */
-onValue(ref(db,"liveClasses/"+ID+"/participants/"+id+"/participantCandidates"),async s=>{
+onValue(
+ref(
+db,
+"liveClasses/"+liveId+
+"/participants/"+id+
+"/participantCandidates"
+),
+async s=>{
+
 const data=s.val()||{};
+
 for(const c of Object.values(data)){
+
 try{
-if(pc.remoteDescription)await pc.addIceCandidate(new RTCIceCandidate(c));
-else queues[id].push(c);
-}catch(e){console.error(e)}
+
+if(pc.remoteDescription){
+await pc.addIceCandidate(
+new RTCIceCandidate(c)
+);
+}else{
+queues[id].push(c);
+}
+
+}catch(e){
+console.warn("Learner ICE error:",e);
+}
 }
 });
 
-/* OFFER */
+/* CREATE OFFER */
 try{
-const offer=await pc.createOffer();
-await pc.setLocalDescription(offer);
-await set(ref(db,"liveClasses/"+ID+"/participants/"+id+"/offer"),{
-type:offer.type,sdp:offer.sdp
+
+const offer=await pc.createOffer({
+offerToReceiveAudio:true,
+offerToReceiveVideo:true
 });
-}catch(e){console.error("Offer:",e)}
+
+await pc.setLocalDescription(offer);
+
+await set(
+ref(
+db,
+"liveClasses/"+liveId+
+"/participants/"+id+
+"/offer"
+),
+{
+type:offer.type,
+sdp:offer.sdp
+}
+);
+
+console.log("Offer sent to learner:",id);
+
+}catch(e){
+console.error("Offer error:",e);
+}
 }
 
 /* MIC */
 window.toggleMic=()=>{
 if(!localStream)return;
+
 const t=localStream.getAudioTracks()[0];
 if(!t)return;
+
 t.enabled=!t.enabled;
-micBtn.textContent=t.enabled?"🎤 Mic On":"🔇 Mic Off";
+
+micBtn.textContent=
+t.enabled?"🎤 Mic On":"🔇 Mic Off";
 };
 
 /* CAMERA */
 window.toggleCamera=()=>{
 if(!localStream)return;
+
 const t=localStream.getVideoTracks()[0];
 if(!t)return;
+
 t.enabled=!t.enabled;
-cameraBtn.textContent=t.enabled?"📹 Camera On":"📷 Camera Off";
+
+cameraBtn.textContent=
+t.enabled?"📹 Camera On":"📷 Camera Off";
 };
 
 /* SWITCH CAMERA */
 window.switchCamera=async()=>{
 if(!localStream)return;
+
 const old=localStream.getVideoTracks()[0];
 if(!old)return;
+
 try{
-const facing=old.getSettings().facingMode==="user"?"environment":"user";
-const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:facing},audio:false});
+
+const facing=
+old.getSettings().facingMode==="user"
+?"environment"
+:"user";
+
+const s=await navigator.mediaDevices.getUserMedia({
+video:{facingMode:facing},
+audio:false
+});
+
 const nt=s.getVideoTracks()[0];
-localStream.removeTrack(old);old.stop();localStream.addTrack(nt);
+
+localStream.removeTrack(old);
+old.stop();
+localStream.addTrack(nt);
+
 localVideo.srcObject=localStream;
+
 Object.values(peers).forEach(pc=>{
-const sender=pc.getSenders().find(x=>x.track&&x.track.kind==="video");
+const sender=pc.getSenders().find(
+x=>x.track&&x.track.kind==="video"
+);
+
 if(sender)sender.replaceTrack(nt);
 });
-}catch(e){alert("Unable to switch camera.")}
+
+}catch(e){
+alert("Unable to switch camera.");
+}
 };
 
 /* TORCH */
 window.toggleTorch=async()=>{
 if(!localStream)return;
+
 const t=localStream.getVideoTracks()[0];
 if(!t)return;
-const c=t.getCapabilities();
-if(!c.torch){alert("Torch is not supported by this camera.");return}
+
+const c=t.getCapabilities?.();
+
+if(!c?.torch){
+alert("Torch is not supported by this camera.");
+return;
+}
+
+try{
 const s=t.getSettings();
-await t.applyConstraints({advanced:[{torch:!s.torch}]});
+await t.applyConstraints({
+advanced:[{torch:!s.torch}]
+});
+}catch(e){
+console.warn("Torch:",e);
+}
 };
 
 /* CHAT */
 window.sendMessage=async()=>{
+
 const input=document.getElementById("chatInput");
 const text=input.value.trim();
+
 if(!text)return;
-const r=push(ref(db,"liveClasses/"+ID+"/chat"));
+
+try{
+
+const r=push(
+ref(db,"liveClasses/"+liveId+"/chat")
+);
+
 await set(r,{
-id:r.key,senderId:teacherId,senderName:teacherName,role:"teacher",
-message:text,createdAt:new Date().toISOString()
+id:r.key,
+senderId:teacherId,
+senderName:teacherName,
+role:"teacher",
+message:text,
+createdAt:new Date().toISOString()
 });
+
 input.value="";
+
+}catch(e){
+console.error(e);
+}
 };
 
 function listenChat(){
-onValue(ref(db,"liveClasses/"+ID+"/chat"),s=>{
+
+onValue(
+ref(db,"liveClasses/"+liveId+"/chat"),
+s=>{
+
 const data=s.val()||{};
-const messages=Object.values(data).sort((a,b)=>new Date(a.createdAt)-new Date(b.createdAt));
+
+const messages=
+Object.values(data).sort(
+(a,b)=>
+new Date(a.createdAt)-
+new Date(b.createdAt)
+);
+
 const box=document.getElementById("chat");
-if(!messages.length){box.innerHTML='<div class="empty">No messages yet.</div>';return}
+
+if(!messages.length){
+box.innerHTML='<div class="empty">No messages yet.</div>';
+return;
+}
+
 box.innerHTML="";
+
 messages.forEach(x=>{
+
 const d=document.createElement("div");
 d.className="message";
-d.innerHTML="<b>"+escapeHTML(x.senderName||"User")+":</b> "+escapeHTML(x.message||"");
+
+d.innerHTML=
+"<b>"+
+escapeHTML(x.senderName||"User")+
+":</b> "+
+escapeHTML(x.message||"");
+
 box.appendChild(d);
 });
+
 box.scrollTop=box.scrollHeight;
 });
 }
 
 function escapeHTML(v){
-return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+return String(v)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 }
 
 /* END CLASS */
 window.endClass=async()=>{
-if(!confirm("Are you sure you want to end this class?"))return;
+
+if(!confirm("Are you sure you want to end this class?"))
+return;
 
 stopPresence();
 
 try{
+
 await update(liveRef,{
 status:"ended",
 teacherOnline:false,
 lastSeen:0,
 endedAt:new Date().toISOString()
 });
-await remove(ref(db,"liveClasses/"+ID+"/participants/"+teacherId));
-}catch(e){console.error(e)}
+
+await remove(
+ref(
+db,
+"liveClasses/"+liveId+
+"/participants/"+teacherId
+)
+);
+
+}catch(e){
+console.error(e);
+}
 
 Object.values(peers).forEach(p=>p.close());
-if(localStream)localStream.getTracks().forEach(t=>t.stop());
+
+if(localStream){
+localStream.getTracks().forEach(t=>t.stop());
+}
 
 location.href="dashboard.html";
 };
 
 /* CEO */
 async function notifyCEO(){
+
 try{
-const id="NOT-"+Date.now()+"-"+Math.random().toString(36).substring(2,7).toUpperCase();
-await set(ref(db,"notifications/"+id),{
-id,type:"teacher_live_start",
+
+const id=
+"NOT-"+Date.now()+"-"+
+Math.random()
+.toString(36)
+.substring(2,7)
+.toUpperCase();
+
+await set(
+ref(db,"notifications/"+id),
+{
+id,
+type:"teacher_live_start",
 title:"🔴 Teacher Started Live Class",
-message:teacherName+" has started the Grade 10 Mathematics live class.",
-teacherId,teacherName,teacherPhone:session.phone||"",
-classId:ID,subject:"Mathematics",level:"Grade 10",
-read:false,createdAt:new Date().toISOString(),
+message:
+teacherName+
+" has started the "+
+document.getElementById("levelName").textContent+
+" "+
+document.getElementById("subjectName").textContent+
+" live class.",
+teacherId,
+teacherName,
+teacherPhone:session.phone||"",
+classId:classId,
+subject:document.getElementById("subjectName").textContent,
+level:document.getElementById("levelName").textContent,
+read:false,
+createdAt:new Date().toISOString(),
 createdBy:"Teacher Live Class"
-});
-}catch(e){console.error("CEO notification:",e)}
+}
+);
+
+}catch(e){
+console.error("CEO notification:",e);
+}
 }
 
 /* LOGOUT */
