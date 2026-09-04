@@ -14,7 +14,7 @@ header button{border:0;background:#fff;color:#173b8f;border-radius:8px;padding:8
 main{max-width:900px;margin:auto;padding:14px}
 .hero{background:#173b8f;color:white;border-radius:14px;padding:18px;margin-bottom:14px}
 .hero h1{margin:0 0 5px;font-size:24px}
-.card{background:white;border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px #00000012}
+.card{background:#fff;border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px #00000012}
 .videoBox{position:relative;background:#111;border-radius:12px;overflow:hidden}
 #remoteVideo{width:100%;height:420px;object-fit:cover;background:#000}
 .localVideo{position:absolute;right:12px;bottom:12px;width:125px;height:90px;object-fit:cover;border:2px solid white;border-radius:9px;background:#222}
@@ -107,10 +107,11 @@ const firebaseConfig={
 
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
-
 const $=id=>document.getElementById(id);
 
-const session=JSON.parse(localStorage.getItem("muleCurrentUser")||"null");
+const session=JSON.parse(
+ localStorage.getItem("muleCurrentUser")||"null"
+);
 
 if(!session||session.role!=="learner"){
  alert("Learner login required.");
@@ -134,7 +135,6 @@ let ended=false;
 let remoteDescriptionReady=false;
 let queuedTeacherCandidates=[];
 
-/* STUN */
 function iceServers(){
  return[
   {urls:"stun:stun.l.google.com:19302"},
@@ -142,7 +142,6 @@ function iceServers(){
  ];
 }
 
-/* Load live class */
 async function loadClass(){
 
  const snap=await get(ref(db,base));
@@ -170,7 +169,6 @@ async function loadClass(){
 
 }
 
-/* Start learner */
 async function start(){
 
  $("status").textContent="Starting camera...";
@@ -218,7 +216,6 @@ async function start(){
 
 }
 
-/* WebRTC peer */
 function createPeer(){
 
  pc=new RTCPeerConnection({
@@ -226,36 +223,49 @@ function createPeer(){
   iceCandidatePoolSize:10
  });
 
- /* Send learner camera/mic */
  if(localStream){
 
   localStream.getTracks().forEach(track=>{
    pc.addTrack(track,localStream);
   });
 
- }else{
-
-  pc.addTransceiver("audio",{direction:"recvonly"});
-  pc.addTransceiver("video",{direction:"recvonly"});
  }
 
- /* Receive teacher */
  pc.ontrack=e=>{
 
-  if(e.track&&!remoteStream.getTracks().some(t=>t.id===e.track.id)){
+  console.log(
+   "Learner received teacher track:",
+   e.track.kind
+  );
+
+  if(
+   e.track &&
+   !remoteStream.getTracks().some(
+    t=>t.id===e.track.id
+   )
+  ){
+
    remoteStream.addTrack(e.track);
+
   }
 
   $("remoteVideo").srcObject=remoteStream;
 
+  $("remoteVideo").muted=false;
+  $("remoteVideo").volume=1;
+
   $("remoteVideo").play().catch(()=>{});
 
   $("status").textContent="🟢 Connected to teacher";
+
  };
 
  pc.onconnectionstatechange=()=>{
 
-  console.log("Learner connection:",pc.connectionState);
+  console.log(
+   "Learner connection:",
+   pc.connectionState
+  );
 
   if(pc.connectionState==="connected"){
    $("status").textContent="🟢 Connected to teacher";
@@ -272,9 +282,12 @@ function createPeer(){
   if(pc.connectionState==="disconnected"){
    $("status").textContent="⚠️ Teacher connection interrupted...";
   }
+
  };
 
- /* Learner ICE */
+ /*
+  * Learner ICE -> teacher
+  */
  pc.onicecandidate=async e=>{
 
   if(!e.candidate)return;
@@ -282,25 +295,38 @@ function createPeer(){
   try{
 
    const r=push(
-    ref(db,
-    base+"/participants/"+session.id+"/participantCandidates")
+    ref(
+     db,
+     base+
+     "/participants/"+session.id+
+     "/participantCandidates"
+    )
    );
 
    await set(r,e.candidate.toJSON());
 
   }catch(err){
 
-   console.error("Learner ICE error",err);
+   console.error(
+    "Learner ICE error",
+    err
+   );
+
   }
+
  };
 
 }
 
-/* Teacher offer */
 function listenOffer(){
 
  onValue(
-  ref(db,base+"/participants/"+session.id+"/offer"),
+  ref(
+   db,
+   base+
+   "/participants/"+session.id+
+   "/offer"
+  ),
   async snap=>{
 
    const offer=snap.val();
@@ -309,64 +335,90 @@ function listenOffer(){
 
    try{
 
-    if(!pc.currentRemoteDescription){
+    if(pc.currentRemoteDescription)return;
 
-     await pc.setRemoteDescription(
-      new RTCSessionDescription(offer)
-     );
+    await pc.setRemoteDescription(
+     new RTCSessionDescription(offer)
+    );
 
-     remoteDescriptionReady=true;
+    remoteDescriptionReady=true;
 
-     /* Add queued teacher ICE */
-     for(const c of queuedTeacherCandidates){
+    /*
+     * Add teacher candidates that arrived early.
+     */
+    for(
+     const c of queuedTeacherCandidates
+    ){
 
-      try{
-       await pc.addIceCandidate(
-        new RTCIceCandidate(c)
-       );
-      }catch(e){
-       console.error(e);
-      }
+     try{
+
+      await pc.addIceCandidate(
+       new RTCIceCandidate(c)
+      );
+
+     }catch(e){
+
+      console.error(
+       "Queued teacher ICE error",
+       e
+      );
+
      }
-
-     queuedTeacherCandidates=[];
-
-     const answer=await pc.createAnswer();
-
-     await pc.setLocalDescription(answer);
-
-     await set(
-      ref(db,
-      base+"/participants/"+session.id+"/answer"),
-      {
-       type:answer.type,
-       sdp:answer.sdp
-      }
-     );
-
-     $("status").textContent="Connecting to teacher...";
-
-     console.log("Answer sent to teacher");
 
     }
 
+    queuedTeacherCandidates=[];
+
+    const answer=await pc.createAnswer();
+
+    await pc.setLocalDescription(answer);
+
+    await set(
+     ref(
+      db,
+      base+
+      "/participants/"+session.id+
+      "/answer"
+     ),
+     {
+      type:answer.type,
+      sdp:answer.sdp
+     }
+    );
+
+    $("status").textContent=
+     "Connecting to teacher...";
+
+    console.log(
+     "Learner answer sent"
+    );
+
    }catch(e){
 
-    console.error("Offer error",e);
+    console.error(
+     "Offer error",
+     e
+    );
 
-    $("status").textContent="❌ WebRTC error.";
+    $("status").textContent=
+     "❌ WebRTC error.";
 
    }
+
   }
  );
+
 }
 
-/* Teacher ICE */
 function listenTeacherCandidates(){
 
  onChildAdded(
-  ref(db,
-  base+"/participants/"+session.id+"/teacherCandidates"),
+  ref(
+   db,
+   base+
+   "/participants/"+session.id+
+   "/teacherCandidates"
+  ),
   async snap=>{
 
    const c=snap.val();
@@ -375,23 +427,38 @@ function listenTeacherCandidates(){
 
    try{
 
-    if(remoteDescriptionReady&&pc.remoteDescription){
+    /*
+     * Never throw away an early ICE candidate.
+     */
+    if(
+     remoteDescriptionReady &&
+     pc.remoteDescription
+    ){
+
      await pc.addIceCandidate(
       new RTCIceCandidate(c)
      );
+
     }else{
+
      queuedTeacherCandidates.push(c);
+
     }
 
    }catch(e){
 
-    console.error("Teacher ICE error",e);
+    console.error(
+     "Teacher ICE error",
+     e
+    );
+
    }
+
   }
  );
+
 }
 
-/* Live class information */
 function listenClass(){
 
  onValue(
@@ -402,34 +469,47 @@ function listenClass(){
 
    const c=snap.val();
 
-   const learners=Object.values(c.participants||{})
-    .filter(p=>p&&p.role==="learner");
+   const learners=
+    Object.values(c.participants||{})
+    .filter(
+     p=>p&&p.role==="learner"
+    );
 
-   /* Learners only */
-   $("participants").textContent=learners.length;
+   $("participants").textContent=
+    learners.length;
 
    if(c.status==="ended"&&!ended){
 
     ended=true;
 
-    $("status").textContent="⚫ Live class ended by teacher.";
+    $("status").textContent=
+     "⚫ Live class ended by teacher.";
 
     if(localStream){
-     localStream.getTracks().forEach(t=>t.stop());
+     localStream
+      .getTracks()
+      .forEach(t=>t.stop());
     }
 
     if(pc)pc.close();
+
    }
 
-   if(c.status==="live"&&c.teacherOnline===false){
-    $("status").textContent="⚠️ Teacher connection interrupted...";
+   if(
+    c.status==="live"&&
+    c.teacherOnline===false
+   ){
+
+    $("status").textContent=
+     "⚠️ Teacher connection interrupted...";
+
    }
 
   }
  );
+
 }
 
-/* Sound */
 $("soundBtn").onclick=async()=>{
 
  const video=$("remoteVideo");
@@ -441,85 +521,111 @@ $("soundBtn").onclick=async()=>{
 
   await video.play();
 
-  $("soundBtn").textContent="🔊 Teacher Sound ON";
+  $("soundBtn").textContent=
+   "🔊 Teacher Sound ON";
 
  }catch(e){
 
   console.error(e);
-  $("soundBtn").textContent="❌ Tap again to play sound";
+
+  $("soundBtn").textContent=
+   "❌ Tap again to play sound";
+
  }
+
 };
 
-/* Mic */
 $("micBtn").onclick=()=>{
 
  if(!localStream)return;
 
- const track=localStream.getAudioTracks()[0];
+ const track=
+  localStream.getAudioTracks()[0];
 
  if(!track)return;
 
  track.enabled=!track.enabled;
 
  $("micBtn").textContent=
-  track.enabled?"🎤 Mic ON":"🔇 Mic OFF";
+  track.enabled?
+  "🎤 Mic ON":
+  "🔇 Mic OFF";
 
  update(
-  ref(db,base+"/participants/"+session.id),
+  ref(
+   db,
+   base+
+   "/participants/"+session.id
+  ),
   {mic:track.enabled}
  );
+
 };
 
-/* Camera */
 $("cameraBtn").onclick=()=>{
 
  if(!localStream)return;
 
- const track=localStream.getVideoTracks()[0];
+ const track=
+  localStream.getVideoTracks()[0];
 
  if(!track)return;
 
  track.enabled=!track.enabled;
 
  $("cameraBtn").textContent=
-  track.enabled?"📷 Camera ON":"📷 Camera OFF";
+  track.enabled?
+  "📷 Camera ON":
+  "📷 Camera OFF";
 
  update(
-  ref(db,base+"/participants/"+session.id),
+  ref(
+   db,
+   base+
+   "/participants/"+session.id
+  ),
   {camera:track.enabled}
  );
+
 };
 
-/* Torch */
 $("torchBtn").onclick=async()=>{
 
  if(!localStream)return;
 
- const track=localStream.getVideoTracks()[0];
+ const track=
+  localStream.getVideoTracks()[0];
 
  if(!track)return;
 
  const caps=track.getCapabilities();
 
  if(!caps.torch){
-  alert("Flashlight is not available on this camera.");
+
+  alert(
+   "Flashlight is not available on this camera."
+  );
+
   return;
  }
 
  try{
 
-  const current=track.getSettings().torch||false;
+  const current=
+   track.getSettings().torch||false;
 
   await track.applyConstraints({
    advanced:[{torch:!current}]
   });
 
  }catch(e){
+
   console.error(e);
+
  }
+
 };
 
-/* Leave */
 $("leaveBtn").onclick=async()=>{
 
  if(ended)return;
@@ -533,11 +639,17 @@ $("leaveBtn").onclick=async()=>{
   if(pc)pc.close();
 
   if(localStream){
-   localStream.getTracks().forEach(t=>t.stop());
+   localStream
+    .getTracks()
+    .forEach(t=>t.stop());
   }
 
   await remove(
-   ref(db,base+"/participants/"+session.id)
+   ref(
+    db,
+    base+
+    "/participants/"+session.id
+   )
   );
 
  }catch(e){
@@ -547,9 +659,9 @@ $("leaveBtn").onclick=async()=>{
  }
 
  location.href="../dashboard.html";
+
 };
 
-/* Chat */
 function listenChat(){
 
  onChildAdded(
@@ -561,6 +673,7 @@ function listenChat(){
    if(!m)return;
 
    const div=document.createElement("div");
+
    div.className="msg";
 
    div.innerHTML=
@@ -568,51 +681,78 @@ function listenChat(){
      ${escapeHTML(m.message||"")}`;
 
    $("chat").appendChild(div);
-   $("chat").scrollTop=$("chat").scrollHeight;
+
+   $("chat").scrollTop=
+    $("chat").scrollHeight;
+
   }
  );
+
 }
 
 $("sendBtn").onclick=sendChat;
 
-$("chatInput").addEventListener("keydown",e=>{
- if(e.key==="Enter")sendChat();
-});
+$("chatInput").addEventListener(
+ "keydown",
+ e=>{
+  if(e.key==="Enter")sendChat();
+ }
+);
 
 async function sendChat(){
 
- const text=$("chatInput").value.trim();
+ const text=
+  $("chatInput").value.trim();
 
  if(!text)return;
 
  $("chatInput").value="";
 
- await set(push(ref(db,base+"/chat")),{
-  name:session.name||"Learner",
-  userId:session.id,
-  role:"learner",
-  message:text,
-  time:Date.now()
- });
+ await set(
+  push(
+   ref(db,base+"/chat")
+  ),
+  {
+   name:session.name||"Learner",
+   userId:session.id,
+   role:"learner",
+   message:text,
+   time:Date.now()
+  }
+ );
+
 }
 
 function escapeHTML(s){
+
  return String(s)
   .replaceAll("&","&amp;")
   .replaceAll("<","&lt;")
   .replaceAll(">","&gt;")
   .replaceAll('"',"&quot;")
   .replaceAll("'","&#039;");
+
 }
 
 await loadClass();
 
-window.addEventListener("beforeunload",()=>{
- try{
-  if(localStream)localStream.getTracks().forEach(t=>t.stop());
-  if(pc)pc.close();
- }catch(e){}
-});
+window.addEventListener(
+ "beforeunload",
+ ()=>{
+  try{
+
+   if(localStream){
+    localStream
+     .getTracks()
+     .forEach(t=>t.stop());
+   }
+
+   if(pc)pc.close();
+
+  }catch(e){}
+ }
+);
+
 </script>
 
 </body>
