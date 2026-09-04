@@ -1,541 +1,196 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+<title>My Classes | Mule Learner Tuition</title>
 
-<meta name="theme-color"
-content="#173b8f">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
+header{background:#173b8f;color:white;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:18px;font-weight:800}
+.back{color:white;text-decoration:none;font-size:13px}
+.container{max-width:800px;margin:auto;padding:20px 16px}
+.heading{margin-bottom:20px}
+.heading h1{font-size:24px;color:#173b8f;margin-bottom:5px}
+.heading p{font-size:13px;color:#667085}
+.class-card{background:white;padding:18px;border-radius:14px;box-shadow:0 4px 15px rgba(20,50,100,.07);margin-bottom:13px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.subject{font-size:18px;font-weight:800;color:#173b8f}
+.status{font-size:10px;font-weight:bold;padding:6px 9px;border-radius:20px;background:#ecfdf3;color:#027a48;white-space:nowrap}
+.status.live{background:#fee4e2;color:#b42318}
+.status.ended{background:#f2f4f7;color:#667085}
+.info{margin-top:13px;font-size:13px;color:#596579;line-height:1.7}
+.info strong{color:#172033}
+.actions{display:flex;gap:8px;margin-top:15px}
+button,.button{flex:1;border:0;padding:11px;border-radius:8px;font-size:12px;font-weight:bold;text-align:center;text-decoration:none;cursor:pointer}
+.primary{background:#173b8f;color:white}
+.secondary{background:#eef3ff;color:#173b8f}
+.note{margin-top:18px;background:#eef3ff;padding:15px;border-radius:11px;font-size:12px;color:#475467;line-height:1.6}
+.loading{background:white;padding:25px;border-radius:14px;text-align:center;font-size:13px;color:#667085;box-shadow:0 4px 15px rgba(20,50,100,.07)}
+.empty{background:white;padding:25px;border-radius:14px;text-align:center;font-size:13px;color:#667085;box-shadow:0 4px 15px rgba(20,50,100,.07)}
+.error{background:#fee4e2;color:#b42318;padding:15px;border-radius:11px;font-size:12px;line-height:1.5}
+footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
+</style>
+</head>
 
-<title>My Classes | Mule Learner Tuition</title><style>
+<body>
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+<header>
+<div class="logo">Mule Learner Tuition</div>
+<a href="dashboard.html" class="back">← Dashboard</a>
+</header>
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
-}
+<div class="container">
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-}
+<div class="heading">
+<h1>My Classes 🏫</h1>
+<p>View all available classes and teachers.</p>
+</div>
 
-.logo{
-font-size:18px;
-font-weight:800;
-}
+<div id="classesContainer">
+<div class="loading">Loading classes...</div>
+</div>
 
-.back{
-color:white;
-text-decoration:none;
-font-size:13px;
-}
+<div class="note">
+<strong>💡 Important</strong>
+<br><br>
+You have access to all available classes.
+<br><br>
+When a teacher is online and conducting a live class,
+you can join the class directly.
+<br><br>
+Your approved learning access must be active.
+</div>
 
-.container{
-max-width:800px;
-margin:auto;
-padding:20px 16px;
-}
-
-.heading{
-margin-bottom:20px;
-}
-
-.heading h1{
-font-size:24px;
-color:#173b8f;
-margin-bottom:5px;
-}
-
-.heading p{
-font-size:13px;
-color:#667085;
-}
-
-.class-card{
-background:white;
-padding:18px;
-border-radius:14px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:13px;
-}
-
-.top{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:10px;
-}
-
-.subject{
-font-size:18px;
-font-weight:800;
-color:#173b8f;
-}
-
-.status{
-font-size:10px;
-font-weight:bold;
-padding:6px 9px;
-border-radius:20px;
-background:#ecfdf3;
-color:#027a48;
-white-space:nowrap;
-}
-
-.status.live{
-background:#fee4e2;
-color:#b42318;
-}
-
-.status.ended{
-background:#f2f4f7;
-color:#667085;
-}
-
-.info{
-margin-top:13px;
-font-size:13px;
-color:#596579;
-line-height:1.7;
-}
-
-.info strong{
-color:#172033;
-}
-
-.actions{
-display:flex;
-gap:8px;
-margin-top:15px;
-}
-
-button,
-.button{
-flex:1;
-border:0;
-padding:11px;
-border-radius:8px;
-font-size:12px;
-font-weight:bold;
-text-align:center;
-text-decoration:none;
-cursor:pointer;
-}
-
-.primary{
-background:#173b8f;
-color:white;
-}
-
-.secondary{
-background:#eef3ff;
-color:#173b8f;
-}
-
-.note{
-margin-top:18px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
-}
-
-.loading{
-background:white;
-padding:25px;
-border-radius:14px;
-text-align:center;
-font-size:13px;
-color:#667085;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-}
-
-.empty{
-background:white;
-padding:25px;
-border-radius:14px;
-text-align:center;
-font-size:13px;
-color:#667085;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-}
-
-.error{
-background:#fee4e2;
-color:#b42318;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-line-height:1.5;
-}
-
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
-}
-
-</style></head><body><header><div class="logo">
+<footer>
 Mule Learner Tuition
-</div><a href="dashboard.html"
-class="back">
-← Dashboard
-</a>
-
-</header><div class="container"><div class="heading"><h1>
-My Classes 🏫
-</h1><p>
-View your enrolled classes, teachers and schedules.
-</p></div><div id="classesContainer"><div class="loading">
-Loading your classes...
-</div></div><div class="note"><strong>💡 Important</strong>
-
-<br><br>
-
-Your classes are available while your approved
-learning plan is active.
-
-<br><br>
-
-Once the CEO approves your payment, you can use
-your learning access until the plan expires.
-
-<br><br>
-
-You will not be asked to pay again while the approved
-plan is still active.
-
-</div><footer>Mule Learner Tuition
-
 <br>Learn • Practice • Succeed
+</footer>
 
-</footer></div><script src="../js/app.js"></script><script src="../js/learner.js"></script><script src="../js/classes.js"></script><script>
+</div>
 
+<script src="../js/app.js"></script>
+<script src="../js/learner.js"></script>
+
+<script>
 "use strict";
 
-
-const DB_URL =
+const DB_URL=
 "https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
-
 
 function getLearner(){
 
 try{
 
-const user =
-JSON.parse(
-localStorage.getItem(
-"muleCurrentUser"
-)
+const user=JSON.parse(
+localStorage.getItem("muleCurrentUser")
 );
 
-if(
-!user ||
-user.role!=="learner"
-){
-
-return null;
-
-}
+if(!user||user.role!=="learner")return null;
 
 return user;
 
-}catch(error){
+}catch(e){
 
 return null;
 
 }
 
 }
-
 
 function escapeHTML(value){
 
 return String(value||"")
-
-.replace(
-/&/g,
-"&amp;"
-)
-
-.replace(
-/</g,
-"&lt;"
-)
-
-.replace(
-/>/g,
-"&gt;"
-)
-
-.replace(
-/"/g,
-"&quot;"
-)
-
-.replace(
-/'/g,
-"&#039;"
-);
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
+function activeTeacher(item){
 
-function getStatus(status){
+const online=item.teacherOnline===true;
+const lastSeen=Number(item.lastSeen||0);
 
-const value =
-String(
-status||
-"scheduled"
-).toLowerCase();
-
-
-if(value==="live"){
-
-return{
-text:"🔴 LIVE",
-className:"live"
-};
+return online&&
+lastSeen>0&&
+(Date.now()-lastSeen)<=45000;
 
 }
-
-
-if(value==="ended"){
-
-return{
-text:"ENDED",
-className:"ended"
-};
-
-}
-
-
-return{
-text:"SCHEDULED",
-className:""
-};
-
-}
-
-
-function formatDate(date){
-
-if(!date){
-
-return "Not scheduled";
-
-}
-
-
-const parsed =
-new Date(date);
-
-
-if(
-isNaN(
-parsed.getTime()
-)
-){
-
-return date;
-
-}
-
-
-return parsed.toLocaleDateString(
-undefined,
-{
-day:"2-digit",
-month:"short",
-year:"numeric"
-}
-);
-
-}
-
-
-function formatTime(time){
-
-if(!time){
-
-return "Not scheduled";
-
-}
-
-
-return time;
-
-}
-
 
 async function loadLearnerClasses(){
 
-const container =
-document.getElementById(
-"classesContainer"
-);
+const container=
+document.getElementById("classesContainer");
 
-
-const learner =
-getLearner();
-
+const learner=getLearner();
 
 if(!learner){
 
 location.href="../login.html";
-
 return;
 
 }
 
-
 try{
 
-const response =
-await fetch(
-DB_URL+
-"/classes.json?cache="+
-Date.now()
+const response=await fetch(
+DB_URL+"/classes.json?cache="+Date.now()
 );
 
+if(!response.ok)
+throw new Error("Could not load classes.");
 
-if(!response.ok){
-
-throw new Error(
-"Could not load classes."
-);
-
-}
-
-
-const data =
-await response.json();
-
+const data=await response.json();
 
 if(!data){
 
 showEmpty();
-
 return;
 
 }
 
 
-let classes =
-Object.keys(data)
-.map(function(key){
+/* SHOW ALL CLASSES */
+
+let classes=Object.keys(data).map(function(key){
 
 return{
-
 id:key,
 ...(data[key]||{})
-
 };
 
 });
 
 
-/*
-=========================================
-LEARNER CLASS FILTER
-=========================================
+/* REMOVE ONLY ENDED CLASSES */
 
-If a class has assignedLearners,
-only those learners see it.
+classes=classes.filter(function(item){
 
-If there is no assignedLearners list,
-the class is available to learners.
-
-This keeps compatibility with
-CEO-created classes.
-=========================================
-*/
-
-
-classes =
-classes.filter(function(item){
-
-if(
-String(
-item.status||""
-).toLowerCase()==="ended"
-){
-
-return false;
-
-}
-
-
-if(
-Array.isArray(
-item.assignedLearners
-)
-){
-
-return item.assignedLearners
-.map(String)
-.includes(
-String(
-learner.id||""
-)
-);
-
-}
-
-
-if(
-item.assignedLearners &&
-typeof item.assignedLearners==="object"
-){
-
-return !!item.assignedLearners[
-learner.id
-];
-
-}
-
-
-return true;
+return String(item.status||"")
+.toLowerCase()!=="ended";
 
 });
 
 
-/*
-=========================================
-SORT CLASSES
-=========================================
-*/
+/* SORT */
 
 classes.sort(function(a,b){
 
-const dateA =
-new Date(
-(a.date||"9999-12-31")+
-"T"+
-(a.time||"23:59")
-);
+const da=
+(a.date||"9999-12-31")+"T"+
+(a.time||"23:59");
 
-const dateB =
-new Date(
-(b.date||"9999-12-31")+
-"T"+
-(b.time||"23:59")
-);
+const db=
+(b.date||"9999-12-31")+"T"+
+(b.time||"23:59");
 
-return dateA-dateB;
+return new Date(da)-new Date(db);
 
 });
 
@@ -543,54 +198,68 @@ return dateA-dateB;
 if(!classes.length){
 
 showEmpty();
-
 return;
 
 }
-
 
 container.innerHTML="";
 
 
 classes.forEach(function(item){
 
-const card =
-document.createElement(
-"div"
-);
+const card=document.createElement("div");
 
-card.className =
-"class-card";
+card.className="class-card";
 
 
-const status =
-getStatus(
-item.status
-);
-
-
-const teacher =
+const teacher=
 item.teacherName||
-"To be assigned";
+item.teacher||
+"Teacher";
 
 
-const className =
+const subject=
+item.subject||
 item.name||
-item.className||
 "Class";
 
 
-const subject =
-item.subject||
+const className=
+item.name||
+item.className||
+subject;
+
+
+const level=
+item.level||
+item.grade||
 "Not specified";
 
 
-const classType =
-item.classType||
-"Regular Class";
+const live=
+String(item.status||"")
+.toLowerCase()==="live";
 
 
-const liveClassId =
+const online=activeTeacher(item);
+
+
+let statusText="⚪ OFFLINE";
+let statusClass="";
+
+if(live&&online){
+
+statusText="🔴 LIVE NOW";
+statusClass="live";
+
+}else if(online){
+
+statusText="🟢 ONLINE";
+
+}
+
+
+const liveId=
 item.liveClassId||
 item.id||
 "";
@@ -598,20 +267,15 @@ item.id||
 
 let actions="";
 
-
-if(
-String(
-item.status||""
-).toLowerCase()==="live"
-){
+if(live&&online){
 
 actions=`
 
 <a
-href="live-class.html?id=${encodeURIComponent(liveClassId)}"
+href="live-room.html?id=${encodeURIComponent(liveId)}"
 class="button primary">
 
-🔴 Join Live Class
+🎥 Join Live Class
 
 </a>
 
@@ -622,17 +286,16 @@ class="button primary">
 actions=`
 
 <a
-href="live-class.html?id=${encodeURIComponent(liveClassId)}"
-class="button primary">
+href="live-class.html"
+class="button secondary">
 
-🔴 Live Class
+🔴 Live Classes
 
 </a>
 
 `;
 
 }
-
 
 actions+=`
 
@@ -652,97 +315,61 @@ card.innerHTML=`
 <div class="top">
 
 <div class="subject">
-
-${escapeHTML(
-subject
-)}
-
+${escapeHTML(subject)}
 </div>
 
-<div class="status ${status.className}">
-
-${status.text}
-
+<div class="status ${statusClass}">
+${statusText}
 </div>
 
 </div>
-
 
 <div class="info">
 
 <strong>📚 Class:</strong>
-${escapeHTML(
-className
-)}
+${escapeHTML(className)}
 
 <br>
 
 <strong>👨‍🏫 Teacher:</strong>
-${escapeHTML(
-teacher
-)}
+${escapeHTML(teacher)}
 
 <br>
 
-<strong>🏷️ Type:</strong>
-${escapeHTML(
-classType
-)}
+<strong>🎓 Level:</strong>
+${escapeHTML(level)}
 
 <br>
 
 <strong>📅 Schedule:</strong>
-${escapeHTML(
-formatDate(item.date)
-)}
+${escapeHTML(item.date||"Not scheduled")}
 
 <br>
 
 <strong>⏰ Time:</strong>
-${escapeHTML(
-formatTime(item.time)
-)}
-
-${item.duration?
-`
-<br>
-<strong>⏱️ Duration:</strong>
-${escapeHTML(item.duration)}
-`
-:""}
+${escapeHTML(item.time||"Not scheduled")}
 
 </div>
 
-
 <div class="actions">
-
 ${actions}
-
 </div>
 
 `;
 
-
-container.appendChild(
-card
-);
+container.appendChild(card);
 
 });
 
-
 }catch(error){
 
-console.error(
-"Classes error:",
-error
-);
-
+console.error(error);
 
 container.innerHTML=`
 
 <div class="error">
 
-❌ Unable to load your classes.
+❌ Unable to load classes.
 
 <br><br>
 
@@ -770,14 +397,11 @@ document.getElementById(
 
 <br><br>
 
-<strong>
-No classes available
-</strong>
+<strong>No classes available</strong>
 
 <br><br>
 
-There are currently no classes
-available for you.
+There are currently no classes available.
 
 </div>
 
@@ -790,39 +414,16 @@ document.addEventListener(
 "DOMContentLoaded",
 function(){
 
-/*
-Protect learner page if
-the function exists.
-*/
+if(typeof protectLearnerPage==="function"){
 
-if(
-typeof protectLearnerPage===
-"function"
-){
-
-if(
-!protectLearnerPage()
-){
-
-return;
+if(!protectLearnerPage())return;
 
 }
 
-}
+if(typeof requireLearningAccess==="function"){
 
-
-/*
-Learning access remains required.
-*/
-
-if(
-typeof requireLearningAccess===
-"function"
-){
-
-requireLearningAccess(
-"payments.html"
-).then(function(){
+requireLearningAccess("payments.html")
+.then(function(){
 
 loadLearnerClasses();
 
@@ -837,15 +438,14 @@ loadLearnerClasses();
 });
 
 
-/*
-Refresh classes automatically
-every 10 seconds.
-*/
+/* AUTO REFRESH */
 
 setInterval(
 loadLearnerClasses,
 10000
 );
 
-</script></body>
+</script>
+
+</body>
 </html>
