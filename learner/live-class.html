@@ -1,24 +1,85 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b8f">
-<title>Live Class | Mule Learner Tuition</title><style>
+<title>Live Class | Mule Learner Tuition</title>
+
+<style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial;background:#f4f7fc;color:#172033}
-header{background:#173b8f;color:white;padding:14px 15px;display:flex;justify-content:space-between;font-weight:bold}
-.container{max-width:850px;margin:auto;padding:12px}
-.card{background:white;border-radius:14px;padding:12px;margin-bottom:12px;box-shadow:0 3px 12px #0001}
+
+header{
+background:#173b8f;
+color:white;
+padding:14px 15px;
+display:flex;
+justify-content:space-between;
+font-weight:bold
+}
+
+.container{
+max-width:850px;
+margin:auto;
+padding:12px
+}
+
+.card{
+background:white;
+border-radius:14px;
+padding:12px;
+margin-bottom:12px;
+box-shadow:0 3px 12px #0001
+}
+
 h2{font-size:19px;margin:4px 0}
-.sub{font-size:12px;color:#667085;margin-bottom:12px}
-.status{background:#eef4ff;color:#173b8f;padding:9px;border-radius:8px;font-size:12px;margin-bottom:12px}
+
+.sub{
+font-size:12px;
+color:#667085;
+margin-bottom:12px
+}
+
+.status{
+background:#eef4ff;
+color:#173b8f;
+padding:9px;
+border-radius:8px;
+font-size:12px;
+margin-bottom:12px
+}
 
 /* TEACHER MAIN VIDEO */
-.teacher-box{position:relative;background:#111;border-radius:13px;overflow:hidden}
-#remoteVideo{width:100%;height:420px;display:block;object-fit:cover;background:#111}
-.teacher-label{position:absolute;bottom:10px;left:10px;background:#000b;color:white;padding:7px 10px;border-radius:7px;font-size:12px}
+
+.teacher-box{
+position:relative;
+background:#111;
+border-radius:13px;
+overflow:hidden
+}
+
+#remoteVideo{
+width:100%;
+height:420px;
+display:block;
+object-fit:cover;
+background:#111
+}
+
+.teacher-label{
+position:absolute;
+bottom:10px;
+left:10px;
+background:#000b;
+color:white;
+padding:7px 10px;
+border-radius:7px;
+font-size:12px
+}
 
 /* SMALL LEARNER CAMERA */
+
 .my-camera{
 position:absolute;
 top:10px;
@@ -30,24 +91,96 @@ border:2px solid white;
 border-radius:9px;
 overflow:hidden;
 z-index:5;
-box-shadow:0 3px 10px #0008;
+box-shadow:0 3px 10px #0008
 }
-#localVideo{width:100%;height:100%;object-fit:cover;display:block}
 
-.sound{width:100%;background:#173b8f;color:white;border:0;border-radius:8px;padding:11px;margin-top:9px;font-weight:bold}
-.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
-button{border:0;border-radius:8px;padding:11px;font-weight:bold;background:#e9efff;color:#173b8f}
-.end{background:#e53935;color:white}
+#localVideo{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block
+}
 
-.info{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.info div{background:#f7f9fc;padding:10px;border-radius:8px;font-size:12px}
+.sound{
+width:100%;
+background:#173b8f;
+color:white;
+border:0;
+border-radius:8px;
+padding:11px;
+margin-top:9px;
+font-weight:bold
+}
 
-.chat{height:210px;overflow:auto;background:#f7f9fc;padding:8px;border-radius:9px}
-.msg{background:white;padding:7px;border-radius:8px;margin-bottom:6px;font-size:13px}
+.controls{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px;
+margin-top:8px
+}
+
+button{
+border:0;
+border-radius:8px;
+padding:11px;
+font-weight:bold;
+background:#e9efff;
+color:#173b8f
+}
+
+.end{
+background:#e53935;
+color:white
+}
+
+.info{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px
+}
+
+.info div{
+background:#f7f9fc;
+padding:10px;
+border-radius:8px;
+font-size:12px
+}
+
+.chat{
+height:210px;
+overflow:auto;
+background:#f7f9fc;
+padding:8px;
+border-radius:9px
+}
+
+.msg{
+background:white;
+padding:7px;
+border-radius:8px;
+margin-bottom:6px;
+font-size:13px
+}
+
 .msg b{color:#173b8f}
-form{display:flex;gap:6px;margin-top:7px}
-input{flex:1;padding:10px;border:1px solid #ccd3df;border-radius:8px}
-form button{background:#173b8f;color:white}
+
+form{
+display:flex;
+gap:6px;
+margin-top:7px
+}
+
+input{
+flex:1;
+padding:10px;
+border:1px solid #ccd3df;
+border-radius:8px
+}
+
+form button{
+background:#173b8f;
+color:white
+}
 
 @media(max-width:600px){
 #remoteVideo{height:330px}
@@ -58,109 +191,295 @@ form button{background:#173b8f;color:white}
 #remoteVideo{height:520px}
 .my-camera{width:125px;height:92px}
 }
-</style></head><body><header>
+</style>
+</head>
+
+<body>
+
+<header>
 <span>📚 Mule Learner Tuition</span>
 <span>🔴 LIVE</span>
-</header><div class="container"><h2>Live Class</h2>
-<div class="sub">Learn • Practice • Succeed</div><div id="status" class="status">
+</header>
+
+<div class="container">
+
+<h2>Live Class</h2>
+
+<div class="sub">
+Learn • Practice • Succeed
+</div>
+
+<div id="status" class="status">
 Connecting to teacher...
-</div><div class="card"><div class="teacher-box"><!-- TEACHER VIDEO --><video id="remoteVideo" autoplay playsinline></video>
+</div>
+
+<div class="card">
+
+<div class="teacher-box">
+
+<!-- TEACHER VIDEO -->
+
+<video
+id="remoteVideo"
+autoplay
+playsinline>
+</video>
 
 <div class="teacher-label">
 👨‍🏫 Teacher
-</div><!-- LEARNER SMALL CAMERA --><div class="my-camera">
-<video id="localVideo" autoplay muted playsinline></video>
-</div></div><button class="sound" onclick="enableSound()">
-🔊 Enable Teacher Sound
-</button><div class="controls"><button id="micBtn" onclick="toggleMic()">
+</div>
+
+<!-- LEARNER SMALL CAMERA -->
+
+<div class="my-camera">
+
+<video
+id="localVideo"
+autoplay
+muted
+playsinline>
+</video>
+
+</div>
+
+</div>
+
+<button
+class="sound"
+id="soundBtn"
+onclick="toggleSound()">
+▶️ Play Teacher Sound
+</button>
+
+<div class="controls">
+
+<button
+id="micBtn"
+onclick="toggleMic()">
 🎤 Mic ON
-</button><button id="cameraBtn" onclick="toggleCamera()">
+</button>
+
+<button
+id="cameraBtn"
+onclick="toggleCamera()">
 📹 Camera ON
-</button><button onclick="toggleTorch()">
+</button>
+
+<button
+onclick="toggleTorch()">
 🔦 Flashlight
-</button><button class="end" onclick="leaveClass()">
+</button>
+
+<button
+class="end"
+onclick="leaveClass()">
 🚪 Leave Class
-</button></div></div><div class="card"><div style="font-weight:bold;margin-bottom:9px">
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div style="font-weight:bold;margin-bottom:9px">
 Class Information
-</div><div class="info"><div>
+</div>
+
+<div class="info">
+
+<div>
 Subject<br>
-<b id="subject">Mathematics</b>
-</div><div>
+<b id="subject">Loading...</b>
+</div>
+
+<div>
 Level<br>
-<b id="level">Grade 10</b>
-</div><div>
+<b id="level">Loading...</b>
+</div>
+
+<div>
 Teacher<br>
-<b id="teacher">Teacher</b>
-</div><div>
+<b id="teacher">Loading...</b>
+</div>
+
+<div>
 Participants<br>
 <b id="participants">0</b>
-</div></div></div><div class="card"><div style="font-weight:bold;margin-bottom:9px">
-💬 Live Chat
-</div><div id="chat" class="chat"></div><form onsubmit="sendMessage(event)">
-<input id="message" placeholder="Type a message...">
-<button>Send</button>
-</form></div></div><script type="module">
+</div>
 
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div style="font-weight:bold;margin-bottom:9px">
+💬 Live Chat
+</div>
+
+<div id="chat" class="chat"></div>
+
+<form onsubmit="sendMessage(event)">
+
+<input
+id="message"
+placeholder="Type a message...">
+
+<button>
+Send
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<script type="module">
 
 import{
-getDatabase,ref,get,set,update,remove,
-onValue,onChildAdded,push
-}from"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+initializeApp
+}from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
+import{
+getDatabase,
+ref,
+get,
+set,
+update,
+remove,
+onValue,
+onChildAdded,
+push
+}from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+/* FIREBASE */
 
 const firebaseConfig={
-apiKey:"AIzaSyCRUQW0JTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
-authDomain:"mule-learner-tuition-264fe.firebaseapp.com",
-databaseURL:"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
-projectId:"mule-learner-tuition-264fe",
-storageBucket:"mule-learner-tuition-264fe.firebasestorage.app",
-messagingSenderId:"656883565460",
-appId:"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+apiKey:
+"AIzaSyCRUQW0JTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
 };
 
 const app=initializeApp(firebaseConfig);
+
 const db=getDatabase(app);
+
+
+/* USER */
 
 const user=JSON.parse(
 localStorage.getItem("muleCurrentUser")||"{}"
 );
 
-const ID=
-new URLSearchParams(location.search).get("id");
+if(
+!user.id||
+user.role!=="learner"
+){
 
-const base="liveClasses/"+ID;
-
-const rtc={
-iceServers:[
-{urls:"stun:stun.l.google.com:19302"},
-{urls:"stun:stun1.l.google.com:19302"}
-],
-iceCandidatePoolSize:10
-};
-
-let stream=null;
-let pc=null;
-let micOn=true;
-let camOn=true;
-let torchOn=false;
-let remoteReady=false;
-let queued=[];
-
-
-if(!user.id||user.role!=="learner"){
 location.href="../login.html";
+
+throw Error("Learner not logged in");
+
 }
+
+
+/* CLASS ID */
+
+const ID=
+new URLSearchParams(
+location.search
+).get("id");
+
 
 if(!ID){
-alert("No live class selected");
-throw Error("No class ID");
+
+$("status").textContent=
+"Please choose a live class.";
+
+throw Error("No class selected");
+
 }
 
 
-const $=id=>document.getElementById(id);
+const base=
+"liveClasses/"+ID;
 
-const esc=x=>String(x||"").replace(
+
+/* WEBRTC */
+
+const rtc={
+
+iceServers:[
+
+{
+urls:
+"stun:stun.l.google.com:19302"
+},
+
+{
+urls:
+"stun:stun1.l.google.com:19302"
+}
+
+],
+
+iceCandidatePoolSize:10
+
+};
+
+
+let stream=null;
+
+let pc=null;
+
+let micOn=true;
+
+let camOn=true;
+
+let torchOn=false;
+
+let remoteReady=false;
+
+let queued=[];
+
+let joined=false;
+
+let soundOn=false;
+
+
+/* HELPERS */
+
+const $=id=>
+document.getElementById(id);
+
+const esc=x=>
+String(x||"").replace(
 /[&<>"']/g,
 m=>({
 "&":"&amp;",
@@ -172,24 +491,68 @@ m=>({
 );
 
 
-/* LOAD CLASS */
+/* LOAD SELECTED LIVE CLASS */
 
 async function loadClass(){
 
-let s=await get(ref(db,"classes/"+ID));
+try{
 
-if(s.exists()){
+const snap=
+await get(
+ref(db,base)
+);
 
-let c=s.val();
+if(!snap.exists()){
+
+$("status").textContent=
+"❌ This live class is no longer available.";
+
+return false;
+
+}
+
+const c=snap.val();
+
+
+/* ONLY CURRENTLY LIVE CLASSES */
+
+if(
+String(c.status||"").toLowerCase()
+!=="live"
+){
+
+$("status").textContent=
+"⛔ This live class has ended.";
+
+$("status").style.background=
+"#fee2e2";
+
+return false;
+
+}
+
+
+/* LOAD FROM LIVE CLASS */
 
 $("subject").textContent=
-c.subject||"Mathematics";
+c.subject||"Class";
 
 $("level").textContent=
-c.level||c.className||"Grade 10";
+c.level||"";
 
 $("teacher").textContent=
-c.teacher||"Teacher";
+c.teacherName||c.teacher||"Teacher";
+
+return true;
+
+}catch(e){
+
+console.error(e);
+
+$("status").textContent=
+"⚠️ Unable to load the live class.";
+
+return false;
 
 }
 
@@ -200,7 +563,13 @@ c.teacher||"Teacher";
 
 async function start(){
 
+const valid=
 await loadClass();
+
+if(!valid)return;
+
+
+/* CAMERA + MICROPHONE */
 
 try{
 
@@ -223,6 +592,11 @@ autoGainControl:true
 
 }catch(e){
 
+console.warn(
+"Camera and microphone unavailable:",
+e
+);
+
 try{
 
 stream=
@@ -231,6 +605,11 @@ audio:true
 });
 
 }catch(x){
+
+console.warn(
+"Microphone unavailable:",
+x
+);
 
 stream=null;
 
@@ -241,21 +620,42 @@ stream=null;
 
 if(stream){
 
-$("localVideo").srcObject=stream;
+$("localVideo").srcObject=
+stream;
 
 }
 
+
+/* REGISTER LEARNER */
 
 await set(
-ref(db,base+"/participants/"+user.id),
+
+ref(
+db,
+base+
+"/participants/"+
+user.id
+),
+
 {
+
 role:"learner",
+
 name:user.name||"Learner",
+
 phone:user.phone||"",
-joinedAt:new Date().toISOString()
+
+joinedAt:
+new Date().toISOString()
+
 }
+
 );
 
+joined=true;
+
+
+/* START LISTENERS */
 
 listenClass();
 
@@ -275,17 +675,30 @@ notifyCEOJoined();
 function listenClass(){
 
 onValue(
+
 ref(db,base),
+
 s=>{
 
-let c=s.val();
+const c=s.val();
 
 if(!c)return;
 
-$("participants").textContent=
-Object.keys(c.participants||{}).length;
 
-if(c.status==="ended"){
+/* PARTICIPANTS */
+
+$("participants").textContent=
+Object.keys(
+c.participants||{}
+).length;
+
+
+/* CLASS STATUS */
+
+if(
+String(c.status||"").toLowerCase()
+==="ended"
+){
 
 $("status").textContent=
 "Class has ended.";
@@ -293,9 +706,7 @@ $("status").textContent=
 $("status").style.background=
 "#fee2e2";
 
-}
-
-else{
+}else{
 
 $("status").textContent=
 "🔴 Connected to live class";
@@ -303,6 +714,7 @@ $("status").textContent=
 }
 
 }
+
 );
 
 }
@@ -314,12 +726,19 @@ function createPeer(){
 
 if(pc)return;
 
-pc=new RTCPeerConnection(rtc);
+pc=
+new RTCPeerConnection(rtc);
+
+
+/* LOCAL MEDIA */
 
 if(stream){
 
-stream.getTracks().forEach(
-track=>pc.addTrack(track,stream)
+stream
+.getTracks()
+.forEach(
+track=>
+pc.addTrack(track,stream)
 );
 
 }else{
@@ -337,41 +756,56 @@ pc.addTransceiver(
 }
 
 
+/* TEACHER VIDEO */
+
 pc.ontrack=e=>{
 
-let v=$("remoteVideo");
+const video=
+$("remoteVideo");
 
-if(!v.srcObject){
+if(!video.srcObject){
 
-v.srcObject=
+video.srcObject=
 new MediaStream();
 
 }
 
-e.streams[0].getTracks().forEach(t=>{
+if(e.streams[0]){
+
+e.streams[0]
+.getTracks()
+.forEach(track=>{
 
 if(
-!v.srcObject
+!video.srcObject
 .getTracks()
-.some(x=>x.id===t.id)
+.some(
+x=>x.id===track.id
+)
 ){
 
-v.srcObject.addTrack(t);
+video.srcObject
+.addTrack(track);
 
 }
 
 });
 
-v.play().catch(()=>{});
+}
+
+video.play().catch(()=>{});
 
 };
 
+
+/* LEARNER ICE */
 
 pc.onicecandidate=e=>{
 
 if(!e.candidate)return;
 
-let r=push(
+const r=
+push(
 ref(
 db,
 base+
@@ -389,11 +823,43 @@ e.candidate.toJSON()
 };
 
 
+/* CONNECTION */
+
 pc.onconnectionstatechange=()=>{
 
 console.log(
 "Learner connection:",
 pc.connectionState
+);
+
+if(
+pc.connectionState==="connected"
+){
+
+$("status").textContent=
+"🔴 Connected to live class";
+
+}
+
+if(
+pc.connectionState==="failed"
+){
+
+$("status").textContent=
+"⚠️ Connection failed. Please try again.";
+
+}
+
+};
+
+
+/* ICE STATE */
+
+pc.oniceconnectionstatechange=()=>{
+
+console.log(
+"Learner ICE:",
+pc.iceConnectionState
 );
 
 };
@@ -408,6 +874,7 @@ function listenOffer(){
 createPeer();
 
 onValue(
+
 ref(
 db,
 base+
@@ -415,36 +882,74 @@ base+
 user.id+
 "/offer"
 ),
+
 async s=>{
 
-let offer=s.val();
+const offer=
+s.val();
 
 if(!offer)return;
 
 try{
 
+/* SET TEACHER OFFER */
+
 await pc.setRemoteDescription(
-new RTCSessionDescription(offer)
+
+new RTCSessionDescription(
+offer
+)
+
 );
 
 remoteReady=true;
 
-for(let c of queued){
+
+/* ADD QUEUED TEACHER ICE */
+
+for(
+const candidate
+of queued
+){
+
+try{
 
 await pc.addIceCandidate(
-new RTCIceCandidate(c)
+
+new RTCIceCandidate(
+candidate
+)
+
 );
+
+}catch(e){
+
+console.warn(
+"Queued ICE error:",
+e
+);
+
+}
 
 }
 
 queued=[];
 
-let answer=
+
+/* CREATE ANSWER */
+
+const answer=
 await pc.createAnswer();
 
-await pc.setLocalDescription(answer);
+await pc.setLocalDescription(
+answer
+);
+
+
+/* SEND ANSWER */
 
 await set(
+
 ref(
 db,
 base+
@@ -452,11 +957,19 @@ base+
 user.id+
 "/answer"
 ),
+
 {
+
 type:answer.type,
+
 sdp:answer.sdp
+
 }
+
 );
+
+$("status").textContent=
+"🔴 Connected to live class";
 
 }catch(e){
 
@@ -465,9 +978,13 @@ console.error(
 e
 );
 
+$("status").textContent=
+"⚠️ Unable to connect to teacher.";
+
 }
 
 }
+
 );
 
 }
@@ -478,6 +995,7 @@ e
 function listenTeacherCandidates(){
 
 onChildAdded(
+
 ref(
 db,
 base+
@@ -485,50 +1003,87 @@ base+
 user.id+
 "/teacherCandidates"
 ),
+
 async s=>{
 
-let c=s.val();
+const candidate=
+s.val();
 
-if(!c)return;
+if(!candidate)return;
 
 if(remoteReady){
 
 try{
 
 await pc.addIceCandidate(
-new RTCIceCandidate(c)
+
+new RTCIceCandidate(
+candidate
+)
+
 );
 
 }catch(e){
 
-console.warn(e);
+console.warn(
+"Teacher ICE error:",
+e
+);
 
 }
 
 }else{
 
-queued.push(c);
+queued.push(candidate);
 
 }
 
 }
+
 );
 
 }
 
 
-/* SOUND */
+/* PLAY / PAUSE TEACHER SOUND */
 
-window.enableSound=()=>{
+window.toggleSound=()=>{
 
-let v=$("remoteVideo");
+const video=
+$("remoteVideo");
 
-v.muted=false;
-
-v.play().catch(()=>{});
+if(!video.srcObject){
 
 $("status").textContent=
-"🔊 Teacher sound enabled";
+"Waiting for teacher video...";
+
+return;
+
+}
+
+if(video.paused){
+
+video.muted=false;
+
+video.play().then(()=>{
+
+soundOn=true;
+
+$("soundBtn").textContent=
+"⏸️ Pause Teacher Sound";
+
+});
+
+}else{
+
+video.pause();
+
+soundOn=false;
+
+$("soundBtn").textContent=
+"▶️ Play Teacher Sound";
+
+}
 
 };
 
@@ -543,10 +1098,15 @@ micOn=!micOn;
 
 stream
 .getAudioTracks()
-.forEach(t=>t.enabled=micOn);
+.forEach(
+track=>
+track.enabled=micOn
+);
 
 $("micBtn").textContent=
-micOn?"🎤 Mic ON":"🔇 Mic OFF";
+micOn
+?"🎤 Mic ON"
+:"🔇 Mic OFF";
 
 };
 
@@ -561,31 +1121,51 @@ camOn=!camOn;
 
 stream
 .getVideoTracks()
-.forEach(t=>t.enabled=camOn);
+.forEach(
+track=>
+track.enabled=camOn
+);
 
 $("cameraBtn").textContent=
-camOn?"📹 Camera ON":"📷 Camera OFF";
+camOn
+?"📹 Camera ON"
+:"📷 Camera OFF";
 
 };
 
 
 /* TORCH */
 
-window.toggleTorch=async()=>{
+window.toggleTorch=
+async()=>{
 
 if(!stream){
 
-alert("Camera is not available");
+alert(
+"Camera is not available"
+);
+
 return;
 
 }
 
-let t=
+const track=
 stream.getVideoTracks()[0];
 
-let c=t.getCapabilities?.();
+if(!track){
 
-if(!c?.torch){
+alert(
+"Camera is not available"
+);
+
+return;
+
+}
+
+const capabilities=
+track.getCapabilities?.();
+
+if(!capabilities?.torch){
 
 alert(
 "Flashlight is not supported by this camera."
@@ -599,13 +1179,20 @@ torchOn=!torchOn;
 
 try{
 
-await t.applyConstraints({
+await track.applyConstraints({
+
 advanced:[
 {torch:torchOn}
 ]
+
 });
 
 }catch(e){
+
+console.warn(
+"Flashlight error:",
+e
+);
 
 torchOn=!torchOn;
 
@@ -619,12 +1206,18 @@ torchOn=!torchOn;
 function listenChat(){
 
 onChildAdded(
-ref(db,base+"/chat"),
+
+ref(
+db,
+base+"/chat"
+),
+
 s=>{
 
-let m=s.val();
+const m=s.val();
 
 $("chat").insertAdjacentHTML(
+
 "beforeend",
 
 `<div class="msg">
@@ -638,36 +1231,71 @@ $("chat").scrollTop=
 $("chat").scrollHeight;
 
 }
+
 );
 
 }
 
 
-window.sendMessage=async e=>{
+window.sendMessage=
+async e=>{
 
 e.preventDefault();
 
-let input=$("message");
+const input=
+$("message");
 
-let text=input.value.trim();
+const text=
+input.value.trim();
 
 if(!text)return;
 
-let r=push(
-ref(db,base+"/chat")
+try{
+
+const r=
+push(
+ref(
+db,
+base+"/chat"
+)
 );
 
-await set(r,{
+await set(
 
-name:user.name||"Learner",
-userId:user.id,
-role:"learner",
-message:text,
-createdAt:new Date().toISOString()
+r,
 
-});
+{
+
+name:
+user.name||"Learner",
+
+userId:
+user.id,
+
+role:
+"learner",
+
+message:
+text,
+
+createdAt:
+new Date().toISOString()
+
+}
+
+);
 
 input.value="";
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to send message."
+);
+
+}
 
 };
 
@@ -678,35 +1306,48 @@ async function notifyCEOJoined(){
 
 try{
 
-let nid=
+const nid=
 "NOT-"+Date.now()+"-"+
 Math.random()
 .toString(36)
 .substring(2,7)
 .toUpperCase();
 
+
 await set(
-ref(db,"notifications/"+nid),
+
+ref(
+db,
+"notifications/"+nid
+),
+
 {
 
 id:nid,
 
-type:"live_class_join",
+type:
+"live_class_join",
 
 title:
 "👨‍🎓 Learner Joined Live Class",
 
 message:
 (user.name||"Learner")+
-" has joined the live Mathematics class.",
+" has joined the live "+
+$("subject").textContent+
+" class.",
 
-learnerId:user.id,
+learnerId:
+user.id,
 
-learnerName:user.name||"Learner",
+learnerName:
+user.name||"Learner",
 
-learnerPhone:user.phone||"",
+learnerPhone:
+user.phone||"",
 
-classId:ID,
+classId:
+ID,
 
 subject:
 $("subject").textContent,
@@ -737,7 +1378,8 @@ e
 
 /* LEAVE */
 
-window.leaveClass=async()=>{
+window.leaveClass=
+async()=>{
 
 if(
 !confirm(
@@ -748,33 +1390,45 @@ if(
 try{
 
 await remove(
+
 ref(
 db,
 base+
 "/participants/"+
 user.id
 )
+
 );
 
-if(pc)pc.close();
+if(pc){
+
+pc.close();
+
+pc=null;
+
+}
 
 if(stream){
 
 stream
 .getTracks()
-.forEach(t=>t.stop());
+.forEach(
+t=>t.stop()
+);
+
+stream=null;
 
 }
 
 location.href=
-"dashboard.html";
+"live-class.html";
 
 }catch(e){
 
 console.error(e);
 
 location.href=
-"dashboard.html";
+"live-class.html";
 
 }
 
@@ -783,5 +1437,7 @@ location.href=
 
 start();
 
-</script></body>
+</script>
+
+</body>
 </html>
