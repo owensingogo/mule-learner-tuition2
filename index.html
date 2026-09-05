@@ -1,423 +1,204 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Mule Learner Tuition | Learn • Practice • Succeed</title><style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b8f">
+<title>Mule Learner Tuition | Learn • Practice • Succeed</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;line-height:1.5}
+header{height:54px;background:#173b8f;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 12px;position:sticky;top:0;z-index:10}
+.brand-name{font-size:15px;font-weight:800}.brand-tagline{font-size:8px}
+.header-login{background:#fff;color:#173b8f;padding:6px 12px;border-radius:20px;text-decoration:none;font-size:11px;font-weight:bold}
+
+/* BANNERS */
+.slider{width:100%;height:300px;overflow:hidden;background:#111}
+.slides{display:flex;width:500%;height:100%;animation:slide 25s infinite}
+.slide{width:20%;height:100%;position:relative;flex-shrink:0}
+.slide img{width:100%;height:100%;object-fit:cover}
+.slide:after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.72),rgba(0,0,0,.25),rgba(0,0,0,.08))}
+.slide-content{position:absolute;z-index:2;left:6%;top:50%;transform:translateY(-50%);color:#fff;max-width:700px;padding-right:20px}
+.slide-content h1{font-size:27px;line-height:1.15;margin-bottom:10px;font-weight:900}
+.slide-content h2{font-size:24px;line-height:1.2;margin-bottom:10px;font-weight:900}
+.slide-content p{font-size:14px;margin-bottom:16px}
+.slide-btn,.cta-button{display:inline-block;text-decoration:none;background:#ffb703;color:#172033;padding:10px 18px;border-radius:25px;font-weight:800;font-size:13px}
+@keyframes slide{0%,17%{transform:translateX(0)}20%,37%{transform:translateX(-20%)}40%,57%{transform:translateX(-40%)}60%,77%{transform:translateX(-60%)}80%,97%{transform:translateX(-80%)}100%{transform:translateX(0)}}
+
+.quick-strip{display:grid;grid-template-columns:repeat(3,1fr);background:#fff}
+.quick-item{text-align:center;padding:10px 4px;border-right:1px solid #eee}
+.quick-item:last-child{border:0}.quick-icon{font-size:19px}.quick-item strong{display:block;color:#173b8f;font-size:10px}.quick-item span{font-size:8px;color:#667085}
+
+section{padding:35px 14px;max-width:950px;margin:auto}
+.section-title{text-align:center;color:#173b8f;font-size:21px;margin-bottom:7px}
+.section-subtitle{text-align:center;color:#667085;font-size:11px;margin-bottom:20px}
+.vision,.achievement,.testimonials{background:#fff}
+.vision{text-align:center}.vision p{font-size:12px}.vision-highlight{margin-top:12px;color:#173b8f;font-weight:bold}
+
+.subject-grid,.achievement-grid,.why-grid,.success-points{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.subject-card,.achievement-card,.why-card,.success-point,.testimonial{background:#fff;border-radius:10px;padding:13px 8px;text-align:center}
+.subject-card{border:1px solid #e8edf5}.subject-icon,.achievement-icon,.why-icon{font-size:24px}
+.subject-card h3,.achievement-card h3,.why-card h3{color:#173b8f;font-size:11px}.subject-card p,.achievement-card p,.why-card p{font-size:9px;color:#667085}
+
+.achievement-card,.success-point{background:#f4f7fc}
+.success-section{background:#173b8f;color:#fff;max-width:none;text-align:center}
+.success-section .section-title{color:#fff}.success-section .section-subtitle{color:#dce7ff}
+.success-box{max-width:720px;margin:auto}.success-box p{font-size:12px;margin-bottom:15px}
+.success-point{background:rgba(255,255,255,.1);color:#fff}
+.success-point strong{display:block;font-size:11px}.success-point span{font-size:8px;color:#dce7ff}
+
+.why-section{background:#f4f7fc}
+.testimonial-grid{display:grid;gap:9px}
+.testimonial{text-align:left;border-left:3px solid #ffb703;background:#f7f9fd}
+.testimonial p{font-size:10px;font-style:italic}.testimonial strong{font-size:9px;color:#173b8f}
+
+.verse-section{background:#eef3ff;text-align:center}
+.verse{color:#173b8f;font-size:13px;font-weight:bold}.verse-reference{font-size:9px;color:#667085}
+
+.final-cta{background:#173b8f;color:#fff;text-align:center}
+.final-cta h2{font-size:21px}.final-cta p{font-size:11px;margin:7px auto 14px;color:#e4ebff;max-width:600px}
+
+footer{background:#101c35;color:#dce4f5;padding:27px 14px 15px}
+.footer-brand h2{font-size:15px;color:#fff}.footer-brand p{font-size:9px}
+.footer-links{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:15px 0}
+.footer-links a{color:#dce4f5;text-decoration:none;font-size:9px}
+.footer-contact{border-top:1px solid #ffffff1a;padding-top:13px;font-size:9px}
+.footer-contact a{color:#ffcc4d}.footer-bottom{text-align:center;border-top:1px solid #ffffff1a;margin-top:15px;padding-top:10px;font-size:8px}
+
+@media(min-width:768px){
+header{height:64px;padding:0 40px}.brand-name{font-size:20px}.brand-tagline{font-size:10px}
+.slider{height:470px}.slide-content{left:9%}.slide-content h1{font-size:48px}.slide-content h2{font-size:38px}.slide-content p{font-size:17px}
+section{padding:65px 30px}.section-title{font-size:32px}.section-subtitle{font-size:15px}
+.subject-grid,.achievement-grid,.why-grid,.success-points{grid-template-columns:repeat(4,1fr)}
+.testimonial-grid{grid-template-columns:repeat(2,1fr)}
+.footer-links{grid-template-columns:repeat(5,1fr)}
 }
+</style>
+</head>
 
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f5f8ff;
-  color:#172033;
-  line-height:1.6;
-}
+<body>
 
-header{
-  background:#173b8f;
-  color:white;
-  padding:16px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+<div class="slider"><div class="slides">
 
-.logo{
-  font-size:20px;
-  font-weight:800;
-}
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=85">
+<div class="slide-content">
+<h1>🎓 MULE LEARNER TUITION</h1>
+<h2>YOUR FUTURE BEGINS WITH WHAT YOU LEARN TODAY.</h2>
+<p>Learn with confidence, practice with purpose, and build the knowledge you need for tomorrow.</p>
+<a href="login.html" class="slide-btn">🚀 START LEARNING</a>
+</div></div>
 
-.menu{
-  font-size:24px;
-}
-
-.hero{
-  background:linear-gradient(135deg,#173b8f,#245bc7);
-  color:white;
-  padding:55px 22px 60px;
-  text-align:center;
-}
-
-.badge{
-  display:inline-block;
-  background:rgba(255,255,255,.15);
-  padding:7px 14px;
-  border-radius:30px;
-  font-size:13px;
-  margin-bottom:18px;
-}
-
-.hero h1{
-  font-size:34px;
-  line-height:1.15;
-  margin-bottom:15px;
-}
-
-.hero p{
-  font-size:16px;
-  opacity:.94;
-  max-width:500px;
-  margin:auto;
-}
-
-.buttons{
-  margin-top:28px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.btn{
-  display:block;
-  text-decoration:none;
-  padding:14px 20px;
-  border-radius:9px;
-  font-weight:700;
-}
-
-.primary{
-  background:white;
-  color:#173b8f;
-}
-
-.secondary{
-  border:1px solid rgba(255,255,255,.7);
-  color:white;
-}
-
-section{
-  padding:38px 20px;
-  max-width:850px;
-  margin:auto;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.section-title h2{
-  font-size:25px;
-  color:#173b8f;
-}
-
-.section-title p{
-  color:#667085;
-  font-size:14px;
-  margin-top:6px;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.card{
-  background:white;
-  padding:18px 14px;
-  border-radius:12px;
-  box-shadow:0 4px 16px rgba(20,50,100,.07);
-}
-
-.icon{
-  font-size:25px;
-}
-
-.card h3{
-  margin:8px 0 4px;
-  font-size:16px;
-}
-
-.card p{
-  font-size:13px;
-  color:#667085;
-}
-
-.story{
-  background:white;
-  border-radius:14px;
-  padding:22px;
-  box-shadow:0 4px 18px rgba(20,50,100,.07);
-}
-
-.story p{
-  color:#596579;
-  font-size:15px;
-}
-
-.plans{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.plan{
-  background:white;
-  padding:16px;
-  border-radius:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 3px 12px rgba(20,50,100,.06);
-}
-
-.plan strong{
-  color:#173b8f;
-}
-
-.support{
-  background:#173b8f;
-  color:white;
-  text-align:center;
-  border-radius:15px;
-  padding:28px 20px;
-}
-
-.support h2{
-  margin-bottom:8px;
-}
-
-.support p{
-  font-size:14px;
-  opacity:.9;
-}
-
-.whatsapp{
-  display:inline-block;
-  margin-top:18px;
-  background:#25d366;
-  color:white;
-  text-decoration:none;
-  padding:13px 20px;
-  border-radius:9px;
-  font-weight:700;
-}
-
-footer{
-  background:#101d3d;
-  color:#bfc8dc;
-  text-align:center;
-  padding:25px 15px;
-  font-size:13px;
-}
-
-footer strong{
-  color:white;
-}
-
-@media(min-width:650px){
-
-  .buttons{
-    flex-direction:row;
-    justify-content:center;
-  }
-
-  .btn{
-    min-width:180px;
-  }
-
-  .cards{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  .hero h1{
-    font-size:46px;
-  }
-
-}
-</style></head><body><header>
-  <div class="logo">Mule Learner Tuition</div>
-  <div class="menu">☰</div>
-</header><section class="hero">  <div class="badge">
-    📚 Learn • Practice • Succeed
-  </div>  <h1>
-    Welcome to Mule Learner Tuition
-  </h1>  <p>
-    Quality learning made simple, affordable and accessible.
-    Learn from dedicated teachers, attend live classes and
-    grow your knowledge from wherever you are.
-  </p>  <div class="buttons"><a href="register.html" class="btn primary">
-  Start Learning
-</a>
-
-<a href="login.html" class="btn secondary">
-  Login
-</a>
-
-  </div></section><section>  <div class="section-title"><h2>
-  Why Choose Us?
-</h2>
-
-<p>
-  Everything you need to learn with confidence.
-</p>
-
-  </div>  <div class="cards"><div class="card">
-
-  <div class="icon">👨‍🏫</div>
-
-  <h3>
-    Dedicated Teachers
-  </h3>
-
-  <p>
-    Learn with teachers committed to helping learners improve.
-  </p>
-
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85">
+<div class="slide-content"><h2>💻 LEARN IN THE DIGITAL AGE</h2><p>Access modern digital learning resources and develop skills for an increasingly connected world.</p><a href="login.html" class="slide-btn">EXPLORE LEARNING</a></div>
 </div>
 
-<div class="card">
-
-  <div class="icon">🔴</div>
-
-  <h3>
-    Live Learning
-  </h3>
-
-  <p>
-    Join live lessons and learn directly with your teacher.
-  </p>
-
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1400&q=85">
+<div class="slide-content"><h2>👨‍🏫 GUIDANCE THAT BUILDS CONFIDENCE</h2><p>Learn step by step with guidance that helps you understand, practice and improve.</p><a href="login.html" class="slide-btn">START YOUR JOURNEY</a></div>
 </div>
 
-<div class="card">
-
-  <div class="icon">📚</div>
-
-  <h3>
-    Learning Materials
-  </h3>
-
-  <p>
-    Access useful notes and materials to support your studies.
-  </p>
-
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1400&q=85">
+<div class="slide-content"><h2>🏆 YOUR SUCCESS IS THE GOAL</h2><p>Every lesson, every practice session and every improvement takes you closer to your goals.</p><a href="login.html" class="slide-btn">ACHIEVE MORE</a></div>
 </div>
 
-<div class="card">
-
-  <div class="icon">💰</div>
-
-  <h3>
-    Affordable
-  </h3>
-
-  <p>
-    Flexible learning plans designed to remain accessible.
-  </p>
-
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1400&q=85">
+<div class="slide-content"><h2>🌍 PREPARE FOR A BIGGER FUTURE</h2><p>Build knowledge, digital confidence and lifelong learning habits for opportunities beyond today.</p><a href="login.html" class="slide-btn">JOIN MULE LEARNER</a></div>
 </div>
 
-  </div></section><section>  <div class="section-title"><h2>
-  Our Story
-</h2>
+</div></div>
 
-  </div>  <div class="story"><p>
-  Mule Learner Tuition was created with one simple goal:
-  to make quality learning more accessible to learners.
-  We believe that every learner deserves an opportunity
-  to learn, practise and improve.
-</p>
-
-<br>
-
-<p>
-  Through structured classes, dedicated teachers, learning
-  materials and live lessons, Mule Learner Tuition brings
-  learning closer to you — wherever you are.
-</p>
-
-  </div></section><section>  <div class="section-title"><h2>
-  Affordable Learning Plans
-</h2>
-
-<p>
-  Choose the plan that works for you.
-</p>
-
-  </div>  <div class="plans"><div class="plan">
-  <span>
-    🆓 Free Trial — 6 Hours
-  </span>
-
-  <strong>
-    FREE
-  </strong>
+<div class="quick-strip">
+<div class="quick-item"><div class="quick-icon">📚</div><strong>LEARN</strong><span>Understand new concepts</span></div>
+<div class="quick-item"><div class="quick-icon">✍️</div><strong>PRACTICE</strong><span>Strengthen your knowledge</span></div>
+<div class="quick-item"><div class="quick-icon">🏆</div><strong>SUCCEED</strong><span>Reach your academic goals</span></div>
 </div>
 
-<div class="plan">
-  <span>
-    ⏱️ 6 Hours
-  </span>
+<section class="vision">
+<h2 class="section-title">Our Vision</h2>
+<p>Mule Learner Tuition is built to help learners learn with confidence, practice with purpose and succeed academically.</p>
+<p class="vision-highlight">We believe every learner has the potential to achieve more through knowledge, guidance and opportunity.</p>
+</section>
 
-  <strong>
-    K5
-  </strong>
+<section>
+<h2 class="section-title">Subjects</h2>
+<p class="section-subtitle">Build a strong academic foundation through focused learning.</p>
+<div class="subject-grid">
+<div class="subject-card"><div class="subject-icon">➗</div><h3>Mathematics</h3><p>Problem-solving and logical thinking.</p></div>
+<div class="subject-card"><div class="subject-icon">💻</div><h3>Computer Studies</h3><p>Essential digital and computer skills.</p></div>
+<div class="subject-card"><div class="subject-icon">🔬</div><h3>Science</h3><p>Understand scientific concepts.</p></div>
+<div class="subject-card"><div class="subject-icon">📖</div><h3>English</h3><p>Improve reading, writing and communication.</p></div>
 </div>
+</section>
 
-<div class="plan">
-  <span>
-    📅 Daily — 1 Day
-  </span>
-
-  <strong>
-    K10
-  </strong>
+<section class="achievement">
+<h2 class="section-title">Build Your Achievement</h2>
+<p class="section-subtitle">Learning is about developing confidence and skills to move forward.</p>
+<div class="achievement-grid">
+<div class="achievement-card"><div class="achievement-icon">📚</div><h3>Knowledge</h3><p>Build stronger understanding.</p></div>
+<div class="achievement-card"><div class="achievement-icon">🧠</div><h3>Confidence</h3><p>Believe in your ability.</p></div>
+<div class="achievement-card"><div class="achievement-icon">✍️</div><h3>Practice</h3><p>Strengthen your skills.</p></div>
+<div class="achievement-card"><div class="achievement-icon">🏆</div><h3>Success</h3><p>Work towards your goals.</p></div>
 </div>
+</section>
 
-<div class="plan">
-  <span>
-    📆 Weekly — 7 Days
-  </span>
+<section class="success-section">
+<h2 class="section-title">Learners Working Towards Success</h2>
+<p class="section-subtitle">Great results begin with commitment, consistency and willingness to learn.</p>
+<div class="success-box">
+<p>Look beyond today's lesson and discover the possibilities education can create for tomorrow.</p>
+<div class="success-points">
+<div class="success-point"><strong>📖 Learn</strong><span>Understand your lessons.</span></div>
+<div class="success-point"><strong>✍️ Practice</strong><span>Put knowledge into action.</span></div>
+<div class="success-point"><strong>📈 Improve</strong><span>Keep developing skills.</span></div>
+<div class="success-point"><strong>🏆 Succeed</strong><span>Move closer to your goals.</span></div>
+</div></div>
+</section>
 
-  <strong>
-    K45
-  </strong>
+<section class="why-section">
+<h2 class="section-title">Why Choose Mule Learner Tuition?</h2>
+<p class="section-subtitle">A learning environment built around understanding, practice and progress.</p>
+<div class="why-grid">
+<div class="why-card"><div class="why-icon">🎓</div><h3>Academic Focus</h3><p>Focused learning for academic development.</p></div>
+<div class="why-card"><div class="why-icon">📱</div><h3>Learn Digitally</h3><p>Modern digital learning technology.</p></div>
+<div class="why-card"><div class="why-icon">👨‍🏫</div><h3>Guided Learning</h3><p>Guidance that makes learning clearer.</p></div>
+<div class="why-card"><div class="why-icon">🚀</div><h3>Future Ready</h3><p>Build skills for future opportunities.</p></div>
 </div>
+</section>
 
-<div class="plan">
-  <span>
-    🗓️ Monthly — 30 Days
-  </span>
-
-  <strong>
-    K180
-  </strong>
+<section class="testimonials">
+<h2 class="section-title">Learner Experiences</h2>
+<div class="testimonial-grid">
+<div class="testimonial"><p>“Mule Learner Tuition has helped me become more confident in my studies.”</p><strong>— Learner</strong></div>
+<div class="testimonial"><p>“Learning and revision are now easier and more convenient.”</p><strong>— Learner</strong></div>
 </div>
+</section>
 
-  </div></section><section>  <div class="support"><h2>
-  Need Help?
-</h2>
+<section class="verse-section">
+<p class="verse">“Commit to the LORD whatever you do, and he will establish your plans.”</p>
+<div class="verse-reference">— Proverbs 16:3</div>
+</section>
 
-<p>
-  Paid but your account has not been activated?
-  Having a problem joining your class?
-  Our customer support is available to assist you.
-</p>
+<section class="final-cta">
+<h2>Your Future Starts Today.</h2>
+<p>Take the next step in your learning journey. Learn with confidence, practice with purpose and work towards success.</p>
+<a href="login.html" class="cta-button">🚀 START LEARNING</a>
+</section>
 
-<a
-  href="https://wa.me/260978362800"
-  class="whatsapp">
+<footer>
+<div class="footer-brand"><h2>MULE LEARNER TUITION</h2><p>📚 Learn • Practice • Succeed</p></div>
+<div class="footer-links">
+<a href="index.html">Home</a><a href="login.html">Login</a>
+<a href="teacher-register.html">Become a Teacher</a><a href="support.html">Support</a>
+<a href="#">Privacy</a><a href="#">Terms</a>
+</div>
+<div class="footer-contact">Need Help?<br>WhatsApp: <a href="https://wa.me/260978362800">0978362800</a></div>
+<div class="footer-bottom">© 2026 Mule Learner Tuition. All rights reserved.</div>
+</footer>
 
-  💬 Contact Us on WhatsApp
-
-</a>
-
-<p style="margin-top:12px;">
-  WhatsApp: 0978362800
-</p>
-
-  </div></section><footer>  <strong>
-    Mule Learner Tuition
-  </strong>  <br>Learn • Practice • Succeed
-
-<br><br>
-
-© 2026 Mule Learner Tuition. All rights reserved.
-
-</footer><script src="js/app.js"></script></body>
+<script src="js/app.js"></script>
+</body>
 </html>
