@@ -2,14 +2,9 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<meta name="theme-color"
-content="#173b8f">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
 
 <title>My Subjects | Mule Learner Tuition</title>
 
@@ -80,21 +75,6 @@ line-height:1.6;
 margin-bottom:15px;
 }
 
-.search{
-width:100%;
-padding:12px 14px;
-border:1px solid #d9deea;
-border-radius:11px;
-font-size:13px;
-outline:none;
-margin-bottom:15px;
-background:white;
-}
-
-.search:focus{
-border-color:#173b8f;
-}
-
 .summary{
 background:white;
 border-radius:12px;
@@ -133,6 +113,21 @@ font-weight:800;
 color:#173b8f;
 }
 
+.search{
+width:100%;
+padding:12px 14px;
+border:1px solid #d9deea;
+border-radius:11px;
+font-size:13px;
+outline:none;
+margin-bottom:15px;
+background:white;
+}
+
+.search:focus{
+border-color:#173b8f;
+}
+
 .subjects{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -144,6 +139,17 @@ background:white;
 padding:17px 14px;
 border-radius:13px;
 box-shadow:0 4px 15px rgba(20,50,100,.07);
+cursor:pointer;
+border:2px solid transparent;
+transition:.15s;
+}
+
+.subject:active{
+transform:scale(.98);
+}
+
+.subject:hover{
+border-color:#173b8f;
 }
 
 .icon{
@@ -173,6 +179,14 @@ font-size:9px;
 font-weight:bold;
 }
 
+.tap{
+display:block;
+margin-top:8px;
+font-size:9px;
+color:#173b8f;
+font-weight:bold;
+}
+
 .loading{
 background:white;
 padding:25px;
@@ -194,11 +208,9 @@ animation:spin .7s linear infinite;
 }
 
 @keyframes spin{
-
 to{
 transform:rotate(360deg);
 }
-
 }
 
 .empty{
@@ -209,11 +221,6 @@ border-radius:12px;
 text-align:center;
 font-size:12px;
 color:#667085;
-}
-
-.empty-icon{
-font-size:35px;
-margin-bottom:8px;
 }
 
 .error{
@@ -233,14 +240,6 @@ color:#667085;
 margin-top:25px;
 }
 
-@media(max-width:500px){
-
-.subjects{
-grid-template-columns:1fr 1fr;
-}
-
-}
-
 @media(min-width:650px){
 
 .subjects{
@@ -250,12 +249,9 @@ grid-template-columns:repeat(3,1fr);
 }
 
 </style>
-
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -263,19 +259,14 @@ grid-template-columns:repeat(3,1fr);
 Mule Learner Tuition
 </div>
 
-<a
-href="dashboard.html"
-class="back">
-
+<a href="dashboard.html" class="back">
 ← Dashboard
-
 </a>
 
 </header>
 
 
 <div class="container">
-
 
 <div class="heading">
 
@@ -284,7 +275,7 @@ My Subjects 📚
 </h1>
 
 <p>
-View all subjects available on Mule Learner Tuition.
+View and select subjects available for teaching.
 </p>
 
 </div>
@@ -298,10 +289,8 @@ View all subjects available on Mule Learner Tuition.
 
 <br><br>
 
-All active subjects registered in the system
-are displayed here. This allows teachers who
-qualify to teach multiple subjects to easily
-view the complete subject list.
+All active subjects in the system are shown here.
+Tap any subject to open its teaching area.
 
 </div>
 
@@ -321,19 +310,15 @@ Available Subjects
 </div>
 
 <div class="summary-text">
-All active subjects in the database
+All active subjects
 </div>
 
 </div>
 
 </div>
 
-<div
-class="count"
-id="subjectCount">
-
+<div class="count" id="subjectCount">
 0
-
 </div>
 
 </div>
@@ -367,9 +352,9 @@ Loading subjects...
 class="empty"
 id="empty">
 
-<div class="empty-icon">
 📚
-</div>
+
+<br><br>
 
 <strong>
 No subjects found
@@ -377,8 +362,7 @@ No subjects found
 
 <br><br>
 
-There are currently no subjects matching
-your search.
+No active subjects are currently available.
 
 </div>
 
@@ -391,55 +375,35 @@ Teacher Centre • Learn • Practice • Succeed
 
 </footer>
 
-
 </div>
 
 
 <script src="../js/app.js"></script>
-
 <script src="../js/teacher.js"></script>
 
 
 <script type="module">
 
-
-/* =========================================
-   FIREBASE IMPORTS
-========================================= */
-
 import {
-
 initializeApp
-
 }
-
 from
-
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-
 import {
-
 getDatabase,
 ref,
 get,
 onValue
-
 }
-
 from
-
 "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-
-/* =========================================
-   FIREBASE CONFIGURATION
-========================================= */
 
 const firebaseConfig={
 
 apiKey:
-"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+"AIzaSyCRUQW0JTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -462,20 +426,12 @@ appId:
 };
 
 
-/* =========================================
-   INITIALIZE FIREBASE
-========================================= */
-
 const app=
 initializeApp(firebaseConfig);
 
 const db=
 getDatabase(app);
 
-
-/* =========================================
-   ELEMENTS
-========================================= */
 
 const list=
 document.getElementById("subjectList");
@@ -493,159 +449,31 @@ document.getElementById("searchInput");
 let allSubjects=[];
 
 
-/* =========================================
-   SUBJECT ICONS
-========================================= */
-
 const icons={
 
 "Mathematics":"📐",
-
 "English":"📖",
-
 "Science":"🔬",
-
 "Physics":"⚡",
-
 "Chemistry":"⚗️",
-
 "Biology":"🧬",
-
 "ICT":"💻",
-
 "Computer Studies":"💻",
-
 "Civic Education":"🏛️",
-
 "Social Studies":"🌍",
-
 "Geography":"🌍",
-
 "History":"📜",
-
 "Religious Education":"🙏",
-
 "Business Studies":"💼",
-
 "Accounting":"🧾",
-
 "Economics":"📊",
-
 "Art":"🎨",
-
 "Music":"🎵",
-
 "Physical Education":"🏃",
-
 "Home Economics":"🏠"
 
 };
 
-
-/* =========================================
-   GET ICON
-========================================= */
-
-function getIcon(name){
-
-if(icons[name])
-return icons[name];
-
-
-const value=
-String(name)
-.toLowerCase();
-
-
-if(value.includes("math"))
-return "📐";
-
-
-if(value.includes("english"))
-return "📖";
-
-
-if(value.includes("science"))
-return "🔬";
-
-
-if(value.includes("physics"))
-return "⚡";
-
-
-if(value.includes("chem"))
-return "⚗️";
-
-
-if(value.includes("biology"))
-return "🧬";
-
-
-if(
-value.includes("computer")||
-value.includes("ict")
-)
-return "💻";
-
-
-if(value.includes("civic"))
-return "🏛️";
-
-
-if(
-value.includes("social")||
-value.includes("geography")
-)
-return "🌍";
-
-
-if(value.includes("history"))
-return "📜";
-
-
-if(
-value.includes("religious")||
-value.includes("religion")
-)
-return "🙏";
-
-
-if(
-value.includes("business")
-)
-return "💼";
-
-
-if(value.includes("account"))
-return "🧾";
-
-
-if(value.includes("economic"))
-return "📊";
-
-
-if(value.includes("art"))
-return "🎨";
-
-
-if(value.includes("music"))
-return "🎵";
-
-
-if(
-value.includes("physical")
-)
-return "🏃";
-
-
-return "📚";
-
-}
-
-
-/* =========================================
-   DEFAULT DESCRIPTION
-========================================= */
 
 const descriptions={
 
@@ -692,65 +520,120 @@ const descriptions={
 "Business principles, entrepreneurship and commerce.",
 
 "Accounting":
-"Financial records, accounting principles and business finance.",
+"Financial records and accounting principles.",
 
 "Economics":
-"Economic principles, markets and financial systems.",
-
-"Art":
-"Creative expression, drawing, design and visual arts.",
-
-"Music":
-"Music theory, performance and creative expression.",
-
-"Physical Education":
-"Physical fitness, sports and healthy living.",
-
-"Home Economics":
-"Food, family management, nutrition and practical life skills."
+"Economic principles, markets and financial systems."
 
 };
 
 
-/* =========================================
-   DESCRIPTION
-========================================= */
+function getIcon(name){
 
-function getDescription(name){
+if(icons[name])
+return icons[name];
 
-if(descriptions[name])
-return descriptions[name];
+const v=
+String(name).toLowerCase();
 
+if(v.includes("math"))
+return "📐";
 
-return "Subject learning and teaching resources.";
+if(v.includes("english"))
+return "📖";
+
+if(v.includes("science"))
+return "🔬";
+
+if(v.includes("physics"))
+return "⚡";
+
+if(v.includes("chem"))
+return "⚗️";
+
+if(v.includes("biology"))
+return "🧬";
+
+if(v.includes("computer")||v.includes("ict"))
+return "💻";
+
+if(v.includes("civic"))
+return "🏛️";
+
+if(v.includes("geography")||v.includes("social"))
+return "🌍";
+
+if(v.includes("history"))
+return "📜";
+
+if(v.includes("relig"))
+return "🙏";
+
+if(v.includes("business"))
+return "💼";
+
+if(v.includes("account"))
+return "🧾";
+
+if(v.includes("economic"))
+return "📊";
+
+return "📚";
 
 }
 
 
-/* =========================================
-   HTML SECURITY
-========================================= */
+function getDescription(name){
+
+return descriptions[name]||
+"Subject learning and teaching resources.";
+
+}
+
 
 function escapeHTML(value){
 
 return String(value||"")
-
 .replace(/&/g,"&amp;")
-
 .replace(/</g,"&lt;")
-
 .replace(/>/g,"&gt;")
-
 .replace(/"/g,"&quot;")
-
 .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================================
-   DISPLAY SUBJECTS
-========================================= */
+/* =====================================
+OPEN SUBJECT
+===================================== */
+
+function openSubject(subject){
+
+/*
+Save selected subject so the next page
+knows what the teacher selected.
+*/
+
+localStorage.setItem(
+"selectedTeacherSubject",
+JSON.stringify(subject)
+);
+
+
+/*
+Open teacher classes page.
+*/
+
+window.location.href=
+"classes.html?subject="+
+encodeURIComponent(subject.name);
+
+}
+
+
+/* =====================================
+DISPLAY
+===================================== */
 
 function displaySubjects(subjects){
 
@@ -764,73 +647,79 @@ return;
 
 }
 
-
 empty.style.display="none";
 
 
 list.innerHTML=
-
 subjects.map(subject=>`
 
-<div class="subject">
+<div
+class="subject"
+data-id="${escapeHTML(subject.id)}"
+>
 
 <div class="icon">
-
 ${getIcon(subject.name)}
-
 </div>
 
 <h2>
-
 ${escapeHTML(subject.name)}
-
 </h2>
 
 <p>
-
 ${escapeHTML(subject.description)}
-
 </p>
 
 <span class="badge">
-
 AVAILABLE
+</span>
 
+<span class="tap">
+TAP TO OPEN →
 </span>
 
 </div>
 
 `).join("");
 
+
+/*
+Make every subject clickable.
+*/
+
+list
+.querySelectorAll(".subject")
+.forEach((card,index)=>{
+
+card.addEventListener(
+"click",
+()=>{
+
+openSubject(subjects[index]);
+
+}
+);
+
+});
+
 }
 
 
-/* =========================================
-   LOAD ALL SUBJECTS
-========================================= */
+/* =====================================
+LOAD ALL SUBJECTS
+===================================== */
 
-function loadAllSubjects(){
+function loadSubjects(){
 
 const subjectsRef=
 ref(db,"subjects");
 
 
-/*
-Firebase realtime listener.
-
-No assignedSubjects filter.
-No teacherId filter.
-
-Every ACTIVE subject in /subjects
-will appear.
-*/
-
 onValue(
 
 subjectsRef,
 
-(snapshot)=>{
-
+snapshot=>{
 
 if(!snapshot.exists()){
 
@@ -838,9 +727,7 @@ allSubjects=[];
 
 count.textContent="0";
 
-list.innerHTML="";
-
-empty.style.display="block";
+displaySubjects([]);
 
 return;
 
@@ -850,16 +737,10 @@ return;
 const data=
 snapshot.val();
 
-
 const subjects=[];
 
 
-/*
-Read every subject.
-*/
-
 Object.entries(data).forEach(
-
 ([id,item])=>{
 
 if(!item)
@@ -868,13 +749,9 @@ return;
 
 const name=
 String(
-
 item.name||
-
 item.subject||
-
 ""
-
 ).trim();
 
 
@@ -883,19 +760,14 @@ return;
 
 
 /*
-Only active subjects are shown.
-
-If the CEO database does not contain
-an active/status field, the subject
-will still be treated as active.
+Active by default unless explicitly
+disabled/inactive/deleted.
 */
 
 let active=true;
 
 
-if(
-item.active!==undefined
-){
+if(item.active!==undefined){
 
 active=
 item.active===true;
@@ -903,13 +775,10 @@ item.active===true;
 }
 
 
-if(
-item.status!==undefined
-){
+if(item.status!==undefined){
 
 const status=
-String(item.status)
-.toLowerCase();
+String(item.status).toLowerCase();
 
 
 if(
@@ -936,20 +805,16 @@ id:id,
 name:name,
 
 description:
-
 item.description||
-
 getDescription(name)
 
 });
 
-}
-
-);
+});
 
 
 /*
-Remove duplicate subject names.
+Remove duplicates.
 */
 
 const unique=[];
@@ -959,11 +824,9 @@ subjects.forEach(subject=>{
 
 const exists=
 unique.some(
-
-item=>
-item.name.toLowerCase()===
+x=>
+x.name.toLowerCase()===
 subject.name.toLowerCase()
-
 );
 
 
@@ -973,45 +836,24 @@ unique.push(subject);
 });
 
 
-/*
-Sort alphabetically.
-*/
-
 unique.sort(
-
 (a,b)=>
 a.name.localeCompare(b.name)
-
 );
 
 
 allSubjects=unique;
 
-
-/*
-Update count.
-*/
-
 count.textContent=
 allSubjects.length;
 
-
-/*
-Display immediately.
-*/
-
 displaySubjects(allSubjects);
-
 
 },
 
-(error)=>{
+error=>{
 
-console.error(
-"Subjects Firebase error:",
-error
-);
-
+console.error(error);
 
 list.innerHTML=`
 
@@ -1021,8 +863,7 @@ list.innerHTML=`
 
 <br><br>
 
-Please check your internet connection
-and try again.
+Please check your internet connection.
 
 </div>
 
@@ -1035,14 +876,12 @@ and try again.
 }
 
 
-/* =========================================
-   FAST SEARCH
-========================================= */
+/* =====================================
+SEARCH
+===================================== */
 
 search.addEventListener(
-
 "input",
-
 function(){
 
 const value=
@@ -1061,38 +900,32 @@ return;
 
 
 const filtered=
-allSubjects.filter(subject=>
-
+allSubjects.filter(
+subject=>
 subject.name
 .toLowerCase()
 .includes(value)
-
 );
 
 
 displaySubjects(filtered);
 
-}
-
-);
+});
 
 
-/* =========================================
-   TEACHER SECURITY
-========================================= */
+/* =====================================
+TEACHER SECURITY
+===================================== */
 
 async function checkTeacher(){
 
 try{
 
-
 const session=
 JSON.parse(
-
 localStorage.getItem(
 "muleCurrentUser"
 )||"null"
-
 );
 
 
@@ -1109,36 +942,22 @@ return false;
 }
 
 
-/*
-Get teacher account.
-*/
-
 const snapshot=
 await get(
-
-ref(
-db,
-"users/"+session.id
-)
-
+ref(db,"users/"+session.id)
 );
 
 
 if(!snapshot.exists()){
 
-alert(
-"Teacher account not found."
-);
-
+alert("Teacher account not found.");
 
 localStorage.removeItem(
 "muleCurrentUser"
 );
 
-
 window.location.href=
 "../login.html";
-
 
 return false;
 
@@ -1149,59 +968,36 @@ const teacher=
 snapshot.val();
 
 
-/*
-Role security.
-*/
-
 if(
-
-String(
-teacher.role||""
-)
+String(teacher.role||"")
 .toLowerCase()!=="teacher"
-
 ){
 
-alert(
-"Teacher access required."
-);
-
+alert("Teacher access required.");
 
 window.location.href=
 "../login.html";
-
 
 return false;
 
 }
 
 
-/*
-Suspended teacher.
-*/
-
 if(
-
-String(
-teacher.status||""
-)
+String(teacher.status||"")
 .toLowerCase()==="suspended"
-
 ){
 
 alert(
 "Your teacher account has been suspended."
 );
 
-
 localStorage.removeItem(
 "muleCurrentUser"
 );
 
-
 window.location.href=
 "../login.html";
-
 
 return false;
 
@@ -1210,13 +1006,9 @@ return false;
 
 return true;
 
-
 }catch(error){
 
-console.error(
-"Teacher security error:",
-error
-);
+console.error(error);
 
 return false;
 
@@ -1225,43 +1017,25 @@ return false;
 }
 
 
-/* =========================================
-   START PAGE
-========================================= */
+/* =====================================
+START
+===================================== */
 
-async function startPage(){
-
-/*
-Security check first.
-*/
+async function start(){
 
 const allowed=
 await checkTeacher();
 
-
 if(!allowed)
 return;
 
-
-/*
-Immediately start listening
-for all subjects.
-*/
-
-loadAllSubjects();
+loadSubjects();
 
 }
 
-
-/*
-Start as soon as the page loads.
-*/
-
-startPage();
-
+start();
 
 </script>
 
 </body>
-
 </html>
