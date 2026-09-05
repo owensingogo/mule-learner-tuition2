@@ -1,7 +1,14 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>Login | Mule Learner Tuition</title><style>
+<meta name="theme-color" content="#173b8f">
+
+<title>Login | Mule Learner Tuition</title>
+
+<style>
 
 *{
 box-sizing:border-box;
@@ -146,6 +153,11 @@ button.login:active{
 transform:scale(.98);
 }
 
+button.login:disabled{
+opacity:.7;
+cursor:not-allowed;
+}
+
 .links{
 text-align:center;
 margin-top:18px;
@@ -188,46 +200,103 @@ margin-bottom:15px;
 text-align:center;
 }
 
-</style></head><body><div class="container"><div class="logo"><h1>Mule Learner Tuition</h1><p>
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+
+<h1>Mule Learner Tuition</h1>
+
+<p>
 📚 Learn • Practice • Succeed
-</p></div><div class="card"><h2>
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>
 Welcome Back
-</h2><p class="subtitle">
+</h2>
+
+<p class="subtitle">
 Login to continue your learning journey.
-</p><div class="roles"><div
+</p>
+
+
+<div class="roles">
+
+<div
 class="role active"
-onclick="selectRole('learner',this)"><span>🎓</span>
+onclick="selectRole('learner',this)">
+
+<span>🎓</span>
 Learner
 
-</div><div
+</div>
+
+
+<div
 class="role"
-onclick="selectRole('teacher',this)"><span>👨‍🏫</span>
+onclick="selectRole('teacher',this)">
+
+<span>👨‍🏫</span>
 Teacher
 
-</div><div
+</div>
+
+
+<div
 class="role"
-onclick="selectRole('ceo',this)"><span>👑</span>
+onclick="selectRole('ceo',this)">
+
+<span>👑</span>
 CEO
 
-</div></div><div id="error">
+</div>
+
+</div>
+
+
+<div id="error">
 Please enter your phone number and password.
-</div><form onsubmit="handleLogin(event)"><label>
+</div>
+
+
+<form onsubmit="handleLogin(event)">
+
+<label>
 Phone Number
-</label><input
+</label>
+
+<input
 type="tel"
 id="phone"
 placeholder="e.g. 0971234567"
 autocomplete="tel"
+inputmode="tel"
 required>
+
 
 <label>
 Password
-</label><div class="password-box"><input
+</label>
+
+
+<div class="password-box">
+
+<input
 type="password"
 id="password"
 placeholder="Enter your password"
 autocomplete="current-password"
 required>
+
 
 <button
 type="button"
@@ -236,33 +305,78 @@ onclick="togglePassword()">
 
 Show
 
-</button></div><button
+</button>
+
+</div>
+
+
+<button
 class="login"
 type="submit">
 
 Login
 
-</button></form><div class="links"><p>
+</button>
+
+</form>
+
+
+<div class="links">
+
+<p>
 Don't have a learner account?
 <a href="register.html">
 Register
 </a>
-</p><br><p>
+</p>
+
+<br>
+
+<p>
 Want to become a teacher?
 <a href="teacher-register.html">
 Apply as Teacher
 </a>
-</p></div><div class="notice">🔐 Your account information should always be kept private.
+</p>
 
-</div><a
+<br>
+
+<p>
+<a
+href="javascript:void(0)"
+onclick="forgotPassword()">
+
+🔑 Forgot Password? Customer Support
+
+</a>
+</p>
+
+</div>
+
+
+<div class="notice">
+
+🔐 Your account information should always be kept private.
+
+</div>
+
+
+<a
 href="index.html"
 class="back">
 
 ← Back to Home
 
-</a></div></div><script>
+</a>
+
+</div>
+</div>
+
+
+<script>
 
 let selectedRole = "learner";
+
 
 function selectRole(role,element){
 
@@ -280,6 +394,7 @@ element.classList.add("active");
 
 }
 
+
 function togglePassword(){
 
 const password =
@@ -287,6 +402,7 @@ document.getElementById("password");
 
 const button =
 document.querySelector(".show");
+
 
 if(password.type === "password"){
 
@@ -304,7 +420,8 @@ button.textContent = "Show";
 
 }
 
-function handleLogin(event){
+
+async function handleLogin(event){
 
 event.preventDefault();
 
@@ -312,64 +429,74 @@ const phone =
 document.getElementById("phone").value.trim();
 
 const password =
-document.getElementById("password").value.trim();
+document.getElementById("password").value;
 
 const error =
 document.getElementById("error");
+
+const button =
+document.querySelector("button.login");
+
 
 if(!phone || !password){
 
 error.textContent =
 "Please enter your phone number and password.";
 
-error.style.display = "block";
+error.style.display =
+"block";
 
 return;
 
 }
 
-error.style.display = "none";
 
-/*
-Authentication is handled by auth.js.
-If auth.js provides login(), use it.
-*/
+error.style.display =
+"none";
+
+
+if(button){
+
+button.disabled = true;
+
+button.textContent =
+"Logging in...";
+
+}
+
 
 if(typeof login === "function"){
 
-login(event,selectedRole);
+await login(
+event,
+selectedRole
+);
 
 }else{
 
-/*
-Temporary navigation until the
-real authentication backend is connected.
-*/
+if(button){
 
-if(selectedRole === "learner"){
+button.disabled = false;
 
-window.location.href =
-"learner/dashboard.html";
+button.textContent =
+"Login";
 
 }
 
-else if(selectedRole === "teacher"){
+error.textContent =
+"Login service is unavailable. Please refresh the page and try again.";
 
-window.location.href =
-"teacher/dashboard.html";
-
-}
-
-else if(selectedRole === "ceo"){
-
-window.location.href =
-"ceo/dashboard.html";
+error.style.display =
+"block";
 
 }
 
 }
 
-}
+</script>
 
-</script><script src="js/auth.js"></script></body>
+
+<script src="js/auth.js"></script>
+
+</body>
 </html>
