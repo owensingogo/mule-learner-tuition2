@@ -1,9 +1,13 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
-<title>My Classes | Mule Learner Tuition</title><style>
+
+<title>My Classes | Mule Learner Tuition</title>
+
+<style>
 *{
 box-sizing:border-box;
 margin:0;
@@ -40,15 +44,15 @@ font-size:13px;
 .container{
 max-width:900px;
 margin:auto;
-padding:20px 16px;
+padding:18px 14px;
 }
 
 .heading{
-margin-bottom:18px;
+margin-bottom:15px;
 }
 
 .heading h1{
-font-size:23px;
+font-size:22px;
 color:#173b8f;
 margin-bottom:5px;
 }
@@ -59,104 +63,122 @@ color:#667085;
 line-height:1.5;
 }
 
+.selected{
+display:none;
+background:#eef3ff;
+border:1px solid #d8e2ff;
+padding:12px;
+border-radius:11px;
+margin-bottom:15px;
+font-size:12px;
+color:#173b8f;
+}
+
+.selected strong{
+font-size:13px;
+}
+
 .stats{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
+gap:9px;
+margin-bottom:15px;
 }
 
 .stat{
 background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
+padding:13px;
+border-radius:11px;
+box-shadow:0 3px 12px rgba(20,50,100,.05);
 }
 
 .stat-icon{
-font-size:22px;
+font-size:20px;
 }
 
 .stat h3{
-font-size:19px;
-margin-top:6px;
+font-size:18px;
+margin-top:5px;
 }
 
 .stat p{
-font-size:11px;
+font-size:10px;
 color:#667085;
-margin-top:3px;
+margin-top:2px;
 }
 
 .class-card{
 background:white;
-padding:17px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:12px;
+padding:15px;
+border-radius:12px;
+box-shadow:0 3px 12px rgba(20,50,100,.06);
+margin-bottom:10px;
 }
 
 .class-top{
 display:flex;
 justify-content:space-between;
 align-items:flex-start;
-gap:10px;
+gap:8px;
 }
 
 .class-info{
 display:flex;
-gap:10px;
+gap:9px;
+min-width:0;
 }
 
 .class-icon{
-width:45px;
-height:45px;
+width:43px;
+height:43px;
 border-radius:10px;
 background:#eef3ff;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:22px;
+font-size:21px;
 flex-shrink:0;
 }
 
 .class-name{
-font-size:15px;
+font-size:14px;
 font-weight:800;
+line-height:1.3;
 }
 
 .subject{
-font-size:11px;
+font-size:10px;
 color:#667085;
-margin-top:4px;
+margin-top:3px;
 }
 
 .badge{
 background:#ecfdf3;
 color:#027a48;
-padding:6px 9px;
+padding:5px 8px;
 border-radius:20px;
-font-size:9px;
+font-size:8px;
 font-weight:bold;
 white-space:nowrap;
 }
 
-.badge.live-badge{
+.badge.live{
 background:#fff1f2;
 color:#b42318;
 }
 
 .details{
-margin-top:13px;
-padding-top:12px;
+margin-top:11px;
+padding-top:10px;
 border-top:1px solid #edf0f5;
 }
 
 .detail{
 display:flex;
 justify-content:space-between;
-padding:6px 0;
-font-size:11px;
+gap:10px;
+padding:5px 0;
+font-size:10px;
 }
 
 .label{
@@ -165,20 +187,21 @@ color:#667085;
 
 .value{
 font-weight:bold;
+text-align:right;
 }
 
 .actions{
 display:flex;
-gap:8px;
-margin-top:13px;
+gap:7px;
+margin-top:11px;
 }
 
 .btn{
 flex:1;
-padding:10px;
+padding:9px 7px;
 border:0;
 border-radius:8px;
-font-size:11px;
+font-size:10px;
 font-weight:bold;
 cursor:pointer;
 text-decoration:none;
@@ -190,15 +213,38 @@ background:#eef3ff;
 color:#173b8f;
 }
 
-.live{
+.live-btn{
 background:#fff1f2;
 color:#b42318;
+}
+
+.loading{
+background:white;
+padding:30px 15px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.spinner{
+width:25px;
+height:25px;
+border:3px solid #e4e7ec;
+border-top:3px solid #173b8f;
+border-radius:50%;
+margin:0 auto 10px;
+animation:spin .7s linear infinite;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
 }
 
 .empty{
 display:none;
 background:white;
-padding:25px;
+padding:28px 15px;
 border-radius:12px;
 text-align:center;
 font-size:12px;
@@ -206,20 +252,29 @@ color:#667085;
 }
 
 .notice{
-margin-top:18px;
+margin-top:17px;
 background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
+padding:13px;
+border-radius:10px;
+font-size:11px;
 color:#475467;
-line-height:1.6;
+line-height:1.55;
 }
 
 footer{
 text-align:center;
-font-size:11px;
+font-size:10px;
 color:#667085;
-margin-top:25px;
+margin-top:22px;
+}
+
+.error{
+background:#fff1f1;
+color:#b42318;
+padding:15px;
+border-radius:11px;
+text-align:center;
+font-size:11px;
 }
 
 @media(min-width:650px){
@@ -229,60 +284,109 @@ grid-template-columns:repeat(3,1fr);
 }
 
 }
-</style></head><body><header>
-<div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">Mule Learner Tuition</div>
+
+<a href="dashboard.html" class="back">
 ← Dashboard
 </a>
-</header><div class="container"><div class="heading">
-<h1>
-My Classes 🏫
-</h1><p>
-View your assigned classes and manage your teaching schedule.
+</header>
+
+<div class="container">
+
+<div class="heading">
+
+<h1>My Classes 🏫</h1>
+
+<p>
+View and manage your teaching classes.
 </p>
-</div><!-- STATISTICS --><div class="stats"><div class="stat">
-<div class="stat-icon">
+
+</div>
+
+<!-- SELECTED SUBJECT -->
+<div class="selected" id="selectedSubject"></div>
+
+<!-- STATISTICS -->
+<div class="stats">
+
+<div class="stat">
+<div class="stat-icon">🏫</div>
+<h3 id="classCount">0</h3>
+<p>Classes</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">👥</div>
+<h3 id="learnerCount">0</h3>
+<p>Total Learners</p>
+</div>
+
+<div class="stat">
+<div class="stat-icon">🔴</div>
+<h3 id="liveCount">0</h3>
+<p>Live Classes</p>
+</div>
+
+</div>
+
+<!-- CLASS LIST -->
+<div id="classList">
+
+<div class="loading">
+<div class="spinner"></div>
+Loading your classes...
+</div>
+
+</div>
+
+<div class="empty" id="empty">
+
 🏫
-</div><h3 id="classCount">
-0
-</h3><p>
-Assigned Classes
-</p>
-</div><div class="stat">
-<div class="stat-icon">
-👥
-</div><h3 id="learnerCount">
-0
-</h3><p>
-Total Learners
-</p>
-</div><div class="stat">
-<div class="stat-icon">
-🔴
-</div><h3 id="liveCount">
-0
-</h3><p>
-Live Classes
-</p>
-</div></div><!-- CLASS LIST --><div id="classList"></div><div class="empty" id="empty">No classes have been assigned to your teacher account yet.
 
-</div><div class="notice"><strong>
-👨‍🏫 Teacher Access
-</strong><br><br>
+<br><br>
 
-Classes are assigned by the CEO. Teachers can manage
-their lessons and teaching activities inside classes
-assigned to them.
+<strong>No classes found</strong>
 
-Teachers cannot create unauthorized classes or assign
-themselves to classes.
+<br><br>
 
-</div><footer>Mule Learner Tuition<br>
+No classes have been assigned to your teacher account yet.
+
+</div>
+
+<div class="notice">
+
+<strong>👨‍🏫 Teacher Access</strong>
+
+<br><br>
+
+Classes assigned to your teacher account will appear here.
+
+<br><br>
+
+Select a subject from <strong>My Subjects</strong> to work with the classes available for that subject.
+
+</div>
+
+<footer>
+
+Mule Learner Tuition<br>
 
 Teacher Centre • Learn • Practice • Succeed
 
-</footer></div><script src="../js/app.js"></script><script src="../js/teacher.js"></script><script type="module">
+</footer>
+
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
+
+<script type="module">
 
 import {
 initializeApp
@@ -295,9 +399,11 @@ get
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
+/* FIREBASE */
+
 const firebaseConfig={
 
-apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+apiKey:"AIzaSyCRUQW0JTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -325,7 +431,19 @@ const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 
 
-/* SUBJECT ICONS */
+/* ELEMENTS */
+
+const classList=
+document.getElementById("classList");
+
+const empty=
+document.getElementById("empty");
+
+const selectedSubject=
+document.getElementById("selectedSubject");
+
+
+/* ICONS */
 
 const icons={
 
@@ -338,7 +456,13 @@ const icons={
 "ICT":"💻",
 "Computer Studies":"💻",
 "Civic Education":"🏛️",
-"Social Studies":"🌍"
+"Social Studies":"🌍",
+"Geography":"🌍",
+"History":"📜",
+"Religious Education":"🙏",
+"Business Studies":"💼",
+"Accounting":"🧾",
+"Economics":"📊"
 
 };
 
@@ -348,18 +472,56 @@ function getIcon(subject){
 if(icons[subject])
 return icons[subject];
 
-const value=String(subject||"").toLowerCase();
+const value=
+String(subject||"").toLowerCase();
 
-if(value.includes("math")) return "📐";
-if(value.includes("english")) return "📖";
-if(value.includes("science")) return "🔬";
-if(value.includes("physics")) return "⚡";
-if(value.includes("chem")) return "⚗️";
-if(value.includes("biology")) return "🧬";
-if(value.includes("computer") || value.includes("ict"))
+if(value.includes("math"))
+return "📐";
+
+if(value.includes("english"))
+return "📖";
+
+if(value.includes("science"))
+return "🔬";
+
+if(value.includes("physics"))
+return "⚡";
+
+if(value.includes("chem"))
+return "⚗️";
+
+if(value.includes("biology"))
+return "🧬";
+
+if(
+value.includes("computer") ||
+value.includes("ict")
+)
 return "💻";
-if(value.includes("civic")) return "🏛️";
-if(value.includes("social")) return "🌍";
+
+if(value.includes("civic"))
+return "🏛️";
+
+if(
+value.includes("social") ||
+value.includes("geography")
+)
+return "🌍";
+
+if(value.includes("history"))
+return "📜";
+
+if(value.includes("relig"))
+return "🙏";
+
+if(value.includes("business"))
+return "💼";
+
+if(value.includes("account"))
+return "🧾";
+
+if(value.includes("economic"))
+return "📊";
 
 return "📚";
 
@@ -387,7 +549,9 @@ function getSession(){
 try{
 
 return JSON.parse(
-localStorage.getItem("muleCurrentUser")||"null"
+localStorage.getItem(
+"muleCurrentUser"
+)||"null"
 );
 
 }catch(error){
@@ -399,18 +563,26 @@ return null;
 }
 
 
-/* CHECK WHETHER CLASS BELONGS TO TEACHER */
+/* TEACHER OWNERSHIP */
 
 function teacherOwnsClass(item,teacher){
 
-const teacherId=String(
+const teacherId=
+String(
 teacher.id||""
-).trim().toLowerCase();
+)
+.trim()
+.toLowerCase();
 
-const teacherName=String(
+const teacherName=
+String(
 teacher.name||""
-).trim().toLowerCase();
+)
+.trim()
+.toLowerCase();
 
+
+/* TEACHER IDS */
 
 const ids=[
 
@@ -421,7 +593,9 @@ item.teacher_id
 
 ]
 .map(value=>
-String(value||"").trim().toLowerCase()
+String(value||"")
+.trim()
+.toLowerCase()
 )
 .filter(Boolean);
 
@@ -436,6 +610,8 @@ return true;
 }
 
 
+/* TEACHER NAMES */
+
 const names=[
 
 item.teacher,
@@ -445,7 +621,9 @@ item.assignedTeacherName
 
 ]
 .map(value=>
-String(value||"").trim().toLowerCase()
+String(value||"")
+.trim()
+.toLowerCase()
 )
 .filter(Boolean);
 
@@ -460,48 +638,45 @@ return true;
 }
 
 
-/*
-CEO may assign classes using assignedClasses
-on the teacher account.
-*/
+/* ASSIGNED CLASSES */
 
-let assignedClasses=
+let assigned=
 teacher.assignedClasses||[];
 
 
-if(!Array.isArray(assignedClasses)){
+if(!Array.isArray(assigned)){
 
 if(
-typeof assignedClasses==="object"
+typeof assigned==="object"
 ){
 
-assignedClasses=
-Object.keys(assignedClasses)
+assigned=
+Object.keys(assigned)
 .filter(
-key=>assignedClasses[key]===true
+key=>assigned[key]===true
 );
 
 }else{
 
-assignedClasses=[
-assignedClasses
-];
+assigned=[assigned];
 
 }
 
 }
 
 
-assignedClasses=
-assignedClasses
+assigned=
+assigned
 .map(value=>
-String(value||"").trim().toLowerCase()
+String(value||"")
+.trim()
+.toLowerCase()
 )
 .filter(Boolean);
 
 
 if(
-assignedClasses.includes("all classes")
+assigned.includes("all classes")
 ){
 
 return true;
@@ -509,7 +684,7 @@ return true;
 }
 
 
-const classValues=[
+const values=[
 
 item.id,
 item.classId,
@@ -521,90 +696,100 @@ item.grade
 
 ]
 .map(value=>
-String(value||"").trim().toLowerCase()
+String(value||"")
+.trim()
+.toLowerCase()
 )
 .filter(Boolean);
 
 
-return assignedClasses.some(
-assigned=>classValues.includes(assigned)
+return assigned.some(
+value=>values.includes(value)
 );
 
 }
 
 
-/* GET LEARNER COUNT */
+/* COUNT LEARNERS */
 
 function countLearnersForClass(
 classId,
-classItem,
+item,
 learners
 ){
 
-let count=0;
+let total=0;
 
 
-/* Direct assignedLearners */
+/* DIRECT CLASS ASSIGNMENTS */
 
-if(
-classItem.assignedLearners
-){
+if(item.assignedLearners){
 
 const assigned=
-classItem.assignedLearners;
+item.assignedLearners;
 
 
 if(Array.isArray(assigned)){
 
-count=assigned.length;
+total=assigned.length;
 
-}else if(
+}
+
+else if(
 typeof assigned==="object"
 ){
 
-count=
+total=
 Object.keys(assigned)
 .filter(
 key=>assigned[key]===true
-).length;
+)
+.length;
 
 }
 
 }
 
 
-/* Learners linked directly to class */
+/* LEARNERS LINKED TO CLASS */
 
-if(count===0){
+if(total===0){
 
-Object.keys(learners||{}).forEach(id=>{
+Object.keys(learners||{})
+.forEach(id=>{
 
-const learner=learners[id];
+const learner=
+learners[id];
 
-if(!learner) return;
+if(!learner)
+return;
+
+if(
+String(learner.role||"")
+.toLowerCase()!=="learner"
+)
+return;
 
 
-let learnerClasses=
+let assigned=
 learner.assignedClasses||[];
 
 
-if(!Array.isArray(learnerClasses)){
+if(!Array.isArray(assigned)){
 
 if(
-typeof learnerClasses==="object"
+typeof assigned==="object"
 ){
 
-learnerClasses=
-Object.keys(learnerClasses)
+assigned=
+Object.keys(assigned)
 .filter(
-key=>learnerClasses[key]===true
+key=>assigned[key]===true
 );
 
 }else{
 
-learnerClasses=[
-learnerClasses
-];
+assigned=[assigned];
 
 }
 
@@ -612,46 +797,122 @@ learnerClasses
 
 
 const matches=
-learnerClasses.some(
-value=>
-String(value).toLowerCase()===
-String(classId).toLowerCase() ||
-String(value).toLowerCase()===
-String(classItem.className||"").toLowerCase() ||
-String(value).toLowerCase()===
-String(classItem.name||"").toLowerCase()
+assigned.some(value=>{
+
+const v=
+String(value||"")
+.toLowerCase();
+
+return (
+
+v===
+String(classId||"")
+.toLowerCase()
+
+||
+
+v===
+String(item.className||"")
+.toLowerCase()
+
+||
+
+v===
+String(item.name||"")
+.toLowerCase()
+
 );
 
+});
 
-if(matches){
 
-count++;
-
-}
+if(matches)
+total++;
 
 });
 
 }
 
 
-return count;
+return total;
 
 }
 
 
-/* LOAD CLASSES */
+/* SELECTED SUBJECT */
 
-async function loadClasses(){
-
-const list=
-document.getElementById("classList");
-
-const empty=
-document.getElementById("empty");
+function loadSelectedSubject(){
 
 try{
 
-const session=getSession();
+const saved=
+JSON.parse(
+localStorage.getItem(
+"selectedTeacherSubject"
+)||"null"
+);
+
+const params=
+new URLSearchParams(
+window.location.search
+);
+
+const urlSubject=
+params.get("subject");
+
+
+const subject=
+urlSubject ||
+(
+saved &&
+saved.name
+);
+
+
+if(subject){
+
+selectedSubject.style.display="block";
+
+selectedSubject.innerHTML=
+"📚 <strong>Selected Subject:</strong> "
++
+escapeHTML(subject);
+
+return subject;
+
+}
+
+}catch(error){
+
+console.log(error);
+
+}
+
+return "";
+
+}
+
+
+/* MAIN LOAD */
+
+async function loadClasses(){
+
+try{
+
+/* SHOW LOADING IMMEDIATELY */
+
+classList.innerHTML=`
+<div class="loading">
+<div class="spinner"></div>
+Loading your classes...
+</div>
+`;
+
+
+/* SESSION */
+
+const session=
+getSession();
 
 
 if(
@@ -659,14 +920,15 @@ if(
 !session.id
 ){
 
-window.location.href="../login.html";
+window.location.href=
+"../login.html";
 
 return;
 
 }
 
 
-/* GET TEACHER */
+/* TEACHER CHECK */
 
 const teacherSnapshot=
 await get(
@@ -674,13 +936,20 @@ ref(db,"users/"+session.id)
 );
 
 
-if(!teacherSnapshot.exists()){
+if(
+!teacherSnapshot.exists()
+){
 
-alert("Teacher account not found.");
+alert(
+"Teacher account not found."
+);
 
-localStorage.removeItem("muleCurrentUser");
+localStorage.removeItem(
+"muleCurrentUser"
+);
 
-window.location.href="../login.html";
+window.location.href=
+"../login.html";
 
 return;
 
@@ -692,12 +961,17 @@ teacherSnapshot.val();
 
 
 if(
-String(teacher.role||"").toLowerCase()!=="teacher"
+String(
+teacher.role||""
+).toLowerCase()!=="teacher"
 ){
 
-alert("Teacher access required.");
+alert(
+"Teacher access required."
+);
 
-window.location.href="../login.html";
+window.location.href=
+"../login.html";
 
 return;
 
@@ -705,41 +979,62 @@ return;
 
 
 if(
-String(teacher.status||"").toLowerCase()==="suspended"
+String(
+teacher.status||""
+).toLowerCase()==="suspended"
 ){
 
-alert("Your teacher account has been suspended.");
+alert(
+"Your teacher account has been suspended."
+);
 
-localStorage.removeItem("muleCurrentUser");
+localStorage.removeItem(
+"muleCurrentUser"
+);
 
-window.location.href="../login.html";
+window.location.href=
+"../login.html";
 
 return;
 
 }
 
 
-/* GET CLASSES */
+/*
+LOAD DATABASE DATA.
 
-const classesSnapshot=
-await get(
-ref(db,"classes")
-);
+We use Promise.all so Firebase requests
+run at the same time instead of waiting
+for one request to finish before starting
+the next.
+*/
+
+const [
+classesSnapshot,
+learnersSnapshot,
+liveSnapshot
+]=await Promise.all([
+
+get(ref(db,"classes")),
+
+get(ref(db,"users")),
+
+get(ref(db,"liveClasses"))
+
+]);
 
 
-/* GET LEARNERS */
-
-const learnersSnapshot=
-await get(
-ref(db,"users")
-);
-
+/* LEARNERS */
 
 const learners=
 learnersSnapshot.exists()
-?learnersSnapshot.val()
-:{};
+?
+learnersSnapshot.val()
+:
+{};
 
+
+/* CLASSES */
 
 let classes=[];
 
@@ -750,29 +1045,27 @@ const data=
 classesSnapshot.val();
 
 
-Object.keys(data).forEach(id=>{
+Object.entries(data)
+.forEach(([id,item])=>{
 
-const item=data[id];
+if(!item)
+return;
 
-if(!item) return;
+
+const classItem={
+...item,
+id:id
+};
 
 
 if(
 teacherOwnsClass(
-{
-...item,
-id
-},
+classItem,
 teacher
 )
 ){
 
-classes.push({
-
-...item,
-id
-
-});
+classes.push(classItem);
 
 }
 
@@ -781,12 +1074,60 @@ id
 }
 
 
-/* REMOVE ENDED CLASSES */
+/* REMOVE ENDED */
 
 classes=
 classes.filter(item=>
-String(item.status||"").toUpperCase()!=="ENDED"
+
+String(
+item.status||""
+)
+.toUpperCase()!=="ENDED"
+
 );
+
+
+/* SELECTED SUBJECT FILTER */
+
+const selected=
+loadSelectedSubject();
+
+
+if(selected){
+
+const wanted=
+selected.toLowerCase();
+
+
+const filtered=
+classes.filter(item=>{
+
+const subject=
+String(
+item.subject||""
+).toLowerCase();
+
+return subject===wanted;
+
+});
+
+
+/*
+Only filter if matching classes
+actually exist.
+
+This prevents an empty page if
+the subject name differs slightly
+in the database.
+*/
+
+if(filtered.length){
+
+classes=filtered;
+
+}
+
+}
 
 
 /* SORT */
@@ -814,13 +1155,21 @@ return dateA.localeCompare(dateB);
 });
 
 
-/* STATS */
+/* CLASS COUNT */
 
-document.getElementById("classCount").textContent=
+document.getElementById(
+"classCount"
+).textContent=
 classes.length;
 
 
+/* LEARNER COUNT */
+
 let totalLearners=0;
+
+const uniqueLearners=
+new Set();
+
 
 classes.forEach(item=>{
 
@@ -831,43 +1180,44 @@ item,
 learners
 );
 
-});
 
+/* DIRECT LEARNER LINKS */
 
-/* Remove duplicates from total learners */
+Object.entries(learners)
+.forEach(([id,learner])=>{
 
-const uniqueLearners=new Set();
-
-Object.keys(learners).forEach(id=>{
-
-const learner=learners[id];
-
-if(!learner) return;
-
-if(
-String(learner.role||"").toLowerCase()!=="learner"
-){
-
+if(!learner)
 return;
 
-}
+if(
+String(
+learner.role||""
+).toLowerCase()!=="learner"
+)
+return;
 
 
-const linkedClass=
+const linked=
 String(
 learner.classId||
 learner.assignedClass||
 ""
-).toLowerCase();
+)
+.toLowerCase();
 
-
-classes.forEach(item=>{
 
 if(
-linkedClass===
-String(item.id||"").toLowerCase() ||
-linkedClass===
-String(item.className||"").toLowerCase()
+
+linked===
+String(item.id||"")
+.toLowerCase()
+
+||
+
+linked===
+String(item.className||"")
+.toLowerCase()
+
 ){
 
 uniqueLearners.add(id);
@@ -879,30 +1229,26 @@ uniqueLearners.add(id);
 });
 
 
-if(uniqueLearners.size>0){
+if(
+uniqueLearners.size>
+totalLearners
+){
 
 totalLearners=
-Math.max(
-totalLearners,
-uniqueLearners.size
-);
+uniqueLearners.size;
 
 }
 
 
-document.getElementById("learnerCount").textContent=
+document.getElementById(
+"learnerCount"
+).textContent=
 totalLearners;
 
 
-/* LIVE CLASSES */
+/* LIVE COUNT */
 
 let liveCount=0;
-
-
-const liveSnapshot=
-await get(
-ref(db,"liveClasses")
-);
 
 
 if(liveSnapshot.exists()){
@@ -911,27 +1257,26 @@ const liveData=
 liveSnapshot.val();
 
 
-Object.keys(liveData).forEach(id=>{
+Object.entries(liveData)
+.forEach(([id,live])=>{
 
-const live=liveData[id];
-
-if(!live) return;
+if(!live)
+return;
 
 
 if(
-String(live.status||"").toUpperCase()!=="LIVE"
-){
-
+String(
+live.status||""
+).toUpperCase()!=="LIVE"
+)
 return;
-
-}
 
 
 if(
 teacherOwnsClass(
 {
 ...live,
-id
+id:id
 },
 teacher
 )
@@ -946,15 +1291,17 @@ liveCount++;
 }
 
 
-document.getElementById("liveCount").textContent=
+document.getElementById(
+"liveCount"
+).textContent=
 liveCount;
 
 
 /* EMPTY */
 
-if(classes.length===0){
+if(!classes.length){
 
-list.innerHTML="";
+classList.innerHTML="";
 
 empty.style.display="block";
 
@@ -968,13 +1315,12 @@ empty.style.display="none";
 
 /* RENDER */
 
-list.innerHTML=
+classList.innerHTML=
 classes.map(item=>{
 
 const subject=
 String(
-item.subject||
-""
+item.subject||""
 ).trim();
 
 
@@ -1048,12 +1394,6 @@ const isLive=
 status==="LIVE";
 
 
-const badgeClass=
-isLive
-?"badge live-badge"
-:"badge";
-
-
 const liveId=
 item.liveClassId||
 item.id;
@@ -1085,12 +1425,8 @@ ${escapeHTML(subject||"Class")}
 
 </div>
 
-<span class="${badgeClass}">
-${escapeHTML(
-isLive
-?"LIVE"
-:"ASSIGNED"
-)}
+<span class="badge ${isLive?"live":""}">
+${isLive?"LIVE":"ASSIGNED"}
 </span>
 
 </div>
@@ -1099,93 +1435,58 @@ isLive
 <div class="details">
 
 <div class="detail">
-
-<span class="label">
-Teacher
-</span>
-
+<span class="label">Teacher</span>
 <span class="value">
 ${escapeHTML(teacherName)}
 </span>
-
 </div>
 
 
 <div class="detail">
-
-<span class="label">
-Learners
-</span>
-
+<span class="label">Learners</span>
 <span class="value">
 ${learnerTotal}
 </span>
-
 </div>
 
 
 <div class="detail">
-
-<span class="label">
-Class Level
-</span>
-
+<span class="label">Class Level</span>
 <span class="value">
 ${escapeHTML(level)}
 </span>
-
 </div>
 
 
 <div class="detail">
-
-<span class="label">
-Date
-</span>
-
+<span class="label">Date</span>
 <span class="value">
 ${escapeHTML(date)}
 </span>
-
 </div>
 
 
 <div class="detail">
-
-<span class="label">
-Time
-</span>
-
+<span class="label">Time</span>
 <span class="value">
 ${escapeHTML(time)}
 </span>
-
 </div>
 
 
 <div class="detail">
-
-<span class="label">
-Duration
-</span>
-
+<span class="label">Duration</span>
 <span class="value">
 ${escapeHTML(duration)}
 </span>
-
 </div>
 
 
 <div class="detail">
-
-<span class="label">
-Status
-</span>
-
+<span class="label">Status</span>
 <span class="value">
 ${escapeHTML(status)}
 </span>
-
 </div>
 
 </div>
@@ -1203,7 +1504,7 @@ href="schedule-class.html?id=${encodeURIComponent(item.id)}">
 
 
 <a
-class="btn live"
+class="btn live-btn"
 href="live-class.html?id=${encodeURIComponent(liveId)}">
 
 🔴 Live Class
@@ -1226,32 +1527,23 @@ console.error(
 error
 );
 
-list.innerHTML="";
-
-empty.textContent=
-"Unable to load your classes. Please try again.";
-
-empty.style.display="block";
-
-}
+classList.innerHTML=`
+<div class="error">
+❌ Unable to load your classes.<br><br>
+Please check your internet connection and try again.
+</div>
+`;
 
 }
 
-
-/* START */
-
-document.addEventListener(
-"DOMContentLoaded",
-loadClasses
-);
+}
 
 
-/* AUTO REFRESH */
+/* START ONCE */
 
-setInterval(
-loadClasses,
-10000
-);
+loadClasses();
 
-</script></body>
+</script>
+
+</body>
 </html>
