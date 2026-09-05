@@ -39,7 +39,9 @@ async function firebaseGet(path){
 
   const r=await fetch(
     DB+"/"+path+".json",
-    {cache:"no-store"}
+    {
+      cache:"no-store"
+    }
   );
 
   if(!r.ok){
@@ -276,8 +278,6 @@ async function registerUser(data){
     };
 
 
-    /* ---------- EXTRA INFORMATION ---------- */
-
     [
       "email",
       "subject",
@@ -295,8 +295,6 @@ async function registerUser(data){
 
     });
 
-
-    /* ---------- SAVE TO FIREBASE ---------- */
 
     await firebaseSet(
       "users/"+user.id,
@@ -350,12 +348,6 @@ async function loginUser(
 
   try{
 
-    await ensureCEO();
-
-    const users=
-      await getUsersFirebase();
-
-
     const p=
       normalizePhone(phone);
 
@@ -365,6 +357,47 @@ async function loginUser(
     const role=
       String(selectedRole||"")
         .toLowerCase();
+
+
+    /*
+      FAST LOGIN:
+      Learner and Teacher do not need CEO initialization.
+      This avoids an unnecessary Firebase request.
+    */
+
+    let users=
+      await getUsersFirebase();
+
+
+    /*
+      CEO:
+      Only initialize the CEO if a CEO login is actually being made
+      and the CEO account cannot be found.
+    */
+
+    if(role==="ceo"){
+
+      const ceoExists=
+        users.some(function(u){
+
+          return (
+            String(u.role||"").toLowerCase()==="ceo" ||
+            normalizePhone(u.phone)===CEO.phone
+          );
+
+        });
+
+
+      if(!ceoExists){
+
+        await ensureCEO();
+
+        users=
+          await getUsersFirebase();
+
+      }
+
+    }
 
 
     const user=
@@ -447,7 +480,7 @@ async function loginUser(
     }
 
 
-    /* ---------- SESSION ONLY ---------- */
+    /* ---------- SESSION ---------- */
 
     localStorage.setItem(
 
@@ -573,27 +606,69 @@ async function login(
   }
 
 
-  const result=
-    await loginUser(
-      phone,
-      password,
-      selectedRole
+  try{
+
+    const result=
+      await loginUser(
+        phone,
+        password,
+        selectedRole
+      );
+
+
+    if(!result.success){
+
+      if(error){
+
+        error.textContent=
+          result.message;
+
+        error.style.display=
+          "block";
+
+      }else{
+
+        alert(result.message);
+
+      }
+
+
+      if(button){
+
+        button.disabled=false;
+
+        button.textContent=
+          "Login";
+
+      }
+
+      return false;
+
+    }
+
+
+    redirectByRole(
+      result.user
     );
 
+    return true;
 
-  if(!result.success){
+
+  }catch(e){
+
+    console.error(
+      "Login page error:",
+      e
+    );
+
 
     if(error){
 
       error.textContent=
-        result.message;
+        "Unable to login. Please check your internet connection and try again.";
 
       error.style.display=
         "block";
-
-    }else{
-
-      alert(result.message);
 
     }
 
@@ -611,12 +686,19 @@ async function login(
 
   }
 
+}
 
-  redirectByRole(
-    result.user
+
+/* ---------- FREE CUSTOMER SUPPORT ---------- */
+
+function forgotPassword(){
+
+  alert(
+    "Forgot your password?\n\n" +
+    "Customer Support can help you recover access to your account.\n\n" +
+    "Password recovery support is FREE. No payment is required.\n\n" +
+    "Please contact customer support and provide the phone number registered on your account."
   );
-
-  return true;
 
 }
 
