@@ -1,1274 +1,759 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>My Learners | Mule Learner Tuition</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#173b8f">
+
+<title>My Learners | Mule Learner Tuition</title>
+
+<style>
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body{
-font-family:Arial,sans-serif;
-background:#f4f7fc;
-color:#172033;
-padding-bottom:30px;
+  font-family:Arial,sans-serif;
+  background:#f4f7fc;
+  color:#172033;
+  min-height:100vh;
 }
 
-header{
-background:#173b8f;
-color:white;
-padding:15px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
+.header{
+  background:#173b8f;
+  color:white;
+  padding:16px;
+  position:sticky;
+  top:0;
+  z-index:10;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 
-.logo{
-font-size:18px;
-font-weight:800;
+.header-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .back{
-color:white;
-text-decoration:none;
-font-size:13px;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:10px;
+  background:rgba(255,255,255,.15);
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.header-text h1{
+  font-size:20px;
+  margin-bottom:3px;
+}
+
+.header-text p{
+  font-size:12px;
+  opacity:.85;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-padding:20px 16px;
+  width:100%;
+  max-width:700px;
+  margin:auto;
+  padding:16px;
 }
 
-.heading{
-margin-bottom:18px;
+.summary{
+  background:white;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.07);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.heading h1{
-font-size:23px;
-color:#173b8f;
-margin-bottom:5px;
+.summary-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.heading p{
-font-size:12px;
-color:#667085;
-line-height:1.5;
+.summary-icon{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:#eaf0ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
 }
 
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
+.summary h2{
+  font-size:16px;
 }
 
-.stat{
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
+.summary p{
+  font-size:12px;
+  color:#667085;
+  margin-top:3px;
 }
 
-.stat-icon{
-font-size:22px;
+.count{
+  font-size:24px;
+  font-weight:bold;
+  color:#173b8f;
 }
 
-.stat h3{
-font-size:19px;
-margin-top:6px;
+.search-box{
+  margin-bottom:14px;
 }
 
-.stat p{
-font-size:11px;
-color:#667085;
-margin-top:3px;
+.search-box input{
+  width:100%;
+  padding:13px 15px;
+  border:1px solid #d9deea;
+  border-radius:12px;
+  outline:none;
+  font-size:14px;
+  background:white;
 }
 
-.search{
-background:white;
-padding:13px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(20,50,100,.06);
-margin-bottom:14px;
+.search-box input:focus{
+  border-color:#173b8f;
 }
 
-.search input{
-width:100%;
-padding:11px;
-border:1px solid #d0d5dd;
-border-radius:8px;
-outline:none;
-font-size:12px;
+#learnersList{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
-.search input:focus{
-border-color:#173b8f;
+.learner-card{
+  background:white;
+  border-radius:14px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  border:1px solid #edf0f6;
 }
 
-.learner{
-background:white;
-padding:16px;
-border-radius:13px;
-box-shadow:0 4px 15px rgba(20,50,100,.07);
-margin-bottom:11px;
+.learner-icon{
+  width:48px;
+  height:48px;
+  min-width:48px;
+  border-radius:50%;
+  background:#eaf0ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
 }
 
-.top{
-display:flex;
-align-items:center;
-gap:11px;
+.learner-info{
+  flex:1;
+  min-width:0;
 }
 
-.avatar{
-width:45px;
-height:45px;
-border-radius:50%;
-background:#eef3ff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-flex-shrink:0;
+.learner-info h3{
+  font-size:15px;
+  margin-bottom:5px;
+  color:#172033;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-.name{
-font-size:14px;
-font-weight:800;
-}
-
-.class-name{
-font-size:11px;
-color:#667085;
-margin-top:4px;
+.learner-info p{
+  font-size:12px;
+  color:#667085;
+  margin:2px 0;
 }
 
 .status{
-margin-left:auto;
-background:#ecfdf3;
-color:#027a48;
-padding:6px 9px;
-border-radius:20px;
-font-size:9px;
-font-weight:bold;
+  font-size:10px;
+  padding:5px 8px;
+  border-radius:20px;
+  background:#e8f7ed;
+  color:#16833a;
+  font-weight:bold;
 }
 
-.status.inactive{
-background:#fff1f2;
-color:#b42318;
+.loading{
+  background:white;
+  border-radius:14px;
+  padding:25px;
+  text-align:center;
+  color:#667085;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
-.details{
-border-top:1px solid #edf0f5;
-margin-top:13px;
-padding-top:11px;
+.spinner{
+  width:25px;
+  height:25px;
+  border:3px solid #e2e7f0;
+  border-top-color:#173b8f;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  margin:0 auto 10px;
 }
 
-.detail{
-display:flex;
-justify-content:space-between;
-font-size:11px;
-padding:5px 0;
-}
-
-.label{
-color:#667085;
-}
-
-.value{
-font-weight:bold;
-}
-
-.message{
-display:block;
-width:100%;
-margin-top:10px;
-padding:9px;
-border:0;
-border-radius:8px;
-background:#eef3ff;
-color:#173b8f;
-font-size:11px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.notice{
-margin-top:18px;
-background:#eef3ff;
-padding:15px;
-border-radius:11px;
-font-size:12px;
-color:#475467;
-line-height:1.6;
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
 }
 
 .empty{
-display:none;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
-color:#667085;
+  background:white;
+  border-radius:14px;
+  padding:30px 20px;
+  text-align:center;
+  color:#667085;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
-footer{
-text-align:center;
-font-size:11px;
-color:#667085;
-margin-top:25px;
+.empty-icon{
+  font-size:40px;
+  margin-bottom:10px;
 }
 
-@media(min-width:650px){
-
-.stats{
-grid-template-columns:repeat(3,1fr);
+.error{
+  background:#fff0f0;
+  color:#c62828;
+  border-radius:14px;
+  padding:18px;
+  text-align:center;
 }
 
+.refresh{
+  border:0;
+  background:#173b8f;
+  color:white;
+  padding:9px 13px;
+  border-radius:9px;
+  font-size:12px;
+  cursor:pointer;
 }
-</style></head><body><header><div class="logo">
-Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
-← Dashboard
-</a></header><div class="container"><div class="heading"><h1>
-My Learners 👥
-</h1><p>
-View learners enrolled in the classes assigned to you.
-</p></div><!-- STATISTICS --><div class="stats"><div class="stat"><div class="stat-icon">
-👥
-</div><h3 id="totalLearners">
-0
-</h3><p>
-Total Learners
-</p></div><div class="stat"><div class="stat-icon">
-🟢
-</div><h3 id="activeLearners">
-0
-</h3><p>
-Active Learners
-</p></div><div class="stat"><div class="stat-icon">
-🏫
-</div><h3 id="myClasses">
-0
-</h3><p>
-My Classes
-</p></div></div><!-- SEARCH --><div class="search"><input
-type="search"
-id="search"
-placeholder="Search learner by name..."
-oninput="searchLearners()">
 
-</div><!-- LEARNER LIST --><div id="learnerList"></div><div class="empty" id="empty">No learners found.
+@media(max-width:420px){
+  .container{
+    padding:12px;
+  }
 
-</div><!-- NOTICE --><div class="notice"><strong>
-🔐 Teacher Privacy
-</strong><br><br>
+  .header{
+    padding:13px;
+  }
 
-Teachers can only view learners assigned to their
-classes. Learner personal information and payment
-details are controlled by the platform and CEO.
+  .header-text h1{
+    font-size:18px;
+  }
 
-Teachers cannot approve payments, change learner
-accounts or access learners from other classes.
+  .summary{
+    padding:13px;
+  }
+}
+</style>
+</head>
 
-</div><footer>Mule Learner Tuition<br>
+<body>
 
-Teacher Centre • Learn • Practice • Succeed
+<header class="header">
+  <div class="header-row">
 
-</footer></div><script src="../js/app.js"></script><script src="../js/teacher.js"></script><script type="module">
+    <button class="back" onclick="goBack()">‹</button>
+
+    <div class="header-text">
+      <h1>👥 My Learners</h1>
+      <p>View all learners registered on Mule Learner Tuition</p>
+    </div>
+
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="summary">
+
+    <div class="summary-left">
+
+      <div class="summary-icon">
+        👥
+      </div>
+
+      <div>
+        <h2>All Learners</h2>
+        <p>All learners in the database</p>
+      </div>
+
+    </div>
+
+    <div class="count" id="learnerCount">
+      0
+    </div>
+
+  </div>
+
+  <div class="search-box">
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="🔍 Search learner..."
+      autocomplete="off"
+    >
+  </div>
+
+  <div id="learnersList">
+
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading learners...
+    </div>
+
+  </div>
+
+</main>
+
+
+<script type="module">
+
+/* =========================================
+   FIREBASE
+========================================= */
 
 import {
-initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-getDatabase,
-ref,
-get
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+  getDatabase,
+  ref,
+  onValue
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-const firebaseConfig={
+/* =========================================
+   YOUR FIREBASE CONFIGURATION
+   USE THE SAME CONFIG AS YOUR OTHER PAGES
+========================================= */
 
-apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+const firebaseConfig = {
 
-authDomain:
-"mule-learner-tuition-264fe.firebaseapp.com",
+  apiKey: "YOUR_API_KEY",
 
-databaseURL:
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
 
-projectId:
-"mule-learner-tuition-264fe",
+  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
 
-storageBucket:
-"mule-learner-tuition-264fe.firebasestorage.app",
+  projectId: "YOUR_PROJECT",
 
-messagingSenderId:
-"656883565460",
+  storageBucket: "YOUR_PROJECT.firebasestorage.app",
 
-appId:
-"1:656883565460:web:3aaa6a5b638a34a6d28581"
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+
+  appId: "YOUR_APP_ID"
 
 };
 
 
-const app=initializeApp(firebaseConfig);
+/* =========================================
+   INITIALIZE FIREBASE
+========================================= */
 
-const db=getDatabase(app);
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
 
 
-/* SESSION */
+/* =========================================
+   ELEMENTS
+========================================= */
 
-function getSession(){
+const learnersList =
+  document.getElementById("learnersList");
 
-try{
+const learnerCount =
+  document.getElementById("learnerCount");
 
-return JSON.parse(
-localStorage.getItem("muleCurrentUser")||"null"
+const searchInput =
+  document.getElementById("searchInput");
+
+
+/* =========================================
+   STORE LEARNERS LOCALLY
+   FOR FAST SEARCH
+========================================= */
+
+let allLearners = [];
+
+
+/* =========================================
+   LOAD ALL LEARNERS
+========================================= */
+
+function loadAllLearners(){
+
+  learnersList.innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading learners...
+    </div>
+  `;
+
+
+  /*
+    IMPORTANT:
+
+    We read:
+
+        learners
+
+    directly.
+
+    There is NO teacherId filter.
+    There is NO assignedTeacher filter.
+
+    Therefore every learner stored under
+    /learners can be displayed.
+  */
+
+  const learnersRef = ref(db,"learners");
+
+
+  /*
+    onValue keeps the page updated automatically.
+
+    When a learner registers,
+    the teacher page can receive the
+    new learner without manually
+    assigning them.
+  */
+
+  onValue(
+    learnersRef,
+
+    (snapshot)=>{
+
+      if(!snapshot.exists()){
+
+        allLearners = [];
+
+        learnerCount.textContent = "0";
+
+        learnersList.innerHTML = `
+          <div class="empty">
+
+            <div class="empty-icon">
+              👥
+            </div>
+
+            <h3>No Learners Found</h3>
+
+            <p>
+              There are currently no learners
+              registered in the database.
+            </p>
+
+          </div>
+        `;
+
+        return;
+      }
+
+
+      const data = snapshot.val();
+
+
+      allLearners = Object.entries(data).map(
+        ([id,learner])=>({
+
+          id:id,
+
+          ...learner
+
+        })
+      );
+
+
+      /*
+        Show total number
+      */
+
+      learnerCount.textContent =
+        allLearners.length;
+
+
+      /*
+        Display immediately
+      */
+
+      displayLearners(allLearners);
+
+    },
+
+    (error)=>{
+
+      console.error(
+        "Firebase error:",
+        error
+      );
+
+      learnersList.innerHTML = `
+        <div class="error">
+
+          ❌ Unable to load learners.
+
+          <br><br>
+
+          Please check your internet
+          connection and try again.
+
+        </div>
+      `;
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   DISPLAY LEARNERS
+========================================= */
+
+function displayLearners(learners){
+
+  if(!learners.length){
+
+    learnersList.innerHTML = `
+      <div class="empty">
+
+        <div class="empty-icon">
+          🔍
+        </div>
+
+        <h3>No Learners Found</h3>
+
+        <p>
+          No learner matches your search.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  let html = "";
+
+
+  learners.forEach((learner)=>{
+
+    /*
+      Support different names used
+      in your Firebase registration.
+    */
+
+    const name =
+      learner.name ||
+      learner.fullName ||
+      learner.username ||
+      "Unnamed Learner";
+
+
+    const phone =
+      learner.phone ||
+      learner.phoneNumber ||
+      learner.mobile ||
+      "No phone number";
+
+
+    const grade =
+      learner.grade ||
+      learner.class ||
+      learner.level ||
+      "Not specified";
+
+
+    const status =
+      learner.status ||
+      learner.accountStatus ||
+      "Active";
+
+
+    html += `
+
+      <div class="learner-card">
+
+        <div class="learner-icon">
+          👤
+        </div>
+
+        <div class="learner-info">
+
+          <h3>
+            ${escapeHTML(name)}
+          </h3>
+
+          <p>
+            📱 ${escapeHTML(phone)}
+          </p>
+
+          <p>
+            🎓 ${escapeHTML(grade)}
+          </p>
+
+        </div>
+
+        <div>
+          <span class="status">
+            ${escapeHTML(status)}
+          </span>
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  learnersList.innerHTML = html;
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+searchInput.addEventListener(
+  "input",
+  function(){
+
+    const search =
+      this.value
+      .toLowerCase()
+      .trim();
+
+
+    if(!search){
+
+      displayLearners(allLearners);
+
+      return;
+
+    }
+
+
+    const filtered =
+      allLearners.filter((learner)=>{
+
+        const name =
+          String(
+            learner.name ||
+            learner.fullName ||
+            learner.username ||
+            ""
+          ).toLowerCase();
+
+
+        const phone =
+          String(
+            learner.phone ||
+            learner.phoneNumber ||
+            learner.mobile ||
+            ""
+          ).toLowerCase();
+
+
+        const grade =
+          String(
+            learner.grade ||
+            learner.class ||
+            learner.level ||
+            ""
+          ).toLowerCase();
+
+
+        return (
+
+          name.includes(search) ||
+
+          phone.includes(search) ||
+
+          grade.includes(search)
+
+        );
+
+      });
+
+
+    displayLearners(filtered);
+
+  }
 );
 
-}catch(error){
 
-return null;
-
-}
-
-}
-
-
-/* ESCAPE HTML */
+/* =========================================
+   SECURITY
+   PREVENT HTML INJECTION
+========================================= */
 
 function escapeHTML(value){
 
-return String(value||"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+  return String(value)
+
+    .replaceAll("&","&amp;")
+
+    .replaceAll("<","&lt;")
+
+    .replaceAll(">","&gt;")
+
+    .replaceAll('"',"&quot;")
+
+    .replaceAll("'","&#039;");
 
 }
 
 
-/* CONVERT ASSIGNED CLASSES */
+/* =========================================
+   BACK BUTTON
+========================================= */
 
-function normalizeClasses(value){
+function goBack(){
 
-if(!value)
-return [];
+  if(
+    document.referrer &&
+    document.referrer !== location.href
+  ){
 
-if(Array.isArray(value)){
+    history.back();
 
-return value
-.map(v=>String(v).trim())
-.filter(Boolean);
+  }else{
 
-}
+    window.location.href =
+      "dashboard.html";
 
-if(typeof value==="object"){
-
-return Object.keys(value)
-.filter(key=>value[key]===true);
-
-}
-
-return [
-String(value).trim()
-].filter(Boolean);
+  }
 
 }
 
 
-/* CHECK TEACHER CLASS */
+/* =========================================
+   START IMMEDIATELY
+========================================= */
 
-function teacherOwnsClass(item,teacher){
+loadAllLearners();
 
-const teacherId=
-String(teacher.id||"")
-.trim()
-.toLowerCase();
+</script>
 
-const teacherName=
-String(teacher.name||"")
-.trim()
-.toLowerCase();
-
-
-const ids=[
-
-item.teacherId,
-item.assignedTeacherId,
-item.teacherID,
-item.teacher_id
-
-]
-.map(v=>
-String(v||"").trim().toLowerCase()
-)
-.filter(Boolean);
-
-
-if(
-teacherId &&
-ids.includes(teacherId)
-){
-
-return true;
-
-}
-
-
-const names=[
-
-item.teacher,
-item.teacherName,
-item.assignedTeacher,
-item.assignedTeacherName
-
-]
-.map(v=>
-String(v||"").trim().toLowerCase()
-)
-.filter(Boolean);
-
-
-if(
-teacherName &&
-names.includes(teacherName)
-){
-
-return true;
-
-}
-
-
-const assignedClasses=
-normalizeClasses(
-teacher.assignedClasses
-).map(v=>v.toLowerCase());
-
-
-if(
-assignedClasses.includes("all classes")
-){
-
-return true;
-
-}
-
-
-const classValues=[
-
-item.id,
-item.classId,
-item.className,
-item.class,
-item.name,
-item.level,
-item.grade
-
-]
-.map(v=>
-String(v||"").trim().toLowerCase()
-)
-.filter(Boolean);
-
-
-return assignedClasses.some(
-assigned=>
-classValues.includes(assigned)
-);
-
-}
-
-
-/* CHECK LEARNER CLASS */
-
-function learnerBelongsToClass(
-learner,
-classItem
-){
-
-const learnerClassIds=[
-
-learner.classId,
-learner.assignedClass,
-learner.assignedClassId
-
-]
-.map(v=>
-String(v||"").trim().toLowerCase()
-)
-.filter(Boolean);
-
-
-const learnerClasses=
-normalizeClasses(
-learner.assignedClasses
-).map(v=>v.toLowerCase());
-
-
-const classValues=[
-
-classItem.id,
-classItem.classId,
-classItem.className,
-classItem.class,
-classItem.name,
-classItem.level,
-classItem.grade
-
-]
-.map(v=>
-String(v||"").trim().toLowerCase()
-)
-.filter(Boolean);
-
-
-for(
-const value of learnerClassIds
-){
-
-if(classValues.includes(value))
-return true;
-
-}
-
-
-for(
-const value of learnerClasses
-){
-
-if(classValues.includes(value))
-return true;
-
-}
-
-
-return false;
-
-}
-
-
-/* CHECK LEARNER DIRECT TEACHER */
-
-function learnerBelongsToTeacher(
-learner,
-teacher
-){
-
-const teacherId=
-String(teacher.id||"")
-.trim()
-.toLowerCase();
-
-const teacherName=
-String(teacher.name||"")
-.trim()
-.toLowerCase();
-
-
-const learnerTeacherIds=[
-
-learner.teacherId,
-learner.assignedTeacherId,
-learner.teacherID
-
-]
-.map(v=>
-String(v||"").trim().toLowerCase()
-)
-.filter(Boolean);
-
-
-if(
-teacherId &&
-learnerTeacherIds.includes(teacherId)
-){
-
-return true;
-
-}
-
-
-const learnerTeacherNames=[
-
-learner.teacher,
-learner.teacherName,
-learner.assignedTeacher,
-learner.assignedTeacherName
-
-]
-.map(v=>
-String(v||"").trim().toLowerCase()
-)
-.filter(Boolean);
-
-
-if(
-teacherName &&
-learnerTeacherNames.includes(teacherName)
-){
-
-return true;
-
-}
-
-
-return false;
-
-}
-
-
-/* LOAD LEARNERS */
-
-async function loadLearners(){
-
-const list=
-document.getElementById("learnerList");
-
-const empty=
-document.getElementById("empty");
-
-
-try{
-
-const session=getSession();
-
-
-if(
-!session ||
-!session.id
-){
-
-window.location.href="../login.html";
-
-return;
-
-}
-
-
-/* TEACHER */
-
-const teacherSnapshot=
-await get(
-ref(db,"users/"+session.id)
-);
-
-
-if(!teacherSnapshot.exists()){
-
-alert("Teacher account not found.");
-
-localStorage.removeItem("muleCurrentUser");
-
-window.location.href="../login.html";
-
-return;
-
-}
-
-
-const teacher=
-teacherSnapshot.val();
-
-
-if(
-String(teacher.role||"").toLowerCase()!=="teacher"
-){
-
-alert("Teacher access required.");
-
-window.location.href="../login.html";
-
-return;
-
-}
-
-
-if(
-String(teacher.status||"").toLowerCase()==="suspended"
-){
-
-alert("Your teacher account has been suspended.");
-
-localStorage.removeItem("muleCurrentUser");
-
-window.location.href="../login.html";
-
-return;
-
-}
-
-
-/* GET CLASSES */
-
-const classesSnapshot=
-await get(
-ref(db,"classes")
-);
-
-
-let myClasses=[];
-
-
-if(classesSnapshot.exists()){
-
-const classesData=
-classesSnapshot.val();
-
-
-Object.keys(classesData).forEach(id=>{
-
-const item=classesData[id];
-
-if(!item)
-return;
-
-
-const classItem={
-...item,
-id
-};
-
-
-if(
-String(item.status||"").toUpperCase()==="ENDED"
-){
-
-return;
-
-}
-
-
-if(
-teacherOwnsClass(
-classItem,
-teacher
-)
-){
-
-myClasses.push(classItem);
-
-}
-
-});
-
-}
-
-
-/* CLASS COUNT */
-
-document.getElementById(
-"myClasses"
-).textContent=myClasses.length;
-
-
-/* GET USERS */
-
-const usersSnapshot=
-await get(
-ref(db,"users")
-);
-
-
-const users=
-usersSnapshot.exists()
-?usersSnapshot.val()
-:{};
-
-
-/* FIND LEARNERS */
-
-const learnerMap=new Map();
-
-
-Object.keys(users).forEach(id=>{
-
-const learner=users[id];
-
-if(!learner)
-return;
-
-
-if(
-String(learner.role||"").toLowerCase()!=="learner"
-){
-
-return;
-
-}
-
-
-/*
-First check if learner is directly
-linked to this teacher.
-*/
-
-if(
-learnerBelongsToTeacher(
-learner,
-teacher
-)
-){
-
-learnerMap.set(id,{
-
-...learner,
-id
-
-});
-
-return;
-
-}
-
-
-/*
-Then check if learner belongs to
-one of teacher's classes.
-*/
-
-for(
-const classItem of myClasses
-){
-
-if(
-learnerBelongsToClass(
-learner,
-classItem
-)
-){
-
-learnerMap.set(id,{
-
-...learner,
-id
-
-});
-
-break;
-
-}
-
-}
-
-});
-
-
-/*
-Also check assignedLearners
-stored inside each class.
-*/
-
-myClasses.forEach(classItem=>{
-
-const assigned=
-classItem.assignedLearners;
-
-
-if(!assigned)
-return;
-
-
-let ids=[];
-
-
-if(Array.isArray(assigned)){
-
-ids=assigned;
-
-}else if(
-typeof assigned==="object"
-){
-
-ids=Object.keys(assigned)
-.filter(
-key=>assigned[key]===true
-);
-
-}
-
-
-ids.forEach(learnerId=>{
-
-const id=
-String(learnerId);
-
-
-if(users[id]){
-
-learnerMap.set(id,{
-
-...users[id],
-id
-
-});
-
-}
-
-});
-
-});
-
-
-const learners=
-Array.from(
-learnerMap.values()
-);
-
-
-/* SORT */
-
-learners.sort((a,b)=>
-String(a.name||"")
-.localeCompare(
-String(b.name||"")
-)
-);
-
-
-/* STATS */
-
-document.getElementById(
-"totalLearners"
-).textContent=
-learners.length;
-
-
-const activeCount=
-learners.filter(
-learner=>
-String(
-learner.status||""
-).toLowerCase()==="active"
-).length;
-
-
-document.getElementById(
-"activeLearners"
-).textContent=
-activeCount;
-
-
-/* EMPTY */
-
-if(learners.length===0){
-
-list.innerHTML="";
-
-empty.style.display="block";
-
-return;
-
-}
-
-
-empty.style.display="none";
-
-
-/* RENDER */
-
-list.innerHTML=
-learners.map(learner=>{
-
-const name=
-String(
-learner.name||
-"Learner"
-);
-
-
-const status=
-String(
-learner.status||
-"PENDING"
-).toUpperCase();
-
-
-const active=
-status==="ACTIVE";
-
-
-/* Find learner's class */
-
-let learnerClass=
-"Assigned Class";
-
-
-for(
-const classItem of myClasses
-){
-
-if(
-learnerBelongsToClass(
-learner,
-classItem
-)
-){
-
-learnerClass=
-String(
-classItem.className||
-classItem.class||
-classItem.name||
-"Assigned Class"
-);
-
-break;
-
-}
-
-}
-
-
-const subject=
-String(
-learner.subject||
-"Learning"
-);
-
-
-const access=
-learner.learningAccess===true ||
-learner.paymentApproved===true ||
-String(
-learner.paymentStatus||""
-).toUpperCase()==="APPROVED" ||
-learner.access===true;
-
-
-return `
-
-<div class="learner">
-
-<div class="top">
-
-<div class="avatar">
-👤
-</div>
-
-<div>
-
-<div class="name">
-${escapeHTML(name)}
-</div>
-
-<div class="class-name">
-${escapeHTML(learnerClass)}
-</div>
-
-</div>
-
-<div class="status ${
-active?"":"inactive"
-}">
-${escapeHTML(status)}
-</div>
-
-</div>
-
-
-<div class="details">
-
-<div class="detail">
-
-<span class="label">
-Subject
-</span>
-
-<span class="value">
-${escapeHTML(subject)}
-</span>
-
-</div>
-
-
-<div class="detail">
-
-<span class="label">
-Access
-</span>
-
-<span class="value">
-${access?"Approved":"Not Approved"}
-</span>
-
-</div>
-
-
-<div class="detail">
-
-<span class="label">
-Learning Status
-</span>
-
-<span class="value">
-${active?"Active":"Inactive"}
-</span>
-
-</div>
-
-</div>
-
-
-<button
-class="message"
-onclick="messageLearner('${encodeURIComponent(
-learner.phone||""
-)}')">
-
-💬 Contact Learner
-
-</button>
-
-</div>
-
-`;
-
-}).join("");
-
-
-/* SAVE FOR SEARCH */
-
-window.teacherLearners=learners;
-
-
-}catch(error){
-
-console.error(
-"Teacher learners error:",
-error
-);
-
-list.innerHTML="";
-
-empty.textContent=
-"Unable to load learners. Please try again.";
-
-empty.style.display="block";
-
-}
-
-}
-
-
-/* SEARCH */
-
-window.searchLearners=function(){
-
-const search=
-document.getElementById(
-"search"
-).value
-.toLowerCase()
-.trim();
-
-
-const learners=
-document.querySelectorAll(
-".learner"
-);
-
-
-let found=false;
-
-
-learners.forEach(learner=>{
-
-const name=
-learner.querySelector(
-".name"
-).textContent
-.toLowerCase();
-
-
-if(
-name.includes(search)
-){
-
-learner.style.display="block";
-
-found=true;
-
-}else{
-
-learner.style.display="none";
-
-}
-
-});
-
-
-document.getElementById(
-"empty"
-).style.display=
-found?"none":"block";
-
-};
-
-
-/* CONTACT */
-
-window.messageLearner=function(phone){
-
-const number=
-decodeURIComponent(phone||"");
-
-
-if(!number){
-
-alert(
-"Learner phone number is not available."
-);
-
-return;
-
-}
-
-
-const clean=
-number.replace(/\D/g,"");
-
-
-if(!clean){
-
-alert(
-"Learner phone number is not available."
-);
-
-return;
-
-}
-
-
-window.open(
-"https://wa.me/260"+
-clean.replace(/^260/,"").replace(/^0/,""),
-"_blank"
-);
-
-};
-
-
-/* START */
-
-document.addEventListener(
-"DOMContentLoaded",
-loadLearners
-);
-
-
-/* REFRESH */
-
-setInterval(
-loadLearners,
-10000
-);
-
-</script></body>
+</body>
 </html>
