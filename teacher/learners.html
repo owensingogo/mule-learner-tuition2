@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<meta name="theme-color"
+content="#173b8f">
 
 <title>My Learners | Mule Learner Tuition</title>
 
 <style>
+
 *{
 box-sizing:border-box;
 margin:0;
@@ -73,21 +80,6 @@ line-height:1.6;
 margin-bottom:15px;
 }
 
-.search{
-width:100%;
-padding:12px 14px;
-border:1px solid #d9deea;
-border-radius:11px;
-font-size:13px;
-outline:none;
-margin-bottom:15px;
-background:white;
-}
-
-.search:focus{
-border-color:#173b8f;
-}
-
 .summary{
 background:white;
 border-radius:12px;
@@ -124,6 +116,21 @@ margin-top:2px;
 font-size:22px;
 font-weight:800;
 color:#173b8f;
+}
+
+.search{
+width:100%;
+padding:12px 14px;
+border:1px solid #d9deea;
+border-radius:11px;
+font-size:13px;
+outline:none;
+margin-bottom:15px;
+background:white;
+}
+
+.search:focus{
+border-color:#173b8f;
 }
 
 .learners{
@@ -182,19 +189,14 @@ background:#ecfdf3;
 color:#027a48;
 }
 
-.empty{
-display:none;
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-font-size:12px;
-color:#667085;
+.status.suspended{
+background:#fff1f1;
+color:#b42318;
 }
 
-.empty-icon{
-font-size:32px;
-margin-bottom:8px;
+.status.pending{
+background:#fff7e6;
+color:#b54708;
 }
 
 .loading{
@@ -204,6 +206,7 @@ border-radius:12px;
 text-align:center;
 font-size:12px;
 color:#667085;
+grid-column:1/-1;
 }
 
 .spinner{
@@ -217,9 +220,26 @@ animation:spin .7s linear infinite;
 }
 
 @keyframes spin{
+
 to{
 transform:rotate(360deg);
 }
+
+}
+
+.empty{
+display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.empty-icon{
+font-size:35px;
+margin-bottom:8px;
 }
 
 .error{
@@ -229,6 +249,7 @@ padding:15px;
 border-radius:12px;
 text-align:center;
 font-size:12px;
+grid-column:1/-1;
 }
 
 footer{
@@ -245,10 +266,14 @@ grid-template-columns:repeat(2,1fr);
 }
 
 }
+
 </style>
+
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -256,14 +281,19 @@ grid-template-columns:repeat(2,1fr);
 Mule Learner Tuition
 </div>
 
-<a href="dashboard.html" class="back">
+<a
+href="dashboard.html"
+class="back">
+
 ← Dashboard
+
 </a>
 
 </header>
 
 
 <div class="container">
+
 
 <div class="heading">
 
@@ -280,12 +310,15 @@ View all learners registered on Mule Learner Tuition.
 
 <div class="notice">
 
-<strong>👨‍🏫 Teacher Information</strong>
+<strong>
+👨‍🏫 Teacher Information
+</strong>
+
 <br><br>
 
-All registered learners are displayed here.
-Learners do not need to be assigned to you before
-they can appear on this list.
+All registered learner accounts are displayed here.
+Learners do not need to be assigned to a particular
+teacher before appearing on this list.
 
 </div>
 
@@ -305,15 +338,19 @@ Total Learners
 </div>
 
 <div class="summary-text">
-All learners in the database
+All learner accounts
 </div>
 
 </div>
 
 </div>
 
-<div class="count" id="learnerCount">
+<div
+class="count"
+id="learnerCount">
+
 0
+
 </div>
 
 </div>
@@ -323,15 +360,14 @@ All learners in the database
 type="search"
 id="searchInput"
 class="search"
-placeholder="🔍 Search learner by name, phone or grade..."
+placeholder="🔍 Search learner by name or phone..."
 autocomplete="off"
 >
 
 
 <div
 class="learners"
-id="learnerList"
->
+id="learnerList">
 
 <div class="loading">
 
@@ -346,8 +382,7 @@ Loading learners...
 
 <div
 class="empty"
-id="empty"
->
+id="empty">
 
 <div class="empty-icon">
 👥
@@ -359,7 +394,7 @@ No learners found
 
 <br><br>
 
-There are currently no learners matching your search.
+No learner accounts are currently registered.
 
 </div>
 
@@ -376,30 +411,46 @@ Teacher Centre • Learn • Practice • Succeed
 
 
 <script src="../js/app.js"></script>
+
 <script src="../js/teacher.js"></script>
 
 
 <script type="module">
 
-import {
-initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+/* =========================================
+   FIREBASE
+========================================= */
 
 import {
+
+initializeApp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+
 getDatabase,
 ref,
 get,
 onValue
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
+}
 
-/* =====================================
-FIREBASE CONFIGURATION
-===================================== */
+from
+
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
 
 const firebaseConfig={
 
-apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+apiKey:
+"AIzaSyCRUQW0JTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -422,23 +473,25 @@ appId:
 };
 
 
-const app=initializeApp(firebaseConfig);
+const app=
+initializeApp(firebaseConfig);
 
-const db=getDatabase(app);
+const db=
+getDatabase(app);
 
 
-/* =====================================
-ELEMENTS
-===================================== */
+/* =========================================
+   ELEMENTS
+========================================= */
 
 const learnerList=
 document.getElementById("learnerList");
 
-const empty=
-document.getElementById("empty");
-
 const learnerCount=
 document.getElementById("learnerCount");
+
+const empty=
+document.getElementById("empty");
 
 const searchInput=
 document.getElementById("searchInput");
@@ -447,25 +500,154 @@ document.getElementById("searchInput");
 let allLearners=[];
 
 
-/* =====================================
-HTML SECURITY
-===================================== */
+/* =========================================
+   SECURITY
+========================================= */
 
 function escapeHTML(value){
 
 return String(value||"")
+
 .replace(/&/g,"&amp;")
+
 .replace(/</g,"&lt;")
+
 .replace(/>/g,"&gt;")
+
 .replace(/"/g,"&quot;")
+
 .replace(/'/g,"&#039;");
 
 }
 
 
-/* =====================================
-GET LEARNER NAME
-===================================== */
+/* =========================================
+   CHECK TEACHER
+========================================= */
+
+async function checkTeacher(){
+
+try{
+
+const session=
+JSON.parse(
+
+localStorage.getItem(
+"muleCurrentUser"
+)||"null"
+
+);
+
+
+if(
+!session||
+!session.id
+){
+
+window.location.href=
+"../login.html";
+
+return false;
+
+}
+
+
+const snapshot=
+await get(
+
+ref(
+db,
+"users/"+session.id
+)
+
+);
+
+
+if(!snapshot.exists()){
+
+alert(
+"Teacher account not found."
+);
+
+localStorage.removeItem(
+"muleCurrentUser"
+);
+
+window.location.href=
+"../login.html";
+
+return false;
+
+}
+
+
+const teacher=
+snapshot.val();
+
+
+if(
+
+String(
+teacher.role||""
+).toLowerCase()!=="teacher"
+
+){
+
+alert(
+"Teacher access required."
+);
+
+window.location.href=
+"../login.html";
+
+return false;
+
+}
+
+
+if(
+
+String(
+teacher.status||""
+).toLowerCase()==="suspended"
+
+){
+
+alert(
+"Your teacher account has been suspended."
+);
+
+localStorage.removeItem(
+"muleCurrentUser"
+);
+
+window.location.href=
+"../login.html";
+
+return false;
+
+}
+
+
+return true;
+
+}catch(error){
+
+console.error(
+"Teacher security error:",
+error
+);
+
+return false;
+
+}
+
+}
+
+
+/* =========================================
+   GET NAME
+========================================= */
 
 function getName(learner){
 
@@ -477,8 +659,6 @@ learner.fullName||
 
 learner.username||
 
-learner.displayName||
-
 "Unnamed Learner"
 
 );
@@ -486,9 +666,9 @@ learner.displayName||
 }
 
 
-/* =====================================
-GET PHONE
-===================================== */
+/* =========================================
+   GET PHONE
+========================================= */
 
 function getPhone(learner){
 
@@ -500,8 +680,6 @@ learner.phoneNumber||
 
 learner.mobile||
 
-learner.contact||
-
 "No phone number"
 
 );
@@ -509,60 +687,34 @@ learner.contact||
 }
 
 
-/* =====================================
-GET GRADE
-===================================== */
-
-function getGrade(learner){
-
-return (
-
-learner.grade||
-
-learner.class||
-
-learner.level||
-
-learner.gradeLevel||
-
-"Grade not specified"
-
-);
-
-}
-
-
-/* =====================================
-GET STATUS
-===================================== */
+/* =========================================
+   GET STATUS
+========================================= */
 
 function getStatus(learner){
 
-const status=String(
-
-learner.status||
-
-learner.accountStatus||
-
-"Active"
-
+const status=
+String(
+learner.status||"active"
 ).toLowerCase();
 
 
 if(status==="suspended")
 return "Suspended";
 
+
 if(status==="pending")
 return "Pending";
+
 
 return "Active";
 
 }
 
 
-/* =====================================
-DISPLAY LEARNERS
-===================================== */
+/* =========================================
+   DISPLAY
+========================================= */
 
 function displayLearners(list){
 
@@ -580,20 +732,29 @@ return;
 empty.style.display="none";
 
 
-learnerList.innerHTML=list.map(
+learnerList.innerHTML=
 
-learner=>{
+list.map(learner=>{
 
-const name=getName(learner);
+const name=
+getName(learner);
 
-const phone=getPhone(learner);
+const phone=
+getPhone(learner);
 
-const grade=getGrade(learner);
-
-const status=getStatus(learner);
+const status=
+getStatus(learner);
 
 
 let statusClass="status";
+
+
+if(status==="Suspended")
+statusClass+=" suspended";
+
+
+if(status==="Pending")
+statusClass+=" pending";
 
 
 return `
@@ -614,10 +775,6 @@ ${escapeHTML(name)}
 📱 ${escapeHTML(phone)}
 </p>
 
-<p>
-🎓 ${escapeHTML(grade)}
-</p>
-
 </div>
 
 <span class="${statusClass}">
@@ -628,56 +785,38 @@ ${escapeHTML(status)}
 
 `;
 
-}
-
-).join("");
+}).join("");
 
 }
 
 
-/* =====================================
-LOAD ALL LEARNERS
-===================================== */
+/* =========================================
+   LOAD ALL LEARNERS FROM USERS
+========================================= */
 
 function loadAllLearners(){
 
 /*
 IMPORTANT:
 
-There is deliberately NO:
+Learners are stored inside:
 
-teacherId
+/users
 
-assignedTeacher
+We select only accounts where:
 
-teacherID
+role === "learner"
 
-filter.
-
-Every learner under /learners
-will be displayed.
+There is NO teacher assignment filter.
 */
 
+const usersRef=
+ref(db,"users");
 
-const learnersRef=
-ref(db,"learners");
-
-
-/*
-onValue gives realtime updates.
-
-This means:
-
-New learner registers
-        ↓
-Firebase database updates
-        ↓
-Teacher page updates automatically
-*/
 
 onValue(
 
-learnersRef,
+usersRef,
 
 snapshot=>{
 
@@ -687,30 +826,67 @@ allLearners=[];
 
 learnerCount.textContent="0";
 
-learnerList.innerHTML="";
-
-empty.style.display="block";
+displayLearners([]);
 
 return;
 
 }
 
 
-const data=snapshot.val();
+const users=
+snapshot.val();
 
 
-allLearners=Object.entries(data)
+allLearners=[];
 
-.map(([id,learner])=>({
+
+/*
+Read every account.
+*/
+
+Object.entries(users).forEach(
+
+([id,user])=>{
+
+if(!user)
+return;
+
+
+/*
+Only learners.
+*/
+
+if(
+
+String(
+user.role||""
+).toLowerCase()!=="learner"
+
+){
+
+return;
+
+}
+
+
+/*
+Store learner ID too.
+*/
+
+allLearners.push({
 
 id:id,
 
-...(learner||{})
+...user
 
-}));
+});
+
+});
 
 
-/* Sort alphabetically */
+/*
+Sort learners alphabetically.
+*/
 
 allLearners.sort(
 
@@ -724,23 +900,26 @@ getName(b)
 );
 
 
-/* Total */
+/*
+Total learner count.
+*/
 
 learnerCount.textContent=
 allLearners.length;
 
 
-/* Display */
+/*
+Show immediately.
+*/
 
 displayLearners(allLearners);
 
 },
 
-
 error=>{
 
 console.error(
-"Firebase learners error:",
+"Firebase learner error:",
 error
 );
 
@@ -766,9 +945,9 @@ and try again.
 }
 
 
-/* =====================================
-SEARCH
-===================================== */
+/* =========================================
+   SEARCH
+========================================= */
 
 searchInput.addEventListener(
 
@@ -797,27 +976,19 @@ allLearners.filter(
 learner=>{
 
 const name=
-String(getName(learner))
+getName(learner)
 .toLowerCase();
 
 
 const phone=
-String(getPhone(learner))
-.toLowerCase();
-
-
-const grade=
-String(getGrade(learner))
+getPhone(learner)
 .toLowerCase();
 
 
 return (
 
 name.includes(value)||
-
-phone.includes(value)||
-
-grade.includes(value)
+phone.includes(value)
 
 );
 
@@ -831,126 +1002,9 @@ displayLearners(filtered);
 );
 
 
-/* =====================================
-TEACHER SECURITY
-===================================== */
-
-async function checkTeacher(){
-
-try{
-
-const session=JSON.parse(
-
-localStorage.getItem(
-"muleCurrentUser"
-)||"null"
-
-);
-
-
-if(!session || !session.id){
-
-window.location.href="../login.html";
-
-return false;
-
-}
-
-
-const snapshot=
-await get(
-
-ref(
-db,
-"users/"+session.id
-)
-
-);
-
-
-if(!snapshot.exists()){
-
-alert(
-"Teacher account not found."
-);
-
-localStorage.removeItem(
-"muleCurrentUser"
-);
-
-window.location.href="../login.html";
-
-return false;
-
-}
-
-
-const teacher=
-snapshot.val();
-
-
-if(
-
-String(
-teacher.role||""
-).toLowerCase()!=="teacher"
-
-){
-
-alert(
-"Teacher access required."
-);
-
-window.location.href="../login.html";
-
-return false;
-
-}
-
-
-if(
-
-String(
-teacher.status||""
-).toLowerCase()==="suspended"
-
-){
-
-alert(
-"Your teacher account has been suspended."
-);
-
-localStorage.removeItem(
-"muleCurrentUser"
-);
-
-window.location.href="../login.html";
-
-return false;
-
-}
-
-
-return true;
-
-
-}catch(error){
-
-console.error(
-"Teacher security error:",
-error
-);
-
-return false;
-
-}
-
-}
-
-
-/* =====================================
-START
-===================================== */
+/* =========================================
+   START
+========================================= */
 
 async function startPage(){
 
@@ -958,11 +1012,13 @@ const allowed=
 await checkTeacher();
 
 
-if(!allowed) return;
+if(!allowed)
+return;
 
 
 /*
-Start Firebase listener immediately.
+Start realtime learner listener
+immediately after teacher security.
 */
 
 loadAllLearners();
@@ -970,13 +1026,10 @@ loadAllLearners();
 }
 
 
-/* =====================================
-OPEN IMMEDIATELY
-===================================== */
-
 startPage();
 
 </script>
 
 </body>
+
 </html>
