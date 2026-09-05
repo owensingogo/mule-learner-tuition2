@@ -1,206 +1,929 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
-<title>CEO Settings | Mule Learner Tuition</title><style>
+
+<title>CEO Settings | Mule Learner Tuition</title>
+
+<style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f4f7fc;color:#172033;padding-bottom:30px}
-header{background:#173b8f;color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:18px;font-weight:800}.back{color:white;text-decoration:none;font-size:13px}
-.container{max-width:700px;margin:auto;padding:20px 16px}
-h1{font-size:23px;color:#173b8f;margin-bottom:5px}.heading p{font-size:12px;color:#667085;margin-bottom:18px}
-.card{background:white;padding:17px;border-radius:13px;box-shadow:0 4px 15px rgba(20,50,100,.07);margin-bottom:13px}
-h2{font-size:15px;margin-bottom:14px}
-label{display:block;font-size:11px;font-weight:bold;color:#475467;margin-bottom:6px}
-input{width:100%;padding:12px;border:1px solid #d8deea;border-radius:8px;font-size:12px;margin-bottom:12px}
-.row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #edf0f5;font-size:12px}
-.row:last-child{border-bottom:0}
-button{border:0;cursor:pointer}
-.toggle{padding:7px 12px;border-radius:20px;font-size:10px;font-weight:bold}
-.on{background:#ecfdf3;color:#027a48}.off{background:#fef3f2;color:#b42318}
-.save{width:100%;background:#173b8f;color:white;padding:13px;border-radius:8px;font-size:12px;font-weight:bold}
-.status{font-size:9px;font-weight:bold;padding:6px 9px;border-radius:20px;background:#eef3ff;color:#173b8f}
-.note{margin-top:15px;background:#eef3ff;padding:14px;border-radius:10px;font-size:11px;line-height:1.6;color:#475467}
-footer{text-align:center;font-size:11px;color:#667085;margin-top:25px}
-</style></head><body><header>
-<div class="logo">Mule Learner Tuition</div>
-<a href="dashboard.html" class="back">← CEO Dashboard</a>
-</header><div class="container"><div class="heading">
-<h1>CEO Settings ⚙️</h1>
-<p>Edit and control the important Mule Learner Tuition platform settings.</p>
-</div><div class="card">
-<h2>🏫 Platform Information</h2><label>Platform Name</label>
-<input id="platformName">
 
-<label>Tagline</label>
-<input id="tagline">
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px
+}
 
-<label>Customer Support Number</label>
-<input id="support" type="tel">
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
 
-</div><div class="card">
-<h2>💰 Tuition Plans</h2><label>6 Hours Price (K)</label>
-<input id="sixHours" type="number">
+.logo{
+font-size:18px;
+font-weight:800
+}
 
-<label>Daily Price (K)</label>
-<input id="daily" type="number">
+.back{
+color:white;
+text-decoration:none;
+font-size:13px
+}
 
-<label>Weekly Price (K)</label>
-<input id="weekly" type="number">
+.container{
+max-width:700px;
+margin:auto;
+padding:20px 16px
+}
 
-<label>Monthly Price (K)</label>
-<input id="monthly" type="number">
+h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px
+}
 
-</div><div class="card">
-<h2>🎛️ Platform Controls</h2><div class="row">
-<span>Learner Registration</span>
-<button id="learnerBtn" class="toggle" onclick="toggleSetting('learnerRegistration')">...</button>
-</div><div class="row">
-<span>Teacher Registration</span>
-<button id="teacherBtn" class="toggle" onclick="toggleSetting('teacherRegistration')">...</button>
-</div><div class="row">
-<span>Live Learning</span>
-<button id="liveBtn" class="toggle" onclick="toggleSetting('liveLearning')">...</button>
-</div><div class="row">
-<span>Payment Approval</span>
-<button id="paymentBtn" class="toggle" onclick="toggleSetting('paymentApproval')">...</button>
+.heading p{
+font-size:12px;
+color:#667085;
+margin-bottom:18px
+}
+
+.card{
+background:white;
+padding:17px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+margin-bottom:13px
+}
+
+h2{
+font-size:15px;
+margin-bottom:14px
+}
+
+label{
+display:block;
+font-size:11px;
+font-weight:bold;
+color:#475467;
+margin-bottom:6px
+}
+
+input{
+width:100%;
+padding:12px;
+border:1px solid #d8deea;
+border-radius:8px;
+font-size:12px;
+margin-bottom:12px
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 0;
+border-bottom:1px solid #edf0f5;
+font-size:12px
+}
+
+.row:last-child{
+border-bottom:0
+}
+
+button{
+border:0;
+cursor:pointer
+}
+
+.toggle{
+padding:7px 12px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold
+}
+
+.on{
+background:#ecfdf3;
+color:#027a48
+}
+
+.off{
+background:#fef3f2;
+color:#b42318
+}
+
+.status{
+font-size:9px;
+font-weight:bold;
+padding:6px 9px;
+border-radius:20px;
+background:#eef3ff;
+color:#173b8f
+}
+
+.save{
+width:100%;
+background:#173b8f;
+color:white;
+padding:13px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold
+}
+
+.note{
+margin-top:15px;
+background:#eef3ff;
+padding:14px;
+border-radius:10px;
+font-size:11px;
+line-height:1.6;
+color:#475467
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+Mule Learner Tuition
 </div>
-</div><div class="card">
-<h2>🔐 Access Rules</h2><div class="row">
-<span>Learners require payment approval</span>
-<span class="status">YES</span>
-</div><div class="row">
-<span>Teachers require CEO approval</span>
-<span class="status">YES</span>
-</div><div class="row">
-<span>CEO controls settings</span>
-<span class="status">YES</span>
+
+<a href="dashboard.html" class="back">
+← CEO Dashboard
+</a>
+
+</header>
+
+
+<div class="container">
+
+<div class="heading">
+
+<h1>
+CEO Settings ⚙️
+</h1>
+
+<p>
+Manage important Mule Learner Tuition platform settings.
+</p>
+
 </div>
-</div><button class="save" onclick="saveSettings()">💾 Save All Settings</button>
+
+
+<!-- PLATFORM INFORMATION -->
+
+<div class="card">
+
+<h2>
+🏫 Platform Information
+</h2>
+
+<label>
+Platform Name
+</label>
+
+<input
+id="platformName"
+type="text"
+placeholder="Loading..."
+>
+
+<label>
+Tagline
+</label>
+
+<input
+id="tagline"
+type="text"
+placeholder="Loading..."
+>
+
+<label>
+Customer Support Number
+</label>
+
+<input
+id="support"
+type="tel"
+placeholder="Loading..."
+>
+
+</div>
+
+
+<!-- TUITION PLANS -->
+
+<div class="card">
+
+<h2>
+💰 Tuition Plans
+</h2>
+
+<label>
+6 Hours Price (K)
+</label>
+
+<input
+id="sixHours"
+type="number"
+min="0"
+>
+
+<label>
+Daily Price (K)
+</label>
+
+<input
+id="daily"
+type="number"
+min="0"
+>
+
+<label>
+Weekly Price (K)
+</label>
+
+<input
+id="weekly"
+type="number"
+min="0"
+>
+
+<label>
+Monthly Price (K)
+</label>
+
+<input
+id="monthly"
+type="number"
+min="0"
+>
+
+</div>
+
+
+<!-- PLATFORM CONTROLS -->
+
+<div class="card">
+
+<h2>
+🎛️ Platform Controls
+</h2>
+
+
+<div class="row">
+
+<span>
+Learner Registration
+</span>
+
+<span
+id="learnerBtn"
+class="toggle on">
+ON
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span>
+Teacher Registration
+</span>
+
+<span
+id="teacherBtn"
+class="toggle on">
+ON
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span>
+Live Learning
+</span>
+
+<span
+id="liveBtn"
+class="toggle off">
+OFF
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span>
+Payment Approval
+</span>
+
+<button
+id="paymentBtn"
+class="toggle"
+onclick="togglePaymentApproval()">
+...
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ACCESS RULES -->
+
+<div class="card">
+
+<h2>
+🔐 Access Rules
+</h2>
+
+<div class="row">
+
+<span>
+Learners require payment approval
+</span>
+
+<span class="status">
+YES
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span>
+Teachers require CEO approval
+</span>
+
+<span class="status">
+YES
+</span>
+
+</div>
+
+
+<div class="row">
+
+<span>
+CEO controls settings
+</span>
+
+<span class="status">
+YES
+</span>
+
+</div>
+
+</div>
+
+
+<button
+class="save"
+onclick="saveSettings()">
+
+💾 Save All Settings
+
+</button>
+
 
 <div class="note">
-<strong>🔒 CEO Only</strong><br><br>
-These settings are stored in Firebase and can only be changed from the CEO Settings page.
-</div><footer>
+
+<strong>
+🔒 CEO Only
+</strong>
+
+<br><br>
+
+Platform information and tuition prices are stored in Firebase.
+
+<br><br>
+
+Live Learning automatically reflects the actual status of live classes. It shows ON only when a teacher is currently live.
+
+</div>
+
+
+<footer>
+
 Mule Learner Tuition<br>
+
 CEO Administration • Learn • Practice • Succeed
-</footer></div><script src="../js/auth.js"></script><script src="../js/app.js"></script><script src="../js/ceo.js"></script><script>
-const DB="https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+</footer>
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* =========================================
+   FIREBASE DATABASE
+========================================= */
+
+const DB=
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+
+/* =========================================
+   SETTINGS
+========================================= */
+
 let settings={
-learnerRegistration:true,
-teacherRegistration:true,
-liveLearning:true,
+
+platformName:"Mule Learner Tuition",
+
+tagline:"Learn • Practice • Succeed",
+
+support:"0978362800",
+
+sixHours:5,
+
+daily:10,
+
+weekly:45,
+
+monthly:180,
+
 paymentApproval:true
+
 };
 
+
+/* =========================================
+   GET DATA
+========================================= */
+
 async function getData(path){
-const r=await fetch(DB+"/"+path+".json");
-return r.json();
+
+const response=
+await fetch(
+DB+"/"+path+".json"
+);
+
+if(!response.ok){
+
+throw new Error(
+"Database request failed."
+);
+
 }
+
+return response.json();
+
+}
+
+
+/* =========================================
+   SAVE DATA
+========================================= */
 
 async function setData(path,data){
-const r=await fetch(DB+"/"+path+".json",{
+
+const response=
+await fetch(
+DB+"/"+path+".json",
+{
 method:"PUT",
-headers:{"Content-Type":"application/json"},
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
 body:JSON.stringify(data)
+}
+);
+
+return response.ok;
+
+}
+
+
+/* =========================================
+   SHOW PAYMENT TOGGLE
+========================================= */
+
+function showPaymentToggle(value){
+
+const button=
+document.getElementById(
+"paymentBtn"
+);
+
+button.textContent=
+value?"ON":"OFF";
+
+button.className=
+"toggle "+
+(value?"on":"off");
+
+}
+
+
+/* =========================================
+   PAYMENT TOGGLE
+========================================= */
+
+function togglePaymentApproval(){
+
+settings.paymentApproval=
+!settings.paymentApproval;
+
+showPaymentToggle(
+settings.paymentApproval
+);
+
+}
+
+
+/* =========================================
+   SHOW LIVE STATUS
+========================================= */
+
+function showLiveStatus(value){
+
+const button=
+document.getElementById(
+"liveBtn"
+);
+
+button.textContent=
+value?"ON":"OFF";
+
+button.className=
+"toggle "+
+(value?"on":"off");
+
+}
+
+
+/* =========================================
+   CHECK REAL LIVE CLASSES
+========================================= */
+
+async function checkLiveLearning(){
+
+try{
+
+const data=
+await getData(
+"liveClasses"
+);
+
+let live=false;
+
+if(data){
+
+Object.values(data).forEach(
+function(item){
+
+if(!item)return;
+
+const status=
+String(
+item.status||""
+).toLowerCase();
+
+const teacherOnline=
+item.teacherOnline===true;
+
+if(
+status==="live" &&
+teacherOnline
+){
+
+live=true;
+
+}
+
 });
-return r.ok;
 }
 
-function showToggle(id,value){
-const b=document.getElementById(id);
-b.textContent=value?"ON":"OFF";
-b.className="toggle "+(value?"on":"off");
+showLiveStatus(live);
+
+}catch(error){
+
+console.error(
+"Live status error:",
+error
+);
+
+showLiveStatus(false);
+
 }
 
-function toggleSetting(key){
-settings[key]=!settings[key];
-
-if(key==="learnerRegistration")showToggle("learnerBtn",settings[key]);
-if(key==="teacherRegistration")showToggle("teacherBtn",settings[key]);
-if(key==="liveLearning")showToggle("liveBtn",settings[key]);
-if(key==="paymentApproval")showToggle("paymentBtn",settings[key]);
 }
+
+
+/* =========================================
+   LOAD SETTINGS
+========================================= */
 
 async function loadSettings(){
 
 try{
 
-const data=await getData("settings");
+const data=
+await getData("settings");
+
 
 if(data){
-settings={...settings,...data};
+
+settings={
+...settings,
+...data
+};
+
 }
 
-document.getElementById("platformName").value=
-settings.platformName||"Mule Learner Tuition";
 
-document.getElementById("tagline").value=
-settings.tagline||"Learn • Practice • Succeed";
+/* PLATFORM */
 
-document.getElementById("support").value=
-settings.support||"0978362800";
+document.getElementById(
+"platformName"
+).value=
+settings.platformName||
+"Mule Learner Tuition";
 
-document.getElementById("sixHours").value=
+
+document.getElementById(
+"tagline"
+).value=
+settings.tagline||
+"Learn • Practice • Succeed";
+
+
+document.getElementById(
+"support"
+).value=
+settings.support||
+"0978362800";
+
+
+/* PRICES */
+
+document.getElementById(
+"sixHours"
+).value=
 settings.sixHours??5;
 
-document.getElementById("daily").value=
+
+document.getElementById(
+"daily"
+).value=
 settings.daily??10;
 
-document.getElementById("weekly").value=
+
+document.getElementById(
+"weekly"
+).value=
 settings.weekly??45;
 
-document.getElementById("monthly").value=
+
+document.getElementById(
+"monthly"
+).value=
 settings.monthly??180;
 
-showToggle("learnerBtn",settings.learnerRegistration);
-showToggle("teacherBtn",settings.teacherRegistration);
-showToggle("liveBtn",settings.liveLearning);
-showToggle("paymentBtn",settings.paymentApproval);
 
-}catch(e){
-alert("Could not load settings.");
+/* PAYMENT */
+
+showPaymentToggle(
+settings.paymentApproval!==false
+);
+
+
+/* REGISTRATION */
+
+const learner=
+document.getElementById(
+"learnerBtn"
+);
+
+learner.textContent="ON";
+learner.className="toggle on";
+
+
+const teacher=
+document.getElementById(
+"teacherBtn"
+);
+
+teacher.textContent="ON";
+teacher.className="toggle on";
+
+
+/* LIVE */
+
+await checkLiveLearning();
+
+
+}catch(error){
+
+console.error(
+"Settings loading error:",
+error
+);
+
+alert(
+"Could not load settings from Firebase."
+);
+
 }
+
 }
+
+
+/* =========================================
+   SAVE SETTINGS
+========================================= */
 
 async function saveSettings(){
 
-const name=document.getElementById("platformName").value.trim();
-const tagline=document.getElementById("tagline").value.trim();
-const support=document.getElementById("support").value.trim();
+const name=
+document.getElementById(
+"platformName"
+).value.trim();
 
-if(!name||!tagline||!support){
-alert("Please fill in all platform information.");
+
+const tagline=
+document.getElementById(
+"tagline"
+).value.trim();
+
+
+const support=
+document.getElementById(
+"support"
+).value.trim();
+
+
+if(!name){
+
+alert(
+"Please enter the platform name."
+);
+
 return;
+
 }
 
-settings.platformName=name;
-settings.tagline=tagline;
-settings.support=support;
-settings.sixHours=Number(document.getElementById("sixHours").value);
-settings.daily=Number(document.getElementById("daily").value);
-settings.weekly=Number(document.getElementById("weekly").value);
-settings.monthly=Number(document.getElementById("monthly").value);
-settings.updatedAt=new Date().toISOString();
-settings.updatedBy="CEO";
+
+if(!tagline){
+
+alert(
+"Please enter the tagline."
+);
+
+return;
+
+}
+
+
+if(!support){
+
+alert(
+"Please enter the customer support number."
+);
+
+return;
+
+}
+
+
+settings.platformName=
+name;
+
+settings.tagline=
+tagline;
+
+settings.support=
+support;
+
+
+settings.sixHours=
+Number(
+document.getElementById(
+"sixHours"
+).value
+);
+
+
+settings.daily=
+Number(
+document.getElementById(
+"daily"
+).value
+);
+
+
+settings.weekly=
+Number(
+document.getElementById(
+"weekly"
+).value
+);
+
+
+settings.monthly=
+Number(
+document.getElementById(
+"monthly"
+).value
+);
+
+
+settings.updatedAt=
+new Date().toISOString();
+
+
+settings.updatedBy=
+"CEO";
+
 
 try{
 
-const ok=await setData("settings",settings);
+const ok=
+await setData(
+"settings",
+settings
+);
+
 
 if(ok){
-alert("✅ Settings saved successfully.");
+
+alert(
+"✅ Settings saved successfully."
+);
+
 }else{
-alert("❌ Settings could not be saved.");
+
+alert(
+"❌ Settings could not be saved."
+);
+
 }
 
-}catch(e){
-alert("❌ Database error.");
-}
+}catch(error){
+
+console.error(
+"Save error:",
+error
+);
+
+alert(
+"❌ Database error. Settings were not saved."
+);
+
 }
 
-protectCEOPage();
+}
+
+
+/* =========================================
+   START
+========================================= */
+
 loadSettings();
-</script></body>
+
+
+/* =========================================
+   KEEP LIVE STATUS UPDATED
+========================================= */
+
+setInterval(
+checkLiveLearning,
+5000
+);
+
+</script>
+
+</body>
 </html>
