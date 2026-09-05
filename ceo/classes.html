@@ -1,488 +1,1453 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
-<title>Classes | Mule Learner Tuition</title><style>
-*{box-sizing:border-box}
+
+<title>Classes | Mule Learner Tuition</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f7fb;
-  color:#222;
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+color:#222;
+padding-bottom:30px;
 }
+
 .header{
-  background:#173b8f;
-  color:white;
-  padding:16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+background:#173b8f;
+color:white;
+padding:15px 16px;
+display:flex;
+align-items:center;
+justify-content:space-between;
 }
-.header h2{margin:0;font-size:20px}
+
+.header h2{
+font-size:19px;
+}
+
 .back{
-  color:white;
-  text-decoration:none;
-  font-size:14px;
+color:white;
+text-decoration:none;
+font-size:13px;
 }
+
 .container{
-  max-width:600px;
-  margin:auto;
-  padding:15px;
+max-width:650px;
+margin:auto;
+padding:14px;
 }
-.card{
-  background:white;
-  border-radius:12px;
-  padding:15px;
-  margin-bottom:14px;
-  box-shadow:0 2px 8px #0001;
-}
-.card h3{margin:0 0 8px;color:#173b8f}
-label{
-  display:block;
-  font-size:13px;
-  font-weight:bold;
-  margin:10px 0 5px;
-}
-input,select{
-  width:100%;
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  font-size:14px;
-}
-button{
-  border:0;
-  border-radius:8px;
-  padding:11px 14px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.primary{
-  width:100%;
-  margin-top:14px;
-  background:#173b8f;
-  color:white;
-}
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-.stat{
-  background:#eef3ff;
-  border-radius:10px;
-  padding:12px 5px;
-  text-align:center;
-}
-.stat b{
-  display:block;
-  font-size:20px;
-  color:#173b8f;
-}
-.stat span{font-size:11px}
-.class-card{
-  border-left:4px solid #173b8f;
-}
-.class-row{
-  font-size:13px;
-  margin:5px 0;
-}
-.badge{
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:20px;
-  background:#e7f7ed;
-  color:#17823b;
-  font-size:11px;
-  font-weight:bold;
-}
-.actions{
-  display:flex;
-  gap:8px;
-  margin-top:12px;
-}
-.view{
-  background:#173b8f;
-  color:white;
-  flex:1;
-}
-.delete{
-  background:#ffe9e9;
-  color:#c62828;
-}
-.empty{
-  text-align:center;
-  color:#777;
-  padding:25px 10px;
-}
+
 .notice{
-  background:#fff4d6;
-  color:#7a5700;
-  padding:10px;
-  border-radius:8px;
-  font-size:12px;
-  margin-bottom:12px;
+background:#fff4d6;
+color:#7a5700;
+padding:11px;
+border-radius:9px;
+font-size:11px;
+line-height:1.5;
+margin-bottom:12px;
 }
-</style></head><body><div class="header">
-  <h2>📚 Classes</h2>
-  <a class="back" href="dashboard.html">← Dashboard</a>
-</div><div class="container">  <div class="notice">
-    Classes created here are saved in Firebase and can be accessed by authorised users.
-  </div>  <div class="card">
-    <h3>➕ Create New Class</h3><form onsubmit="createClass(event)">
 
-  <label>Class Name</label>
-  <input id="className" type="text"
-         placeholder="e.g. Grade 10 Mathematics"
-         required>
+.card{
+background:white;
+border-radius:12px;
+padding:14px;
+margin-bottom:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
 
-  <label>Subject</label>
-  <input id="subject" type="text"
-         placeholder="e.g. Mathematics"
-         required>
+.card h3{
+font-size:15px;
+margin-bottom:9px;
+color:#173b8f;
+}
 
-  <label>Teacher</label>
-  <input id="teacher" type="text"
-         placeholder="Teacher name"
-         required>
+label{
+display:block;
+font-size:12px;
+font-weight:bold;
+margin:9px 0 5px;
+}
 
-  <label>Class Type</label>
-  <select id="classType">
-    <option value="Regular Class">Regular Class</option>
-    <option value="Live Class">Live Class</option>
-  </select>
+input,
+select{
+width:100%;
+padding:11px;
+border:1px solid #d9deea;
+border-radius:8px;
+font-size:13px;
+background:white;
+outline:none;
+}
 
-  <button class="primary" type="submit">
-    Create Class
-  </button>
+input:focus,
+select:focus{
+border-color:#173b8f;
+}
+
+button{
+border:0;
+border-radius:8px;
+padding:10px 13px;
+font-weight:bold;
+cursor:pointer;
+font-size:11px;
+}
+
+.primary{
+width:100%;
+margin-top:13px;
+background:#173b8f;
+color:white;
+}
+
+.primary:disabled{
+opacity:.6;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
+}
+
+.stat{
+background:#eef3ff;
+border-radius:9px;
+padding:11px 4px;
+text-align:center;
+}
+
+.stat b{
+display:block;
+font-size:19px;
+color:#173b8f;
+}
+
+.stat span{
+font-size:9px;
+color:#555;
+}
+
+.class-card{
+border-left:4px solid #173b8f;
+}
+
+.class-card h3{
+margin-bottom:7px;
+font-size:14px;
+}
+
+.class-row{
+font-size:11px;
+margin:5px 0;
+line-height:1.4;
+}
+
+.badge{
+display:inline-block;
+padding:4px 7px;
+border-radius:20px;
+background:#e7f7ed;
+color:#17823b;
+font-size:9px;
+font-weight:bold;
+}
+
+.actions{
+display:flex;
+gap:7px;
+margin-top:11px;
+}
+
+.view{
+background:#173b8f;
+color:white;
+flex:1;
+}
+
+.delete{
+background:#ffe9e9;
+color:#c62828;
+}
+
+.empty{
+text-align:center;
+color:#777;
+padding:22px 10px;
+font-size:11px;
+}
+
+.loading{
+text-align:center;
+padding:20px;
+color:#667085;
+font-size:11px;
+}
+
+.spinner{
+width:22px;
+height:22px;
+border:3px solid #e4e7ec;
+border-top-color:#173b8f;
+border-radius:50%;
+margin:0 auto 8px;
+animation:spin .7s linear infinite;
+}
+
+@keyframes spin{
+to{
+transform:rotate(360deg);
+}
+}
+
+.small{
+font-size:10px;
+color:#667085;
+margin-top:5px;
+}
+
+.success{
+background:#ecfdf3;
+color:#027a48;
+padding:10px;
+border-radius:8px;
+font-size:11px;
+margin-bottom:10px;
+display:none;
+}
+
+@media(min-width:650px){
+
+.container{
+padding:20px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+<h2>📚 Classes</h2>
+
+<a class="back" href="dashboard.html">
+← Dashboard
+</a>
+
+</div>
+
+<div class="container">
+
+<div class="notice">
+
+<strong>CEO Class Management</strong><br>
+
+Create classes using the subjects already registered in the system and assign them to active teachers.
+
+</div>
+
+
+<div class="success" id="successMessage"></div>
+
+
+<!-- CREATE CLASS -->
+
+<div class="card">
+
+<h3>➕ Create New Class</h3>
+
+<form id="classForm">
+
+
+<label>Class Name</label>
+
+<input
+id="className"
+type="text"
+placeholder="e.g. Grade 10 Mathematics"
+required
+>
+
+
+<label>Subject</label>
+
+<select id="subjectSelect" required>
+
+<option value="">
+Loading subjects...
+</option>
+
+</select>
+
+<div class="small">
+Subjects are loaded automatically from the active subjects in Firebase.
+</div>
+
+
+<label>Teacher</label>
+
+<select id="teacherSelect" required>
+
+<option value="">
+Loading teachers...
+</option>
+
+</select>
+
+<div class="small">
+Only active teacher accounts are shown.
+</div>
+
+
+<label>Class Type</label>
+
+<select id="classType">
+
+<option value="Regular Class">
+Regular Class
+</option>
+
+<option value="Live Class">
+Live Class
+</option>
+
+</select>
+
+
+<button
+class="primary"
+id="createBtn"
+type="submit">
+
+Create Class
+
+</button>
 
 </form>
 
-  </div>  <div class="card">
-    <h3>📊 Class Overview</h3><div class="stats">
-  <div class="stat">
-    <b id="totalCount">0</b>
-    <span>Total</span>
-  </div>
-
-  <div class="stat">
-    <b id="activeCount">0</b>
-    <span>Active</span>
-  </div>
-
-  <div class="stat">
-    <b id="assignedCount">0</b>
-    <span>Assigned</span>
-  </div>
 </div>
 
-  </div>  <div class="card">
-    <h3>📚 All Classes</h3>
-    <div id="classesList">
-      <div class="empty">Loading classes...</div>
-    </div>
-  </div></div><script src="../js/app.js"></script><script src="../js/ceo.js"></script><script>
-const DB_URL =
-"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
 
-const CLASSES_PATH = "classes";
+<!-- OVERVIEW -->
 
-function showMessage(message){
-  alert(message);
+<div class="card">
+
+<h3>📊 Class Overview</h3>
+
+<div class="stats">
+
+<div class="stat">
+<b id="totalCount">0</b>
+<span>Total</span>
+</div>
+
+<div class="stat">
+<b id="activeCount">0</b>
+<span>Active</span>
+</div>
+
+<div class="stat">
+<b id="assignedCount">0</b>
+<span>Assigned</span>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CLASSES -->
+
+<div class="card">
+
+<h3>📚 All Classes</h3>
+
+<div id="classesList">
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+Loading classes...
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script src="../js/app.js"></script>
+<script src="../js/ceo.js"></script>
+
+
+<script type="module">
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+get,
+set,
+remove
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+/* FIREBASE */
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyCRUQW0JTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
+
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
+
+projectId:
+"mule-learner-tuition-264fe",
+
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
+
+messagingSenderId:
+"656883565460",
+
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
+
+};
+
+
+const app=
+initializeApp(firebaseConfig);
+
+const db=
+getDatabase(app);
+
+
+/* ELEMENTS */
+
+const list=
+document.getElementById("classesList");
+
+const teacherSelect=
+document.getElementById("teacherSelect");
+
+const subjectSelect=
+document.getElementById("subjectSelect");
+
+const form=
+document.getElementById("classForm");
+
+const createBtn=
+document.getElementById("createBtn");
+
+const successMessage=
+document.getElementById("successMessage");
+
+
+/* STORE DATA */
+
+let allClasses=[];
+
+let allSubjects=[];
+
+let allTeachers=[];
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(value){
+
+return String(value||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
 }
 
-async function firebaseGet(path){
-  const response = await fetch(
-    DB_URL + "/" + path + ".json"
-  );
 
-  if(!response.ok){
-    throw new Error("Firebase read failed");
-  }
+/* CLASS ID */
 
-  return await response.json();
+function createClassId(){
+
+return "CLS-"+
+Date.now()+
+"-"+
+Math.random()
+.toString(36)
+.substring(2,7)
+.toUpperCase();
+
 }
 
-async function firebaseSet(path,data){
-  const response = await fetch(
-    DB_URL + "/" + path + ".json",
-    {
-      method:"PUT",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(data)
-    }
-  );
 
-  if(!response.ok){
-    throw new Error("Firebase write failed");
-  }
+/* LOAD ACTIVE SUBJECTS */
 
-  return await response.json();
+async function loadSubjects(){
+
+try{
+
+const snapshot=
+await get(
+ref(db,"subjects")
+);
+
+
+subjectSelect.innerHTML=
+'<option value="">Select subject</option>';
+
+
+if(!snapshot.exists()){
+
+subjectSelect.innerHTML=
+'<option value="">No subjects found</option>';
+
+return;
+
 }
 
-async function firebaseDelete(path){
-  const response = await fetch(
-    DB_URL + "/" + path + ".json",
-    {
-      method:"DELETE"
-    }
-  );
 
-  if(!response.ok){
-    throw new Error("Firebase delete failed");
-  }
+const data=
+snapshot.val();
+
+
+const subjects=[];
+
+
+/* READ SUBJECTS */
+
+Object.entries(data)
+.forEach(([id,item])=>{
+
+if(!item)
+return;
+
+
+const name=
+String(
+item.name||
+item.subject||
+""
+).trim();
+
+
+if(!name)
+return;
+
+
+/* ACTIVE CHECK */
+
+let active=true;
+
+
+if(
+item.active!==undefined
+){
+
+active=
+item.active===true;
+
 }
 
-function createId(){
-  return "CLS-" + Date.now();
+
+if(
+item.status!==undefined
+){
+
+const status=
+String(
+item.status
+).toLowerCase();
+
+
+if(
+status==="inactive" ||
+status==="disabled" ||
+status==="deleted"
+){
+
+active=false;
+
 }
 
-async function createClass(event){
-
-  event.preventDefault();
-
-  const className =
-    document.getElementById("className").value.trim();
-
-  const subject =
-    document.getElementById("subject").value.trim();
-
-  const teacher =
-    document.getElementById("teacher").value.trim();
-
-  const classType =
-    document.getElementById("classType").value;
-
-  if(!className || !subject || !teacher){
-    showMessage("Please complete all fields.");
-    return;
-  }
-
-  const id = createId();
-
-  const classData = {
-    id:id,
-    className:className,
-    subject:subject,
-    teacher:teacher,
-    classType:classType,
-    status:"active",
-    createdAt:new Date().toISOString(),
-    createdBy:"CEO"
-  };
-
-  try{
-
-    await firebaseSet(
-      CLASSES_PATH + "/" + id,
-      classData
-    );
-
-    showMessage("✅ Class created successfully.");
-
-    document.getElementById("className").value="";
-    document.getElementById("subject").value="";
-    document.getElementById("teacher").value="";
-    document.getElementById("classType").value="Regular Class";
-
-    loadClasses();
-
-  }catch(error){
-
-    console.error(error);
-    showMessage("❌ Failed to create class. Check your Firebase connection.");
-
-  }
 }
+
+
+if(!active)
+return;
+
+
+subjects.push({
+
+id:id,
+
+name:name,
+
+description:
+item.description||""
+
+});
+
+});
+
+
+/* REMOVE DUPLICATES */
+
+const unique=[];
+
+
+subjects.forEach(subject=>{
+
+const exists=
+unique.some(
+item=>
+item.name.toLowerCase()===
+subject.name.toLowerCase()
+);
+
+
+if(!exists){
+
+unique.push(subject);
+
+}
+
+});
+
+
+/* SORT */
+
+unique.sort((a,b)=>
+a.name.localeCompare(b.name)
+);
+
+
+allSubjects=
+unique;
+
+
+/* DISPLAY */
+
+unique.forEach(subject=>{
+
+const option=
+document.createElement("option");
+
+option.value=
+subject.id;
+
+option.textContent=
+subject.name;
+
+option.dataset.name=
+subject.name;
+
+subjectSelect.appendChild(option);
+
+});
+
+
+if(!unique.length){
+
+subjectSelect.innerHTML=
+'<option value="">No active subjects found</option>';
+
+}
+
+}catch(error){
+
+console.error(
+"Subject loading error:",
+error
+);
+
+subjectSelect.innerHTML=
+'<option value="">Unable to load subjects</option>';
+
+}
+
+}
+
+
+/* LOAD TEACHERS */
+
+async function loadTeachers(){
+
+try{
+
+const snapshot=
+await get(
+ref(db,"users")
+);
+
+
+teacherSelect.innerHTML=
+'<option value="">Select teacher</option>';
+
+
+if(!snapshot.exists()){
+
+teacherSelect.innerHTML=
+'<option value="">No teachers found</option>';
+
+return;
+
+}
+
+
+const users=
+snapshot.val();
+
+
+const teachers=[];
+
+
+Object.entries(users)
+.forEach(([id,user])=>{
+
+if(!user)
+return;
+
+
+if(
+String(
+user.role||""
+).toLowerCase()!=="teacher"
+)
+return;
+
+
+if(
+String(
+user.status||"active"
+).toLowerCase()==="suspended"
+)
+return;
+
+
+teachers.push({
+
+id:id,
+
+name:
+String(
+user.name||
+user.fullName||
+user.teacherName||
+"Unnamed Teacher"
+).trim(),
+
+phone:
+String(
+user.phone||""
+).trim()
+
+});
+
+});
+
+
+teachers.sort((a,b)=>
+a.name.localeCompare(b.name)
+);
+
+
+allTeachers=
+teachers;
+
+
+teachers.forEach(teacher=>{
+
+const option=
+document.createElement("option");
+
+option.value=
+teacher.id;
+
+option.textContent=
+teacher.phone
+?
+teacher.name+
+" • "+
+teacher.phone
+:
+teacher.name;
+
+option.dataset.name=
+teacher.name;
+
+teacherSelect.appendChild(option);
+
+});
+
+
+if(!teachers.length){
+
+teacherSelect.innerHTML=
+'<option value="">No active teachers found</option>';
+
+}
+
+}catch(error){
+
+console.error(
+"Teacher loading error:",
+error
+);
+
+teacherSelect.innerHTML=
+'<option value="">Unable to load teachers</option>';
+
+}
+
+}
+
+
+/* LOAD CLASSES */
 
 async function loadClasses(){
 
-  const list =
-    document.getElementById("classesList");
+try{
 
-  list.innerHTML =
-    '<div class="empty">Loading classes...</div>';
+const snapshot=
+await get(
+ref(db,"classes")
+);
 
-  try{
 
-    const data =
-      await firebaseGet(CLASSES_PATH);
+allClasses=
+snapshot.exists()
+?
+Object.entries(snapshot.val())
+.map(([id,item])=>({
 
-    const classes = data
-      ? Object.values(data)
-      : [];
+...item,
+id:id
 
-    updateStats(classes);
+}))
+:
+[];
 
-    if(classes.length === 0){
 
-      list.innerHTML =
-        '<div class="empty">No classes created yet.</div>';
+/* SORT NEWEST FIRST */
 
-      return;
-    }
+allClasses.sort((a,b)=>
+new Date(b.createdAt||0)-
+new Date(a.createdAt||0)
+);
 
-    classes.sort((a,b)=>{
-      return new Date(b.createdAt || 0) -
-             new Date(a.createdAt || 0);
-    });
 
-    list.innerHTML = classes.map(c => {
+/* STATS */
 
-      const status =
-        c.status || "active";
+const total=
+allClasses.length;
 
-      return `
-        <div class="card class-card">
 
-          <h3>${escapeHtml(c.className || "Unnamed Class")}</h3>
+const active=
+allClasses.filter(c=>
 
-          <div class="class-row">
-            <strong>Subject:</strong>
-            ${escapeHtml(c.subject || "-")}
-          </div>
+String(
+c.status||"active"
+).toLowerCase()==="active"
 
-          <div class="class-row">
-            <strong>Teacher:</strong>
-            ${escapeHtml(c.teacher || "Not assigned")}
-          </div>
+).length;
 
-          <div class="class-row">
-            <strong>Type:</strong>
-            ${escapeHtml(c.classType || "Regular Class")}
-          </div>
 
-          <div class="class-row">
-            <strong>Status:</strong>
-            <span class="badge">
-              ${escapeHtml(status)}
-            </span>
-          </div>
+const assigned=
+allClasses.filter(c=>
 
-          <div class="actions">
-            <button class="view"
-              onclick='viewClass(${JSON.stringify(c)})'>
-              View
-            </button>
+String(
+c.teacherId||""
+).trim()!==""
 
-            <button class="delete"
-              onclick="removeClass('${c.id}')">
-              Delete
-            </button>
-          </div>
+).length;
 
-        </div>
-      `;
 
-    }).join("");
+document.getElementById(
+"totalCount"
+).textContent=
+total;
 
-  }catch(error){
 
-    console.error(error);
+document.getElementById(
+"activeCount"
+).textContent=
+active;
 
-    list.innerHTML =
-      '<div class="empty">❌ Unable to load classes.</div>';
 
-  }
-}
+document.getElementById(
+"assignedCount"
+).textContent=
+assigned;
 
-function updateStats(classes){
 
-  const total = classes.length;
+/* EMPTY */
 
-  const active =
-    classes.filter(c =>
-      (c.status || "active") === "active"
-    ).length;
+if(!allClasses.length){
 
-  const assigned =
-    classes.filter(c =>
-      c.teacher &&
-      c.teacher.trim() !== ""
-    ).length;
+list.innerHTML=
+'<div class="empty">No classes created yet.</div>';
 
-  document.getElementById("totalCount").textContent =
-    total;
-
-  document.getElementById("activeCount").textContent =
-    active;
-
-  document.getElementById("assignedCount").textContent =
-    assigned;
-}
-
-function viewClass(c){
-
-  alert(
-    "📚 CLASS DETAILS\n\n" +
-    "Class: " + (c.className || "-") + "\n" +
-    "Subject: " + (c.subject || "-") + "\n" +
-    "Teacher: " + (c.teacher || "-") + "\n" +
-    "Type: " + (c.classType || "-") + "\n" +
-    "Status: " + (c.status || "-")
-  );
+return;
 
 }
 
-async function removeClass(id){
 
-  if(!id) return;
+/* DISPLAY */
 
-  const confirmDelete =
-    confirm(
-      "Are you sure you want to delete this class?"
-    );
+renderClasses();
 
-  if(!confirmDelete) return;
 
-  try{
+}catch(error){
 
-    await firebaseDelete(
-      CLASSES_PATH + "/" + id
-    );
+console.error(
+"Classes loading error:",
+error
+);
 
-    showMessage("✅ Class deleted.");
-
-    loadClasses();
-
-  }catch(error){
-
-    console.error(error);
-
-    showMessage(
-      "❌ Could not delete the class."
-    );
-
-  }
-}
-
-function escapeHtml(value){
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+list.innerHTML=
+'<div class="empty">❌ Unable to load classes.</div>';
 
 }
 
-/* CEO protection */
+}
+
+
+/* RENDER */
+
+function renderClasses(){
+
+if(!allClasses.length){
+
+list.innerHTML=
+'<div class="empty">No classes created yet.</div>';
+
+return;
+
+}
+
+
+list.innerHTML=
+allClasses.map(c=>{
+
+const status=
+String(
+c.status||"active"
+);
+
+
+return `
+
+<div class="card class-card">
+
+<h3>
+📚
+${escapeHTML(
+c.className||
+"Unnamed Class"
+)}
+</h3>
+
+
+<div class="class-row">
+
+<strong>Subject:</strong>
+
+${escapeHTML(
+c.subject||"-"
+)}
+
+</div>
+
+
+<div class="class-row">
+
+<strong>Teacher:</strong>
+
+${escapeHTML(
+c.teacherName||
+c.teacher||
+"Not assigned"
+)}
+
+</div>
+
+
+<div class="class-row">
+
+<strong>Type:</strong>
+
+${escapeHTML(
+c.classType||
+"Regular Class"
+)}
+
+</div>
+
+
+<div class="class-row">
+
+<strong>Status:</strong>
+
+<span class="badge">
+
+${escapeHTML(status)}
+
+</span>
+
+</div>
+
+
+<div class="class-row">
+
+<strong>Created:</strong>
+
+${formatDate(c.createdAt)}
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="view"
+onclick="viewClass('${escapeHTML(c.id)}')">
+
+View
+
+</button>
+
+
+<button
+class="delete"
+onclick="removeClass('${escapeHTML(c.id)}')">
+
+Delete
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+/* DATE */
+
+function formatDate(value){
+
+if(!value)
+return "-";
+
+
+const date=
+new Date(value);
+
+
+if(isNaN(date))
+return "-";
+
+
+return date.toLocaleDateString(
+"en-ZM",
+{
+day:"2-digit",
+month:"short",
+year:"numeric"
+}
+);
+
+}
+
+
+/* CREATE CLASS */
+
+form.addEventListener(
+"submit",
+async function(event){
+
+event.preventDefault();
+
+
+const className=
+document.getElementById(
+"className"
+).value.trim();
+
+
+/*
+GET SELECTED SUBJECT
+*/
+
+const subjectOption=
+subjectSelect.options[
+subjectSelect.selectedIndex
+];
+
+
+const subjectId=
+subjectSelect.value;
+
+
+const subjectName=
+subjectOption
+?
+subjectOption.dataset.name
+:
+"";
+
+
+/*
+GET SELECTED TEACHER
+*/
+
+const teacherOption=
+teacherSelect.options[
+teacherSelect.selectedIndex
+];
+
+
+const teacherId=
+teacherSelect.value;
+
+
+const teacherName=
+teacherOption
+?
+teacherOption.dataset.name
+:
+"";
+
+
+const classType=
+document.getElementById(
+"classType"
+).value;
+
+
+if(
+!className ||
+!subjectId ||
+!subjectName ||
+!teacherId ||
+!teacherName
+){
+
+alert(
+"Please complete all fields."
+);
+
+return;
+
+}
+
+
+/* PREVENT DOUBLE CLICK */
+
+createBtn.disabled=true;
+
+createBtn.textContent=
+"Creating...";
+
+
+try{
+
+const id=
+createClassId();
+
+
+/*
+SAVE COMPLETE CLASS RECORD
+*/
+
+const classData={
+
+id:id,
+
+className:className,
+
+/*
+Subject ID + exact subject name
+from Firebase.
+*/
+
+subjectId:subjectId,
+
+subject:subjectName,
+
+/*
+Teacher ID + exact teacher name
+from Firebase.
+*/
+
+teacherId:teacherId,
+
+teacherName:teacherName,
+
+/*
+Keep teacher field for compatibility
+with older teacher pages.
+*/
+
+teacher:teacherName,
+
+classType:classType,
+
+status:"active",
+
+createdAt:
+new Date().toISOString(),
+
+createdBy:"CEO"
+
+};
+
+
+await set(
+ref(db,"classes/"+id),
+classData
+);
+
+
+/* SUCCESS */
+
+successMessage.textContent=
+"✅ Class created successfully.";
+
+successMessage.style.display=
+"block";
+
+
+/* RESET */
+
+form.reset();
+
+
+/*
+Reload only the classes list.
+Subjects and teachers do not
+need to be downloaded again.
+*/
+
+await loadClasses();
+
+
+/* HIDE MESSAGE */
+
+setTimeout(()=>{
+
+successMessage.style.display=
+"none";
+
+},3000);
+
+
+}catch(error){
+
+console.error(
+"Create class error:",
+error
+);
+
+alert(
+"❌ Failed to create class. Please check your Firebase connection."
+);
+
+}
+
+
+createBtn.disabled=false;
+
+createBtn.textContent=
+"Create Class";
+
+});
+
+
+/* VIEW CLASS */
+
+window.viewClass=
+function(id){
+
+const c=
+allClasses.find(
+item=>item.id===id
+);
+
+
+if(!c){
+
+alert(
+"Class information not found."
+);
+
+return;
+
+}
+
+
+alert(
+
+"📚 CLASS DETAILS\n\n"+
+
+"Class: "+
+(c.className||"-")+
+
+"\n\nSubject: "+
+(c.subject||"-")+
+
+"\n\nTeacher: "+
+(
+c.teacherName||
+c.teacher||
+"-"
+)+
+
+"\n\nType: "+
+(c.classType||"-")+
+
+"\n\nStatus: "+
+(c.status||"-")
+
+);
+
+};
+
+
+/* DELETE CLASS */
+
+window.removeClass=
+async function(id){
+
+if(!id)
+return;
+
+
+const confirmDelete=
+confirm(
+"Are you sure you want to delete this class?"
+);
+
+
+if(!confirmDelete)
+return;
+
+
+try{
+
+await remove(
+ref(db,"classes/"+id)
+);
+
+
+successMessage.textContent=
+"✅ Class deleted successfully.";
+
+successMessage.style.display=
+"block";
+
+
+await loadClasses();
+
+
+setTimeout(()=>{
+
+successMessage.style.display=
+"none";
+
+},3000);
+
+
+}catch(error){
+
+console.error(
+"Delete error:",
+error
+);
+
+alert(
+"❌ Could not delete the class."
+);
+
+}
+
+};
+
+
+/* CEO PROTECTION */
+
 (function(){
 
-  try{
+try{
 
-    if(typeof protectCEOPage === "function"){
-      protectCEOPage();
-    }
+if(
+typeof protectCEOPage==="function"
+){
 
-  }catch(error){
-    console.log("CEO protection handled by ceo.js");
-  }
+protectCEOPage();
+
+}
+
+}catch(error){
+
+console.log(
+"CEO protection handled by ceo.js"
+);
+
+}
 
 })();
 
-loadClasses();
-</script></body>
+
+/*
+LOAD EVERYTHING IN PARALLEL.
+
+Subjects and teachers load at
+the same time as classes.
+*/
+
+Promise.all([
+
+loadSubjects(),
+
+loadTeachers(),
+
+loadClasses()
+
+]);
+
+</script>
+
+</body>
 </html>
