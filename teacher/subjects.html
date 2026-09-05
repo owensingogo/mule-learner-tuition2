@@ -1,8 +1,20 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#173b8f"><title>My Subjects | Mule Learner Tuition</title><style>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<meta name="theme-color"
+content="#173b8f">
+
+<title>My Subjects | Mule Learner Tuition</title>
+
+<style>
+
 *{
 box-sizing:border-box;
 margin:0;
@@ -65,7 +77,60 @@ border-radius:11px;
 font-size:12px;
 color:#475467;
 line-height:1.6;
-margin-bottom:18px;
+margin-bottom:15px;
+}
+
+.search{
+width:100%;
+padding:12px 14px;
+border:1px solid #d9deea;
+border-radius:11px;
+font-size:13px;
+outline:none;
+margin-bottom:15px;
+background:white;
+}
+
+.search:focus{
+border-color:#173b8f;
+}
+
+.summary{
+background:white;
+border-radius:12px;
+padding:13px 15px;
+margin-bottom:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
+}
+
+.summary-left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.summary-icon{
+font-size:25px;
+}
+
+.summary-title{
+font-size:13px;
+font-weight:bold;
+}
+
+.summary-text{
+font-size:10px;
+color:#667085;
+margin-top:2px;
+}
+
+.count{
+font-size:22px;
+font-weight:800;
+color:#173b8f;
 }
 
 .subjects{
@@ -108,6 +173,34 @@ font-size:9px;
 font-weight:bold;
 }
 
+.loading{
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+grid-column:1/-1;
+}
+
+.spinner{
+width:25px;
+height:25px;
+border:3px solid #e4e7ec;
+border-top:3px solid #173b8f;
+border-radius:50%;
+margin:0 auto 10px;
+animation:spin .7s linear infinite;
+}
+
+@keyframes spin{
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
 .empty{
 display:none;
 background:white;
@@ -118,11 +211,34 @@ font-size:12px;
 color:#667085;
 }
 
+.empty-icon{
+font-size:35px;
+margin-bottom:8px;
+}
+
+.error{
+background:#fff1f1;
+color:#b42318;
+padding:15px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+grid-column:1/-1;
+}
+
 footer{
 text-align:center;
 font-size:11px;
 color:#667085;
 margin-top:25px;
+}
+
+@media(max-width:500px){
+
+.subjects{
+grid-template-columns:1fr 1fr;
+}
+
 }
 
 @media(min-width:650px){
@@ -132,44 +248,198 @@ grid-template-columns:repeat(3,1fr);
 }
 
 }
-</style></head><body><header><div class="logo">
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
 Mule Learner Tuition
-</div><a href="dashboard.html" class="back">
+</div>
+
+<a
+href="dashboard.html"
+class="back">
+
 ← Dashboard
-</a></header><div class="container"><div class="heading"><h1>
+
+</a>
+
+</header>
+
+
+<div class="container">
+
+
+<div class="heading">
+
+<h1>
 My Subjects 📚
-</h1><p>
-View the subjects assigned to you by the CEO.
-</p></div><div class="notice"><strong>
+</h1>
+
+<p>
+View all subjects available on Mule Learner Tuition.
+</p>
+
+</div>
+
+
+<div class="notice">
+
+<strong>
 👨‍🏫 Teacher Information
-</strong><br><br>
+</strong>
 
-Only subjects assigned and approved by the CEO will
-appear here. Teachers cannot assign subjects to
-themselves.
+<br><br>
 
-</div><div class="subjects" id="subjectList"></div><div class="empty" id="empty">
-No subjects have been assigned to your teacher account yet.
-</div><footer>Mule Learner Tuition<br>
+All active subjects registered in the system
+are displayed here. This allows teachers who
+qualify to teach multiple subjects to easily
+view the complete subject list.
+
+</div>
+
+
+<div class="summary">
+
+<div class="summary-left">
+
+<div class="summary-icon">
+📚
+</div>
+
+<div>
+
+<div class="summary-title">
+Available Subjects
+</div>
+
+<div class="summary-text">
+All active subjects in the database
+</div>
+
+</div>
+
+</div>
+
+<div
+class="count"
+id="subjectCount">
+
+0
+
+</div>
+
+</div>
+
+
+<input
+type="search"
+id="searchInput"
+class="search"
+placeholder="🔍 Search subject..."
+autocomplete="off"
+>
+
+
+<div
+class="subjects"
+id="subjectList">
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+Loading subjects...
+
+</div>
+
+</div>
+
+
+<div
+class="empty"
+id="empty">
+
+<div class="empty-icon">
+📚
+</div>
+
+<strong>
+No subjects found
+</strong>
+
+<br><br>
+
+There are currently no subjects matching
+your search.
+
+</div>
+
+
+<footer>
+
+Mule Learner Tuition<br>
 
 Teacher Centre • Learn • Practice • Succeed
 
-</footer></div><script src="../js/app.js"></script><script src="../js/teacher.js"></script><script src="../js/subjects.js"></script><script type="module">
+</footer>
+
+
+</div>
+
+
+<script src="../js/app.js"></script>
+
+<script src="../js/teacher.js"></script>
+
+
+<script type="module">
+
+
+/* =========================================
+   FIREBASE IMPORTS
+========================================= */
 
 import {
+
 initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
 
 import {
+
 getDatabase,
 ref,
-get
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+get,
+onValue
 
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+
+/* =========================================
+   FIREBASE CONFIGURATION
+========================================= */
 
 const firebaseConfig={
 
-apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
+apiKey:
+"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
 
 authDomain:
 "mule-learner-tuition-264fe.firebaseapp.com",
@@ -192,26 +462,190 @@ appId:
 };
 
 
-const app=initializeApp(firebaseConfig);
+/* =========================================
+   INITIALIZE FIREBASE
+========================================= */
 
-const db=getDatabase(app);
+const app=
+initializeApp(firebaseConfig);
 
+const db=
+getDatabase(app);
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const list=
+document.getElementById("subjectList");
+
+const empty=
+document.getElementById("empty");
+
+const count=
+document.getElementById("subjectCount");
+
+const search=
+document.getElementById("searchInput");
+
+
+let allSubjects=[];
+
+
+/* =========================================
+   SUBJECT ICONS
+========================================= */
 
 const icons={
 
 "Mathematics":"📐",
+
 "English":"📖",
+
 "Science":"🔬",
+
 "Physics":"⚡",
+
 "Chemistry":"⚗️",
+
 "Biology":"🧬",
+
 "ICT":"💻",
+
 "Computer Studies":"💻",
+
 "Civic Education":"🏛️",
-"Social Studies":"🌍"
+
+"Social Studies":"🌍",
+
+"Geography":"🌍",
+
+"History":"📜",
+
+"Religious Education":"🙏",
+
+"Business Studies":"💼",
+
+"Accounting":"🧾",
+
+"Economics":"📊",
+
+"Art":"🎨",
+
+"Music":"🎵",
+
+"Physical Education":"🏃",
+
+"Home Economics":"🏠"
 
 };
 
+
+/* =========================================
+   GET ICON
+========================================= */
+
+function getIcon(name){
+
+if(icons[name])
+return icons[name];
+
+
+const value=
+String(name)
+.toLowerCase();
+
+
+if(value.includes("math"))
+return "📐";
+
+
+if(value.includes("english"))
+return "📖";
+
+
+if(value.includes("science"))
+return "🔬";
+
+
+if(value.includes("physics"))
+return "⚡";
+
+
+if(value.includes("chem"))
+return "⚗️";
+
+
+if(value.includes("biology"))
+return "🧬";
+
+
+if(
+value.includes("computer")||
+value.includes("ict")
+)
+return "💻";
+
+
+if(value.includes("civic"))
+return "🏛️";
+
+
+if(
+value.includes("social")||
+value.includes("geography")
+)
+return "🌍";
+
+
+if(value.includes("history"))
+return "📜";
+
+
+if(
+value.includes("religious")||
+value.includes("religion")
+)
+return "🙏";
+
+
+if(
+value.includes("business")
+)
+return "💼";
+
+
+if(value.includes("account"))
+return "🧾";
+
+
+if(value.includes("economic"))
+return "📊";
+
+
+if(value.includes("art"))
+return "🎨";
+
+
+if(value.includes("music"))
+return "🎵";
+
+
+if(
+value.includes("physical")
+)
+return "🏃";
+
+
+return "📚";
+
+}
+
+
+/* =========================================
+   DEFAULT DESCRIPTION
+========================================= */
 
 const descriptions={
 
@@ -243,203 +677,84 @@ const descriptions={
 "Citizenship, society and responsibilities.",
 
 "Social Studies":
-"People, society, history and geography."
+"People, society, history and geography.",
+
+"Geography":
+"People, places, environments and the Earth.",
+
+"History":
+"Historical events, people and civilizations.",
+
+"Religious Education":
+"Religion, values, beliefs and moral education.",
+
+"Business Studies":
+"Business principles, entrepreneurship and commerce.",
+
+"Accounting":
+"Financial records, accounting principles and business finance.",
+
+"Economics":
+"Economic principles, markets and financial systems.",
+
+"Art":
+"Creative expression, drawing, design and visual arts.",
+
+"Music":
+"Music theory, performance and creative expression.",
+
+"Physical Education":
+"Physical fitness, sports and healthy living.",
+
+"Home Economics":
+"Food, family management, nutrition and practical life skills."
 
 };
 
 
-function getIcon(name){
-
-if(icons[name]) return icons[name];
-
-const value=String(name).toLowerCase();
-
-if(value.includes("math")) return "📐";
-if(value.includes("english")) return "📖";
-if(value.includes("science")) return "🔬";
-if(value.includes("physics")) return "⚡";
-if(value.includes("chem")) return "⚗️";
-if(value.includes("biology")) return "🧬";
-if(value.includes("computer") || value.includes("ict"))
-return "💻";
-if(value.includes("civic")) return "🏛️";
-if(value.includes("social")) return "🌍";
-
-return "📚";
-
-}
-
+/* =========================================
+   DESCRIPTION
+========================================= */
 
 function getDescription(name){
 
 if(descriptions[name])
 return descriptions[name];
 
+
 return "Subject learning and teaching resources.";
 
 }
 
 
+/* =========================================
+   HTML SECURITY
+========================================= */
+
 function escapeHTML(value){
 
 return String(value||"")
+
 .replace(/&/g,"&amp;")
+
 .replace(/</g,"&lt;")
+
 .replace(/>/g,"&gt;")
+
 .replace(/"/g,"&quot;")
+
 .replace(/'/g,"&#039;");
 
 }
 
 
-async function loadTeacherSubjects(){
+/* =========================================
+   DISPLAY SUBJECTS
+========================================= */
 
-const list=
-document.getElementById("subjectList");
+function displaySubjects(subjects){
 
-const empty=
-document.getElementById("empty");
-
-
-try{
-
-const session=JSON.parse(
-localStorage.getItem("muleCurrentUser")||"null"
-);
-
-
-if(!session || !session.id){
-
-window.location.href="../login.html";
-return;
-
-}
-
-
-/* Get teacher account */
-
-const teacherSnapshot=
-await get(
-ref(db,"users/"+session.id)
-);
-
-
-if(!teacherSnapshot.exists()){
-
-alert("Teacher account not found.");
-
-localStorage.removeItem("muleCurrentUser");
-
-window.location.href="../login.html";
-return;
-
-}
-
-
-const teacher=
-teacherSnapshot.val();
-
-
-/* Security */
-
-if(
-String(teacher.role||"").toLowerCase()!=="teacher"
-){
-
-alert("Teacher access required.");
-
-window.location.href="../login.html";
-return;
-
-}
-
-
-if(
-String(teacher.status||"").toLowerCase()==="suspended"
-){
-
-alert("Your teacher account has been suspended.");
-
-localStorage.removeItem("muleCurrentUser");
-
-window.location.href="../login.html";
-return;
-
-}
-
-
-/*
-Get subjects assigned by CEO.
-
-Expected teacher record:
-
-assignedSubjects: [
-  "Mathematics",
-  "Physics"
-]
-
-or
-
-assignedSubjects: {
-  "Mathematics": true,
-  "Physics": true
-}
-*/
-
-
-let assignedSubjects=
-teacher.assignedSubjects||[];
-
-
-if(
-!Array.isArray(assignedSubjects)
-){
-
-if(
-typeof assignedSubjects==="object"
-){
-
-assignedSubjects=
-Object.keys(assignedSubjects)
-.filter(
-key=>assignedSubjects[key]===true
-);
-
-}else{
-
-assignedSubjects=[
-assignedSubjects
-];
-
-}
-
-}
-
-
-assignedSubjects=
-assignedSubjects
-.map(item=>String(item).trim())
-.filter(Boolean);
-
-
-/*
-Compatibility with the current teacher record,
-which contains a main "subject" field.
-*/
-
-if(
-assignedSubjects.length===0 &&
-teacher.subject
-){
-
-assignedSubjects=[
-String(teacher.subject).trim()
-];
-
-}
-
-
-if(assignedSubjects.length===0){
+if(!subjects.length){
 
 list.innerHTML="";
 
@@ -448,185 +763,505 @@ empty.style.display="block";
 return;
 
 }
-
-
-/* Load CEO subject list */
-
-const subjectsSnapshot=
-await get(
-ref(db,"subjects")
-);
-
-
-let availableSubjects=[];
-
-
-if(subjectsSnapshot.exists()){
-
-const subjectsData=
-subjectsSnapshot.val();
-
-
-Object.keys(subjectsData).forEach(id=>{
-
-const item=subjectsData[id];
-
-if(!item) return;
-
-
-/* Disabled subjects should not appear */
-
-const active=
-item.active===true ||
-String(item.status||"").toUpperCase()==="ACTIVE";
-
-
-if(!active) return;
-
-
-const subjectName=
-String(
-item.name||
-item.subject||
-""
-).trim();
-
-
-if(!subjectName) return;
-
-
-/*
-Match CEO subject with teacher assignment.
-*/
-
-const assigned=
-assignedSubjects.some(
-assignedName=>
-String(assignedName).toLowerCase()===
-subjectName.toLowerCase()
-);
-
-
-if(assigned){
-
-availableSubjects.push({
-
-id,
-name:subjectName,
-description:
-item.description||
-getDescription(subjectName)
-
-});
-
-}
-
-});
-
-}
-
-
-/*
-Compatibility:
-If the CEO subject database is empty,
-still display the teacher's assignedSubjects.
-*/
-
-if(
-availableSubjects.length===0 &&
-assignedSubjects.length>0 &&
-!subjectsSnapshot.exists()
-){
-
-availableSubjects=
-assignedSubjects.map(name=>({
-
-id:name,
-name,
-description:getDescription(name)
-
-}));
-
-}
-
-
-if(availableSubjects.length===0){
-
-list.innerHTML="";
-
-empty.style.display="block";
-
-return;
-
-}
-
-
-availableSubjects.sort(
-(a,b)=>
-a.name.localeCompare(b.name)
-);
 
 
 empty.style.display="none";
 
 
 list.innerHTML=
-availableSubjects.map(subject=>`
+
+subjects.map(subject=>`
 
 <div class="subject">
 
 <div class="icon">
+
 ${getIcon(subject.name)}
+
 </div>
 
 <h2>
+
 ${escapeHTML(subject.name)}
+
 </h2>
 
 <p>
+
 ${escapeHTML(subject.description)}
+
 </p>
 
 <span class="badge">
-ASSIGNED
+
+AVAILABLE
+
 </span>
 
 </div>
 
 `).join("");
 
+}
+
+
+/* =========================================
+   LOAD ALL SUBJECTS
+========================================= */
+
+function loadAllSubjects(){
+
+const subjectsRef=
+ref(db,"subjects");
+
+
+/*
+Firebase realtime listener.
+
+No assignedSubjects filter.
+No teacherId filter.
+
+Every ACTIVE subject in /subjects
+will appear.
+*/
+
+onValue(
+
+subjectsRef,
+
+(snapshot)=>{
+
+
+if(!snapshot.exists()){
+
+allSubjects=[];
+
+count.textContent="0";
+
+list.innerHTML="";
+
+empty.style.display="block";
+
+return;
+
+}
+
+
+const data=
+snapshot.val();
+
+
+const subjects=[];
+
+
+/*
+Read every subject.
+*/
+
+Object.entries(data).forEach(
+
+([id,item])=>{
+
+if(!item)
+return;
+
+
+const name=
+String(
+
+item.name||
+
+item.subject||
+
+""
+
+).trim();
+
+
+if(!name)
+return;
+
+
+/*
+Only active subjects are shown.
+
+If the CEO database does not contain
+an active/status field, the subject
+will still be treated as active.
+*/
+
+let active=true;
+
+
+if(
+item.active!==undefined
+){
+
+active=
+item.active===true;
+
+}
+
+
+if(
+item.status!==undefined
+){
+
+const status=
+String(item.status)
+.toLowerCase();
+
+
+if(
+status==="inactive"||
+status==="disabled"||
+status==="deleted"
+){
+
+active=false;
+
+}
+
+}
+
+
+if(!active)
+return;
+
+
+subjects.push({
+
+id:id,
+
+name:name,
+
+description:
+
+item.description||
+
+getDescription(name)
+
+});
+
+}
+
+);
+
+
+/*
+Remove duplicate subject names.
+*/
+
+const unique=[];
+
+
+subjects.forEach(subject=>{
+
+const exists=
+unique.some(
+
+item=>
+item.name.toLowerCase()===
+subject.name.toLowerCase()
+
+);
+
+
+if(!exists)
+unique.push(subject);
+
+});
+
+
+/*
+Sort alphabetically.
+*/
+
+unique.sort(
+
+(a,b)=>
+a.name.localeCompare(b.name)
+
+);
+
+
+allSubjects=unique;
+
+
+/*
+Update count.
+*/
+
+count.textContent=
+allSubjects.length;
+
+
+/*
+Display immediately.
+*/
+
+displaySubjects(allSubjects);
+
+
+},
+
+(error)=>{
+
+console.error(
+"Subjects Firebase error:",
+error
+);
+
+
+list.innerHTML=`
+
+<div class="error">
+
+❌ Unable to load subjects.
+
+<br><br>
+
+Please check your internet connection
+and try again.
+
+</div>
+
+`;
+
+}
+
+);
+
+}
+
+
+/* =========================================
+   FAST SEARCH
+========================================= */
+
+search.addEventListener(
+
+"input",
+
+function(){
+
+const value=
+this.value
+.toLowerCase()
+.trim();
+
+
+if(!value){
+
+displaySubjects(allSubjects);
+
+return;
+
+}
+
+
+const filtered=
+allSubjects.filter(subject=>
+
+subject.name
+.toLowerCase()
+.includes(value)
+
+);
+
+
+displaySubjects(filtered);
+
+}
+
+);
+
+
+/* =========================================
+   TEACHER SECURITY
+========================================= */
+
+async function checkTeacher(){
+
+try{
+
+
+const session=
+JSON.parse(
+
+localStorage.getItem(
+"muleCurrentUser"
+)||"null"
+
+);
+
+
+if(
+!session||
+!session.id
+){
+
+window.location.href=
+"../login.html";
+
+return false;
+
+}
+
+
+/*
+Get teacher account.
+*/
+
+const snapshot=
+await get(
+
+ref(
+db,
+"users/"+session.id
+)
+
+);
+
+
+if(!snapshot.exists()){
+
+alert(
+"Teacher account not found."
+);
+
+
+localStorage.removeItem(
+"muleCurrentUser"
+);
+
+
+window.location.href=
+"../login.html";
+
+
+return false;
+
+}
+
+
+const teacher=
+snapshot.val();
+
+
+/*
+Role security.
+*/
+
+if(
+
+String(
+teacher.role||""
+)
+.toLowerCase()!=="teacher"
+
+){
+
+alert(
+"Teacher access required."
+);
+
+
+window.location.href=
+"../login.html";
+
+
+return false;
+
+}
+
+
+/*
+Suspended teacher.
+*/
+
+if(
+
+String(
+teacher.status||""
+)
+.toLowerCase()==="suspended"
+
+){
+
+alert(
+"Your teacher account has been suspended."
+);
+
+
+localStorage.removeItem(
+"muleCurrentUser"
+);
+
+
+window.location.href=
+"../login.html";
+
+
+return false;
+
+}
+
+
+return true;
+
 
 }catch(error){
 
 console.error(
-"Teacher subjects error:",
+"Teacher security error:",
 error
 );
 
-list.innerHTML="";
-
-empty.textContent=
-"Unable to load your subjects. Please try again.";
-
-empty.style.display="block";
+return false;
 
 }
 
 }
 
 
-document.addEventListener(
-"DOMContentLoaded",
-loadTeacherSubjects
-);
+/* =========================================
+   START PAGE
+========================================= */
+
+async function startPage(){
+
+/*
+Security check first.
+*/
+
+const allowed=
+await checkTeacher();
 
 
-/* Refresh every 10 seconds */
+if(!allowed)
+return;
 
-setInterval(
-loadTeacherSubjects,
-10000
-);
 
-</script></body>
+/*
+Immediately start listening
+for all subjects.
+*/
+
+loadAllSubjects();
+
+}
+
+
+/*
+Start as soon as the page loads.
+*/
+
+startPage();
+
+
+</script>
+
+</body>
+
 </html>

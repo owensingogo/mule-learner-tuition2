@@ -2,756 +2,979 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#173b8f">
 
 <title>My Learners | Mule Learner Tuition</title>
 
 <style>
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 body{
-  font-family:Arial,sans-serif;
-  background:#f4f7fc;
-  color:#172033;
-  min-height:100vh;
+font-family:Arial,sans-serif;
+background:#f4f7fc;
+color:#172033;
+padding-bottom:30px;
 }
 
-.header{
-  background:#173b8f;
-  color:white;
-  padding:16px;
-  position:sticky;
-  top:0;
-  z-index:10;
-  box-shadow:0 2px 8px rgba(0,0,0,.15);
+header{
+background:#173b8f;
+color:white;
+padding:15px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
 }
 
-.header-row{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.logo{
+font-size:18px;
+font-weight:800;
 }
 
 .back{
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:10px;
-  background:rgba(255,255,255,.15);
-  color:white;
-  font-size:20px;
-  cursor:pointer;
-}
-
-.header-text h1{
-  font-size:20px;
-  margin-bottom:3px;
-}
-
-.header-text p{
-  font-size:12px;
-  opacity:.85;
+color:white;
+text-decoration:none;
+font-size:13px;
 }
 
 .container{
-  width:100%;
-  max-width:700px;
-  margin:auto;
-  padding:16px;
+max-width:900px;
+margin:auto;
+padding:20px 16px;
+}
+
+.heading{
+margin-bottom:18px;
+}
+
+.heading h1{
+font-size:23px;
+color:#173b8f;
+margin-bottom:5px;
+}
+
+.heading p{
+font-size:12px;
+color:#667085;
+line-height:1.5;
+}
+
+.notice{
+background:#eef3ff;
+padding:14px;
+border-radius:11px;
+font-size:12px;
+color:#475467;
+line-height:1.6;
+margin-bottom:15px;
+}
+
+.search{
+width:100%;
+padding:12px 14px;
+border:1px solid #d9deea;
+border-radius:11px;
+font-size:13px;
+outline:none;
+margin-bottom:15px;
+background:white;
+}
+
+.search:focus{
+border-color:#173b8f;
 }
 
 .summary{
-  background:white;
-  border-radius:14px;
-  padding:15px;
-  margin-bottom:14px;
-  box-shadow:0 2px 8px rgba(0,0,0,.07);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+background:white;
+border-radius:12px;
+padding:13px 15px;
+margin-bottom:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+box-shadow:0 4px 15px rgba(20,50,100,.06);
 }
 
 .summary-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
+display:flex;
+align-items:center;
+gap:10px;
 }
 
 .summary-icon{
-  width:45px;
-  height:45px;
-  border-radius:12px;
-  background:#eaf0ff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
+font-size:25px;
 }
 
-.summary h2{
-  font-size:16px;
+.summary-title{
+font-size:13px;
+font-weight:bold;
 }
 
-.summary p{
-  font-size:12px;
-  color:#667085;
-  margin-top:3px;
+.summary-text{
+font-size:10px;
+color:#667085;
+margin-top:2px;
 }
 
 .count{
-  font-size:24px;
-  font-weight:bold;
-  color:#173b8f;
+font-size:22px;
+font-weight:800;
+color:#173b8f;
 }
 
-.search-box{
-  margin-bottom:14px;
+.learners{
+display:grid;
+grid-template-columns:1fr;
+gap:11px;
 }
 
-.search-box input{
-  width:100%;
-  padding:13px 15px;
-  border:1px solid #d9deea;
-  border-radius:12px;
-  outline:none;
-  font-size:14px;
-  background:white;
+.learner{
+background:white;
+padding:15px;
+border-radius:13px;
+box-shadow:0 4px 15px rgba(20,50,100,.07);
+display:flex;
+align-items:center;
+gap:12px;
 }
 
-.search-box input:focus{
-  border-color:#173b8f;
+.avatar{
+width:45px;
+height:45px;
+min-width:45px;
+border-radius:50%;
+background:#eef3ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
 }
 
-#learnersList{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+.info{
+flex:1;
+min-width:0;
 }
 
-.learner-card{
-  background:white;
-  border-radius:14px;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  gap:13px;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-  border:1px solid #edf0f6;
+.info h2{
+font-size:14px;
+margin-bottom:5px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 
-.learner-icon{
-  width:48px;
-  height:48px;
-  min-width:48px;
-  border-radius:50%;
-  background:#eaf0ff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-}
-
-.learner-info{
-  flex:1;
-  min-width:0;
-}
-
-.learner-info h3{
-  font-size:15px;
-  margin-bottom:5px;
-  color:#172033;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.learner-info p{
-  font-size:12px;
-  color:#667085;
-  margin:2px 0;
+.info p{
+font-size:11px;
+color:#667085;
+margin:2px 0;
 }
 
 .status{
-  font-size:10px;
-  padding:5px 8px;
-  border-radius:20px;
-  background:#e8f7ed;
-  color:#16833a;
-  font-weight:bold;
-}
-
-.loading{
-  background:white;
-  border-radius:14px;
-  padding:25px;
-  text-align:center;
-  color:#667085;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
-}
-
-.spinner{
-  width:25px;
-  height:25px;
-  border:3px solid #e2e7f0;
-  border-top-color:#173b8f;
-  border-radius:50%;
-  animation:spin .7s linear infinite;
-  margin:0 auto 10px;
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
+font-size:9px;
+font-weight:bold;
+padding:5px 8px;
+border-radius:20px;
+background:#ecfdf3;
+color:#027a48;
 }
 
 .empty{
-  background:white;
-  border-radius:14px;
-  padding:30px 20px;
-  text-align:center;
-  color:#667085;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
+display:none;
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
 }
 
 .empty-icon{
-  font-size:40px;
-  margin-bottom:10px;
+font-size:32px;
+margin-bottom:8px;
+}
+
+.loading{
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
+color:#667085;
+}
+
+.spinner{
+width:25px;
+height:25px;
+border:3px solid #e4e7ec;
+border-top:3px solid #173b8f;
+border-radius:50%;
+margin:0 auto 10px;
+animation:spin .7s linear infinite;
+}
+
+@keyframes spin{
+to{
+transform:rotate(360deg);
+}
 }
 
 .error{
-  background:#fff0f0;
-  color:#c62828;
-  border-radius:14px;
-  padding:18px;
-  text-align:center;
+background:#fff1f1;
+color:#b42318;
+padding:15px;
+border-radius:12px;
+text-align:center;
+font-size:12px;
 }
 
-.refresh{
-  border:0;
-  background:#173b8f;
-  color:white;
-  padding:9px 13px;
-  border-radius:9px;
-  font-size:12px;
-  cursor:pointer;
+footer{
+text-align:center;
+font-size:11px;
+color:#667085;
+margin-top:25px;
 }
 
-@media(max-width:420px){
-  .container{
-    padding:12px;
-  }
+@media(min-width:650px){
 
-  .header{
-    padding:13px;
-  }
+.learners{
+grid-template-columns:repeat(2,1fr);
+}
 
-  .header-text h1{
-    font-size:18px;
-  }
-
-  .summary{
-    padding:13px;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="header-row">
+<header>
 
-    <button class="back" onclick="goBack()">‹</button>
+<div class="logo">
+Mule Learner Tuition
+</div>
 
-    <div class="header-text">
-      <h1>👥 My Learners</h1>
-      <p>View all learners registered on Mule Learner Tuition</p>
-    </div>
+<a href="dashboard.html" class="back">
+← Dashboard
+</a>
 
-  </div>
 </header>
 
-<main class="container">
 
-  <div class="summary">
+<div class="container">
 
-    <div class="summary-left">
+<div class="heading">
 
-      <div class="summary-icon">
-        👥
-      </div>
+<h1>
+My Learners 👥
+</h1>
 
-      <div>
-        <h2>All Learners</h2>
-        <p>All learners in the database</p>
-      </div>
+<p>
+View all learners registered on Mule Learner Tuition.
+</p>
 
-    </div>
+</div>
 
-    <div class="count" id="learnerCount">
-      0
-    </div>
 
-  </div>
+<div class="notice">
 
-  <div class="search-box">
-    <input
-      type="search"
-      id="searchInput"
-      placeholder="🔍 Search learner..."
-      autocomplete="off"
-    >
-  </div>
+<strong>👨‍🏫 Teacher Information</strong>
+<br><br>
 
-  <div id="learnersList">
+All registered learners are displayed here.
+Learners do not need to be assigned to you before
+they can appear on this list.
 
-    <div class="loading">
-      <div class="spinner"></div>
-      Loading learners...
-    </div>
+</div>
 
-  </div>
 
-</main>
+<div class="summary">
+
+<div class="summary-left">
+
+<div class="summary-icon">
+👥
+</div>
+
+<div>
+
+<div class="summary-title">
+Total Learners
+</div>
+
+<div class="summary-text">
+All learners in the database
+</div>
+
+</div>
+
+</div>
+
+<div class="count" id="learnerCount">
+0
+</div>
+
+</div>
+
+
+<input
+type="search"
+id="searchInput"
+class="search"
+placeholder="🔍 Search learner by name, phone or grade..."
+autocomplete="off"
+>
+
+
+<div
+class="learners"
+id="learnerList"
+>
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+Loading learners...
+
+</div>
+
+</div>
+
+
+<div
+class="empty"
+id="empty"
+>
+
+<div class="empty-icon">
+👥
+</div>
+
+<strong>
+No learners found
+</strong>
+
+<br><br>
+
+There are currently no learners matching your search.
+
+</div>
+
+
+<footer>
+
+Mule Learner Tuition<br>
+
+Teacher Centre • Learn • Practice • Succeed
+
+</footer>
+
+</div>
+
+
+<script src="../js/app.js"></script>
+<script src="../js/teacher.js"></script>
 
 
 <script type="module">
 
-/* =========================================
-   FIREBASE
-========================================= */
+import {
+initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-  getDatabase,
-  ref,
-  onValue
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+getDatabase,
+ref,
+get,
+onValue
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
-/* =========================================
-   YOUR FIREBASE CONFIGURATION
-   USE THE SAME CONFIG AS YOUR OTHER PAGES
-========================================= */
+/* =====================================
+FIREBASE CONFIGURATION
+===================================== */
 
-const firebaseConfig = {
+const firebaseConfig={
 
-  apiKey: "YOUR_API_KEY",
+apiKey:"AIzaSyCRUQ0WJTsN5kQ5De-MgoN8Bd6u2t2vvmLF7M",
 
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
+authDomain:
+"mule-learner-tuition-264fe.firebaseapp.com",
 
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+databaseURL:
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com",
 
-  projectId: "YOUR_PROJECT",
+projectId:
+"mule-learner-tuition-264fe",
 
-  storageBucket: "YOUR_PROJECT.firebasestorage.app",
+storageBucket:
+"mule-learner-tuition-264fe.firebasestorage.app",
 
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+messagingSenderId:
+"656883565460",
 
-  appId: "YOUR_APP_ID"
+appId:
+"1:656883565460:web:3aaa6a5b638a34a6d28581"
 
 };
 
 
-/* =========================================
-   INITIALIZE FIREBASE
-========================================= */
+const app=initializeApp(firebaseConfig);
 
-const app = initializeApp(firebaseConfig);
+const db=getDatabase(app);
 
-const db = getDatabase(app);
 
+/* =====================================
+ELEMENTS
+===================================== */
 
-/* =========================================
-   ELEMENTS
-========================================= */
+const learnerList=
+document.getElementById("learnerList");
 
-const learnersList =
-  document.getElementById("learnersList");
+const empty=
+document.getElementById("empty");
 
-const learnerCount =
-  document.getElementById("learnerCount");
+const learnerCount=
+document.getElementById("learnerCount");
 
-const searchInput =
-  document.getElementById("searchInput");
+const searchInput=
+document.getElementById("searchInput");
 
 
-/* =========================================
-   STORE LEARNERS LOCALLY
-   FOR FAST SEARCH
-========================================= */
+let allLearners=[];
 
-let allLearners = [];
 
-
-/* =========================================
-   LOAD ALL LEARNERS
-========================================= */
-
-function loadAllLearners(){
-
-  learnersList.innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      Loading learners...
-    </div>
-  `;
-
-
-  /*
-    IMPORTANT:
-
-    We read:
-
-        learners
-
-    directly.
-
-    There is NO teacherId filter.
-    There is NO assignedTeacher filter.
-
-    Therefore every learner stored under
-    /learners can be displayed.
-  */
-
-  const learnersRef = ref(db,"learners");
-
-
-  /*
-    onValue keeps the page updated automatically.
-
-    When a learner registers,
-    the teacher page can receive the
-    new learner without manually
-    assigning them.
-  */
-
-  onValue(
-    learnersRef,
-
-    (snapshot)=>{
-
-      if(!snapshot.exists()){
-
-        allLearners = [];
-
-        learnerCount.textContent = "0";
-
-        learnersList.innerHTML = `
-          <div class="empty">
-
-            <div class="empty-icon">
-              👥
-            </div>
-
-            <h3>No Learners Found</h3>
-
-            <p>
-              There are currently no learners
-              registered in the database.
-            </p>
-
-          </div>
-        `;
-
-        return;
-      }
-
-
-      const data = snapshot.val();
-
-
-      allLearners = Object.entries(data).map(
-        ([id,learner])=>({
-
-          id:id,
-
-          ...learner
-
-        })
-      );
-
-
-      /*
-        Show total number
-      */
-
-      learnerCount.textContent =
-        allLearners.length;
-
-
-      /*
-        Display immediately
-      */
-
-      displayLearners(allLearners);
-
-    },
-
-    (error)=>{
-
-      console.error(
-        "Firebase error:",
-        error
-      );
-
-      learnersList.innerHTML = `
-        <div class="error">
-
-          ❌ Unable to load learners.
-
-          <br><br>
-
-          Please check your internet
-          connection and try again.
-
-        </div>
-      `;
-
-    }
-  );
-
-}
-
-
-/* =========================================
-   DISPLAY LEARNERS
-========================================= */
-
-function displayLearners(learners){
-
-  if(!learners.length){
-
-    learnersList.innerHTML = `
-      <div class="empty">
-
-        <div class="empty-icon">
-          🔍
-        </div>
-
-        <h3>No Learners Found</h3>
-
-        <p>
-          No learner matches your search.
-        </p>
-
-      </div>
-    `;
-
-    return;
-  }
-
-
-  let html = "";
-
-
-  learners.forEach((learner)=>{
-
-    /*
-      Support different names used
-      in your Firebase registration.
-    */
-
-    const name =
-      learner.name ||
-      learner.fullName ||
-      learner.username ||
-      "Unnamed Learner";
-
-
-    const phone =
-      learner.phone ||
-      learner.phoneNumber ||
-      learner.mobile ||
-      "No phone number";
-
-
-    const grade =
-      learner.grade ||
-      learner.class ||
-      learner.level ||
-      "Not specified";
-
-
-    const status =
-      learner.status ||
-      learner.accountStatus ||
-      "Active";
-
-
-    html += `
-
-      <div class="learner-card">
-
-        <div class="learner-icon">
-          👤
-        </div>
-
-        <div class="learner-info">
-
-          <h3>
-            ${escapeHTML(name)}
-          </h3>
-
-          <p>
-            📱 ${escapeHTML(phone)}
-          </p>
-
-          <p>
-            🎓 ${escapeHTML(grade)}
-          </p>
-
-        </div>
-
-        <div>
-          <span class="status">
-            ${escapeHTML(status)}
-          </span>
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
-
-  learnersList.innerHTML = html;
-
-}
-
-
-/* =========================================
-   SEARCH
-========================================= */
-
-searchInput.addEventListener(
-  "input",
-  function(){
-
-    const search =
-      this.value
-      .toLowerCase()
-      .trim();
-
-
-    if(!search){
-
-      displayLearners(allLearners);
-
-      return;
-
-    }
-
-
-    const filtered =
-      allLearners.filter((learner)=>{
-
-        const name =
-          String(
-            learner.name ||
-            learner.fullName ||
-            learner.username ||
-            ""
-          ).toLowerCase();
-
-
-        const phone =
-          String(
-            learner.phone ||
-            learner.phoneNumber ||
-            learner.mobile ||
-            ""
-          ).toLowerCase();
-
-
-        const grade =
-          String(
-            learner.grade ||
-            learner.class ||
-            learner.level ||
-            ""
-          ).toLowerCase();
-
-
-        return (
-
-          name.includes(search) ||
-
-          phone.includes(search) ||
-
-          grade.includes(search)
-
-        );
-
-      });
-
-
-    displayLearners(filtered);
-
-  }
-);
-
-
-/* =========================================
-   SECURITY
-   PREVENT HTML INJECTION
-========================================= */
+/* =====================================
+HTML SECURITY
+===================================== */
 
 function escapeHTML(value){
 
-  return String(value)
-
-    .replaceAll("&","&amp;")
-
-    .replaceAll("<","&lt;")
-
-    .replaceAll(">","&gt;")
-
-    .replaceAll('"',"&quot;")
-
-    .replaceAll("'","&#039;");
+return String(value||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================================
-   BACK BUTTON
-========================================= */
+/* =====================================
+GET LEARNER NAME
+===================================== */
 
-function goBack(){
+function getName(learner){
 
-  if(
-    document.referrer &&
-    document.referrer !== location.href
-  ){
+return (
 
-    history.back();
+learner.name||
 
-  }else{
+learner.fullName||
 
-    window.location.href =
-      "dashboard.html";
+learner.username||
 
-  }
+learner.displayName||
+
+"Unnamed Learner"
+
+);
 
 }
 
 
-/* =========================================
-   START IMMEDIATELY
-========================================= */
+/* =====================================
+GET PHONE
+===================================== */
+
+function getPhone(learner){
+
+return (
+
+learner.phone||
+
+learner.phoneNumber||
+
+learner.mobile||
+
+learner.contact||
+
+"No phone number"
+
+);
+
+}
+
+
+/* =====================================
+GET GRADE
+===================================== */
+
+function getGrade(learner){
+
+return (
+
+learner.grade||
+
+learner.class||
+
+learner.level||
+
+learner.gradeLevel||
+
+"Grade not specified"
+
+);
+
+}
+
+
+/* =====================================
+GET STATUS
+===================================== */
+
+function getStatus(learner){
+
+const status=String(
+
+learner.status||
+
+learner.accountStatus||
+
+"Active"
+
+).toLowerCase();
+
+
+if(status==="suspended")
+return "Suspended";
+
+if(status==="pending")
+return "Pending";
+
+return "Active";
+
+}
+
+
+/* =====================================
+DISPLAY LEARNERS
+===================================== */
+
+function displayLearners(list){
+
+if(!list.length){
+
+learnerList.innerHTML="";
+
+empty.style.display="block";
+
+return;
+
+}
+
+
+empty.style.display="none";
+
+
+learnerList.innerHTML=list.map(
+
+learner=>{
+
+const name=getName(learner);
+
+const phone=getPhone(learner);
+
+const grade=getGrade(learner);
+
+const status=getStatus(learner);
+
+
+let statusClass="status";
+
+
+return `
+
+<div class="learner">
+
+<div class="avatar">
+👤
+</div>
+
+<div class="info">
+
+<h2>
+${escapeHTML(name)}
+</h2>
+
+<p>
+📱 ${escapeHTML(phone)}
+</p>
+
+<p>
+🎓 ${escapeHTML(grade)}
+</p>
+
+</div>
+
+<span class="${statusClass}">
+${escapeHTML(status)}
+</span>
+
+</div>
+
+`;
+
+}
+
+).join("");
+
+}
+
+
+/* =====================================
+LOAD ALL LEARNERS
+===================================== */
+
+function loadAllLearners(){
+
+/*
+IMPORTANT:
+
+There is deliberately NO:
+
+teacherId
+
+assignedTeacher
+
+teacherID
+
+filter.
+
+Every learner under /learners
+will be displayed.
+*/
+
+
+const learnersRef=
+ref(db,"learners");
+
+
+/*
+onValue gives realtime updates.
+
+This means:
+
+New learner registers
+        ↓
+Firebase database updates
+        ↓
+Teacher page updates automatically
+*/
+
+onValue(
+
+learnersRef,
+
+snapshot=>{
+
+if(!snapshot.exists()){
+
+allLearners=[];
+
+learnerCount.textContent="0";
+
+learnerList.innerHTML="";
+
+empty.style.display="block";
+
+return;
+
+}
+
+
+const data=snapshot.val();
+
+
+allLearners=Object.entries(data)
+
+.map(([id,learner])=>({
+
+id:id,
+
+...(learner||{})
+
+}));
+
+
+/* Sort alphabetically */
+
+allLearners.sort(
+
+(a,b)=>
+
+getName(a)
+.localeCompare(
+getName(b)
+)
+
+);
+
+
+/* Total */
+
+learnerCount.textContent=
+allLearners.length;
+
+
+/* Display */
+
+displayLearners(allLearners);
+
+},
+
+
+error=>{
+
+console.error(
+"Firebase learners error:",
+error
+);
+
+learnerList.innerHTML=`
+
+<div class="error">
+
+❌ Unable to load learners.
+
+<br><br>
+
+Please check your internet connection
+and try again.
+
+</div>
+
+`;
+
+}
+
+);
+
+}
+
+
+/* =====================================
+SEARCH
+===================================== */
+
+searchInput.addEventListener(
+
+"input",
+
+function(){
+
+const value=
+this.value
+.toLowerCase()
+.trim();
+
+
+if(!value){
+
+displayLearners(allLearners);
+
+return;
+
+}
+
+
+const filtered=
+allLearners.filter(
+
+learner=>{
+
+const name=
+String(getName(learner))
+.toLowerCase();
+
+
+const phone=
+String(getPhone(learner))
+.toLowerCase();
+
+
+const grade=
+String(getGrade(learner))
+.toLowerCase();
+
+
+return (
+
+name.includes(value)||
+
+phone.includes(value)||
+
+grade.includes(value)
+
+);
+
+});
+
+
+displayLearners(filtered);
+
+}
+
+);
+
+
+/* =====================================
+TEACHER SECURITY
+===================================== */
+
+async function checkTeacher(){
+
+try{
+
+const session=JSON.parse(
+
+localStorage.getItem(
+"muleCurrentUser"
+)||"null"
+
+);
+
+
+if(!session || !session.id){
+
+window.location.href="../login.html";
+
+return false;
+
+}
+
+
+const snapshot=
+await get(
+
+ref(
+db,
+"users/"+session.id
+)
+
+);
+
+
+if(!snapshot.exists()){
+
+alert(
+"Teacher account not found."
+);
+
+localStorage.removeItem(
+"muleCurrentUser"
+);
+
+window.location.href="../login.html";
+
+return false;
+
+}
+
+
+const teacher=
+snapshot.val();
+
+
+if(
+
+String(
+teacher.role||""
+).toLowerCase()!=="teacher"
+
+){
+
+alert(
+"Teacher access required."
+);
+
+window.location.href="../login.html";
+
+return false;
+
+}
+
+
+if(
+
+String(
+teacher.status||""
+).toLowerCase()==="suspended"
+
+){
+
+alert(
+"Your teacher account has been suspended."
+);
+
+localStorage.removeItem(
+"muleCurrentUser"
+);
+
+window.location.href="../login.html";
+
+return false;
+
+}
+
+
+return true;
+
+
+}catch(error){
+
+console.error(
+"Teacher security error:",
+error
+);
+
+return false;
+
+}
+
+}
+
+
+/* =====================================
+START
+===================================== */
+
+async function startPage(){
+
+const allowed=
+await checkTeacher();
+
+
+if(!allowed) return;
+
+
+/*
+Start Firebase listener immediately.
+*/
 
 loadAllLearners();
+
+}
+
+
+/* =====================================
+OPEN IMMEDIATELY
+===================================== */
+
+startPage();
 
 </script>
 
