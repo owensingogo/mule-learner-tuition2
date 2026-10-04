@@ -3,7 +3,10 @@
 /* MULE LEARNER TUITION - FIREBASE AUTH + CEO MANAGEMENT */
 
 const CURRENT_USER_KEY = "muleCurrentUser";
-const DB = "https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
+const DB =
+"https://mule-learner-tuition-264fe-default-rtdb.firebaseio.com";
+
 
 const CEO = {
   id:"CEO-MULE-001",
@@ -19,17 +22,30 @@ const CEO = {
 /* ---------- PHONE ---------- */
 
 function normalizePhone(phone){
-  let p=String(phone||"").replace(/\s+/g,"").trim();
+
+  let p=
+    String(phone||"")
+    .replace(/\s+/g,"")
+    .trim();
 
   if(p.startsWith("+260")){
-    p="0"+p.substring(4);
+
+    p=
+      "0"+
+      p.substring(4);
+
   }
 
   if(p.startsWith("260")){
-    p="0"+p.substring(3);
+
+    p=
+      "0"+
+      p.substring(3);
+
   }
 
   return p;
+
 }
 
 
@@ -37,60 +53,78 @@ function normalizePhone(phone){
 
 async function firebaseGet(path){
 
-  const r=await fetch(
-    DB+"/"+path+".json",
-    {
-      cache:"no-store"
-    }
-  );
+  const r=
+    await fetch(
+      DB+"/"+path+".json",
+      {
+        cache:"no-store"
+      }
+    );
 
   if(!r.ok){
-    throw new Error("Firebase connection failed.");
+
+    throw new Error(
+      "Firebase connection failed."
+    );
+
   }
 
   return await r.json();
+
 }
 
 
 async function firebaseSet(path,data){
 
-  const r=await fetch(
-    DB+"/"+path+".json",
-    {
-      method:"PUT",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(data)
-    }
-  );
+  const r=
+    await fetch(
+      DB+"/"+path+".json",
+      {
+        method:"PUT",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+      }
+    );
 
   if(!r.ok){
-    throw new Error("Firebase save failed.");
+
+    throw new Error(
+      "Firebase save failed."
+    );
+
   }
 
   return await r.json();
+
 }
 
 
 async function firebasePatch(path,data){
 
-  const r=await fetch(
-    DB+"/"+path+".json",
-    {
-      method:"PATCH",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(data)
-    }
-  );
+  const r=
+    await fetch(
+      DB+"/"+path+".json",
+      {
+        method:"PATCH",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+      }
+    );
 
   if(!r.ok){
-    throw new Error("Firebase update failed.");
+
+    throw new Error(
+      "Firebase update failed."
+    );
+
   }
 
   return await r.json();
+
 }
 
 
@@ -99,24 +133,36 @@ async function firebasePatch(path,data){
 function usersArray(data){
 
   if(!data){
+
     return [];
+
   }
 
+
   if(Array.isArray(data)){
+
     return data.filter(Boolean);
+
   }
+
 
   return Object.keys(data)
     .map(function(key){
 
-      if(data[key] && !data[key].id){
+      if(
+        data[key] &&
+        !data[key].id
+      ){
+
         data[key].id=key;
+
       }
 
       return data[key];
 
     })
     .filter(Boolean);
+
 }
 
 
@@ -133,16 +179,21 @@ async function getUsersFirebase(){
 
 async function ensureCEO(){
 
-  const users=await getUsersFirebase();
+  const users=
+    await getUsersFirebase();
 
-  let ceo=users.find(function(u){
 
-    return (
-      String(u.role||"").toLowerCase()==="ceo" ||
-      normalizePhone(u.phone)===CEO.phone
-    );
+  let ceo=
+    users.find(function(u){
 
-  });
+      return (
+        String(u.role||"")
+          .toLowerCase()==="ceo" ||
+        normalizePhone(u.phone)===
+          CEO.phone
+      );
+
+    });
 
 
   if(!ceo){
@@ -153,6 +204,7 @@ async function ensureCEO(){
     );
 
     return CEO;
+
   }
 
 
@@ -194,7 +246,9 @@ function createUserId(role){
 
   return (
     prefix+"-"+
-    Date.now().toString(36).toUpperCase()+
+    Date.now()
+      .toString(36)
+      .toUpperCase()+
     "-"+
     Math.random()
       .toString(36)
@@ -211,28 +265,36 @@ async function registerUser(data){
 
   try{
 
-    const users=await getUsersFirebase();
+    const users=
+      await getUsersFirebase();
+
 
     const name=
-      String(data.name||"").trim();
+      String(data.name||"")
+      .trim();
+
 
     const phone=
       normalizePhone(data.phone);
 
+
     const password=
       String(data.password||"");
+
 
     const role=
       String(
         data.role||"learner"
-      ).toLowerCase();
+      )
+      .toLowerCase();
 
 
     if(!name||!phone||!password){
 
       return {
         success:false,
-        message:"Please complete all required fields."
+        message:
+          "Please complete all required fields."
       };
 
     }
@@ -241,7 +303,10 @@ async function registerUser(data){
     if(
       users.some(function(u){
 
-        return normalizePhone(u.phone)===phone;
+        return (
+          normalizePhone(u.phone)===
+          phone
+        );
 
       })
     ){
@@ -285,7 +350,8 @@ async function registerUser(data){
       "experience",
       "applicationId",
       "level"
-    ].forEach(function(k){
+    ]
+    .forEach(function(k){
 
       if(data[k]!==undefined){
 
@@ -338,12 +404,11 @@ async function registerUser(data){
 }
 
 
-/* ---------- LOGIN ---------- */
+/* ---------- UNIFIED LOGIN ---------- */
 
 async function loginUser(
   phone,
-  password,
-  selectedRole
+  password
 ){
 
   try{
@@ -354,15 +419,13 @@ async function loginUser(
     const pass=
       String(password||"");
 
-    const role=
-      String(selectedRole||"")
-        .toLowerCase();
-
 
     /*
-      FAST LOGIN:
-      Learner and Teacher do not need CEO initialization.
-      This avoids an unnecessary Firebase request.
+      One login for all account types.
+
+      The system searches Firebase using
+      the registered phone number and password.
+      The user's role is then detected automatically.
     */
 
     let users=
@@ -370,32 +433,29 @@ async function loginUser(
 
 
     /*
-      CEO:
-      Only initialize the CEO if a CEO login is actually being made
-      and the CEO account cannot be found.
+      Make sure the CEO account exists.
+      This does not affect learner or teacher accounts.
     */
 
-    if(role==="ceo"){
+    const ceoExists=
+      users.some(function(u){
 
-      const ceoExists=
-        users.some(function(u){
+        return (
+          String(u.role||"")
+            .toLowerCase()==="ceo" ||
+          normalizePhone(u.phone)===
+            CEO.phone
+        );
 
-          return (
-            String(u.role||"").toLowerCase()==="ceo" ||
-            normalizePhone(u.phone)===CEO.phone
-          );
-
-        });
+      });
 
 
-      if(!ceoExists){
+    if(!ceoExists){
 
-        await ensureCEO();
+      await ensureCEO();
 
-        users=
-          await getUsersFirebase();
-
-      }
+      users=
+        await getUsersFirebase();
 
     }
 
@@ -405,8 +465,7 @@ async function loginUser(
 
         return (
           normalizePhone(u.phone)===p &&
-          String(u.password||"")===pass &&
-          String(u.role||"").toLowerCase()===role
+          String(u.password||"")===pass
         );
 
       });
@@ -419,7 +478,32 @@ async function loginUser(
         success:false,
 
         message:
-          "Incorrect phone number, password or account type."
+          "Incorrect phone number or password."
+
+      };
+
+    }
+
+
+    const role=
+      String(
+        user.role||""
+      )
+      .toLowerCase();
+
+
+    if(
+      role!=="learner" &&
+      role!=="teacher" &&
+      role!=="ceo"
+    ){
+
+      return {
+
+        success:false,
+
+        message:
+          "This account has an invalid account type. Please contact support."
 
       };
 
@@ -429,7 +513,8 @@ async function loginUser(
     const status=
       String(
         user.status||"active"
-      ).toLowerCase();
+      )
+      .toLowerCase();
 
 
     if(status==="suspended"){
@@ -502,13 +587,17 @@ async function loginUser(
 
         subject:user.subject||"",
 
-        qualification:user.qualification||"",
+        qualification:
+          user.qualification||"",
 
-        experience:user.experience||"",
+        experience:
+          user.experience||"",
 
-        applicationId:user.applicationId||"",
+        applicationId:
+          user.applicationId||"",
 
-        level:user.level||""
+        level:
+          user.level||""
 
       })
 
@@ -550,10 +639,7 @@ async function loginUser(
 
 /* ---------- LOGIN PAGE ---------- */
 
-async function login(
-  event,
-  selectedRole
-){
+async function login(event){
 
   if(event){
 
@@ -566,12 +652,15 @@ async function login(
     document.getElementById("phone")
       ?.value.trim();
 
+
   const password=
     document.getElementById("password")
       ?.value;
 
+
   const error=
     document.getElementById("error");
+
 
   const button=
     document.querySelector(
@@ -611,8 +700,7 @@ async function login(
     const result=
       await loginUser(
         phone,
-        password,
-        selectedRole
+        password
       );
 
 
@@ -628,7 +716,9 @@ async function login(
 
       }else{
 
-        alert(result.message);
+        alert(
+          result.message
+        );
 
       }
 
@@ -694,9 +784,9 @@ async function login(
 function forgotPassword(){
 
   alert(
-    "Forgot your password?\n\n" +
-    "Customer Support can help you recover access to your account.\n\n" +
-    "Password recovery support is FREE. No payment is required.\n\n" +
+    "Forgot your password?\n\n"+
+    "Customer Support can help you recover access to your account.\n\n"+
+    "Password recovery support is FREE. No payment is required.\n\n"+
     "Please contact customer support and provide the phone number registered on your account."
   );
 
@@ -718,8 +808,10 @@ function redirectByRole(user){
 
 
   const role=
-    String(user.role||"")
-      .toLowerCase();
+    String(
+      user.role||""
+    )
+    .toLowerCase();
 
 
   if(role==="ceo"){
@@ -913,7 +1005,8 @@ async function refreshLoggedInUser(){
     const status=
       String(
         user.status||"active"
-      ).toLowerCase();
+      )
+      .toLowerCase();
 
 
     if(
@@ -950,13 +1043,17 @@ async function refreshLoggedInUser(){
 
         subject:user.subject||"",
 
-        qualification:user.qualification||"",
+        qualification:
+          user.qualification||"",
 
-        experience:user.experience||"",
+        experience:
+          user.experience||"",
 
-        applicationId:user.applicationId||"",
+        applicationId:
+          user.applicationId||"",
 
-        level:user.level||""
+        level:
+          user.level||""
 
       })
 
@@ -992,8 +1089,12 @@ async function updateUserStatus(
     if(!userId){
 
       return {
+
         success:false,
-        message:"Invalid user account."
+
+        message:
+          "Invalid user account."
+
       };
 
     }
@@ -1002,9 +1103,12 @@ async function updateUserStatus(
     await firebasePatch(
       "users/"+userId,
       {
+
         status:newStatus,
+
         updatedAt:
           new Date().toISOString()
+
       }
     );
 
@@ -1054,7 +1158,8 @@ async function getTeachers(){
 
       return String(
         user.role||""
-      ).toLowerCase()==="teacher";
+      )
+      .toLowerCase()==="teacher";
 
     }
   );
@@ -1075,7 +1180,8 @@ async function getLearners(){
 
       return String(
         user.role||""
-      ).toLowerCase()==="learner";
+      )
+      .toLowerCase()==="learner";
 
     }
   );
@@ -1096,7 +1202,8 @@ async function getPendingTeachers(){
 
       return String(
         teacher.status||""
-      ).toLowerCase()==="pending";
+      )
+      .toLowerCase()==="pending";
 
     }
   );
