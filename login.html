@@ -66,35 +66,16 @@ font-size:13px;
 margin-bottom:20px;
 }
 
-.roles{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-bottom:20px;
-}
-
-.role{
-border:1px solid #d8deea;
-background:#fff;
-border-radius:10px;
-padding:12px 5px;
-text-align:center;
-cursor:pointer;
-font-size:12px;
-font-weight:700;
-color:#475467;
-}
-
-.role span{
-display:block;
-font-size:22px;
-margin-bottom:5px;
-}
-
-.role.active{
+.welcome{
 background:#eaf0ff;
-border-color:#173b8f;
+border:1px solid #d7e2ff;
 color:#173b8f;
+border-radius:10px;
+padding:12px;
+font-size:12px;
+line-height:1.5;
+margin-bottom:20px;
+text-align:center;
 }
 
 label{
@@ -225,40 +206,16 @@ Welcome Back
 </h2>
 
 <p class="subtitle">
-Login to continue your learning journey.
+Login to continue to your account.
 </p>
 
 
-<div class="roles">
+<div class="welcome">
 
-<div
-class="role active"
-onclick="selectRole('learner',this)">
+🔐 <strong>One Login for Everyone</strong><br>
 
-<span>🎓</span>
-Learner
-
-</div>
-
-
-<div
-class="role"
-onclick="selectRole('teacher',this)">
-
-<span>👨‍🏫</span>
-Teacher
-
-</div>
-
-
-<div
-class="role"
-onclick="selectRole('ceo',this)">
-
-<span>👑</span>
-CEO
-
-</div>
+Use your registered phone number and password.
+Your account type will be detected automatically.
 
 </div>
 
@@ -375,26 +332,6 @@ class="back">
 
 <script>
 
-let selectedRole = "learner";
-
-
-function selectRole(role,element){
-
-selectedRole = role;
-
-document
-.querySelectorAll(".role")
-.forEach(function(item){
-
-item.classList.remove("active");
-
-});
-
-element.classList.add("active");
-
-}
-
-
 function togglePassword(){
 
 const password =
@@ -467,10 +404,7 @@ button.textContent =
 
 if(typeof login === "function"){
 
-await login(
-event,
-selectedRole
-);
+await login(event);
 
 }else{
 
