@@ -1,0 +1,9 @@
+{
+  "appId": "com.mulelearner.tuition",
+  "appName": "Mule Learner Tuition",
+  "webDir": "www",
+  "server": {
+    "url": "https://owensingogo.github.io/mule-learner-tuition2/",
+    "cleartext": false
+  }
+}
