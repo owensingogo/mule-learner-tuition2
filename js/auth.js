@@ -779,19 +779,14 @@ async function login(event){
 }
 
 
-/* ---------- FREE CUSTOMER SUPPORT ---------- */
+/* ---------- PASSWORD RECOVERY VIA WHATSAPP ---------- */
 
 function forgotPassword(){
-
-  alert(
-    "Forgot your password?\n\n"+
-    "Customer Support can help you recover access to your account.\n\n"+
-    "Password recovery support is FREE. No payment is required.\n\n"+
-    "Please contact customer support and provide the phone number registered on your account."
-  );
-
+  const phone = "260978362800";
+  const message = "Hello Mule Learner Tuition Support, I have forgotten my password and need help recovering my account. My registered phone number is: ";
+  const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+  window.open(url, "_blank");
 }
-
 
 /* ---------- REDIRECT ---------- */
 
